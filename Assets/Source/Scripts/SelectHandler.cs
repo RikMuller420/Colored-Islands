@@ -5,10 +5,12 @@ public class SelectHandler
     private Paint _selectedPaint;
 
     private UnitHighlighter _unitHighlighter;
+    private UnitMover _unitMover;
 
-    public SelectHandler(UnitHighlighter unitHighlighter)
+    public SelectHandler(UnitHighlighter unitHighlighter, UnitMover unitMover)
     {
         _unitHighlighter = unitHighlighter;
+        _unitMover = unitMover;
     }
 
     public void Select(ISelectable selectable)
@@ -42,6 +44,6 @@ public class SelectHandler
         }
 
         _unitHighlighter.UnhighlightUnits(_selectedIsland, _selectedPaint);
-        //SendUnitsToIsland(island);
+        _unitMover.SendUnitsToIsland(_selectedIsland, _selectedPaint, island);
     }
 }

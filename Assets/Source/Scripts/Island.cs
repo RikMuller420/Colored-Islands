@@ -1,16 +1,18 @@
 using System.Collections.Generic;
+using UnityEngine;
 
-public class Island
+[RequireComponent(typeof(Collider))]
+public class Island : MonoBehaviour, ISelectable
 {
-    private readonly List<PlacementPoint> _placementPoints;
+    private List<PlacementPoint> _placementPoints;
 
-    public Island(List<PlacementPoint> placementPoints, Paint paint)
+    public void Initialize(List<PlacementPoint> placementPoints, Paint paint)
     {
         _placementPoints = placementPoints;
         Paint = paint;
     }
 
-    public Paint Paint { get; }
+    public Paint Paint { get; private set; }
 
     public IEnumerable<Unit> GetUnits(Paint paint)
     {

@@ -1,6 +1,9 @@
-public class Unit
+using UnityEngine;
+
+[RequireComponent(typeof(Collider))]
+public class Unit : MonoBehaviour, ISelectable
 {
-    public Unit(Island island, Paint paint)
+    public void Initialize(Island island, Paint paint)
     {
         Island = island;
         Paint = paint;
