@@ -14,8 +14,9 @@ public class GameClickHandler
         _clickLayer = clickLayer;
         _camera = camera;
         _inputHandler = inputHandler;
-        _inputHandler.Clicked += OnClick;
         _selectHandler = selectHandler;
+
+        _inputHandler.Clicked += OnClick;
     }
 
     private void OnClick(Vector2 clickPosition)
