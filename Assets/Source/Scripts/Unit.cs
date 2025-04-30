@@ -3,7 +3,12 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class Unit : MonoBehaviour, ISelectable
 {
+    private const string OutlineShaderValueName = "_OtlWidth";
+
     [SerializeField] private MeshRenderer _renderer;
+
+    private float maxOutlineWidth = 10f;
+    private float minOutlineWidth = 0f;
 
     public void Initialize(Island island, Paint paint)
     {
@@ -17,11 +22,11 @@ public class Unit : MonoBehaviour, ISelectable
 
     public void ActivateOutline()
     {
-        //enable outline
+        _renderer.material.SetFloat(OutlineShaderValueName, maxOutlineWidth);
     }
 
     public void DeactivateOutline()
     {
-        // disable outline
+        _renderer.material.SetFloat(OutlineShaderValueName, minOutlineWidth);
     }
 }

@@ -5,6 +5,11 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private InputHandler _inputHandler;
     [SerializeField] private LayerMask _clickLayer;
 
+    private void Start()
+    {
+        InitializeGame();
+    }
+
     public void InitializeGame()
     {
         Camera camera = Camera.main;

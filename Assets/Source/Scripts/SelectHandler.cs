@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class SelectHandler
 {
     private bool _isSelected;
@@ -29,6 +31,11 @@ public class SelectHandler
 
     private void SelectUnit(Unit unit)
     {
+        if (_isSelected)
+        {
+            _unitHighlighter.UnhighlightUnits(_selectedIsland, _selectedPaint);
+        }
+
         _isSelected = true;
         _selectedIsland = unit.Island;
         _selectedPaint = unit.Paint;
@@ -45,5 +52,6 @@ public class SelectHandler
 
         _unitHighlighter.UnhighlightUnits(_selectedIsland, _selectedPaint);
         _unitMover.SendUnitsToIsland(_selectedIsland, _selectedPaint, island);
+        _isSelected = false;
     }
 }
