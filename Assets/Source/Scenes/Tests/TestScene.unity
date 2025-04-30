@@ -1025,6 +1025,7 @@ MonoBehaviour:
   _paint: 0
   _unitCreator: {fileID: 1052205495}
   _rootOfPoints: {fileID: 1331639465}
+  _startUnits: []
   _points:
   - {fileID: 336278382}
   - {fileID: 224230623}
@@ -1502,67 +1503,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 41.4, y: 0, z: 0}
---- !u!1001 &924861836
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5690426556144771784, guid: 6bba6be06dec02e4e8277f870321b07f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.689
-      objectReference: {fileID: 0}
-    - target: {fileID: 5690426556144771784, guid: 6bba6be06dec02e4e8277f870321b07f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.648
-      objectReference: {fileID: 0}
-    - target: {fileID: 5690426556144771784, guid: 6bba6be06dec02e4e8277f870321b07f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.869
-      objectReference: {fileID: 0}
-    - target: {fileID: 5690426556144771784, guid: 6bba6be06dec02e4e8277f870321b07f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5690426556144771784, guid: 6bba6be06dec02e4e8277f870321b07f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5690426556144771784, guid: 6bba6be06dec02e4e8277f870321b07f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5690426556144771784, guid: 6bba6be06dec02e4e8277f870321b07f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5690426556144771784, guid: 6bba6be06dec02e4e8277f870321b07f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5690426556144771784, guid: 6bba6be06dec02e4e8277f870321b07f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5690426556144771784, guid: 6bba6be06dec02e4e8277f870321b07f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6676775683918704048, guid: 6bba6be06dec02e4e8277f870321b07f, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: fb4a62ba28875d94282832c44d0e3fd8, type: 2}
-    - target: {fileID: 8305877545942004206, guid: 6bba6be06dec02e4e8277f870321b07f, type: 3}
-      propertyPath: m_Name
-      value: Unit
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 6bba6be06dec02e4e8277f870321b07f, type: 3}
 --- !u!1 &942327050
 GameObject:
   m_ObjectHideFlags: 0
@@ -1912,6 +1852,11 @@ MonoBehaviour:
   _paint: 0
   _unitCreator: {fileID: 1052205495}
   _rootOfPoints: {fileID: 1517928091}
+  _startUnits:
+  - _paint: 0
+    _count: 3
+  - _paint: 1
+    _count: 7
   _points:
   - {fileID: 2024033074}
   - {fileID: 623108553}
@@ -2893,6 +2838,11 @@ MonoBehaviour:
   _paint: 0
   _unitCreator: {fileID: 1052205495}
   _rootOfPoints: {fileID: 1506739432}
+  _startUnits:
+  - _paint: 0
+    _count: 7
+  - _paint: 1
+    _count: 3
   _points:
   - {fileID: 1365295881}
   - {fileID: 488962304}
@@ -3004,4 +2954,3 @@ SceneRoots:
   - {fileID: 636612476}
   - {fileID: 1405794764}
   - {fileID: 1052205496}
-  - {fileID: 924861836}

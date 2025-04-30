@@ -2,13 +2,6 @@ using UnityEngine;
 
 public class PlacementPoint
 {
-    public PlacementPoint(Transform point, Unit occupiedUnit)
-    {
-        Point = point;
-        IsFree = false;
-        OccupiedUnit = occupiedUnit;
-    }
-
     public PlacementPoint(Transform point)
     {
         Point = point;

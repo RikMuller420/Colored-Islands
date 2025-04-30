@@ -8,8 +8,8 @@ public class IslandInitializer : MonoBehaviour
     [SerializeField] private Paint _paint;
     [SerializeField] private UnitCreator _unitCreator;
     [SerializeField] private Transform _rootOfPoints;
+    [SerializeField] private List<IslandStartUnits> _startUnits;
     [SerializeField] private List<Transform> _points;
-    [SerializeField] private bool isBuffer = false;
 
     private void Start()
     {
@@ -22,28 +22,21 @@ public class IslandInitializer : MonoBehaviour
 
         foreach(Transform point in _points)
         {
-            if (isBuffer)
-            {
-                placementPoints.Add(new PlacementPoint(point));
-            }
-            else
-            {
-                Unit unit = _unitCreator.Create(point);
-                placementPoints.Add(new PlacementPoint(point, unit));
-            }       
-        }
-
-        foreach (PlacementPoint point in placementPoints)
-        {
-            if (point.IsFree)
-            {
-                continue;
-            }
-
-            point.OccupiedUnit.Initialize(_island, Paint.Blue);
+            placementPoints.Add(new PlacementPoint(point));            
         }
 
         _island.Initialize(placementPoints, _paint);
+
+        foreach (IslandStartUnits startUnits in _startUnits)
+        {
+            for (int i = 0; i < startUnits.Count; i++)
+            {
+                Unit unit = _unitCreator.Create();
+                unit.Initialize(_island, startUnits.Paint);
+                _island.AddUnit(unit, out PlacementPoint placementPoint);
+                unit.transform.position = placementPoint.Point.position;
+            }
+        }
     }
 
     [ContextMenu("Fill Points")]

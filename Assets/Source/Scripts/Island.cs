@@ -42,13 +42,13 @@ public class Island : MonoBehaviour, ISelectable
         throw new InvalidOperationException("Unit not found in placement points");
     }
 
-    public void AddUnit(Unit unit)
+    public void AddUnit(Unit unit, out PlacementPoint placementPoint)
     {
-        PlacementPoint point = _placementPoints.FirstOrDefault(p => p.IsFree);
+        placementPoint = _placementPoints.FirstOrDefault(point => point.IsFree);
 
-        if (point != null)
+        if (placementPoint != null)
         {
-            point.SetUnit(unit);
+            placementPoint.SetUnit(unit);
 
             return;
         }

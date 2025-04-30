@@ -12,7 +12,17 @@ public class Unit : MonoBehaviour, ISelectable
         Island = island;
         Paint = paint;
         _unitRenderer = new UnitRenderer(_renderer);
-        _renderer.material.color = Color.blue;
+
+        switch (paint)
+        {
+            case Paint.Red:
+                _renderer.material.color = Color.red;
+                break;
+
+            case Paint.Blue:
+                _renderer.material.color = Color.blue;
+                break;
+        }
     }
 
     public Paint Paint { get; private set; }

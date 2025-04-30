@@ -10,9 +10,10 @@ public class UnitMover
             }
 
             homeIsland.RemoveUnit(unit);
-            targetIsland.AddUnit(unit);
+            targetIsland.AddUnit(unit, out PlacementPoint placementPoint);
 
             unit.SetIsland(targetIsland);
+            unit.transform.position = placementPoint.Point.position;
         }
     }
 }
