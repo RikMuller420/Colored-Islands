@@ -35,7 +35,7 @@ public class IslandInitializer : MonoBehaviour
 
         foreach (PlacementPoint point in placementPoints)
         {
-            if (point.IsOccupied == false)
+            if (point.IsFree)
             {
                 continue;
             }

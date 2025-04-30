@@ -1,8 +1,6 @@
-using UnityEngine;
-
 public class SelectHandler
 {
-    private bool _isSelected;
+    private bool _isUnitsSelected;
     private Island _selectedIsland;
     private Paint _selectedPaint;
 
@@ -31,12 +29,12 @@ public class SelectHandler
 
     private void SelectUnit(Unit unit)
     {
-        if (_isSelected)
+        if (_isUnitsSelected)
         {
             _unitHighlighter.UnhighlightUnits(_selectedIsland, _selectedPaint);
         }
 
-        _isSelected = true;
+        _isUnitsSelected = true;
         _selectedIsland = unit.Island;
         _selectedPaint = unit.Paint;
 
@@ -45,13 +43,14 @@ public class SelectHandler
 
     private void SelectIsland(Island island)
     {
-        if (_isSelected == false || island == _selectedIsland)
+        if (_isUnitsSelected == false || island == _selectedIsland ||
+            island.FreePointsCount == 0)
         {
             return;
         }
 
         _unitHighlighter.UnhighlightUnits(_selectedIsland, _selectedPaint);
         _unitMover.SendUnitsToIsland(_selectedIsland, _selectedPaint, island);
-        _isSelected = false;
+        _isUnitsSelected = false;
     }
 }
