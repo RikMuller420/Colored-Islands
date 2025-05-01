@@ -10,9 +10,9 @@ public class UnitsVisualizator
 
     public bool IsVisualizationExist => _visualizationHolder != null;
 
-    public void VisualizeUnits(IReadOnlyCollection<IslandInitializer> _islandInitializers, Unit unitPrefab, PaintMaterials paintMaterials)
+    public void Visualize(IReadOnlyCollection<IslandInitializer> _islandInitializers, Unit unitPrefab, PaintMaterials paintMaterials)
     {
-        ClearUnitsVisualization();
+        ClearVisualization();
 
         if (_visualizationHolder == null)
         {
@@ -25,7 +25,7 @@ public class UnitsVisualizator
 
             foreach (IslandStartUnits islandStartUnits in island.StartUnits)
             {
-                for (int i = 0; i < islandStartUnits.Count; i++)
+                for (int i = 0; i < islandStartUnits.Amout; i++)
                 {
                     Vector3 placePos = island.Points[pointIndex].position;
 
@@ -42,7 +42,7 @@ public class UnitsVisualizator
         }
     }
 
-    public void ClearUnitsVisualization()
+    public void ClearVisualization()
     {
         if (_visualizationHolder != null)
         {

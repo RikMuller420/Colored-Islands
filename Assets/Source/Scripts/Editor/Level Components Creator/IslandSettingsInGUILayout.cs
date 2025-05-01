@@ -1,13 +1,25 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class IslandSettingsView
+public class IslandSettingsInGUILayout
 {
     private const int IslandLayerIndex = 6;
 
     private int _spacingOffset = 5;
 
-    public void PrintIslandSettings(IslandInitializer initializer, PaintMaterials paintMaterials)
+    public void PrintIslandsSettings(IReadOnlyCollection<IslandInitializer> islands, PaintMaterials paintMaterials)
+    {
+        EditorGUILayout.Space();
+        GUILayout.Label("Islands:", EditorStyles.boldLabel);
+
+        foreach (IslandInitializer initializer in islands)
+        {
+            PrintIslandSettings(initializer, paintMaterials);
+        }
+    }
+
+    private void PrintIslandSettings(IslandInitializer initializer, PaintMaterials paintMaterials)
     {
         EditorGUILayout.BeginVertical("box");
         EditorGUILayout.Space(_spacingOffset);

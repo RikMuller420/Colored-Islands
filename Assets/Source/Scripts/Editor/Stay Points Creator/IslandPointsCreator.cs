@@ -34,48 +34,38 @@ public class IslandPointsCreator : EditorWindow
 
     private void OnGUI()
     {
-        try
+        _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
+
+        _islandMesh = (MeshFilter)EditorGUILayout.ObjectField("Island Mesh", _islandMesh, typeof(MeshFilter), true);
+        _pointPrefab = (GameObject)EditorGUILayout.ObjectField("Point Prefab", _pointPrefab, typeof(GameObject), false);
+        _prefabHolderSceneObjectName = EditorGUILayout.TextField("Holder Object Name", _prefabHolderSceneObjectName);
+
+        EditorGUI.BeginChangeCheck();
+
+        _gridSpacing.x = EditorGUILayout.Slider("Grid Spacing X", _gridSpacing.x, 0f, _maxGridSpacing);
+        _gridSpacing.y = EditorGUILayout.Slider("Grid Spacing Z", _gridSpacing.y, 0f, _maxGridSpacing);
+        _gridOffset.x = EditorGUILayout.Slider("Grid Offset X", _gridOffset.x, 0f, _maxGridOffset);
+        _gridOffset.y = EditorGUILayout.Slider("Grid Offset Z", _gridOffset.y, 0f, _maxGridOffset);
+        _heightOffset = EditorGUILayout.Slider("Height Offset", _heightOffset, 0f, _maxHeightOffset);
+
+        if (EditorGUI.EndChangeCheck() && _autoUpdate)
         {
-
-            _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
-
-            _islandMesh = (MeshFilter)EditorGUILayout.ObjectField("Island Mesh", _islandMesh, typeof(MeshFilter), true);
-            _pointPrefab = (GameObject)EditorGUILayout.ObjectField("Point Prefab", _pointPrefab, typeof(GameObject), false);
-            _prefabHolderSceneObjectName = EditorGUILayout.TextField("Holder Object Name", _prefabHolderSceneObjectName);
-
-            EditorGUI.BeginChangeCheck();
-
-            _gridSpacing.x = EditorGUILayout.Slider("Grid Spacing X", _gridSpacing.x, 0f, _maxGridSpacing);
-            _gridSpacing.y = EditorGUILayout.Slider("Grid Spacing Z", _gridSpacing.y, 0f, _maxGridSpacing);
-            _gridOffset.x = EditorGUILayout.Slider("Grid Offset X", _gridOffset.x, 0f, _maxGridOffset);
-            _gridOffset.y = EditorGUILayout.Slider("Grid Offset Z", _gridOffset.y, 0f, _maxGridOffset);
-            _heightOffset = EditorGUILayout.Slider("Height Offset", _heightOffset, 0f, _maxHeightOffset);
-
-            if (EditorGUI.EndChangeCheck() && _autoUpdate)
-            {
-                DistributePoints();
-            }
-
-            _autoUpdate = EditorGUILayout.Toggle("Auto Update", _autoUpdate);
-
-            if (GUILayout.Button("Distribute Points"))
-            {
-                DistributePoints();
-            }
-
-            if (GUILayout.Button("Clear Distributed Points"))
-            {
-                ClearPoints();
-            }
+            DistributePoints();
         }
-        catch (System.Exception ex)
+
+        _autoUpdate = EditorGUILayout.Toggle("Auto Update", _autoUpdate);
+
+        if (GUILayout.Button("Distribute Points"))
         {
-            Debug.LogError($"GUI Error: {ex.Message}");
+            DistributePoints();
         }
-        finally
+
+        if (GUILayout.Button("Clear Distributed Points"))
         {
-            EditorGUILayout.EndScrollView();
+            ClearPoints();
         }
+
+        EditorGUILayout.EndScrollView();
     }
 
     private bool TryGetComponents(out MeshFilter meshFilter, out Collider collider, out bool isExtraColliderCreated)
@@ -86,7 +76,6 @@ public class IslandPointsCreator : EditorWindow
 
         if (_islandMesh == null || _pointPrefab == null)
         {
-            EditorUtility.DisplayDialog("Error", "Please assign both Island Mesh and Point Prefab!", "OK");
             _autoUpdate = false;
 
             return false;
@@ -96,7 +85,6 @@ public class IslandPointsCreator : EditorWindow
 
         if (meshFilter == null || meshFilter.sharedMesh == null)
         {
-            EditorUtility.DisplayDialog("Error", "Island Mesh has no MeshFilter or Mesh!", "OK");
             _autoUpdate = false;
 
             return false;
@@ -148,7 +136,6 @@ public class IslandPointsCreator : EditorWindow
                 Undo.DestroyObjectImmediate(collider);
             }
 
-            EditorUtility.DisplayDialog("Error", "Grid Spacing is too large for the mesh bounds!", "OK");
             _autoUpdate = false;
 
             return;
@@ -156,7 +143,7 @@ public class IslandPointsCreator : EditorWindow
 
         Transform parent = new GameObject(_prefabHolderSceneObjectName).transform;
         parent.SetParent(_islandMesh.transform);
-        //Undo.RegisterCreatedObjectUndo(parent, "Create Placement Points");
+        Undo.RegisterCreatedObjectUndo(parent.gameObject, "Create Placement Points");
 
         for (int i = 0; i < rows; i++)
         {

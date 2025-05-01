@@ -1,18 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
-using UnityEngine;
 
-public class StartUnitsSettingsCreator
+public class UnitsOnIslandDistributor
 {
-    public void DistributeIslandStartUnits(IReadOnlyCollection<IslandInitializer> islandInitializers, 
+    public void DistributeUnits(IReadOnlyCollection<IslandInitializer> islands, 
                                            Dictionary<Paint, int> colorsUnitsAmount, UnitsVisualizator unitsVisualizator,
                                            Unit unitPrefab, PaintMaterials paintMaterials)
     {
         Dictionary<IslandInitializer, List<IslandStartUnits>> islandsUnits = new Dictionary<IslandInitializer, List<IslandStartUnits>>();
 
-        AddFirstUnitToIslandsDictionary(islandInitializers, colorsUnitsAmount, islandsUnits);
-        AddLackingUnitToIslandsDictionary(islandInitializers, colorsUnitsAmount, islandsUnits);
+        AddFirstUnitToIslandsDictionary(islands, colorsUnitsAmount, islandsUnits);
+        AddLackingUnitsToIslandsDictionary(islands, colorsUnitsAmount, islandsUnits);
 
         foreach (var islandUnits in islandsUnits)
         {
@@ -22,15 +21,15 @@ public class StartUnitsSettingsCreator
 
         if (unitsVisualizator.IsVisualizationExist)
         {
-            unitsVisualizator.VisualizeUnits(islandInitializers, unitPrefab, paintMaterials);
+            unitsVisualizator.Visualize(islands, unitPrefab, paintMaterials);
         }
     }
 
-    private void AddFirstUnitToIslandsDictionary(IReadOnlyCollection<IslandInitializer> islandInitializers,
+    private void AddFirstUnitToIslandsDictionary(IReadOnlyCollection<IslandInitializer> islands,
                                             Dictionary<Paint, int> colorsUnitsAmount,
                                             Dictionary<IslandInitializer, List<IslandStartUnits>> islandsUnits)
     {
-        foreach (IslandInitializer initializer in islandInitializers)
+        foreach (IslandInitializer initializer in islands)
         {
             List<Paint> validPaints = colorsUnitsAmount.Keys
                                         .Where(paint => paint != initializer.Paint)
@@ -53,23 +52,21 @@ public class StartUnitsSettingsCreator
         }
     }
 
-    private void AddLackingUnitToIslandsDictionary(IReadOnlyCollection<IslandInitializer> islandInitializers,
+    private void AddLackingUnitsToIslandsDictionary(IReadOnlyCollection<IslandInitializer> islands,
                                                 Dictionary<Paint, int> colorsUnitsAmount,
                                                 Dictionary<IslandInitializer, List<IslandStartUnits>> islandsUnits)
     {
-        foreach (IslandInitializer initializer in islandInitializers)
+        foreach (IslandInitializer initializer in islands)
         {
             for (int i = 0; i < initializer.PointsCount - 1; i++)
             {
                 Paint paint = colorsUnitsAmount.Keys.ToList()[UnityEngine.Random.Range(0, colorsUnitsAmount.Count)];
-
                 List<IslandStartUnits> islandStartUnits = islandsUnits[initializer];
-
                 IslandStartUnits startUnit = islandStartUnits.FirstOrDefault(unit => unit.Paint == paint);
 
                 if (startUnit != null)
                 {
-                    IslandStartUnits newStartUnits = new IslandStartUnits(paint, startUnit.Count + 1);
+                    IslandStartUnits newStartUnits = new IslandStartUnits(paint, startUnit.Amout + 1);
                     islandStartUnits.Remove(startUnit);
                     islandStartUnits.Add(newStartUnits);
                 }

@@ -33,7 +33,7 @@ public class IslandInitializer : MonoBehaviour
 
         foreach (IslandStartUnits startUnits in _startUnits)
         {
-            for (int i = 0; i < startUnits.Count; i++)
+            for (int i = 0; i < startUnits.Amout; i++)
             {
                 Unit unit = createUnit.Invoke();
                 unit.Initialize(_island, startUnits.Paint, paintMaterials);

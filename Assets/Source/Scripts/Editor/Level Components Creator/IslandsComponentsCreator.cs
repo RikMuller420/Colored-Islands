@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class IslandDependenciesCreator
+public class IslandsComponentsCreator
 {
-    public List<IslandInitializer> SetupIslandInitializers(Transform islandsParent)
+    public IReadOnlyCollection<IslandInitializer> CreateRequireComponents(Transform islandsParent)
     {
         List<IslandInitializer> islandInitializers = new List<IslandInitializer>();
 
@@ -27,14 +27,13 @@ public class IslandDependenciesCreator
             if (initializer == null)
             {
                 initializer = child.gameObject.AddComponent<IslandInitializer>();
+                EditorUtility.SetDirty(child.gameObject);
             }
 
             if (initializer != null)
             {
                 islandInitializers.Add(initializer);
             }
-
-            EditorUtility.SetDirty(child.gameObject);
         }
 
         if (islandsParent.TryGetComponent<IslandsGroupInitializer>(out _) == false)
@@ -44,6 +43,6 @@ public class IslandDependenciesCreator
 
         islandsParent.GetComponent<IslandsGroupInitializer>().SetIslands(islandInitializers);
 
-        return islandInitializers;
+        return islandInitializers.AsReadOnly();
     }
 }
