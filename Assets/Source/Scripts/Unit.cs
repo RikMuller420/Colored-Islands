@@ -13,7 +13,7 @@ public class Unit : MonoBehaviour, ISelectable
         Paint = paint;
         _unitRenderer = new UnitRenderer(_renderer);
 
-        switch (paint)
+        switch (Paint)
         {
             case Paint.Red:
                 _renderer.material.color = Color.red;
@@ -22,6 +22,19 @@ public class Unit : MonoBehaviour, ISelectable
             case Paint.Blue:
                 _renderer.material.color = Color.blue;
                 break;
+
+            case Paint.Green:
+                _renderer.material.color = Color.green;
+                break;
+
+            case Paint.Yellow:
+                _renderer.material.color = Color.yellow;
+                break;
+
+            case Paint.Pink:
+                _renderer.material.color = Color.magenta;
+                break;
+
         }
     }
 

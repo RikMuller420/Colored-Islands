@@ -1,5 +1,8 @@
 public enum Paint 
 {
     Red,
-    Blue
+    Blue,
+    Green,
+    Yellow,
+    Pink
 }

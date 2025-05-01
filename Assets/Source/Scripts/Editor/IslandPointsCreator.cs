@@ -18,7 +18,6 @@ public class IslandPointsCreator : EditorWindow
     private Vector2 _gridOffset = Vector2.zero;
     private float _heightOffset = 0.03f;
     private bool _autoUpdate = false;
-
     private Vector2 _scrollPosition;
 
     [MenuItem("Window/" + Title)]
@@ -30,8 +29,6 @@ public class IslandPointsCreator : EditorWindow
     private void OnGUI()
     {
         _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
-        GUILayout.Label(Title, EditorStyles.boldLabel);
-
         _islandMesh = (MeshFilter)EditorGUILayout.ObjectField("Island Mesh", _islandMesh, typeof(MeshFilter), true);
         _pointPrefab = (GameObject)EditorGUILayout.ObjectField("Point Prefab", _pointPrefab, typeof(GameObject), true);
         _prefabHolderSceneObjectName = EditorGUILayout.TextField("Holder Object Name", _prefabHolderSceneObjectName);
@@ -46,19 +43,19 @@ public class IslandPointsCreator : EditorWindow
 
         if (EditorGUI.EndChangeCheck() && _autoUpdate)
         {
-            DistributePrefabs();
+            DistributePoints();
         }
 
         _autoUpdate = EditorGUILayout.Toggle("Auto Update", _autoUpdate);
 
-        if (GUILayout.Button("Distribute Prefabs"))
+        if (GUILayout.Button("Distribute Points"))
         {
-            DistributePrefabs();
+            DistributePoints();
         }
 
-        if (GUILayout.Button("Clear Distributed Prefabs"))
+        if (GUILayout.Button("Clear Distributed Points"))
         {
-            ClearPrefabs();
+            ClearPoints();
         }
 
         EditorGUILayout.EndScrollView();
@@ -102,7 +99,7 @@ public class IslandPointsCreator : EditorWindow
         return true;
     }
 
-    private void DistributePrefabs()
+    private void DistributePoints()
     {
         bool objectIsFine = TryGetComponents(out MeshFilter meshFilter, out MeshCollider meshCollider,
                             out bool isExtraColliderCreated);
@@ -112,7 +109,7 @@ public class IslandPointsCreator : EditorWindow
             return;
         }
 
-        ClearPrefabs();
+        ClearPoints();
 
         Bounds bounds = meshFilter.sharedMesh.bounds;
         Matrix4x4 localToWorld = _islandMesh.transform.localToWorldMatrix;
@@ -190,7 +187,7 @@ public class IslandPointsCreator : EditorWindow
         }
     }
 
-    private void ClearPrefabs()
+    private void ClearPoints()
     {
         Transform parent = _islandMesh.transform.Find(_prefabHolderSceneObjectName);
 
