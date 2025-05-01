@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class Unit : MonoBehaviour, ISelectable
+public class Unit : PoolableObject, ISelectable
 {
     [SerializeField] private MeshRenderer _renderer;
 

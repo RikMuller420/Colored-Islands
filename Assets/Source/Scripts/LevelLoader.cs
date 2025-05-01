@@ -3,17 +3,21 @@ using UnityEngine;
 
 public class LevelLoader : MonoBehaviour
 {
-    [SerializeField] private LevelSettings _levelSettings;
-    [SerializeField] private UnitCreator _unitCreator;
-    [SerializeField] private PaintMaterials _materials;
-    [SerializeField] private BuferIslandsHolder _buferIslands;
+    private LevelSettings _levelSettings;
+    private UnitsPool _unitsPool;
+    private PaintMaterials _materials;
+    private BuferIslandsHolder _buferIslands;
 
     private IslandsGroupInitializer _currentIslands;
     private BuferIslandInitializer _currentBufferIsland;
 
-    private void Start()
+    public void Initialize(LevelSettings levelSettings, UnitsPool unitsPool,
+                        PaintMaterials materials, BuferIslandsHolder buferIslands)
     {
-        LoadLevel(1);
+        _levelSettings = levelSettings;
+        _unitsPool = unitsPool;
+        _materials = materials;
+        _buferIslands = buferIslands;
     }
 
     public void LoadLevel(int levelId)
@@ -22,7 +26,7 @@ public class LevelLoader : MonoBehaviour
         LevelSettingsData levelData = _levelSettings.Levels.FirstOrDefault(level => level.Id == levelId);
 
         _currentIslands = Instantiate(levelData.LevelPrefab);
-        _currentIslands.Initialize(_unitCreator.Create, _materials);
+        _currentIslands.Initialize(_unitsPool.Get, _materials);
 
         _currentBufferIsland = _buferIslands.GetIsland(levelData.BuferIslandSize);
         _currentBufferIsland.Initialize();
@@ -39,6 +43,8 @@ public class LevelLoader : MonoBehaviour
         {
             _currentBufferIsland.gameObject.SetActive(false);
         }
+
+        _unitsPool.ReleaseActiveObjects();
 
         _currentIslands = null;
         _currentBufferIsland = null;

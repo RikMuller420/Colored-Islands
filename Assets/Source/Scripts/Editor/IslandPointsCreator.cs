@@ -11,8 +11,9 @@ public class IslandPointsCreator : EditorWindow
     private float _raycastOffset = 10f;
     private float _raycastLenght = 20f;
 
+    [SerializeField] private GameObject _pointPrefab;
+
     private MeshFilter _islandMesh;
-    private GameObject _pointPrefab;
     private string _prefabHolderSceneObjectName = "Placement Points";
     private Vector2 _gridSpacing = new Vector2(1f, 1f);
     private Vector2 _gridOffset = Vector2.zero;
@@ -26,11 +27,17 @@ public class IslandPointsCreator : EditorWindow
         GetWindow<IslandPointsCreator>(Title);
     }
 
+    /*private void OnEnable()
+    {
+        _pointPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Source/Prefabs/PlacementPoint.prefab");
+    }*/
+
     private void OnGUI()
     {
         _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
+
         _islandMesh = (MeshFilter)EditorGUILayout.ObjectField("Island Mesh", _islandMesh, typeof(MeshFilter), true);
-        _pointPrefab = (GameObject)EditorGUILayout.ObjectField("Point Prefab", _pointPrefab, typeof(GameObject), true);
+        _pointPrefab = (GameObject)EditorGUILayout.ObjectField("Point Prefab", _pointPrefab, typeof(GameObject), false);
         _prefabHolderSceneObjectName = EditorGUILayout.TextField("Holder Object Name", _prefabHolderSceneObjectName);
 
         EditorGUI.BeginChangeCheck();
