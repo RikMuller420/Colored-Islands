@@ -1,9 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
-[RequireComponent(typeof(BaseIsland))]
+[RequireComponent(typeof(Island))]
 public class IslandInitializer : MonoBehaviour
 {
     [SerializeField] private Paint _paint;
@@ -12,9 +12,6 @@ public class IslandInitializer : MonoBehaviour
     [SerializeField] private List<Transform> _points;
     [SerializeField] List<IslandStartUnits> _startUnits;
 
-    [SerializeField] private PaintMaterials _paintMaterials;
-    [SerializeField] private UnitCreator _unitCreator;
-
     public int PointsCount => _points.Count;
     public Paint Paint => _paint;
     public Island Island => _island;
@@ -22,18 +19,7 @@ public class IslandInitializer : MonoBehaviour
     public List<Transform> Points => new List<Transform>(_points);
     public List<IslandStartUnits> StartUnits => new List<IslandStartUnits>(_startUnits);
 
-
-    private void Start()
-    {
-        InitializeIsland();
-    }
-
-    public void SetStartUnits(List<IslandStartUnits> startUnits)
-    {
-        _startUnits = startUnits;
-    }
-
-    public void InitializeIsland()
+    public void Initialize(Func<Unit> createUnit, PaintMaterials paintMaterials)
     {
         FindRequireComponents();
         List<PlacementPoint> placementPoints = new List<PlacementPoint>();
@@ -43,28 +29,23 @@ public class IslandInitializer : MonoBehaviour
             placementPoints.Add(new PlacementPoint(point));            
         }
 
-        _island.Initialize(placementPoints, Paint, _paintMaterials);
+        _island.Initialize(placementPoints, Paint, paintMaterials);
 
         foreach (IslandStartUnits startUnits in _startUnits)
         {
             for (int i = 0; i < startUnits.Count; i++)
             {
-                Unit unit = _unitCreator.Create();
-                unit.Initialize(_island, startUnits.Paint, _paintMaterials);
+                Unit unit = createUnit.Invoke();
+                unit.Initialize(_island, startUnits.Paint, paintMaterials);
                 _island.AddUnit(unit, out PlacementPoint placementPoint);
                 unit.transform.position = placementPoint.Point.position;
             }
         }
     }
 
-    public void SetPaint(Paint paint)
+    public void SetStartUnits(List<IslandStartUnits> startUnits)
     {
-        _paint = paint;
-        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-        IslandRenderer islandRenderer = new IslandRenderer(meshRenderer, _paintMaterials);
-        islandRenderer.SetPaint(paint);
-
-        Undo.RegisterCreatedObjectUndo(meshRenderer, "Change material");
+        _startUnits = startUnits;
     }
 
     public void FillPoints(Transform rootOfPoints)
@@ -78,10 +59,5 @@ public class IslandInitializer : MonoBehaviour
     public void FindRequireComponents()
     {
         _island = GetComponent<Island>();
-    }
-
-    public void SetPaintMaterials(PaintMaterials paintMaterials)
-    {
-        _paintMaterials = paintMaterials;
     }
 }

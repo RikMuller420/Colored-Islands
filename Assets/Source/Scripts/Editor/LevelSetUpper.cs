@@ -3,6 +3,7 @@ using UnityEditor;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class LevelSetUpper : EditorWindow
 {
@@ -14,7 +15,6 @@ public class LevelSetUpper : EditorWindow
     [SerializeField] private PaintMaterials _paintMaterials;
 
     private Transform _islandsParent;
-    private bool _createInitializerIfNotPresent = true;
     private List<IslandInitializer> _islandInitializers = new List<IslandInitializer>();
     private Dictionary<Paint, int> _colorsUnitsAmount = new Dictionary<Paint, int>();
     private GameObject _visualizationHolder = null;
@@ -38,12 +38,11 @@ public class LevelSetUpper : EditorWindow
     {
         _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
         _islandsParent = (Transform)EditorGUILayout.ObjectField("Islands Parent", _islandsParent, typeof(Transform), true);
-        _createInitializerIfNotPresent = EditorGUILayout.Toggle("Create Require Components", _createInitializerIfNotPresent);
         _paintMaterials = (PaintMaterials)EditorGUILayout.ObjectField("Materials Data", _paintMaterials, typeof(PaintMaterials), false);
 
-        if (GUILayout.Button("Find Islands") && _islandsParent != null)
+        if (GUILayout.Button("Setup Islands") && _islandsParent != null)
         {
-            RefreshIslandInitializers();
+            SetupIslandInitializers();
         }
 
         if (_islandInitializers.Count > 0)
@@ -80,7 +79,7 @@ public class LevelSetUpper : EditorWindow
         EditorGUILayout.EndScrollView();
     }
 
-    private void RefreshIslandInitializers()
+    private void SetupIslandInitializers()
     {
         _islandInitializers.Clear();
 
@@ -88,33 +87,37 @@ public class LevelSetUpper : EditorWindow
         {
             IslandInitializer initializer = child.GetComponent<IslandInitializer>();
 
-            if (_createInitializerIfNotPresent)
+            if (child.TryGetComponent<Collider>(out _) == false)
             {
-                if (child.GetComponent<Collider>() == null)
-                {
-                    child.gameObject.AddComponent<MeshCollider>();
-                    EditorUtility.SetDirty(child.gameObject);
-                }
-
-                if (child.GetComponent<Island>() == null)
-                {
-                    child.gameObject.AddComponent<Island>();
-                    EditorUtility.SetDirty(child.gameObject);
-                }
-
-                if (initializer == null)
-                {
-                    initializer = child.gameObject.AddComponent<IslandInitializer>();
-                }
-
+                child.gameObject.AddComponent<MeshCollider>();
                 EditorUtility.SetDirty(child.gameObject);
+            }
+
+            if (child.TryGetComponent<Island>(out _) == false)
+            {
+                child.gameObject.AddComponent<Island>();
+                EditorUtility.SetDirty(child.gameObject);
+            }
+
+            if (initializer == null)
+            {
+                initializer = child.gameObject.AddComponent<IslandInitializer>();
             }
 
             if (initializer != null)
             {
                 _islandInitializers.Add(initializer);
             }
+
+            EditorUtility.SetDirty(child.gameObject);
         }
+
+        if (_islandsParent.TryGetComponent<IslandsGroupInitializer>(out _) == false)
+        {
+            _islandsParent.gameObject.AddComponent<IslandsGroupInitializer>();
+        }
+
+        _islandsParent.GetComponent<IslandsGroupInitializer>().SetIslands(_islandInitializers);
     }
 
     private void PrintUnitsSummary()
@@ -239,7 +242,7 @@ public class LevelSetUpper : EditorWindow
         
         if (newPaint != initializer.Paint)
         {
-            initializer.SetPaint(newPaint);
+            ApplyPaintToIsland(newPaint, initializer);
             EditorUtility.SetDirty(initializer.gameObject);
         }
 
@@ -257,7 +260,6 @@ public class LevelSetUpper : EditorWindow
         if (GUILayout.Button("Reset Island"))
         {
             initializer.FindRequireComponents();
-            initializer.SetPaintMaterials(_paintMaterials);
 
             if (newRootOfPoints == null && initializer.transform.childCount > 0)
             {
@@ -265,7 +267,7 @@ public class LevelSetUpper : EditorWindow
                 initializer.FillPoints(newRootOfPoints);
             }
 
-            initializer.SetPaint(newPaint);
+            ApplyPaintToIsland(newPaint, initializer);
             initializer.gameObject.layer = IslandLayerIndex;
             EditorUtility.SetDirty(initializer.gameObject);
         }
@@ -274,6 +276,15 @@ public class LevelSetUpper : EditorWindow
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.Space(_spacingOffset);
         EditorGUILayout.EndVertical();
+    }
+
+    private void ApplyPaintToIsland(Paint paint, IslandInitializer initializer)
+    {
+        MeshRenderer meshRenderer = initializer.GetComponent<MeshRenderer>();
+        IslandRenderer islandRenderer = new IslandRenderer(meshRenderer, _paintMaterials);
+        islandRenderer.SetPaint(paint);
+
+        Undo.RegisterCreatedObjectUndo(meshRenderer, "Change material");
     }
 
     private void VisualizeUnits()
