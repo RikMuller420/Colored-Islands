@@ -10,16 +10,19 @@ public class TestLevelLoader : MonoBehaviour
     [SerializeField] private Slider _levelSlider;
     [SerializeField] private TextMeshProUGUI _lvlText;
     [SerializeField] private Button _loadButton;
+    [SerializeField] private Button _unloadButton;
 
     private void OnEnable()
     {
         _levelSlider.onValueChanged.AddListener(OnSliderChange);
         _loadButton.onClick.AddListener(LoadLevel);
+        _unloadButton.onClick.AddListener(UnloadLevel);
     }
     private void OnDisable()
     {
         _levelSlider.onValueChanged.RemoveListener(OnSliderChange);
-        _loadButton.onClick.AddListener(LoadLevel);
+        _loadButton.onClick.RemoveListener(LoadLevel);
+        _unloadButton.onClick.RemoveListener(UnloadLevel);
     }
 
     private void Start()
@@ -37,5 +40,10 @@ public class TestLevelLoader : MonoBehaviour
     {
         int level = Mathf.FloorToInt(_levelSlider.value);
         _levelLoader.LoadLevel(level);
+    }
+
+    private void UnloadLevel()
+    {
+        _levelLoader.UnloadCurrentLevel();
     }
 }

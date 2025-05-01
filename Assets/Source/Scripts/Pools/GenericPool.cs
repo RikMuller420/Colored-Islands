@@ -8,8 +8,8 @@ public class GenericPool<T> : MonoBehaviour where T : PoolableObject
 
     [SerializeField] private T _prefab;
 
-    private int _poolCapacity = 50;
-    private int _poolMaxSize = 50;
+    private int _poolCapacity = 100;
+    private int _poolMaxSize = 100;
     private List<T> _activeObjects = new List<T>();
 
     private void Awake()

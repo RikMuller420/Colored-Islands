@@ -32,7 +32,7 @@ public class LevelLoader : MonoBehaviour
         _currentBufferIsland.Initialize();
     }
 
-    private void UnloadCurrentLevel()
+    public void UnloadCurrentLevel()
     {
         if (_currentIslands != null)
         {
