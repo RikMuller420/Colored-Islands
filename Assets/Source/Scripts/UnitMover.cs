@@ -1,6 +1,6 @@
 public class UnitMover
 {
-    public void SendUnitsToIsland(Island homeIsland, Paint paint, Island targetIsland)
+    public void SendUnitsToIsland(BaseIsland homeIsland, Paint paint, BaseIsland targetIsland)
     {
         foreach (Unit unit in homeIsland.GetUnits(paint))
         {

@@ -1,6 +1,6 @@
 public class UnitHighlighter
 {
-    public void HighlightUnits(Island island, Paint paint)
+    public void HighlightUnits(BaseIsland island, Paint paint)
     {
         foreach (Unit unit in island.GetUnits(paint))
         {
@@ -8,7 +8,7 @@ public class UnitHighlighter
         }
     }
 
-    public void UnhighlightUnits(Island island, Paint paint)
+    public void UnhighlightUnits(BaseIsland island, Paint paint)
     {
         foreach (Unit unit in island.GetUnits(paint))
         {

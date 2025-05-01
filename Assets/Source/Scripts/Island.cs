@@ -1,69 +1,63 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
-public class Island : MonoBehaviour, ISelectable
+public class Island : BaseIsland
 {
-    private List<PlacementPoint> _placementPoints;
     private IslandRenderer _renderer;
+
+    public event Action IslandFinished;
+
+    public Paint Paint { get; private set; }
+
+    private void OnEnable()
+    {
+        UnitAdded += TryFinish;
+    }
+
+    private void OnDisable()
+    {
+        UnitAdded -= TryFinish;
+    }
 
     public void Initialize(List<PlacementPoint> placementPoints, Paint paint, PaintMaterials paintMaterials)
     {
-        _placementPoints = placementPoints;
-        Paint = paint;
+        base.Initialize(placementPoints);
+
         MeshRenderer renderer = GetComponent<MeshRenderer>();
-
         _renderer = new IslandRenderer(renderer, paintMaterials);
-        _renderer.SetPaint(paint);
+        SetPaint(paint);
     }
 
-    public Paint Paint { get; private set; }
-    public int FreePointsCount => _placementPoints.Count(point => point.IsFree);
-
-    public void SetPaint(Paint paint)
+    private void SetPaint(Paint paint)
     {
         Paint = paint;
         _renderer.SetPaint(paint);
     }
 
-    public IEnumerable<Unit> GetUnits(Paint paint)
+    private void TryFinish()
     {
-        foreach (PlacementPoint point in _placementPoints)
+        foreach (PlacementPoint point in Points)
         {
-            if (point.IsFree == false && point.OccupiedUnit.Paint == paint)
+            if (point.IsFree)
             {
-                yield return point.OccupiedUnit;
+                return;
+            }
+
+            if (point.OccupiedUnit.Paint != Paint)
+            {
+                return;
             }
         }
+
+        BlockIsland();
+        IslandFinished?.Invoke();
     }
 
-    public void RemoveUnit(Unit unit)
+    private void BlockIsland()
     {
-        PlacementPoint point = _placementPoints.FirstOrDefault(p => p.IsFree == false && p.OccupiedUnit == unit);
-
-        if (point != null)
-        {
-            point.RemoveUnit();
-
-            return;
-        }
-
-        throw new InvalidOperationException("Unit not found in placement points");
-    }
-
-    public void AddUnit(Unit unit, out PlacementPoint placementPoint)
-    {
-        placementPoint = _placementPoints.FirstOrDefault(point => point.IsFree);
-
-        if (placementPoint != null)
-        {
-            placementPoint.SetUnit(unit);
-
-            return;
-        }
-
-        throw new InvalidOperationException("No available free placement points");
+        enabled = false;
+        //Выключить меш коллайдер
+        //выключить меш коллайдреы на юнитах
     }
 }

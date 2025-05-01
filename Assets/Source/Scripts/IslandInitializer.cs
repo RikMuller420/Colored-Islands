@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-[RequireComponent(typeof(Island))]
+[RequireComponent(typeof(BaseIsland))]
 public class IslandInitializer : MonoBehaviour
 {
     [SerializeField] private Paint _paint;
@@ -12,10 +12,8 @@ public class IslandInitializer : MonoBehaviour
     [SerializeField] private List<Transform> _points;
     [SerializeField] List<IslandStartUnits> _startUnits;
 
-
     [SerializeField] private PaintMaterials _paintMaterials;
     [SerializeField] private UnitCreator _unitCreator;
-
 
     public int PointsCount => _points.Count;
     public Paint Paint => _paint;
@@ -37,7 +35,7 @@ public class IslandInitializer : MonoBehaviour
 
     public void InitializeIsland()
     {
-        _island = GetComponent<Island>();
+        FindRequireComponents();
         List<PlacementPoint> placementPoints = new List<PlacementPoint>();
 
         foreach(Transform point in _points)

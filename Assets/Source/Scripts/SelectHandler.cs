@@ -1,7 +1,7 @@
 public class SelectHandler
 {
     private bool _isUnitsSelected;
-    private Island _selectedIsland;
+    private BaseIsland _selectedIsland;
     private Paint _selectedPaint;
 
     private UnitHighlighter _unitHighlighter;
@@ -21,7 +21,7 @@ public class SelectHandler
                 SelectUnit(unit);
                 break;
 
-            case Island island:
+            case BaseIsland island:
                 SelectIsland(island);
                 break;
         }
@@ -41,7 +41,7 @@ public class SelectHandler
         _unitHighlighter.HighlightUnits(_selectedIsland, _selectedPaint);
     }
 
-    private void SelectIsland(Island island)
+    private void SelectIsland(BaseIsland island)
     {
         if (_isUnitsSelected == false || island == _selectedIsland ||
             island.FreePointsCount == 0)
