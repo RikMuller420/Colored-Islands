@@ -13,8 +13,6 @@ public class GameInitializer : MonoBehaviour
     private void Start()
     {
         InitializeGame();
-
-        _levelLoader.LoadLevel(2);
     }
 
     public void InitializeGame()
