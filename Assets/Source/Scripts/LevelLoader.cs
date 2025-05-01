@@ -7,17 +7,19 @@ public class LevelLoader : MonoBehaviour
     private UnitsPool _unitsPool;
     private PaintMaterials _materials;
     private BuferIslandsHolder _buferIslands;
+    private LevelProgressTracker _levelProgressTracker;
 
     private IslandsGroupInitializer _currentIslands;
     private BuferIslandInitializer _currentBufferIsland;
 
-    public void Initialize(LevelSettings levelSettings, UnitsPool unitsPool,
-                        PaintMaterials materials, BuferIslandsHolder buferIslands)
+    public void Initialize(LevelSettings levelSettings, UnitsPool unitsPool, PaintMaterials materials,
+                            BuferIslandsHolder buferIslands, LevelProgressTracker levelProgressTracker)
     {
         _levelSettings = levelSettings;
         _unitsPool = unitsPool;
         _materials = materials;
         _buferIslands = buferIslands;
+        _levelProgressTracker = levelProgressTracker;
     }
 
     public void LoadLevel(int levelId)
@@ -30,6 +32,8 @@ public class LevelLoader : MonoBehaviour
 
         _currentBufferIsland = _buferIslands.GetIsland(levelData.BuferIslandSize);
         _currentBufferIsland.Initialize();
+
+        _levelProgressTracker.StartTrack(_currentIslands, _levelSettings);
     }
 
     public void UnloadCurrentLevel()
@@ -45,6 +49,7 @@ public class LevelLoader : MonoBehaviour
         }
 
         _unitsPool.ReleaseActiveObjects();
+        _levelProgressTracker.StopTrack();
 
         _currentIslands = null;
         _currentBufferIsland = null;

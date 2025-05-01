@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Island : BaseIsland
@@ -9,6 +10,7 @@ public class Island : BaseIsland
     public event Action IslandFinished;
 
     public Paint Paint { get; private set; }
+    public bool IsDone => Points.All(point => !point.IsFree && point.OccupiedUnit.Paint == Paint);
 
     private void OnEnable()
     {
@@ -37,17 +39,9 @@ public class Island : BaseIsland
 
     private void TryFinish()
     {
-        foreach (PlacementPoint point in Points)
+        if (IsDone == false)
         {
-            if (point.IsFree)
-            {
-                return;
-            }
-
-            if (point.OccupiedUnit.Paint != Paint)
-            {
-                return;
-            }
+            return;
         }
 
         Deactivate();

@@ -18,11 +18,12 @@ public class GameInitializer : MonoBehaviour
     public void InitializeGame()
     {
         Camera camera = Camera.main;
+        LevelProgressTracker levelProgressTracker = new LevelProgressTracker();
         UnitHighlighter unitHighlighter = new UnitHighlighter();
         UnitMover unitMover = new UnitMover();
         SelectHandler selectHandler = new SelectHandler(unitHighlighter, unitMover);
         GameClickHandler gameClickHandler = new GameClickHandler(_inputHandler, camera, _clickLayer, selectHandler);
 
-        _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _buferIslands);
+        _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _buferIslands, levelProgressTracker);
     }
 }
