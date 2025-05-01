@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
@@ -25,5 +26,11 @@ public class Unit : MonoBehaviour, ISelectable
     public void SetIsland(BaseIsland island)
     {
         Island = island;
+    }
+
+    public void Deactivate()
+    {
+        enabled = false;
+        GetComponent<Collider>().enabled = false;
     }
 }

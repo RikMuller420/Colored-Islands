@@ -50,14 +50,18 @@ public class Island : BaseIsland
             }
         }
 
-        BlockIsland();
+        Deactivate();
         IslandFinished?.Invoke();
     }
 
-    private void BlockIsland()
+    private void Deactivate()
     {
         enabled = false;
-        //Выключить меш коллайдер
-        //выключить меш коллайдреы на юнитах
+        GetComponent<Collider>().enabled = false;
+
+        foreach (PlacementPoint point in Points)
+        {
+            point.OccupiedUnit.Deactivate();
+        }
     }
 }
