@@ -9,6 +9,7 @@ public class LevelSetUpper : EditorWindow
 {
     private const string Title = "Level Setup Helper";
     private const string VisualizationHolderSceneObjectName = "Visualization";
+    private const int IslandLayerIndex = 6;
 
     private Transform _islandsParent;
     private bool _createInitializerIfNotPresent = true;
@@ -257,6 +258,7 @@ public class LevelSetUpper : EditorWindow
             }
 
             initializer.SetPaint(newPaint);
+            initializer.gameObject.layer = IslandLayerIndex;
             EditorUtility.SetDirty(initializer.gameObject);
         }
 
