@@ -14,7 +14,7 @@ public class GameInitializer : MonoBehaviour
     {
         InitializeGame();
 
-        _levelLoader.LoadLevel(1);
+        _levelLoader.LoadLevel(2);
     }
 
     public void InitializeGame()

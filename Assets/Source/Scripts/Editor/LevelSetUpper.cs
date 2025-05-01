@@ -3,7 +3,6 @@ using UnityEditor;
 using System.Collections.Generic;
 using System;
 using System.Linq;
-using Unity.VisualScripting;
 
 public class LevelSetUpper : EditorWindow
 {
@@ -280,6 +279,7 @@ public class LevelSetUpper : EditorWindow
 
     private void ApplyPaintToIsland(Paint paint, IslandInitializer initializer)
     {
+        initializer.SetPaint(paint);
         MeshRenderer meshRenderer = initializer.GetComponent<MeshRenderer>();
         IslandRenderer islandRenderer = new IslandRenderer(meshRenderer, _paintMaterials);
         islandRenderer.SetPaint(paint);

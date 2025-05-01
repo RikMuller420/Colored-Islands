@@ -27,51 +27,61 @@ public class IslandPointsCreator : EditorWindow
         GetWindow<IslandPointsCreator>(Title);
     }
 
-    /*private void OnEnable()
+    private void OnEnable()
     {
         _pointPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Source/Prefabs/PlacementPoint.prefab");
-    }*/
+    }
 
     private void OnGUI()
     {
-        _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
-
-        _islandMesh = (MeshFilter)EditorGUILayout.ObjectField("Island Mesh", _islandMesh, typeof(MeshFilter), true);
-        _pointPrefab = (GameObject)EditorGUILayout.ObjectField("Point Prefab", _pointPrefab, typeof(GameObject), false);
-        _prefabHolderSceneObjectName = EditorGUILayout.TextField("Holder Object Name", _prefabHolderSceneObjectName);
-
-        EditorGUI.BeginChangeCheck();
-
-        _gridSpacing.x = EditorGUILayout.Slider("Grid Spacing X", _gridSpacing.x, 0f, _maxGridSpacing);
-        _gridSpacing.y = EditorGUILayout.Slider("Grid Spacing Z", _gridSpacing.y, 0f, _maxGridSpacing);
-        _gridOffset.x = EditorGUILayout.Slider("Grid Offset X", _gridOffset.x, 0f, _maxGridOffset);
-        _gridOffset.y = EditorGUILayout.Slider("Grid Offset Z", _gridOffset.y, 0f, _maxGridOffset);
-        _heightOffset = EditorGUILayout.Slider("Height Offset", _heightOffset, 0f, _maxHeightOffset);
-
-        if (EditorGUI.EndChangeCheck() && _autoUpdate)
+        try
         {
-            DistributePoints();
+
+            _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
+
+            _islandMesh = (MeshFilter)EditorGUILayout.ObjectField("Island Mesh", _islandMesh, typeof(MeshFilter), true);
+            _pointPrefab = (GameObject)EditorGUILayout.ObjectField("Point Prefab", _pointPrefab, typeof(GameObject), false);
+            _prefabHolderSceneObjectName = EditorGUILayout.TextField("Holder Object Name", _prefabHolderSceneObjectName);
+
+            EditorGUI.BeginChangeCheck();
+
+            _gridSpacing.x = EditorGUILayout.Slider("Grid Spacing X", _gridSpacing.x, 0f, _maxGridSpacing);
+            _gridSpacing.y = EditorGUILayout.Slider("Grid Spacing Z", _gridSpacing.y, 0f, _maxGridSpacing);
+            _gridOffset.x = EditorGUILayout.Slider("Grid Offset X", _gridOffset.x, 0f, _maxGridOffset);
+            _gridOffset.y = EditorGUILayout.Slider("Grid Offset Z", _gridOffset.y, 0f, _maxGridOffset);
+            _heightOffset = EditorGUILayout.Slider("Height Offset", _heightOffset, 0f, _maxHeightOffset);
+
+            if (EditorGUI.EndChangeCheck() && _autoUpdate)
+            {
+                DistributePoints();
+            }
+
+            _autoUpdate = EditorGUILayout.Toggle("Auto Update", _autoUpdate);
+
+            if (GUILayout.Button("Distribute Points"))
+            {
+                DistributePoints();
+            }
+
+            if (GUILayout.Button("Clear Distributed Points"))
+            {
+                ClearPoints();
+            }
         }
-
-        _autoUpdate = EditorGUILayout.Toggle("Auto Update", _autoUpdate);
-
-        if (GUILayout.Button("Distribute Points"))
+        catch (System.Exception ex)
         {
-            DistributePoints();
+            Debug.LogError($"GUI Error: {ex.Message}");
         }
-
-        if (GUILayout.Button("Clear Distributed Points"))
+        finally
         {
-            ClearPoints();
+            EditorGUILayout.EndScrollView();
         }
-
-        EditorGUILayout.EndScrollView();
     }
 
-    private bool TryGetComponents(out MeshFilter meshFilter, out MeshCollider meshCollider, out bool isExtraColliderCreated)
+    private bool TryGetComponents(out MeshFilter meshFilter, out Collider collider, out bool isExtraColliderCreated)
     {
         meshFilter = null;
-        meshCollider = null;
+        collider = null;
         isExtraColliderCreated = false;
 
         if (_islandMesh == null || _pointPrefab == null)
@@ -92,13 +102,13 @@ public class IslandPointsCreator : EditorWindow
             return false;
         }
 
-        Collider collider = _islandMesh.GetComponent<Collider>();
+        collider = _islandMesh.GetComponent<Collider>();
 
         if (collider == null)
         {
             MeshCollider buferCollider = _islandMesh.gameObject.AddComponent<MeshCollider>();
             buferCollider.sharedMesh = meshFilter.sharedMesh;
-            meshCollider = buferCollider;
+            collider = buferCollider;
             isExtraColliderCreated = true;
             Undo.RegisterCreatedObjectUndo(buferCollider, "Create Temporary MeshCollider");
         }
@@ -108,7 +118,7 @@ public class IslandPointsCreator : EditorWindow
 
     private void DistributePoints()
     {
-        bool objectIsFine = TryGetComponents(out MeshFilter meshFilter, out MeshCollider meshCollider,
+        bool objectIsFine = TryGetComponents(out MeshFilter meshFilter, out Collider collider,
                             out bool isExtraColliderCreated);
 
         if (objectIsFine == false)
@@ -135,7 +145,7 @@ public class IslandPointsCreator : EditorWindow
         {
             if (isExtraColliderCreated)
             {
-                Undo.DestroyObjectImmediate(meshCollider);
+                Undo.DestroyObjectImmediate(collider);
             }
 
             EditorUtility.DisplayDialog("Error", "Grid Spacing is too large for the mesh bounds!", "OK");
@@ -146,25 +156,25 @@ public class IslandPointsCreator : EditorWindow
 
         Transform parent = new GameObject(_prefabHolderSceneObjectName).transform;
         parent.SetParent(_islandMesh.transform);
-        Undo.RegisterCreatedObjectUndo(parent, "Create Placement Points");
+        //Undo.RegisterCreatedObjectUndo(parent, "Create Placement Points");
 
         for (int i = 0; i < rows; i++)
         {
             for (int j = 0; j < columns; j++)
             {
-                TryCreatePrefab(i, j, minX, minZ, worldMax, meshCollider, parent);
+                TryCreatePrefab(i, j, minX, minZ, worldMax, collider, parent);
             }
         }
 
         if (isExtraColliderCreated)
         {
-            Undo.DestroyObjectImmediate(meshCollider);
+            Undo.DestroyObjectImmediate(collider);
         }
     }
 
 
     private void TryCreatePrefab(int cellX, int cellY, float minX, float minZ, Vector3 worldMax,
-                                MeshCollider meshCollider, Transform parent)
+                                Collider collider, Transform parent)
     {
         Vector3 localPos = new Vector3(
                     _gridOffset.x + cellX * _gridSpacing.x,
@@ -181,7 +191,7 @@ public class IslandPointsCreator : EditorWindow
         Ray ray = new Ray(worldPos, Vector3.down);
         RaycastHit hit;
 
-        if (meshCollider.Raycast(ray, out hit, _raycastLenght))
+        if (collider.Raycast(ray, out hit, _raycastLenght))
         {
             Vector3 placePos = hit.point + Vector3.up * _heightOffset;
 

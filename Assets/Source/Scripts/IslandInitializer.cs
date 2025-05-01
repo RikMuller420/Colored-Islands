@@ -60,4 +60,9 @@ public class IslandInitializer : MonoBehaviour
     {
         _island = GetComponent<Island>();
     }
+
+    public void SetPaint(Paint paint)
+    {
+        _paint = paint;
+    }
 }
