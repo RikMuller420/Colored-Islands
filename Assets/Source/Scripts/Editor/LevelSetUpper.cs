@@ -4,17 +4,17 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 
-
 public class LevelSetUpper : EditorWindow
 {
     private const string Title = "Level Setup Helper";
     private const string VisualizationHolderSceneObjectName = "Visualization";
     private const int IslandLayerIndex = 6;
 
+    [SerializeField] private Unit _unitPrefab;
+    [SerializeField] private PaintMaterials _paintMaterials;
+
     private Transform _islandsParent;
     private bool _createInitializerIfNotPresent = true;
-    private Unit _unitPrefab;
-
     private List<IslandInitializer> _islandInitializers = new List<IslandInitializer>();
     private Dictionary<Paint, int> _colorsUnitsAmount = new Dictionary<Paint, int>();
     private GameObject _visualizationHolder = null;
@@ -28,11 +28,18 @@ public class LevelSetUpper : EditorWindow
         GetWindow<LevelSetUpper>(Title);
     }
 
+    private void OnEnable()
+    {
+        _unitPrefab = AssetDatabase.LoadAssetAtPath<Unit>("Assets/Source/Prefabs/Unit.prefab");
+        _paintMaterials = AssetDatabase.LoadAssetAtPath<PaintMaterials>("Assets/Source/Prefabs/PaintMaterials.asset");
+    }
+
     private void OnGUI()
     {
         _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
         _islandsParent = (Transform)EditorGUILayout.ObjectField("Islands Parent", _islandsParent, typeof(Transform), true);
         _createInitializerIfNotPresent = EditorGUILayout.Toggle("Create Require Components", _createInitializerIfNotPresent);
+        _paintMaterials = (PaintMaterials)EditorGUILayout.ObjectField("Materials Data", _paintMaterials, typeof(PaintMaterials), false);
 
         if (GUILayout.Button("Find Islands") && _islandsParent != null)
         {
@@ -58,7 +65,7 @@ public class LevelSetUpper : EditorWindow
         }
 
         EditorGUILayout.Space(_spacingOffset);
-        _unitPrefab = (Unit)EditorGUILayout.ObjectField("Unit Prefab", _unitPrefab, typeof(Unit), true);
+        _unitPrefab = (Unit)EditorGUILayout.ObjectField("Unit Prefab", _unitPrefab, typeof(Unit), false);
 
         if (GUILayout.Button("Visualize Units"))
         {
@@ -250,6 +257,7 @@ public class LevelSetUpper : EditorWindow
         if (GUILayout.Button("Reset Island"))
         {
             initializer.FindRequireComponents();
+            initializer.SetPaintMaterials(_paintMaterials);
 
             if (newRootOfPoints == null && initializer.transform.childCount > 0)
             {
@@ -292,7 +300,7 @@ public class LevelSetUpper : EditorWindow
 
                     unit.transform.position = placePos;
                     unit.transform.SetParent(_visualizationHolder.transform);
-                    unit.Initialize(island.Island, islandStartUnits.Paint);
+                    unit.Initialize(island.Island, islandStartUnits.Paint, _paintMaterials);
 
                     pointIndex++;
                 }

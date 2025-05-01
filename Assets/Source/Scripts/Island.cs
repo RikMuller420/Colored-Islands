@@ -7,15 +7,26 @@ using UnityEngine;
 public class Island : MonoBehaviour, ISelectable
 {
     private List<PlacementPoint> _placementPoints;
+    private IslandRenderer _renderer;
 
-    public void Initialize(List<PlacementPoint> placementPoints, Paint paint)
+    public void Initialize(List<PlacementPoint> placementPoints, Paint paint, PaintMaterials paintMaterials)
     {
         _placementPoints = placementPoints;
         Paint = paint;
+        MeshRenderer renderer = GetComponent<MeshRenderer>();
+
+        _renderer = new IslandRenderer(renderer, paintMaterials);
+        _renderer.SetPaint(paint);
     }
 
     public Paint Paint { get; private set; }
     public int FreePointsCount => _placementPoints.Count(point => point.IsFree);
+
+    public void SetPaint(Paint paint)
+    {
+        Paint = paint;
+        _renderer.SetPaint(paint);
+    }
 
     public IEnumerable<Unit> GetUnits(Paint paint)
     {

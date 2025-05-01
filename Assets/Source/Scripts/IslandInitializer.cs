@@ -6,14 +6,16 @@ using UnityEngine;
 [RequireComponent(typeof(Island))]
 public class IslandInitializer : MonoBehaviour
 {
-
     [SerializeField] private Paint _paint;
     [SerializeField] private Island _island;
     [SerializeField] private Transform _rootOfPoints;
     [SerializeField] private List<Transform> _points;
     [SerializeField] List<IslandStartUnits> _startUnits;
 
+
+    [SerializeField] private PaintMaterials _paintMaterials;
     [SerializeField] private UnitCreator _unitCreator;
+
 
     public int PointsCount => _points.Count;
     public Paint Paint => _paint;
@@ -43,14 +45,14 @@ public class IslandInitializer : MonoBehaviour
             placementPoints.Add(new PlacementPoint(point));            
         }
 
-        _island.Initialize(placementPoints, Paint);
+        _island.Initialize(placementPoints, Paint, _paintMaterials);
 
         foreach (IslandStartUnits startUnits in _startUnits)
         {
             for (int i = 0; i < startUnits.Count; i++)
             {
                 Unit unit = _unitCreator.Create();
-                unit.Initialize(_island, startUnits.Paint);
+                unit.Initialize(_island, startUnits.Paint, _paintMaterials);
                 _island.AddUnit(unit, out PlacementPoint placementPoint);
                 unit.transform.position = placementPoint.Point.position;
             }
@@ -60,33 +62,11 @@ public class IslandInitializer : MonoBehaviour
     public void SetPaint(Paint paint)
     {
         _paint = paint;
-        MeshRenderer renderer = GetComponent<MeshRenderer>();
+        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+        IslandRenderer islandRenderer = new IslandRenderer(meshRenderer, _paintMaterials);
+        islandRenderer.SetPaint(paint);
 
-        switch (Paint)
-        {
-            case Paint.Red:
-                renderer.material.color = Color.red;
-                break;
-
-            case Paint.Blue:
-                renderer.material.color = Color.blue;
-                break;
-
-            case Paint.Green:
-                renderer.material.color = Color.green;
-                break;
-
-            case Paint.Yellow:
-                renderer.material.color = Color.yellow;
-                break;
-
-            case Paint.Pink:
-                renderer.material.color = Color.magenta;
-                break;
-
-        }
-
-        Undo.RegisterCreatedObjectUndo(renderer, "Change material");
+        Undo.RegisterCreatedObjectUndo(meshRenderer, "Change material");
     }
 
     public void FillPoints(Transform rootOfPoints)
@@ -100,5 +80,10 @@ public class IslandInitializer : MonoBehaviour
     public void FindRequireComponents()
     {
         _island = GetComponent<Island>();
+    }
+
+    public void SetPaintMaterials(PaintMaterials paintMaterials)
+    {
+        _paintMaterials = paintMaterials;
     }
 }

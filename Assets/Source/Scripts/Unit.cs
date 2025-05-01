@@ -7,35 +7,12 @@ public class Unit : MonoBehaviour, ISelectable
 
     private UnitRenderer _unitRenderer;
 
-    public void Initialize(Island island, Paint paint)
+    public void Initialize(Island island, Paint paint, PaintMaterials paintMaterials)
     {
         Island = island;
         Paint = paint;
-        _unitRenderer = new UnitRenderer(_renderer);
-
-        switch (Paint)
-        {
-            case Paint.Red:
-                _renderer.material.color = Color.red;
-                break;
-
-            case Paint.Blue:
-                _renderer.material.color = Color.blue;
-                break;
-
-            case Paint.Green:
-                _renderer.material.color = Color.green;
-                break;
-
-            case Paint.Yellow:
-                _renderer.material.color = Color.yellow;
-                break;
-
-            case Paint.Pink:
-                _renderer.material.color = Color.magenta;
-                break;
-
-        }
+        _unitRenderer = new UnitRenderer(_renderer, paintMaterials);
+        _unitRenderer.SetPaint(paint);
     }
 
     public Paint Paint { get; private set; }
