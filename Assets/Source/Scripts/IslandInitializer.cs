@@ -9,8 +9,8 @@ public class IslandInitializer : MonoBehaviour
     [SerializeField] private Paint _paint;
     [SerializeField] private Island _island;
     [SerializeField] private Transform _rootOfPoints;
-    [SerializeField] private List<Transform> _points;
-    [SerializeField] List<IslandStartUnits> _startUnits;
+    [SerializeField] private List<Transform> _points = new List<Transform>();
+    [SerializeField] private List<IslandStartUnits> _startUnits = new List<IslandStartUnits>();
 
     public int PointsCount => _points.Count;
     public Paint Paint => _paint;
