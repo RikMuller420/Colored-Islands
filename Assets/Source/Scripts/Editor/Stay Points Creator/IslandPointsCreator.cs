@@ -8,8 +8,8 @@ public class IslandPointsCreator : EditorWindow
     private float _maxGridSpacing = 1f;
     private float _maxGridOffset = 1f;
     private float _maxHeightOffset = 0.1f;
-    private float _raycastOffset = 10f;
-    private float _raycastLenght = 20f;
+    private float _raycastOffset = 2f;
+    private float _raycastLenght = 5f;
 
     [SerializeField] private GameObject _pointPrefab;
 
@@ -68,42 +68,6 @@ public class IslandPointsCreator : EditorWindow
         EditorGUILayout.EndScrollView();
     }
 
-    private bool TryGetComponents(out MeshFilter meshFilter, out Collider collider, out bool isExtraColliderCreated)
-    {
-        meshFilter = null;
-        collider = null;
-        isExtraColliderCreated = false;
-
-        if (_islandMesh == null || _pointPrefab == null)
-        {
-            _autoUpdate = false;
-
-            return false;
-        }
-
-        meshFilter = _islandMesh.GetComponent<MeshFilter>();
-
-        if (meshFilter == null || meshFilter.sharedMesh == null)
-        {
-            _autoUpdate = false;
-
-            return false;
-        }
-
-        collider = _islandMesh.GetComponent<Collider>();
-
-        if (collider == null)
-        {
-            MeshCollider buferCollider = _islandMesh.gameObject.AddComponent<MeshCollider>();
-            buferCollider.sharedMesh = meshFilter.sharedMesh;
-            collider = buferCollider;
-            isExtraColliderCreated = true;
-            Undo.RegisterCreatedObjectUndo(buferCollider, "Create Temporary MeshCollider");
-        }
-
-        return true;
-    }
-
     private void DistributePoints()
     {
         bool objectIsFine = TryGetComponents(out MeshFilter meshFilter, out Collider collider,
@@ -145,11 +109,11 @@ public class IslandPointsCreator : EditorWindow
         parent.SetParent(_islandMesh.transform);
         Undo.RegisterCreatedObjectUndo(parent.gameObject, "Create Placement Points");
 
-        for (int i = 0; i < rows; i++)
+        for (int i = 0; i <= rows; i++)
         {
-            for (int j = 0; j < columns; j++)
+            for (int j = 0; j <= columns; j++)
             {
-                TryCreatePrefab(i, j, minX, minZ, worldMax, collider, parent);
+                TryCreatePrefab(j, i, minX, minZ, worldMax, collider, parent);
             }
         }
 
@@ -159,6 +123,41 @@ public class IslandPointsCreator : EditorWindow
         }
     }
 
+    private bool TryGetComponents(out MeshFilter meshFilter, out Collider collider, out bool isExtraColliderCreated)
+    {
+        meshFilter = null;
+        collider = null;
+        isExtraColliderCreated = false;
+
+        if (_islandMesh == null || _pointPrefab == null)
+        {
+            _autoUpdate = false;
+
+            return false;
+        }
+
+        meshFilter = _islandMesh.GetComponent<MeshFilter>();
+
+        if (meshFilter == null || meshFilter.sharedMesh == null)
+        {
+            _autoUpdate = false;
+
+            return false;
+        }
+
+        collider = _islandMesh.GetComponent<Collider>();
+
+        if (collider == null)
+        {
+            MeshCollider buferCollider = _islandMesh.gameObject.AddComponent<MeshCollider>();
+            buferCollider.sharedMesh = meshFilter.sharedMesh;
+            collider = buferCollider;
+            isExtraColliderCreated = true;
+            Undo.RegisterCreatedObjectUndo(buferCollider, "Create Temporary MeshCollider");
+        }
+
+        return true;
+    }
 
     private void TryCreatePrefab(int cellX, int cellY, float minX, float minZ, Vector3 worldMax,
                                 Collider collider, Transform parent)
@@ -186,7 +185,6 @@ public class IslandPointsCreator : EditorWindow
             Undo.RegisterCreatedObjectUndo(instance, "Create Prefab Instance");
 
             instance.transform.position = placePos;
-            instance.transform.rotation = _islandMesh.transform.rotation;
             instance.transform.SetParent(parent);
         }
     }
