@@ -35,6 +35,7 @@ public class ToggleButton : MonoBehaviour
             return;
         }
 
+        _isOn = _startEnabled;
         UpdateToggleActivity();
     }
 
@@ -47,7 +48,7 @@ public class ToggleButton : MonoBehaviour
 
     private void UpdateToggleActivity()
     {
-        _toggleOn.SetActive(_startEnabled);
-        _toggleOff.SetActive(!_startEnabled);
+        _toggleOn.SetActive(_isOn);
+        _toggleOff.SetActive(!_isOn);
     }
 }
