@@ -9,13 +9,13 @@ public class ToggleButton : MonoBehaviour
     [SerializeField] private GameObject _toggleOn;
     [SerializeField] private GameObject _toggleOff;
 
-    public event Action<bool> EnableChanged;
+    private bool _isOn;
 
-    public bool IsOn { get; private set; }
+    public event Action<bool> EnableChanged;
 
     private void Awake()
     {
-        IsOn = _startEnabled;
+        _isOn = _startEnabled;
     }
 
     private void OnEnable()
@@ -40,9 +40,9 @@ public class ToggleButton : MonoBehaviour
 
     private void ChangeToggle()
     {
-        IsOn = !IsOn;
+        _isOn = !_isOn;
         UpdateToggleActivity();
-        EnableChanged?.Invoke(IsOn);
+        EnableChanged?.Invoke(_isOn);
     }
 
     private void UpdateToggleActivity()
