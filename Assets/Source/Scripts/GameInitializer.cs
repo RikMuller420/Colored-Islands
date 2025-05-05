@@ -9,6 +9,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private InputHandler _inputHandler;
     [SerializeField] private LayerMask _clickLayer;
     [SerializeField] private LevelLoader _levelLoader;
+    [SerializeField] private UIZoneSwitcher _uiZoneActivator;
 
     private void Start()
     {
@@ -24,6 +25,6 @@ public class GameInitializer : MonoBehaviour
         SelectHandler selectHandler = new SelectHandler(unitHighlighter, unitMover);
         GameClickHandler gameClickHandler = new GameClickHandler(_inputHandler, camera, _clickLayer, selectHandler);
 
-        _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _buferIslands, levelProgressTracker);
+        _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _buferIslands, levelProgressTracker, _uiZoneActivator);
     }
 }

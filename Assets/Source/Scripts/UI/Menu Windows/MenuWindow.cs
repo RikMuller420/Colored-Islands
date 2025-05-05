@@ -1,17 +1,10 @@
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MenuWindow : MonoBehaviour
+public class MenuWindow : ZoneUi
 {
-    [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private Button _closeButton;
     [SerializeField] private MenuDimmer _menuDimmer;
-
-    private bool _isOpen = false;
-    private float _fadeDuration = 0.2f;
-    private float _maxAlpha = 1f;
-    private float _minAlpha = 0f;
 
     private void OnEnable()
     {
@@ -23,47 +16,25 @@ public class MenuWindow : MonoBehaviour
         _closeButton.onClick.RemoveListener(Close);
     }
 
-    public void Open()
+    public override void Open()
     {
-        if (_isOpen)
+        if (IsOpened)
         {
             return;
         }
 
-        _isOpen = true;
         _menuDimmer.Activate();
-        _canvasGroup.DOKill();
-
-        _canvasGroup
-            .DOFade(_maxAlpha, _fadeDuration)
-            .SetEase(Ease.OutQuad)
-            .OnComplete(ActivateInteractivity);
+        base.Open();
     }
 
-    public void Close()
+    public override void Close()
     {
-        if (_isOpen == false)
+        if (IsOpened == false)
         {
             return;
-        } 
+        }
 
-        _isOpen = false;
         _menuDimmer.Deactivate();
-        _canvasGroup.DOKill();
-
-        _canvasGroup
-            .DOFade(_minAlpha, _fadeDuration)
-            .SetEase(Ease.InQuad)
-            .OnComplete(DeactivateInteractivity);
-    }
-
-    private void ActivateInteractivity()
-    {
-        _canvasGroup.blocksRaycasts = true;
-    }
-
-    private void DeactivateInteractivity()
-    {
-        _canvasGroup.blocksRaycasts = false;
+        base.Close();
     }
 }
