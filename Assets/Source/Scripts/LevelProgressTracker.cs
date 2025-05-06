@@ -15,6 +15,7 @@ public class LevelProgressTracker : MonoBehaviour
     public event Action<float> TimeChanged;
     public event Action<int> MovesChanged;
     public event Action TrackStarted;
+    public event Action TrackStopped;
 
     public LevelSettingsData LevelData { get; private set; }
 
@@ -61,6 +62,8 @@ public class LevelProgressTracker : MonoBehaviour
         {
             island.IslandFinished -= OnIslandFinished;
         }
+
+        TrackStopped?.Invoke();
     }
 
     private void OnUnitsMoved()
