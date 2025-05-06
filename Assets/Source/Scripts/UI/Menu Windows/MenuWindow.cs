@@ -6,12 +6,12 @@ public class MenuWindow : ZoneUi
     [SerializeField] private Button _closeButton;
     [SerializeField] private MenuDimmer _menuDimmer;
 
-    private void OnEnable()
+    protected void OnEnable()
     {
         _closeButton.onClick.AddListener(Close);
     }
 
-    private void OnDisable()
+    protected void OnDisable()
     {
         _closeButton.onClick.RemoveListener(Close);
     }

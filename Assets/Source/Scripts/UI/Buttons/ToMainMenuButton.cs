@@ -4,7 +4,10 @@ using UnityEngine.UI;
 public class ToMainMenuButton : MonoBehaviour
 {
     [SerializeField] private Button _button;
+    [SerializeField] private ConfirmationMenuWindow _confirmationWindow;
     [SerializeField] private LevelLoader _levelLoader;
+
+    private string _confirmationMessage = "Are you sure you wand to go to main menu?";
 
     private void OnEnable()
     {
@@ -18,6 +21,6 @@ public class ToMainMenuButton : MonoBehaviour
 
     private void LoadMainMenu()
     {
-        _levelLoader.LoadMainMenu();
+        _confirmationWindow.Open(_confirmationMessage, _levelLoader.LoadMainMenu);
     }
 }
