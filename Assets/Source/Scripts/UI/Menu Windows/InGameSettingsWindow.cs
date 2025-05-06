@@ -2,17 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InGameSettingsWindow : MonoBehaviour
+public class InGameSettingsWindow : MenuWindow
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Open()
     {
-        
+        if (IsOpened)
+        {
+            return;
+        }
+
+        Time.timeScale = 0f;
+        base.Open();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Close()
     {
-        
+        if (IsOpened == false)
+        {
+            return;
+        }
+
+        Time.timeScale = 1f;
+        base.Close();
     }
 }

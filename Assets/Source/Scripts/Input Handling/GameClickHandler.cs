@@ -9,7 +9,8 @@ public class GameClickHandler
 
     private float _maxClickDistance = 1000f;
 
-    public GameClickHandler(InputHandler inputHandler, Camera camera, LayerMask clickLayer, SelectHandler selectHandler)
+    public GameClickHandler(InputHandler inputHandler, Camera camera, LayerMask clickLayer,
+                            SelectHandler selectHandler)
     {
         _clickLayer = clickLayer;
         _camera = camera;
@@ -21,6 +22,13 @@ public class GameClickHandler
 
     private void OnClick(Vector2 clickPosition)
     {
+        bool isPaused = Time.timeScale == 0;
+
+        if (isPaused)
+        {
+            return;
+        }
+
         Ray ray = _camera.ScreenPointToRay(clickPosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit, _maxClickDistance, _clickLayer))

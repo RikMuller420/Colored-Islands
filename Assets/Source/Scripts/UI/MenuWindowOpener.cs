@@ -16,7 +16,7 @@ public class MenuWindowOpener : MonoBehaviour
         _button.onClick.RemoveListener(Open);
     }
 
-    private void Open()
+    protected virtual void Open()
     {
         _window.Open();
     }

@@ -44,6 +44,7 @@ public class ZoneUi : MonoBehaviour
         _canvasGroup
             .DOFade(_maxAlpha, _fadeDuration)
             .SetEase(Ease.OutQuad)
+            .SetUpdate(true)
             .OnComplete(ActivateInteractivity);
     }
 
@@ -59,6 +60,7 @@ public class ZoneUi : MonoBehaviour
         _canvasGroup
             .DOFade(_minAlpha, _fadeDuration)
             .SetEase(Ease.InQuad)
+            .SetUpdate(true)
             .OnComplete(DeactivateInteractivity);
     }
 

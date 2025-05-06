@@ -825,6 +825,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 111803202}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &114981309 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7365609067511930156, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
+  m_PrefabInstance: {fileID: 1411296878}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &124615308
 GameObject:
   m_ObjectHideFlags: 0
@@ -2699,6 +2704,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4414469057035320861, guid: cc16ddcf2da912e44b652fe5e93a8f1d, type: 3}
   m_PrefabInstance: {fileID: 1356661033}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &374538883 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2716597401908191586, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
+  m_PrefabInstance: {fileID: 1411296878}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &376346447
 GameObject:
   m_ObjectHideFlags: 0
@@ -3457,7 +3473,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _button: {fileID: 1138274339}
-  _window: {fileID: 1411296881}
+  _window: {fileID: 1411296884}
 --- !u!1 &442562753
 GameObject:
   m_ObjectHideFlags: 0
@@ -6014,19 +6030,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 691729061}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MenuWindowsSwitch, Assembly-CSharp
-        m_MethodName: OnpenSettings
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &691729061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7589,7 +7593,7 @@ MonoBehaviour:
   - {fileID: 436632465}
   _windows:
   - {fileID: 1783983140}
-  - {fileID: 1411296881}
+  - {fileID: 1411296884}
   - {fileID: 159712521}
   - {fileID: 7622204417380170269}
   - {fileID: 653720335}
@@ -9157,19 +9161,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1138274340}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MenuWindowsSwitch, Assembly-CSharp
-        m_MethodName: OnpenSettings
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1138274340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11701,7 +11693,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 199823094570062222, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7282711344728302931, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
@@ -11713,7 +11706,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7282711344728302931, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 271220662}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7365609067511930156, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 1411296884}
   m_SourcePrefab: {fileID: 100100000, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
 --- !u!224 &1411296879 stripped
 RectTransform:
@@ -11725,17 +11721,27 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7282711344728302931, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
   m_PrefabInstance: {fileID: 1411296878}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1411296881 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 199823094570062222, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
+--- !u!225 &1411296883 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 6481376344471399356, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
   m_PrefabInstance: {fileID: 1411296878}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+--- !u!114 &1411296884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114981309}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9499177f222464a4594c885ed9491be5, type: 3}
+  m_Script: {fileID: 11500000, guid: a9238eae538b4474c98394ce08dd7b30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isOpened: 0
+  _canvasGroup: {fileID: 1411296883}
+  _closeButton: {fileID: 374538883}
+  _menuDimmer: {fileID: 293831156}
 --- !u!1 &1412820159
 GameObject:
   m_ObjectHideFlags: 0
@@ -16598,7 +16604,7 @@ PrefabInstance:
       objectReference: {fileID: 45950916, guid: b7b686fce238ec34e93c9a88f3eb91c8, type: 3}
     - target: {fileID: 3695818413070529757, guid: a18f0a46a240ac643a551dd5a2f11ddc, type: 3}
       propertyPath: m_AspectRatio
-      value: 0.65
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 4862826917508402757, guid: a18f0a46a240ac643a551dd5a2f11ddc, type: 3}
       propertyPath: m_Name

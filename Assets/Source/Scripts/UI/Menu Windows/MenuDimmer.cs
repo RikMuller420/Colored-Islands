@@ -16,7 +16,8 @@ public class MenuDimmer : MonoBehaviour
 
         _backgroundDim
             .DOFade(_maxDimAlpha, _dimFadeDuration)
-            .SetEase(Ease.OutQuad);
+            .SetEase(Ease.OutQuad)
+            .SetUpdate(true);
     }
 
     public void Deactivate()
@@ -26,6 +27,7 @@ public class MenuDimmer : MonoBehaviour
         _backgroundDim
             .DOFade(_minDimAlpha, _dimFadeDuration)
             .SetEase(Ease.InQuad)
+            .SetUpdate(true)
             .OnComplete(StopBlockDimRaycasts);
     }
 
