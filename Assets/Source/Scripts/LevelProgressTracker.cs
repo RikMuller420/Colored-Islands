@@ -1,13 +1,43 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class LevelProgressTracker
+public class LevelProgressTracker : MonoBehaviour
 {
+    [SerializeField] private UnitMover _unitMover;
+
+    private bool _isTracking = false;
     private IReadOnlyCollection<Island> _islands = new List<Island>();
+    private float _levelTime = 0f;
+    private int _levelMoves = 0;
 
     public event Action LevelFinished;
+    public event Action<float> TimeChanged;
+    public event Action<int> MovesChanged;
+    public event Action TrackStarted;
 
-    public void StartTrack(IslandsGroupInitializer islandsGroup, LevelSettings levelSettings)
+    public LevelSettingsData LevelData { get; private set; }
+
+    private void OnEnable()
+    {
+        _unitMover.UnitsMoved += OnUnitsMoved;
+    }
+
+    private void OnDisable()
+    {
+        _unitMover.UnitsMoved -= OnUnitsMoved;
+    }
+
+    private void Update()
+    {
+        if (_isTracking)
+        {
+            _levelTime += Time.deltaTime;
+            TimeChanged?.Invoke(_levelTime);
+        }
+    }
+
+    public void StartTrack(IslandsGroupInitializer islandsGroup, LevelSettingsData levelData)
     {
         StopTrack();
 
@@ -15,19 +45,31 @@ public class LevelProgressTracker
 
         foreach (Island island in _islands)
         {
-            island.IslandFinished += CheckFinishLevel;
+            island.IslandFinished += OnIslandFinished;
         }
+
+        LevelData = levelData;
+        _levelMoves = 0;
+        _levelTime = 0f;
+        _isTracking = true;
+        TrackStarted?.Invoke();
     }
 
     public void StopTrack()
     {
         foreach (Island island in _islands)
         {
-            island.IslandFinished -= CheckFinishLevel;
+            island.IslandFinished -= OnIslandFinished;
         }
     }
 
-    private void CheckFinishLevel()
+    private void OnUnitsMoved()
+    {
+        _levelMoves++;
+        MovesChanged?.Invoke(_levelMoves);
+    }
+
+    private void OnIslandFinished()
     {
         foreach (Island island in _islands)
         {

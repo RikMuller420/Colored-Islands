@@ -1,5 +1,10 @@
-public class UnitMover
+using System;
+using UnityEngine;
+
+public class UnitMover : MonoBehaviour
 {
+    public event Action UnitsMoved;
+
     public void SendUnitsToIsland(BaseIsland homeIsland, Paint paint, BaseIsland targetIsland)
     {
         foreach (Unit unit in homeIsland.GetUnits(paint))
@@ -15,5 +20,7 @@ public class UnitMover
             unit.SetIsland(targetIsland);
             unit.transform.position = placementPoint.Point.position;
         }
+
+        UnitsMoved?.Invoke();
     }
 }

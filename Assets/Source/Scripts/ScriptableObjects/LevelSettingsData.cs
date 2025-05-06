@@ -10,13 +10,6 @@ public struct LevelSettingsData
     [SerializeField] private int _extraStarMoveLimit;
     [SerializeField] private float _extraStarTimeLimit;
 
-    public int Id => _id;
-    public IslandsGroupInitializer LevelPrefab => _levelPrefab;
-    public int BuferIslandSize => _buferIslandSize;
-    public int LevelMoveLimit => _levelMoveLimit;
-    public int ExtraStarMoveLimit => _extraStarMoveLimit;
-    public float ExtraStarTimeLimit => _extraStarTimeLimit;
-
     public LevelSettingsData(int id, IslandsGroupInitializer levelPrefab, int buferIslandSize,
                             int levelMoveLimit, int extraStarMoveLimit, float extraStarTimeLimit)
     {
@@ -27,4 +20,11 @@ public struct LevelSettingsData
         _extraStarMoveLimit = extraStarMoveLimit;
         _extraStarTimeLimit = extraStarTimeLimit;
     }
+
+    public int Id => _id;
+    public IslandsGroupInitializer LevelPrefab => _levelPrefab;
+    public int BuferIslandSize => _buferIslandSize;
+    public int LevelMoveLimit => _levelMoveLimit;
+    public int ExtraStarMoveLimit => _extraStarMoveLimit;
+    public float ExtraStarTimeLimit => _extraStarTimeLimit;
 }

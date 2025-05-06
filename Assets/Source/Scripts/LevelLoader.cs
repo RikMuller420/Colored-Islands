@@ -47,7 +47,7 @@ public class LevelLoader : MonoBehaviour
         _currentBufferIsland = _buferIslands.GetIsland(levelData.BuferIslandSize);
         _currentBufferIsland.Initialize();
 
-        _levelProgressTracker.StartTrack(_currentIslands, _levelSettings);
+        _levelProgressTracker.StartTrack(_currentIslands, levelData);
     }
 
     public void ReloadLastLevel()

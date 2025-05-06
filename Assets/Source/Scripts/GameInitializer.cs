@@ -11,6 +11,8 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private LayerMask _clickLayer;
     [SerializeField] private LevelLoader _levelLoader;
     [SerializeField] private UIZoneSwitcher _uiZoneActivator;
+    [SerializeField] private LevelProgressTracker _levelProgressTracker;
+    [SerializeField] private UnitMover _unitMover;
 
     private void Start()
     {
@@ -20,12 +22,10 @@ public class GameInitializer : MonoBehaviour
     public void InitializeGame()
     {
         Camera camera = Camera.main;
-        LevelProgressTracker levelProgressTracker = new LevelProgressTracker();
         UnitHighlighter unitHighlighter = new UnitHighlighter();
-        UnitMover unitMover = new UnitMover();
-        SelectHandler selectHandler = new SelectHandler(unitHighlighter, unitMover);
+        SelectHandler selectHandler = new SelectHandler(unitHighlighter, _unitMover);
         GameClickHandler gameClickHandler = new GameClickHandler(_inputHandler, camera, _clickLayer, selectHandler);
 
-        _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _buferIslands, levelProgressTracker, _uiZoneActivator);
+        _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _buferIslands, _levelProgressTracker, _uiZoneActivator);
     }
 }
