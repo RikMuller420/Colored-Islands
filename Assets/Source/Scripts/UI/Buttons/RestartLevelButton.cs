@@ -6,6 +6,7 @@ public class RestartLevelButton : MonoBehaviour
     [SerializeField] private Button _button;
     [SerializeField] private ConfirmationMenuWindow _confirmationWindow;
     [SerializeField] private LevelLoader _levelLoader;
+    [SerializeField] private bool _confirmationRequired = false;
 
     private string _confirmationMessage = "Are you sure you wand to restart level?";
 
@@ -21,6 +22,13 @@ public class RestartLevelButton : MonoBehaviour
 
     private void LoadMainMenu()
     {
-        _confirmationWindow.Open(_confirmationMessage, _levelLoader.ReloadLastLevel);
+        if (_confirmationRequired)
+        {
+            _confirmationWindow.Open(_confirmationMessage, _levelLoader.ReloadLastLevel);
+        }
+        else
+        {
+            _levelLoader.ReloadLastLevel();
+        }
     }
 }
