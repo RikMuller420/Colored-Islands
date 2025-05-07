@@ -9,7 +9,6 @@ public class NumberTextGrowAnimator : MonoBehaviour
 
     private TextGrowAnimatorSettings _settings;
 
-
     public void ResetAnimation()
     {
         _text.transform.localScale = Vector3.one;

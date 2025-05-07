@@ -133,6 +133,8 @@ GameObject:
   m_Component:
   - component: {fileID: 11560686}
   - component: {fileID: 11560689}
+  - component: {fileID: 11560691}
+  - component: {fileID: 11560690}
   - component: {fileID: 11560687}
   - component: {fileID: 11560688}
   m_Layer: 5
@@ -170,9 +172,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 11560685}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &11560688
 MonoBehaviour:
@@ -186,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae6699bda461acc4d84a0302c983dc20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isOpened: 1
+  _isOpened: 0
   _canvasGroup: {fileID: 11560687}
 --- !u!114 &11560689
 MonoBehaviour:
@@ -200,6 +202,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99df2e2b3e7e61b42b21267420ed1a5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _movesObjective: {fileID: 11560691}
+  _timeObjective: {fileID: 11560690}
   _moveFiller: {fileID: 762765503}
   _restAviableMovesText: {fileID: 1242523336}
   _levelTimeText: {fileID: 1777287763}
@@ -209,6 +213,38 @@ MonoBehaviour:
   _movesPanelAnimator: {fileID: 983420632866554801}
   _timePanelAnimator: {fileID: 1143054195}
   _progressTracker: {fileID: 1469927571}
+--- !u!114 &11560690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 11560685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aedccd15b41aa843a3585f5f2cd8774, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _levelTimeText: {fileID: 1777287763}
+  _timeForExtraStarText: {fileID: 1143054191}
+  _timePanelAnimator: {fileID: 1143054195}
+--- !u!114 &11560691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 11560685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cbf8686e0741714fa8090cc6aab2938, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveFiller: {fileID: 762765503}
+  _restAviableMovesText: {fileID: 1242523336}
+  _movesForExtraStarText: {fileID: 1398445710}
+  _movesForExtraStarPanel: {fileID: 1622558163}
+  _movesPanelAnimator: {fileID: 983420632866554801}
 --- !u!114 &12139429 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5460146029789945801, guid: a5f6a8ede2d0d0f438e9f1c840968977, type: 3}
