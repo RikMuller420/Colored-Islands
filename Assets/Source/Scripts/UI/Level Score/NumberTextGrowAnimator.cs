@@ -6,21 +6,19 @@ public class NumberTextGrowAnimator : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _text;
     [SerializeField] private string _textPrefix = "+";
-    [SerializeField] private float _growAnimationDuration = 1f;
-    [SerializeField] private int _pulseCycles = 8;
-    [SerializeField] private float _pulseFrequency = 0.15f;
-    [SerializeField] private float _pulseMinSize = 1f;
-    [SerializeField] private float _pulseMaxSize = 1.15f;
-    [SerializeField] private float _animationDelay = 0f;
+
+    private TextGrowAnimatorSettings _settings;
+
 
     public void ResetAnimation()
     {
-        _text.transform.localScale = Vector3.one * _pulseMinSize;
+        _text.transform.localScale = Vector3.one;
         _text.text = string.Empty;
     }
 
-    public void ShowGrowAnimation(int resultValue)
+    public void ShowGrowAnimation(TextGrowAnimatorSettings settings, int resultValue)
     {
+        _settings = settings;
         ResetAnimation();
         ShowTextValueGrowAnimation(resultValue);
         ShowPulseAnimation();
@@ -38,18 +36,18 @@ public class NumberTextGrowAnimator : MonoBehaviour
                 _text.text = $"{_textPrefix}{value}";
             },
             resultValue,
-            _growAnimationDuration
+            _settings.GrowAnimationDuration
             )
             .SetEase(Ease.OutQuad)
-            .SetDelay(_animationDelay);
+            .SetDelay(_settings.AnimationDelay);
     }
 
     private void ShowPulseAnimation()
     {
         _text.transform
-            .DOScale(_pulseMaxSize, _pulseFrequency)
-            .SetLoops(_pulseCycles, LoopType.Yoyo)
+            .DOScale(_settings.PulseMaxSize, _settings.PulseFrequency)
+            .SetLoops(_settings.PulseCycles, LoopType.Yoyo)
             .SetEase(Ease.InOutSine)
-            .SetDelay(_animationDelay);
+            .SetDelay(_settings.AnimationDelay);
     }
 }

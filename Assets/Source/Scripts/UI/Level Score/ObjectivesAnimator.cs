@@ -7,6 +7,7 @@ public class ObjectivesAnimator : MonoBehaviour
     [SerializeField] private ObjectiveAnimator _movesObjective;
     [SerializeField] private ObjectiveAnimator _goldObjective;
     [SerializeField] private NumberTextGrowAnimator _goldTextAnimator;
+    [SerializeField] private TextGrowAnimatorSettings _goldGrowSettings;
 
     public void ResetObjectives()
     {
@@ -38,7 +39,7 @@ public class ObjectivesAnimator : MonoBehaviour
 
         if (progressTracker.ReachedGold > 0)
         {
-            _goldTextAnimator.ShowGrowAnimation(progressTracker.ReachedGold);
+            _goldTextAnimator.ShowGrowAnimation(_goldGrowSettings, progressTracker.ReachedGold);
         }
     }
 

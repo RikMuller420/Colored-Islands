@@ -13,6 +13,7 @@ public class LevelProgressTracker : MonoBehaviour
     private int _levelMoves = 0;
 
     public event Action LevelFinished;
+    public event Action LevelFailed;
     public event Action<float> TimeChanged;
     public event Action<int> MovesChanged;
     public event Action TrackStarted;
@@ -77,6 +78,12 @@ public class LevelProgressTracker : MonoBehaviour
     {
         _levelMoves++;
         MovesChanged?.Invoke(_levelMoves);
+
+        if (_levelMoves == LevelData.LevelMoveLimit)
+        {
+            StopTrack();
+            LevelFailed?.Invoke();
+        }
     }
 
     private void OnIslandFinished()

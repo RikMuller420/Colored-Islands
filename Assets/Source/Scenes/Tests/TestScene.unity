@@ -8849,6 +8849,13 @@ MonoBehaviour:
   _movesObjective: {fileID: 469692116}
   _goldObjective: {fileID: 2008947670}
   _goldTextAnimator: {fileID: 2035992728}
+  _goldGrowSettings:
+    _growAnimationDuration: 1
+    _pulseCycles: 8
+    _pulseFrequency: 0.15
+    _pulseMinSize: 1
+    _pulseMaxSize: 1.15
+    _animationDelay: 0
 --- !u!1 &1113528938
 GameObject:
   m_ObjectHideFlags: 0
@@ -13711,7 +13718,7 @@ MonoBehaviour:
   _nextLevelButton: {fileID: 4942710199844184329}
   _levelNumberText: {fileID: 1335095132}
   _starsAnimator: {fileID: 188987276}
-  _scoreAnimator: {fileID: 1983479058}
+  _scoreAnimator: {fileID: 1983479059}
   _objectivesAnimator: {fileID: 1097801604}
   _resultButtons: {fileID: 1945555577}
   _progressTracker: {fileID: 1469927571}
@@ -14236,6 +14243,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1983479057}
+  - component: {fileID: 1983479059}
   - component: {fileID: 1983479058}
   m_Layer: 5
   m_Name: Score Results
@@ -14280,12 +14288,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: {fileID: 755753221}
   _textPrefix: 
-  _growAnimationDuration: 4
-  _pulseCycles: 20
-  _pulseFrequency: 0.2
-  _pulseMinSize: 1
-  _pulseMaxSize: 1.15
-  _animationDelay: 0.5
+--- !u!114 &1983479059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1983479056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df7531067245c3c4a8ca3e60b4346d26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _growAnimator: {fileID: 1983479058}
+  _growSettingsWin:
+    _growAnimationDuration: 4
+    _pulseCycles: 20
+    _pulseFrequency: 0.2
+    _pulseMinSize: 1
+    _pulseMaxSize: 1.15
+    _animationDelay: 0.4
+  _growSettingsFail:
+    _growAnimationDuration: 3
+    _pulseCycles: 14
+    _pulseFrequency: 0.2
+    _pulseMinSize: 1
+    _pulseMaxSize: 1.15
+    _animationDelay: 0.1
 --- !u!1 &1985001050
 GameObject:
   m_ObjectHideFlags: 0
@@ -14934,12 +14963,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: {fileID: 961896536}
   _textPrefix: +
-  _growAnimationDuration: 1
-  _pulseCycles: 8
-  _pulseFrequency: 0.15
-  _pulseMinSize: 1
-  _pulseMaxSize: 1.15
-  _animationDelay: 0
 --- !u!1 &2058851721
 GameObject:
   m_ObjectHideFlags: 0
