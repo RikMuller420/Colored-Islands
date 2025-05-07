@@ -15,24 +15,29 @@ public class NumberTextGrowAnimator : MonoBehaviour
         _text.text = string.Empty;
     }
 
-    public void ShowGrowAnimation(TextGrowAnimatorSettings settings, int resultValue)
+    public void ShowGrowAnimation(TextGrowAnimatorSettings settings, int resultValue, int startValue = 0)
     {
         _settings = settings;
         ResetAnimation();
-        ShowTextValueGrowAnimation(resultValue);
+        ShowTextValueGrowAnimation(resultValue, startValue);
         ShowPulseAnimation();
     }
 
-    private void ShowTextValueGrowAnimation(int resultValue)
+    public void SetValueImediatly(int value)
     {
-        int value = 0;
+        _text.text = CalculateText(value);
+    }
+
+    private void ShowTextValueGrowAnimation(int resultValue, int startValue)
+    {
+        int value = startValue;
 
         DOTween.To(() =>
             value,
             newValue =>
             {
                 value = newValue;
-                _text.text = $"{_textPrefix}{value}";
+                _text.text = CalculateText(value);
             },
             resultValue,
             _settings.GrowAnimationDuration
@@ -48,5 +53,10 @@ public class NumberTextGrowAnimator : MonoBehaviour
             .SetLoops(_settings.PulseCycles, LoopType.Yoyo)
             .SetEase(Ease.InOutSine)
             .SetDelay(_settings.AnimationDelay);
+    }
+
+    private string CalculateText(int value)
+    {
+        return $"{_textPrefix}{value}";
     }
 }
