@@ -5,6 +5,7 @@ using UnityEngine;
 public class LevelProgressTracker : MonoBehaviour
 {
     [SerializeField] private UnitMover _unitMover;
+    [SerializeField] private FinalScoreWindow _finalScoreWindow;
 
     private bool _isTracking = false;
     private IReadOnlyCollection<Island> _islands = new List<Island>();
@@ -16,6 +17,11 @@ public class LevelProgressTracker : MonoBehaviour
     public event Action<int> MovesChanged;
     public event Action TrackStarted;
     public event Action TrackStopped;
+
+    public bool IsTimeTaskDone { get => _levelTime <= LevelData.ExtraStarTimeLimit; }
+    public bool IsMoveTaskDone { get => _levelMoves <= LevelData.ExtraStarMoveLimit; }
+    public int ReachedGold { get => 10; }
+    public int ReachedScore { get => 15000; }
 
     public LevelSettingsData LevelData { get; private set; }
 
@@ -63,6 +69,7 @@ public class LevelProgressTracker : MonoBehaviour
             island.IslandFinished -= OnIslandFinished;
         }
 
+        _isTracking = false;
         TrackStopped?.Invoke();
     }
 
@@ -74,13 +81,13 @@ public class LevelProgressTracker : MonoBehaviour
 
     private void OnIslandFinished()
     {
-        foreach (Island island in _islands)
+        /*foreach (Island island in _islands)
         {
             if (island.IsDone == false)
             {
                 return;
             }
-        }
+        }*/
 
         StopTrack();
         LevelFinished?.Invoke();

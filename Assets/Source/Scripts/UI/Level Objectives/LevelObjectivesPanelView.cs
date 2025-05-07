@@ -7,10 +7,12 @@ using UnityEngine.UI;
 public class LevelObjectivesPanelView : MonoBehaviour
 {
     [SerializeField] private Image _moveFiller;
+
     [SerializeField] private TextMeshProUGUI _restAviableMovesText;
     [SerializeField] private TextMeshProUGUI _levelTimeText;
     [SerializeField] private TextMeshProUGUI _movesForExtraStarText;
     [SerializeField] private TextMeshProUGUI _timeForExtraStarText;
+
     [SerializeField] private RectTransform _movesForExtraStarPanel;
     [SerializeField] private PanelAnimator _movesPanelAnimator;
     [SerializeField] private PanelAnimator _timePanelAnimator;
@@ -87,7 +89,7 @@ public class LevelObjectivesPanelView : MonoBehaviour
 
     private void ResetLevelTimeText()
     {
-        _levelTimeText.text = "0:00";
+        _levelTimeText.text = (SecondsToString(0));
         _levelTimeText
             .DOFade(1f, _fadeDuration)
             .SetEase(Ease.InOutQuad);
