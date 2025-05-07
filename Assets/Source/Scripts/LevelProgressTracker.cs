@@ -11,6 +11,8 @@ public class LevelProgressTracker : MonoBehaviour
     private IReadOnlyCollection<Island> _islands = new List<Island>();
     private float _levelTime = 0f;
     private int _levelMoves = 0;
+    private GoldCalculator _goldCalculator;
+    private ScoreCalculator _scoreCalculator;
 
     public event Action LevelFinished;
     public event Action LevelFailed;
@@ -19,12 +21,19 @@ public class LevelProgressTracker : MonoBehaviour
     public event Action TrackStarted;
     public event Action TrackStopped;
 
+    public bool IsLevelFinished { get; private set; }
     public bool IsTimeTaskDone { get => _levelTime <= LevelData.ExtraStarTimeLimit; }
     public bool IsMoveTaskDone { get => _levelMoves <= LevelData.ExtraStarMoveLimit; }
-    public int ReachedGold { get => 10; }
-    public int ReachedScore { get => 15000; }
+    public int ReachedGold { get; private set; }
+    public int ReachedScore { get; private set; }
 
     public LevelSettingsData LevelData { get; private set; }
+
+    private void Awake()
+    {
+        _goldCalculator = new GoldCalculator(this);
+        _scoreCalculator = new ScoreCalculator(this);
+    }
 
     private void OnEnable()
     {
@@ -59,6 +68,9 @@ public class LevelProgressTracker : MonoBehaviour
         LevelData = levelData;
         _levelMoves = 0;
         _levelTime = 0f;
+        ReachedGold = 0;
+        ReachedScore = 0;
+        IsLevelFinished = false;
         _isTracking = true;
         TrackStarted?.Invoke();
     }
@@ -82,6 +94,7 @@ public class LevelProgressTracker : MonoBehaviour
         if (_levelMoves == LevelData.LevelMoveLimit)
         {
             StopTrack();
+            CalculateRewardsAmount();
             LevelFailed?.Invoke();
         }
     }
@@ -96,7 +109,15 @@ public class LevelProgressTracker : MonoBehaviour
             }
         }*/
 
+        IsLevelFinished = true;
         StopTrack();
+        CalculateRewardsAmount();
         LevelFinished?.Invoke();
+    }
+
+    private void CalculateRewardsAmount()
+    {
+        ReachedGold = _goldCalculator.CalculateGold();
+        ReachedScore = _scoreCalculator.CalculateScore(_levelTime, _levelMoves, _islands);
     }
 }
