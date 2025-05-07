@@ -11,10 +11,12 @@ public class FinalScoreWindow : MenuWindow
     [SerializeField] private StarsAnimator _starsAnimator;
     [SerializeField] private NumberTextGrowAnimator _scoreAnimator;
     [SerializeField] private ObjectivesAnimator _objectivesAnimator;
+    [SerializeField] private ResultButtons _resultButtons;
 
     [SerializeField] private LevelProgressTracker _progressTracker;
 
     private LevelSettingsData _levelData;
+    private float _lastAnimationTimeReduction = 2f;
 
     private new void OnEnable()
     {
@@ -52,20 +54,22 @@ public class FinalScoreWindow : MenuWindow
     private void PreparePanel()
     {
         UpdateLevelData();
+        UpdateLevelNumber();
         _objectivesAnimator.ResetObjectives();
         _starsAnimator.ResetStars();
         _scoreAnimator.ResetAnimation();
-        UpdateLevelNumber();
+        _resultButtons.ResetButtons();
     }
 
     private IEnumerator WinAnimation()
     {
         _scoreAnimator.ShowGrowAnimation(_progressTracker.ReachedScore);
         _starsAnimator.PlayNextStarAnimation();
+        float animationDuration = _starsAnimator.AnmationDuration;
 
-        yield return new WaitForSeconds(_starsAnimator.AnmationDuration);
+        yield return new WaitForSeconds(animationDuration);
 
-        _objectivesAnimator.ShowTimeObjectiveAnimation(_progressTracker, out float animationDuration);
+        _objectivesAnimator.ShowTimeObjectiveAnimation(_progressTracker, out animationDuration);
 
         if (_progressTracker.IsTimeTaskDone)
         {
@@ -83,7 +87,12 @@ public class FinalScoreWindow : MenuWindow
 
         yield return new WaitForSeconds(animationDuration);
 
-        _objectivesAnimator.ShowGoldAnimation(_progressTracker);
+        _objectivesAnimator.ShowGoldAnimation(_progressTracker, out animationDuration);
+        animationDuration /= _lastAnimationTimeReduction;
+
+        yield return new WaitForSeconds(animationDuration);
+
+        _resultButtons.Activate();
     }
 
     private void UpdateLevelData()

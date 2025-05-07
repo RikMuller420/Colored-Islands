@@ -2295,7 +2295,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1705413737421989391, guid: b5e5a6c3c33c8b54aac3d8f179725b3d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1705413737421989391, guid: b5e5a6c3c33c8b54aac3d8f179725b3d, type: 3}
       propertyPath: m_SizeDelta.y
@@ -4377,7 +4377,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7481739804796193709, guid: 94b3ee229c8f8bf4aa5dd4f58da703d4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7481739804796193709, guid: 94b3ee229c8f8bf4aa5dd4f58da703d4, type: 3}
       propertyPath: m_SizeDelta.y
@@ -6712,6 +6712,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1968832244104887360, guid: c4155c2fa60d11044bfb16059d419cf1, type: 3}
   m_PrefabInstance: {fileID: 801598499}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &806089543 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8856112107163699058, guid: 94b3ee229c8f8bf4aa5dd4f58da703d4, type: 3}
+  m_PrefabInstance: {fileID: 651040434}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &852443653
 GameObject:
   m_ObjectHideFlags: 0
@@ -7073,7 +7084,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1705413737421989391, guid: b5e5a6c3c33c8b54aac3d8f179725b3d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1705413737421989391, guid: b5e5a6c3c33c8b54aac3d8f179725b3d, type: 3}
       propertyPath: m_SizeDelta.y
@@ -7153,6 +7164,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1705413737421989391, guid: b5e5a6c3c33c8b54aac3d8f179725b3d, type: 3}
   m_PrefabInstance: {fileID: 887519696}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &887519699 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 763810379978222288, guid: b5e5a6c3c33c8b54aac3d8f179725b3d, type: 3}
+  m_PrefabInstance: {fileID: 887519696}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &892636125
 GameObject:
   m_ObjectHideFlags: 0
@@ -13691,6 +13713,7 @@ MonoBehaviour:
   _starsAnimator: {fileID: 188987276}
   _scoreAnimator: {fileID: 1983479058}
   _objectivesAnimator: {fileID: 1097801604}
+  _resultButtons: {fileID: 1945555577}
   _progressTracker: {fileID: 1469927571}
 --- !u!1001 &1796862339
 PrefabInstance:
@@ -13742,7 +13765,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7481739804796193709, guid: 94b3ee229c8f8bf4aa5dd4f58da703d4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7481739804796193709, guid: 94b3ee229c8f8bf4aa5dd4f58da703d4, type: 3}
       propertyPath: m_SizeDelta.y
@@ -14131,6 +14154,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1945555575}
+  - component: {fileID: 1945555577}
   - component: {fileID: 1945555576}
   m_Layer: 5
   m_Name: Level Buttons
@@ -14187,6 +14211,22 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1945555577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945555574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e63833e51255655479e8d736040d5ae7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttons:
+  - {fileID: 887519699}
+  - {fileID: 806089543}
+  - {fileID: 4942710199844184326}
 --- !u!1 &1983479056
 GameObject:
   m_ObjectHideFlags: 0

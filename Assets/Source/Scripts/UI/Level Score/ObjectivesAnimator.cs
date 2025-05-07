@@ -30,8 +30,9 @@ public class ObjectivesAnimator : MonoBehaviour
         _movesObjective.ShowAppearAnimation(moves, progressTracker.IsMoveTaskDone);
     }
 
-    public void ShowGoldAnimation(LevelProgressTracker progressTracker)
+    public void ShowGoldAnimation(LevelProgressTracker progressTracker, out float animationDuration)
     {
+        animationDuration = _goldObjective.AnimationDuration;
         int reachedGold = 0;
         _goldObjective.ShowAppearAnimation(reachedGold.ToString(), true);
 
