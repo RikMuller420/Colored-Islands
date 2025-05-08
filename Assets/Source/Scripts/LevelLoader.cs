@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -15,6 +16,10 @@ public class LevelLoader : MonoBehaviour
 
     private int _currentLevelId = 1;
 
+    public event Action LevelChanged;
+
+    public LevelSettingsData CurrentLevelData { get; private set; }
+
     public void Initialize(LevelSettings levelSettings, UnitsPool unitsPool, PaintMaterials materials,
                             BuferIslandsHolder buferIslands, LevelProgressTracker levelProgressTracker,
                             UIZoneSwitcher uiZoneActivator)
@@ -25,12 +30,16 @@ public class LevelLoader : MonoBehaviour
         _buferIslands = buferIslands;
         _levelProgressTracker = levelProgressTracker;
         _uiZoneActivator = uiZoneActivator;
+        CurrentLevelData = _levelSettings.MainMenuSettings;
     }
 
     public void LoadMainMenu()
     {
+        CurrentLevelData = _levelSettings.MainMenuSettings;
         UnloadCurrentLevel();
         _uiZoneActivator.SwitchToMainMenuUI();
+        _levelProgressTracker.StopTrack();
+        LevelChanged?.Invoke();
     }
 
     public void LoadLevel(int levelId)
@@ -39,15 +48,17 @@ public class LevelLoader : MonoBehaviour
         _uiZoneActivator.SwitchToInGameUI();
 
         UnloadCurrentLevel();
-        LevelSettingsData levelData = _levelSettings.Levels.FirstOrDefault(level => level.Id == levelId);
+        CurrentLevelData = _levelSettings.Levels.FirstOrDefault(level => level.Id == levelId);
 
-        _currentIslands = Instantiate(levelData.LevelPrefab);
+        _currentIslands = Instantiate(CurrentLevelData.LevelPrefab);
         _currentIslands.Initialize(_unitsPool.Get, _materials);
 
-        _currentBufferIsland = _buferIslands.GetIsland(levelData.BuferIslandSize);
+        _currentBufferIsland = _buferIslands.GetIsland(CurrentLevelData.BuferIslandSize);
         _currentBufferIsland.Initialize();
 
-        _levelProgressTracker.StartTrack(_currentIslands, levelData);
+        _levelProgressTracker.StartTrack(_currentIslands, CurrentLevelData);
+
+        LevelChanged?.Invoke();
     }
 
     public void ReloadLastLevel()
@@ -68,7 +79,6 @@ public class LevelLoader : MonoBehaviour
         }
 
         _unitsPool.ReleaseActiveObjects();
-        _levelProgressTracker.StopTrack();
 
         _currentIslands = null;
         _currentBufferIsland = null;

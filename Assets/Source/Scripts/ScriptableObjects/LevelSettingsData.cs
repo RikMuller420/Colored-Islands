@@ -9,9 +9,14 @@ public struct LevelSettingsData
     [SerializeField] private int _levelMoveLimit;
     [SerializeField] private int _extraStarMoveLimit;
     [SerializeField] private float _extraStarTimeLimit;
+    [SerializeField] private Vector3 _cameraHorizontalOrientationOffset;
+    [SerializeField] private Vector3 _cameraVerticalOrientationOffset;
+    [SerializeField] private float _cameraFoVOffset;
 
     public LevelSettingsData(int id, IslandsGroupInitializer levelPrefab, int buferIslandSize,
-                            int levelMoveLimit, int extraStarMoveLimit, float extraStarTimeLimit)
+                            int levelMoveLimit, int extraStarMoveLimit, float extraStarTimeLimit,
+                            Vector3 cameraHorizontalOrientationOffset, Vector3 cameraVerticalOrientationOffset,
+                            float cameraFoVOffset)
     {
         _id = id;
         _levelPrefab = levelPrefab;
@@ -19,6 +24,9 @@ public struct LevelSettingsData
         _levelMoveLimit = levelMoveLimit;
         _extraStarMoveLimit = extraStarMoveLimit;
         _extraStarTimeLimit = extraStarTimeLimit;
+        _cameraHorizontalOrientationOffset = cameraHorizontalOrientationOffset;
+        _cameraVerticalOrientationOffset = cameraVerticalOrientationOffset;
+        _cameraFoVOffset = cameraFoVOffset;
     }
 
     public int Id => _id;
@@ -27,4 +35,7 @@ public struct LevelSettingsData
     public int LevelMoveLimit => _levelMoveLimit;
     public int ExtraStarMoveLimit => _extraStarMoveLimit;
     public float ExtraStarTimeLimit => _extraStarTimeLimit;
+    public Vector3 CameraHorizontalOrientationOffset => _cameraHorizontalOrientationOffset;
+    public Vector3 CameraVerticalOrientationOffset => _cameraVerticalOrientationOffset;
+    public float CameraFoVOffset => _cameraFoVOffset;
 }
