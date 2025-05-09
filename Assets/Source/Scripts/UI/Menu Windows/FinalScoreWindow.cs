@@ -15,7 +15,6 @@ public class FinalScoreWindow : MenuWindow
 
     [SerializeField] private LevelProgressTracker _progressTracker;
 
-    private LevelSettingsData _levelData;
     private float _lastAnimationTimeReduction = 2f;
 
     private new void OnEnable()
@@ -32,7 +31,7 @@ public class FinalScoreWindow : MenuWindow
         base.OnDisable();
     }
 
-    public void ShowWinAnimation()
+    private void ShowWinAnimation()
     {
         _winTitle.SetActive(true);
         _looseTitle.SetActive(false);
@@ -43,7 +42,7 @@ public class FinalScoreWindow : MenuWindow
         StartCoroutine(WinAnimation());
     }
 
-    public void ShowFailAnimation()
+    private void ShowFailAnimation()
     {
         _winTitle.SetActive(false);
         _looseTitle.SetActive(true);
@@ -56,7 +55,6 @@ public class FinalScoreWindow : MenuWindow
 
     private void PreparePanel()
     {
-        UpdateLevelData();
         UpdateLevelNumber();
         _objectivesAnimator.ResetObjectives();
         _starsAnimator.ResetStars();
@@ -117,13 +115,8 @@ public class FinalScoreWindow : MenuWindow
         _resultButtons.Activate();
     }
 
-    private void UpdateLevelData()
-    {
-        _levelData = _progressTracker.LevelData;
-    }
-
     private void UpdateLevelNumber()
     {
-        _levelNumberText.text = "Level " + _levelData.Id.ToString();
+        _levelNumberText.text = "Level " + _progressTracker.LevelData.Id.ToString();
     }
 }

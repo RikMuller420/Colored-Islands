@@ -12,8 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af900e688d218584699022fad7c91fcf, type: 3}
   m_Name: LevelSettings
   m_EditorClassIdentifier: 
-  _defaultCameraPosition: {x: 0, y: 29, z: -12.5}
-  _defaultCameraFoV: 25
+  _mainMenu:
+    _id: -1
+    _levelPrefab: {fileID: 0}
+    _buferIslandSize: 0
+    _levelMoveLimit: 0
+    _extraStarMoveLimit: 0
+    _extraStarTimeLimit: 0
+    _cameraHorizontalOrientationOffset: {x: 0, y: 0, z: 0}
+    _cameraVerticalOrientationOffset: {x: 0, y: 0, z: 0}
+    _cameraFoVOffset: 0
   _levels:
   - _id: 1
     _levelPrefab: {fileID: 3614847400820163566, guid: 3bb3c19e408fc0d4da7ac538d4ab7447, type: 3}
@@ -21,7 +29,8 @@ MonoBehaviour:
     _levelMoveLimit: 25
     _extraStarMoveLimit: 20
     _extraStarTimeLimit: 60
-    _cameraPositionOffset: {x: 0, y: 0}
+    _cameraHorizontalOrientationOffset: {x: 0, y: 0, z: 0}
+    _cameraVerticalOrientationOffset: {x: 0, y: 0, z: 0}
     _cameraFoVOffset: 0
   - _id: 2
     _levelPrefab: {fileID: 6525206530378424852, guid: 932ab14fa70a27948ac24f9fbc7eeeff, type: 3}
@@ -29,7 +38,8 @@ MonoBehaviour:
     _levelMoveLimit: 40
     _extraStarMoveLimit: 30
     _extraStarTimeLimit: 90
-    _cameraPositionOffset: {x: 0, y: 0}
+    _cameraHorizontalOrientationOffset: {x: 0, y: 0, z: 0}
+    _cameraVerticalOrientationOffset: {x: 0, y: 0, z: 0}
     _cameraFoVOffset: 0
   - _id: 3
     _levelPrefab: {fileID: 2420888058947534553, guid: 77d48a4332b216643a829fef7d2dd661, type: 3}
@@ -37,7 +47,8 @@ MonoBehaviour:
     _levelMoveLimit: 35
     _extraStarMoveLimit: 25
     _extraStarTimeLimit: 60
-    _cameraPositionOffset: {x: 0, y: 0}
+    _cameraHorizontalOrientationOffset: {x: 0, y: 0, z: 0}
+    _cameraVerticalOrientationOffset: {x: 0, y: 0, z: 0}
     _cameraFoVOffset: 0
   - _id: 4
     _levelPrefab: {fileID: 844036864336306811, guid: dfb23da922cf56941890aca37c76f322, type: 3}
@@ -45,7 +56,8 @@ MonoBehaviour:
     _levelMoveLimit: 40
     _extraStarMoveLimit: 30
     _extraStarTimeLimit: 90
-    _cameraPositionOffset: {x: 0, y: 0}
+    _cameraHorizontalOrientationOffset: {x: 0, y: 0, z: 0}
+    _cameraVerticalOrientationOffset: {x: 0, y: 0, z: 0}
     _cameraFoVOffset: 0
   - _id: 5
     _levelPrefab: {fileID: 5441126157504131113, guid: 04473817d7bff704a979fb266c22fc49, type: 3}
@@ -53,5 +65,6 @@ MonoBehaviour:
     _levelMoveLimit: 40
     _extraStarMoveLimit: 30
     _extraStarTimeLimit: 90
-    _cameraPositionOffset: {x: 0, y: 0}
+    _cameraHorizontalOrientationOffset: {x: 0, y: 0, z: 0}
+    _cameraVerticalOrientationOffset: {x: 0, y: 0, z: 0}
     _cameraFoVOffset: 0

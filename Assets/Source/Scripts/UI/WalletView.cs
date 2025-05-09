@@ -3,10 +3,10 @@ using UnityEngine;
 public class WalletView : MonoBehaviour
 {
     [SerializeField] private NumberTextGrowAnimator _goldTextAnimator;
-    [SerializeField] private Wallet _wallet;
     [SerializeField] private TextGrowAnimatorSettings _animationSettings;
 
-    private int _startGoldAmount = 0;
+    private WalletProvider _wallet;
+    private int _currentGoldViewAmount = 0;
 
     private void OnEnable()
     {
@@ -18,15 +18,17 @@ public class WalletView : MonoBehaviour
         _wallet.GoldAmountChanged -= OnGoldAmountChanged;
     }
 
-    private void Start()
+    public void Initialize(WalletProvider walletProvider)
     {
-        _startGoldAmount = _wallet.GoldAmount;
-        _goldTextAnimator.SetValueImediatly(_startGoldAmount);
+        _wallet = walletProvider;
+        _currentGoldViewAmount = _wallet.GoldAmount;
+        _goldTextAnimator.SetValueImediatly(_currentGoldViewAmount);
+        enabled = true;
     }
 
     public void OnGoldAmountChanged(int amount)
     {
-        _goldTextAnimator.ShowGrowAnimation(_animationSettings, amount, _startGoldAmount);
-        _startGoldAmount = amount;
+        _goldTextAnimator.ShowGrowAnimation(_animationSettings, amount, _currentGoldViewAmount);
+        _currentGoldViewAmount = amount;
     }
 }

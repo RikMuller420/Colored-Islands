@@ -1,31 +1,39 @@
+using System.Linq;
+
 public class GoldCalculator
 {
-    private int _goldPerStar = 50;
+    private int _goldPerNewStar = 50;
+    private int _goldPerReEarnedStar = 5;
 
     private LevelProgressTracker _progressTracker;
+    private GameProgressStorage _progressStorage;
 
-    public GoldCalculator(LevelProgressTracker progressTracker)
+    public GoldCalculator(LevelProgressTracker progressTracker, GameProgressStorage gameProgressStorage)
     {
         _progressTracker = progressTracker;
+        _progressStorage = gameProgressStorage;
     }
 
     public int CalculateGold()
     {
-        int gold = 0;
-
-        if (_progressTracker.IsLevelFinished)
+        if (_progressTracker.IsLevelFinished == false)
         {
-            gold += _goldPerStar;
+            return 0;
+        }
 
-            if (_progressTracker.IsTimeTaskDone)
-            {
-                gold += _goldPerStar;
-            }
+        LevelProgress savedProgress = _progressStorage.Levels
+                                    .FirstOrDefault(level => level.Id == _progressTracker.LevelData.Id);
+        int gold = 0;
+        gold += savedProgress.IsDone ? _goldPerReEarnedStar : _goldPerNewStar;
 
-            if (_progressTracker.IsMoveTaskDone)
-            {
-                gold += _goldPerStar;
-            }
+        if (_progressTracker.IsTimeTaskDone)
+        {
+            gold += savedProgress.IsTimeTaskDone ? _goldPerReEarnedStar : _goldPerNewStar;
+        }
+
+        if (_progressTracker.IsMoveTaskDone)
+        {
+            gold += savedProgress.IsMoveTaskDone ? _goldPerNewStar : _goldPerNewStar;
         }
 
         return gold;

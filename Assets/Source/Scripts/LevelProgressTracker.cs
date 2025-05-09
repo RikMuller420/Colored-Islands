@@ -29,12 +29,6 @@ public class LevelProgressTracker : MonoBehaviour
 
     public LevelSettingsData LevelData { get; private set; }
 
-    private void Awake()
-    {
-        _goldCalculator = new GoldCalculator(this);
-        _scoreCalculator = new ScoreCalculator(this);
-    }
-
     private void OnEnable()
     {
         _unitMover.UnitsMoved += OnUnitsMoved;
@@ -52,6 +46,13 @@ public class LevelProgressTracker : MonoBehaviour
             _levelTime += Time.deltaTime;
             TimeChanged?.Invoke(_levelTime);
         }
+    }
+
+    public void Initialize(GameProgressStorage progressStorage)
+    {
+        _goldCalculator = new GoldCalculator(this, progressStorage);
+        _scoreCalculator = new ScoreCalculator(this);
+        enabled = true;
     }
 
     public void StartTrack(IslandsGroupInitializer islandsGroup, LevelSettingsData levelData)
@@ -101,14 +102,31 @@ public class LevelProgressTracker : MonoBehaviour
 
     private void OnIslandFinished()
     {
-        /*foreach (Island island in _islands)
+        foreach (Island island in _islands)
         {
             if (island.IsDone == false)
             {
                 return;
             }
-        }*/
+        }
 
+        IsLevelFinished = true;
+        StopTrack();
+        CalculateRewardsAmount();
+        LevelFinished?.Invoke();
+    }
+
+    //Under TEST UI only
+    public void FailLevel()
+    {
+        StopTrack();
+        CalculateRewardsAmount();
+        LevelFailed?.Invoke();
+    }
+
+    //Under TEST UI only
+    public void FinishLevel()
+    {
         IsLevelFinished = true;
         StopTrack();
         CalculateRewardsAmount();
