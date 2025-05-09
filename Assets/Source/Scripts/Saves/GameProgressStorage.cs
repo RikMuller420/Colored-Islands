@@ -12,6 +12,7 @@ public class GameProgressStorage
     private GameProgress _progress;
 
     public event Action GoldAmountChanged;
+    public event Action LevelProgressChanged;
 
     public GameProgressStorage(LevelSettings levelSettings)
     {
@@ -44,6 +45,7 @@ public class GameProgressStorage
 
         Save();
         GoldAmountChanged?.Invoke();
+        LevelProgressChanged?.Invoke();
     }
 
     public void SetGoldAmount(int amount, bool autoSave = true)
@@ -60,7 +62,6 @@ public class GameProgressStorage
     public void SetScoreAmount(int amount, bool autoSave = true)
     {
         _progress.SetScoreAmount(amount);
-        GoldAmountChanged?.Invoke();
 
         if (autoSave)
         {
@@ -71,7 +72,7 @@ public class GameProgressStorage
     public void UpdateLevelProgress(LevelProgress levelProgress, bool autoSave = true)
     {
         _progress.UpdateLevelProgress(levelProgress);
-        GoldAmountChanged?.Invoke();
+        LevelProgressChanged?.Invoke();
 
         if (autoSave)
         {

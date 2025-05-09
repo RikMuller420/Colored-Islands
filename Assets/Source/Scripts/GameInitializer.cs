@@ -17,6 +17,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private UnitMover _unitMover;
     [SerializeField] private Camera _camera;
     [SerializeField] private WalletView _walletView;
+    [SerializeField] private LastLevelTextUpdater _lastLevelTextUpdater;
 
     [SerializeField] private List<NextLevelButton> _nextLevelButtons = new List<NextLevelButton>();
 
@@ -40,6 +41,7 @@ public class GameInitializer : MonoBehaviour
         }
 
         _walletView.Initialize(walletProvider);
+        _lastLevelTextUpdater.Initialize(gameProgressStorage);
         _levelProgressTracker.Initialize(gameProgressStorage);
 
         _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _buferIslands,

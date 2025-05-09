@@ -27,7 +27,7 @@ public class MovesObjectiveView : MonoBehaviour
         _isMovePanelDropped = false;
     }
 
-    public void ChangeMoves(int moves)
+    public void OnMovesChanged(int moves)
     {
         _restAviableMovesText.text = (_levelData.LevelMoveLimit - moves).ToString();
 

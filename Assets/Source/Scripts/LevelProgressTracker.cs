@@ -18,7 +18,6 @@ public class LevelProgressTracker : MonoBehaviour
     public event Action LevelFailed;
     public event Action<float> TimeChanged;
     public event Action<int> MovesChanged;
-    public event Action TrackStarted;
     public event Action TrackStopped;
 
     public bool IsLevelFinished { get; private set; }
@@ -73,7 +72,6 @@ public class LevelProgressTracker : MonoBehaviour
         ReachedScore = 0;
         IsLevelFinished = false;
         _isTracking = true;
-        TrackStarted?.Invoke();
     }
 
     public void StopTrack()

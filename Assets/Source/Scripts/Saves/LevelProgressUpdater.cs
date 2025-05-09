@@ -27,8 +27,8 @@ public class LevelProgressUpdater
         int newGoldAmount = _progressStorage.GoldAmount + _progressTracker.ReachedGold;
         int newScoreAmount = _progressStorage.ScoreAmount + _progressTracker.ReachedScore;
 
-        _progressStorage.UpdateLevelProgress(updatedProgress, false);
         _progressStorage.SetGoldAmount(newGoldAmount, false);
-        _progressStorage.SetScoreAmount(newScoreAmount, true);
+        _progressStorage.SetScoreAmount(newScoreAmount, false);
+        _progressStorage.UpdateLevelProgress(updatedProgress, true);
     }
 }
