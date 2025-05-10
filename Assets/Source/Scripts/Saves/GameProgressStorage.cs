@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using YG;
 
 public class GameProgressStorage
 {
-    private const string SaveKey = "ColoredIslandsSaveData";
-
     private LevelSettings _levelSettings;
     private GameProgressSerializer _progressSerializer;
     private GameProgress _progress;
@@ -83,17 +81,16 @@ public class GameProgressStorage
     public void Save()
     {
         string json = _progressSerializer.Serialize(_progress);
-        PlayerPrefs.SetString(SaveKey, json);
-        PlayerPrefs.Save();
-
-        // YandexGame.SaveData(json);
+        YandexGame.savesData.GameProgress = json;
+        YandexGame.SaveProgress();
     }
 
     private void LoadSavedProgress()
     {
-        if (PlayerPrefs.HasKey(SaveKey))
+        string json = YandexGame.savesData.GameProgress;
+
+        if (json != "")
         {
-            string json = PlayerPrefs.GetString(SaveKey);
             _progress = _progressSerializer.Deserialize(json);
         }
         else
@@ -107,8 +104,6 @@ public class GameProgressStorage
 
             Save();
         }
-
-        // YandexGame.LoadData((json) => { ... });
     }
 
     private bool IsNewLevelsCreatedInBuild(IReadOnlyCollection<LevelSettingsData> actualLevels, 
@@ -136,6 +131,4 @@ public class GameProgressStorage
             _progress.AddLevel(new LevelProgress(newLevel.Id));
         }
     }
-
-
 }
