@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameInitializer : MonoBehaviour
@@ -18,8 +17,10 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private WalletView _walletView;
     [SerializeField] private LastLevelTextUpdater _lastLevelTextUpdater;
+    [SerializeField] private FinalScoreWindow _finalScoreWindow;
 
-    [SerializeField] private List<NextLevelButton> _nextLevelButtons = new List<NextLevelButton>();
+    [SerializeField] private FirstUnfinishedLevelButton _firstUnfinishedLevelButton;
+    [SerializeField] private NextLevelButton _nextLevelButton;
 
     private void Start()
     {
@@ -35,14 +36,13 @@ public class GameInitializer : MonoBehaviour
         LevelProgressUpdater levelProgressUpdater = new LevelProgressUpdater(_levelProgressTracker, gameProgressStorage);
         WalletProvider walletProvider = new WalletProvider(gameProgressStorage);
 
-        foreach (NextLevelButton button in _nextLevelButtons)
-        {
-            button.Initialize(gameProgressStorage);
-        }
-
+        _nextLevelButton.Initialize(_levelLoader);
+        _firstUnfinishedLevelButton.Initialize(gameProgressStorage, _levelLoader);
         _walletView.Initialize(walletProvider);
         _lastLevelTextUpdater.Initialize(gameProgressStorage);
+
         _levelProgressTracker.Initialize(gameProgressStorage);
+        _finalScoreWindow.Initialize(gameProgressStorage, _levelProgressTracker);
 
         _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _buferIslands,
                                 _levelProgressTracker, _uiZoneActivator);

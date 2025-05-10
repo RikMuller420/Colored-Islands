@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -13,7 +14,8 @@ public class FinalScoreWindow : MenuWindow
     [SerializeField] private ObjectivesAnimator _objectivesAnimator;
     [SerializeField] private ResultButtons _resultButtons;
 
-    [SerializeField] private LevelProgressTracker _progressTracker;
+    private GameProgressStorage _progressStorage;
+    private LevelProgressTracker _progressTracker;
 
     private float _lastAnimationTimeReduction = 2f;
 
@@ -31,11 +33,27 @@ public class FinalScoreWindow : MenuWindow
         base.OnDisable();
     }
 
+    public void Initialize(GameProgressStorage progressStorage, LevelProgressTracker progressTracker)
+    {
+        _progressStorage = progressStorage;
+        _progressTracker = progressTracker;
+        enabled = true;
+    }
+
     private void ShowWinAnimation()
     {
         _winTitle.SetActive(true);
         _looseTitle.SetActive(false);
-        _nextLevelButton.gameObject.SetActive(true);
+
+        int currentLevelId = _progressTracker.LevelData.Id;
+        LevelProgress nextLevel = _progressStorage.Levels.FirstOrDefault(level => level.Id > currentLevelId);
+        bool isNextLevelExist = _progressStorage.FirstUnfinishedLevel != null;
+        _nextLevelButton.gameObject.SetActive(nextLevel != null);
+
+        if (nextLevel != null)
+        {
+            _nextLevelButton.SetNextLevelId(nextLevel.Id);
+        }
 
         PreparePanel();
         Open();

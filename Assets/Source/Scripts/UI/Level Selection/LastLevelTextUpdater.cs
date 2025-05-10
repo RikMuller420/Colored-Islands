@@ -1,3 +1,4 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -26,7 +27,13 @@ public class LastLevelTextUpdater : MonoBehaviour
 
     private void UpdateLevelText()
     {
-        int levelId = _progressStorage.FirstUnfinishedLevel.Id;
-        _levelText.text = $"Last Level: {levelId:D3}";
+        LevelProgress level = _progressStorage.FirstUnfinishedLevel;
+
+        if (level == null)
+        {
+            level = _progressStorage.Levels.Last();
+        }
+
+        _levelText.text = $"Next Level: {level.Id:D3}";
     }
 }

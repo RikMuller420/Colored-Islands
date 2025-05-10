@@ -28,7 +28,7 @@ public class GameProgressStorage
         }
     }
 
-    public LevelProgress FirstUnfinishedLevel => Levels.FirstOrDefault(level => !level.IsDone);
+    public LevelProgress FirstUnfinishedLevel => Levels.FirstOrDefault(level => level.IsDone == false);
     public IReadOnlyCollection<LevelProgress> Levels => _progress.Levels;
     public int ScoreAmount => _progress.ScoreAmount;
     public int GoldAmount => _progress.GoldAmount;

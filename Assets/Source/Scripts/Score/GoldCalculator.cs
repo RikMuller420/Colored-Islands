@@ -33,7 +33,7 @@ public class GoldCalculator
 
         if (_progressTracker.IsMoveTaskDone)
         {
-            gold += savedProgress.IsMoveTaskDone ? _goldPerNewStar : _goldPerNewStar;
+            gold += savedProgress.IsMoveTaskDone ? _goldPerReEarnedStar : _goldPerNewStar;
         }
 
         return gold;

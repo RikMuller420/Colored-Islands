@@ -4,9 +4,9 @@ using UnityEngine.UI;
 public class NextLevelButton : MonoBehaviour
 {
     [SerializeField] private Button _button;
-    [SerializeField] private LevelLoader _levelLoader;
 
-    private GameProgressStorage _gameProgressStorage;
+    private int _nextLevelId = 1;
+    private LevelLoader _levelLoader;
 
     private void OnEnable()
     {
@@ -18,14 +18,19 @@ public class NextLevelButton : MonoBehaviour
         _button.onClick.RemoveListener(LoadNextLevel);
     }
 
-    public void Initialize(GameProgressStorage gameProgressStorage)
+    public void Initialize(LevelLoader levelLoader)
     {
-        _gameProgressStorage = gameProgressStorage;
+        _levelLoader = levelLoader;
+        enabled = true;
+    }
+
+    public void SetNextLevelId(int id)
+    {
+        _nextLevelId = id;
     }
 
     private void LoadNextLevel()
     {
-        int nextLevelId = _gameProgressStorage.FirstUnfinishedLevel.Id;
-        _levelLoader.LoadLevel(nextLevelId);
+        _levelLoader.LoadLevel(_nextLevelId);
     }
 }
