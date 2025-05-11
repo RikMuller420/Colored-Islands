@@ -13,7 +13,6 @@ public class TestUI : MonoBehaviour
     [SerializeField] private Slider _levelSlider;
     [SerializeField] private TextMeshProUGUI _lvlText;
     [SerializeField] private Button _loadButton;
-    [SerializeField] private Button _unloadButton;
     [SerializeField] private Button _addGoldButton;
     [SerializeField] private Button _spendGoldButton;
     [SerializeField] private Button _finishLevelButton;
@@ -27,7 +26,6 @@ public class TestUI : MonoBehaviour
     {
         _levelSlider.onValueChanged.AddListener(OnSliderChange);
         _loadButton.onClick.AddListener(LoadLevel);
-        _unloadButton.onClick.AddListener(UnloadLevel);
         _addGoldButton.onClick.AddListener(AddGold);
         _spendGoldButton.onClick.AddListener(SpendGold);
         _finishLevelButton.onClick.AddListener(FinishLevel);
@@ -38,7 +36,6 @@ public class TestUI : MonoBehaviour
     {
         _levelSlider.onValueChanged.RemoveListener(OnSliderChange);
         _loadButton.onClick.RemoveListener(LoadLevel);
-        _unloadButton.onClick.RemoveListener(UnloadLevel);
         _addGoldButton.onClick.RemoveListener(AddGold);
         _spendGoldButton.onClick.RemoveListener(SpendGold);
         _finishLevelButton.onClick.RemoveListener(FinishLevel);
@@ -64,11 +61,6 @@ public class TestUI : MonoBehaviour
     {
         int level = Mathf.FloorToInt(_levelSlider.value);
         _levelLoader.LoadLevel(level);
-    }
-
-    private void UnloadLevel()
-    {
-        _levelLoader.UnloadCurrentLevel();
     }
 
     private void AddGold()
