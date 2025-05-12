@@ -53,9 +53,9 @@ namespace YG
             if (textLegasy.score && data.score != null) textLegasy.score.text = data.score.ToString();
 
 #if YG_TEXT_MESH_PRO
-            if (textMP.rank && data.rank != null) textMP.rank.text = data.rank.ToString();
+            if (textMP.rank && data.rank != null) textMP.rank.text = $"#{data.rank.ToString()}";
             if (textMP.name && data.name != null) textMP.name.text = data.name;
-            if (textMP.score && data.score != null) textMP.score.text = data.score.ToString();
+            if (textMP.score && data.score != null) textMP.score.text = FormatScore(data.score);
 #endif
             if (imageLoad)
             {
@@ -104,6 +104,33 @@ namespace YG
                     objects[i].enabled = activity;
                 }
             }
+        }
+
+        public string FormatScore(string score)
+        {
+            if (!int.TryParse(score, out int number))
+            {
+                return score;
+            }
+
+            if (number < 1000)
+            {
+                return number.ToString();
+            }
+
+            string[] suffixes = { "", "K", "M", "B", "T" };
+            int index = 0;
+            double value = number;
+
+            while (value >= 1000 && index < suffixes.Length - 1)
+            {
+                value /= 1000;
+                index++;
+            }
+
+            string formatted = value % 1 == 0 ? value.ToString("0") : value.ToString("0.0");
+
+            return $"{formatted}{suffixes[index]}";
         }
     }
 }

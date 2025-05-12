@@ -33,7 +33,7 @@ public class GameInitializer : MonoBehaviour
         SelectHandler selectHandler = new SelectHandler(unitHighlighter, _unitMover);
         GameClickHandler gameClickHandler = new GameClickHandler(_inputHandler, _camera, _clickLayer, selectHandler);
         GameProgressStorage gameProgressStorage = new GameProgressStorage(_levelSettings);
-        LevelProgressUpdater levelProgressUpdater = new LevelProgressUpdater(_levelProgressTracker, gameProgressStorage);
+        GameProgressUpdater levelProgressUpdater = new GameProgressUpdater(_levelProgressTracker, gameProgressStorage);
         WalletProvider walletProvider = new WalletProvider(gameProgressStorage);
 
         _nextLevelButton.Initialize(_levelLoader);

@@ -1,11 +1,14 @@
 using System.Linq;
+using YG;
 
-public class LevelProgressUpdater
+public class GameProgressUpdater
 {
+    private const string LeaderboardKey = "Leaderboard";
+
     private LevelProgressTracker _progressTracker;
     private GameProgressStorage _progressStorage;
 
-    public LevelProgressUpdater(LevelProgressTracker progressTracker, GameProgressStorage progressStorage)
+    public GameProgressUpdater(LevelProgressTracker progressTracker, GameProgressStorage progressStorage)
     {
         _progressTracker = progressTracker;
         _progressStorage = progressStorage;
@@ -30,5 +33,7 @@ public class LevelProgressUpdater
         _progressStorage.SetGoldAmount(newGoldAmount, false);
         _progressStorage.SetScoreAmount(newScoreAmount, false);
         _progressStorage.UpdateLevelProgress(updatedProgress, true);
+
+        YandexGame.NewLeaderboardScores(LeaderboardKey, _progressStorage.ScoreAmount);
     }
 }

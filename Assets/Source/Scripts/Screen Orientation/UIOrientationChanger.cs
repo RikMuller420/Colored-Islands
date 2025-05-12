@@ -8,7 +8,6 @@ public class UIOrientationChanger : MonoBehaviour
 
     private bool _isVertical = true;
 
-
     private void OnEnable()
     {
         _screenSizeChangeTracker.ScreenSizeChanged += TryUpdateOrientation;
