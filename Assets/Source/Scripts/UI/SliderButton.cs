@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +10,7 @@ public class SliderButton : MonoBehaviour
     [SerializeField] private Button _leftButton;
     [SerializeField] private Button _rightButton;
 
-    private List<string> _textVariants;
+    private ReadOnlyCollection<string> _textVariants;
     private int _value;
 
     public event Action<int> ValueChanged;
@@ -27,9 +27,9 @@ public class SliderButton : MonoBehaviour
         _rightButton.onClick.RemoveListener(GoToNextVariant);
     }
 
-    public void Initialize(IEnumerable<string> textVariants, int startValue = 0)
+    public void Initialize(ReadOnlyCollection<string> textVariants, int startValue = 0)
     {
-        _textVariants = new List<string>(textVariants);
+        _textVariants = new ReadOnlyCollection<string>(textVariants);
 
         if (startValue < 0 || startValue >= _textVariants.Count)
         {
@@ -38,6 +38,7 @@ public class SliderButton : MonoBehaviour
 
         _value = startValue;
         UpdateText();
+        enabled = true;
     }
 
     private void GoToNextVariant()

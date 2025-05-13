@@ -1,31 +1,31 @@
 using System.Linq;
-using TMPro;
+using Lean.Localization;
 using UnityEngine;
 
 public class LastLevelTextUpdater : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _levelText;
+    [SerializeField] private LeanToken _levelNumberToken;
 
     private GameProgressStorage _progressStorage;
 
     private void OnEnable()
     {
-        _progressStorage.LevelProgressChanged += UpdateLevelText;
+        _progressStorage.LevelProgressChanged += UpdateLevelNumberToken;
     }
 
     private void OnDisable()
     {
-        _progressStorage.LevelProgressChanged -= UpdateLevelText;
+        _progressStorage.LevelProgressChanged -= UpdateLevelNumberToken;
     }
 
     public void Initialize(GameProgressStorage progressStorage)
     {
         _progressStorage = progressStorage;
-        UpdateLevelText();
+        UpdateLevelNumberToken();
         enabled = true;
     }
 
-    private void UpdateLevelText()
+    private void UpdateLevelNumberToken()
     {
         LevelProgress level = _progressStorage.FirstUnfinishedLevel;
 
@@ -34,6 +34,6 @@ public class LastLevelTextUpdater : MonoBehaviour
             level = _progressStorage.Levels.Last();
         }
 
-        _levelText.text = $"Next Level: {level.Id:D3}";
+        _levelNumberToken.SetValue($"{level.Id:D3}");
     }
 }
