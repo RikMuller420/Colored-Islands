@@ -1,15 +1,16 @@
 using UnityEngine;
+using YG;
 
 public class GameInitializer : MonoBehaviour
 {
     [SerializeField] private TestUI _testUI;
 
     [SerializeField] private LevelSettings _levelSettings;
-    [SerializeField] private UnitsPool _unitsPool;
     [SerializeField] private PaintMaterials _materials;
+    [SerializeField] private LayerMask _clickLayer;
+    [SerializeField] private UnitsPool _unitsPool;
     [SerializeField] private BuferIslandsHolder _buferIslands;
     [SerializeField] private InputHandler _inputHandler;
-    [SerializeField] private LayerMask _clickLayer;
     [SerializeField] private LevelLoader _levelLoader;
     [SerializeField] private UIZoneSwitcher _uiZoneActivator;
     [SerializeField] private LevelProgressTracker _levelProgressTracker;
@@ -18,6 +19,8 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private WalletView _walletView;
     [SerializeField] private LastLevelTextUpdater _lastLevelTextUpdater;
     [SerializeField] private FinalScoreWindow _finalScoreWindow;
+    [SerializeField] private YandexGame _yandexGame;
+
 
     [SerializeField] private FirstUnfinishedLevelButton _firstUnfinishedLevelButton;
     [SerializeField] private NextLevelButton _nextLevelButton;
@@ -35,6 +38,7 @@ public class GameInitializer : MonoBehaviour
         GameProgressStorage gameProgressStorage = new GameProgressStorage(_levelSettings);
         GameProgressUpdater levelProgressUpdater = new GameProgressUpdater(_levelProgressTracker, gameProgressStorage);
         WalletProvider walletProvider = new WalletProvider(gameProgressStorage);
+        FullscreenAdOpener fullscreenAdOpener = new FullscreenAdOpener(_levelLoader, _yandexGame);
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(gameProgressStorage, _levelLoader);
@@ -46,7 +50,6 @@ public class GameInitializer : MonoBehaviour
 
         _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _buferIslands,
                                 _levelProgressTracker, _uiZoneActivator);
-
 
         _testUI.Initialize(gameProgressStorage, walletProvider);
     }
