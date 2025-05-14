@@ -9,8 +9,9 @@ public class BuferIslandInitializer : MonoBehaviour
     [SerializeField] private List<Transform> _points;
 
     public int Size => _points.Count;
+    public BaseIsland Island => _island;
 
-    public void Initialize()
+    public void ResetPoints()
     {
         List<PlacementPoint> placementPoints = new List<PlacementPoint>();
 
@@ -20,7 +21,6 @@ public class BuferIslandInitializer : MonoBehaviour
         }
 
         _island.Initialize(placementPoints);
-        gameObject.SetActive(true);
     }
 
     [ContextMenu("Fill Points")]

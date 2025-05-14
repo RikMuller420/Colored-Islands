@@ -10,9 +10,9 @@ public class LevelLoader : MonoBehaviour
     private BuferIslandsHolder _buferIslands;
     private LevelProgressTracker _levelProgressTracker;
     private UIZoneSwitcher _uiZoneActivator;
+    private LevelDataHolder _levelDataHolder;
 
     private IslandsGroupInitializer _currentIslands;
-    private BuferIslandInitializer _currentBufferIsland;
 
     private int _currentLevelId = 1;
 
@@ -22,7 +22,7 @@ public class LevelLoader : MonoBehaviour
 
     public void Initialize(LevelSettings levelSettings, UnitsPool unitsPool, PaintMaterials materials,
                             BuferIslandsHolder buferIslands, LevelProgressTracker levelProgressTracker,
-                            UIZoneSwitcher uiZoneActivator)
+                            UIZoneSwitcher uiZoneActivator, LevelDataHolder levelDataHolder)
     {
         _levelSettings = levelSettings;
         _unitsPool = unitsPool;
@@ -30,6 +30,7 @@ public class LevelLoader : MonoBehaviour
         _buferIslands = buferIslands;
         _levelProgressTracker = levelProgressTracker;
         _uiZoneActivator = uiZoneActivator;
+        _levelDataHolder = levelDataHolder;
         CurrentLevelData = _levelSettings.MainMenuSettings;
     }
 
@@ -53,10 +54,10 @@ public class LevelLoader : MonoBehaviour
         _currentIslands = Instantiate(CurrentLevelData.LevelPrefab);
         _currentIslands.Initialize(_unitsPool.Get, _materials);
 
-        _currentBufferIsland = _buferIslands.GetIsland(CurrentLevelData.BuferIslandSize);
-        _currentBufferIsland.Initialize();
+        _buferIslands.LoadIsland(CurrentLevelData.BuferIslandSize);
 
-        _levelProgressTracker.StartTrack(_currentIslands, CurrentLevelData);
+        _levelDataHolder.SetLevelData(_currentIslands.Islands, CurrentLevelData);
+        _levelProgressTracker.StartTrack();
 
         LevelChanged?.Invoke();
     }
@@ -73,14 +74,9 @@ public class LevelLoader : MonoBehaviour
             Destroy(_currentIslands.gameObject);
         }
 
-        if (_currentBufferIsland != null)
-        {
-            _currentBufferIsland.gameObject.SetActive(false);
-        }
-
+        _buferIslands.DeactivateCurrentIsland();
         _unitsPool.ReleaseActiveObjects();
 
         _currentIslands = null;
-        _currentBufferIsland = null;
     }
 }

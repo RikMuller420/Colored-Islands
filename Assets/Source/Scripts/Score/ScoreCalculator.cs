@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 public class ScoreCalculator
 {
     private int _anyTryScore = 1500;
@@ -8,18 +6,20 @@ public class ScoreCalculator
     private int _scorePerSavedMove = 200;
 
     private LevelProgressTracker _progressTracker;
+    private LevelDataHolder _levelDataHolder;
 
-    public ScoreCalculator(LevelProgressTracker progressTracker)
+    public ScoreCalculator(LevelProgressTracker progressTracker, LevelDataHolder levelDataHolder)
     {
         _progressTracker = progressTracker;
+        _levelDataHolder = levelDataHolder;
     }
 
-    public int CalculateScore(float levelTime, int levelMoves, IReadOnlyCollection<Island> islands)
+    public int CalculateScore(float levelTime, int levelMoves)
     {
         int score = 0;
         score += _anyTryScore;
 
-        foreach (Island island in islands)
+        foreach (Island island in _levelDataHolder.Islands)
         {
             if (island.IsDone)
             {

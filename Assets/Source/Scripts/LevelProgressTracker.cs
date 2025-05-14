@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelProgressTracker : MonoBehaviour
@@ -8,9 +7,9 @@ public class LevelProgressTracker : MonoBehaviour
     [SerializeField] private FinalScoreWindow _finalScoreWindow;
 
     private bool _isTracking = false;
-    private IReadOnlyCollection<Island> _islands = new List<Island>();
     private float _levelTime = 0f;
     private int _levelMoves = 0;
+    private LevelDataHolder _levelDataHolder;
     private GoldCalculator _goldCalculator;
     private ScoreCalculator _scoreCalculator;
 
@@ -25,8 +24,7 @@ public class LevelProgressTracker : MonoBehaviour
     public bool IsMoveTaskDone { get => _levelMoves <= LevelData.ExtraStarMoveLimit; }
     public int ReachedGold { get; private set; }
     public int ReachedScore { get; private set; }
-
-    public LevelSettingsData LevelData { get; private set; }
+    public LevelSettingsData LevelData => _levelDataHolder.LevelSettings;
 
     private void OnEnable()
     {
@@ -47,25 +45,23 @@ public class LevelProgressTracker : MonoBehaviour
         }
     }
 
-    public void Initialize(GameProgressStorage progressStorage)
+    public void Initialize(GameProgressStorage progressStorage, LevelDataHolder levelDataHolder)
     {
+        _levelDataHolder = levelDataHolder;
         _goldCalculator = new GoldCalculator(this, progressStorage);
-        _scoreCalculator = new ScoreCalculator(this);
+        _scoreCalculator = new ScoreCalculator(this, levelDataHolder);
         enabled = true;
     }
 
-    public void StartTrack(IslandsGroupInitializer islandsGroup, LevelSettingsData levelData)
+    public void StartTrack()
     {
         StopTrack();
 
-        _islands = islandsGroup.Islands;
-
-        foreach (Island island in _islands)
+        foreach (Island island in _levelDataHolder.Islands)
         {
             island.IslandFinished += OnIslandFinished;
         }
 
-        LevelData = levelData;
         _levelMoves = 0;
         _levelTime = 0f;
         ReachedGold = 0;
@@ -76,7 +72,7 @@ public class LevelProgressTracker : MonoBehaviour
 
     public void StopTrack()
     {
-        foreach (Island island in _islands)
+        foreach (Island island in _levelDataHolder.Islands)
         {
             island.IslandFinished -= OnIslandFinished;
         }
@@ -100,7 +96,7 @@ public class LevelProgressTracker : MonoBehaviour
 
     private void OnIslandFinished()
     {
-        foreach (Island island in _islands)
+        foreach (Island island in _levelDataHolder.Islands)
         {
             if (island.IsDone == false)
             {
@@ -134,6 +130,6 @@ public class LevelProgressTracker : MonoBehaviour
     private void CalculateRewardsAmount()
     {
         ReachedGold = _goldCalculator.CalculateGold();
-        ReachedScore = _scoreCalculator.CalculateScore(_levelTime, _levelMoves, _islands);
+        ReachedScore = _scoreCalculator.CalculateScore(_levelTime, _levelMoves);
     }
 }

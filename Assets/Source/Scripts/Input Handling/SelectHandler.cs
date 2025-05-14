@@ -1,17 +1,27 @@
 public class SelectHandler
 {
-    private bool _isUnitsSelected;
+    private SelectState _currentSelection;
     private BaseIsland _selectedIsland;
     private Paint _selectedPaint;
 
     private UnitHighlighter _unitHighlighter;
-    private UnitMover _unitMover;
 
-    public SelectHandler(UnitHighlighter unitHighlighter, UnitMover unitMover)
+    private SelectIslandBehaviour _selectIslandBehaviour;
+    private MoveUnitsBehaviour _moveUnitsBehaviour;
+    private FinishIslandBehaviour _finishIslandBehaviour;
+
+    public SelectHandler(UnitMover unitMover, BuferIslandsHolder buferIslands, LevelDataHolder levelDataHolder)
     {
-        _unitHighlighter = unitHighlighter;
-        _unitMover = unitMover;
+        _unitHighlighter = new UnitHighlighter();
+        _moveUnitsBehaviour = new MoveUnitsBehaviour(this, _unitHighlighter, unitMover);
+        _finishIslandBehaviour = new FinishIslandBehaviour(this, levelDataHolder, buferIslands, unitMover);
+
+        _selectIslandBehaviour = _moveUnitsBehaviour;
     }
+
+    public SelectState CurrentSelection => _currentSelection;
+    public BaseIsland SelectedIsland => _selectedIsland;
+    public Paint SelectedPaint => _selectedPaint;
 
     public void Select(ISelectable selectable)
     {
@@ -22,35 +32,27 @@ public class SelectHandler
                 break;
 
             case BaseIsland island:
-                SelectIsland(island);
+                _selectIslandBehaviour.SelectIsland(island);
                 break;
         }
     }
 
+    public void ResetSelection()
+    {
+        _currentSelection = SelectState.None;
+    }
+
     private void SelectUnit(Unit unit)
     {
-        if (_isUnitsSelected)
+        if (_currentSelection == SelectState.Units)
         {
             _unitHighlighter.UnhighlightUnits(_selectedIsland, _selectedPaint);
         }
 
-        _isUnitsSelected = true;
+        _currentSelection = SelectState.Units;
         _selectedIsland = unit.Island;
         _selectedPaint = unit.Paint;
 
         _unitHighlighter.HighlightUnits(_selectedIsland, _selectedPaint);
-    }
-
-    private void SelectIsland(BaseIsland island)
-    {
-        if (_isUnitsSelected == false || island == _selectedIsland ||
-            island.FreePointsCount == 0)
-        {
-            return;
-        }
-
-        _unitHighlighter.UnhighlightUnits(_selectedIsland, _selectedPaint);
-        _unitMover.SendUnitsToIsland(_selectedIsland, _selectedPaint, island);
-        _isUnitsSelected = false;
     }
 }
