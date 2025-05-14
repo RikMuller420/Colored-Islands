@@ -40,10 +40,11 @@ public class GameInitializer : MonoBehaviour
         WalletProvider walletProvider = new WalletProvider(gameProgressStorage);
         FullscreenAdOpener fullscreenAdOpener = new FullscreenAdOpener(_levelLoader, _yandexGame);
         BufferIslandBoost bufferIslandBoost = new BufferIslandBoost(_buferIslands, _unitMover);
+        ObjectivesFreezeBoost objectivesFreezeBoost = new ObjectivesFreezeBoost(_levelProgressTracker, _unitMover);
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(gameProgressStorage, _levelLoader);
-        _boostButtonInitializer.InitializeButtons(bufferIslandBoost);
+        _boostButtonInitializer.InitializeButtons(bufferIslandBoost, objectivesFreezeBoost);
         _walletView.Initialize(walletProvider);
         _lastLevelTextUpdater.Initialize(gameProgressStorage);
 

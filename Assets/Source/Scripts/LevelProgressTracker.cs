@@ -53,9 +53,9 @@ public class LevelProgressTracker : MonoBehaviour
         enabled = true;
     }
 
-    public void StartTrack()
+    public void StartTracking()
     {
-        StopTrack();
+        StopTracking();
 
         foreach (Island island in _levelDataHolder.Islands)
         {
@@ -70,7 +70,17 @@ public class LevelProgressTracker : MonoBehaviour
         _isTracking = true;
     }
 
-    public void StopTrack()
+    public void PauseTracking()
+    {
+        _isTracking = false;
+    }
+
+    public void ContinueTracking()
+    {
+        _isTracking = true;
+    }
+
+    public void StopTracking()
     {
         foreach (Island island in _levelDataHolder.Islands)
         {
@@ -83,12 +93,17 @@ public class LevelProgressTracker : MonoBehaviour
 
     private void OnUnitsMoved()
     {
+        if (_isTracking == false)
+        {
+            return;
+        }
+
         _levelMoves++;
         MovesChanged?.Invoke(_levelMoves);
 
         if (_levelMoves == LevelData.LevelMoveLimit)
         {
-            StopTrack();
+            StopTracking();
             CalculateRewardsAmount();
             LevelFailed?.Invoke();
         }
@@ -105,7 +120,7 @@ public class LevelProgressTracker : MonoBehaviour
         }
 
         IsLevelFinished = true;
-        StopTrack();
+        StopTracking();
         CalculateRewardsAmount();
         LevelFinished?.Invoke();
     }
@@ -113,7 +128,7 @@ public class LevelProgressTracker : MonoBehaviour
     //Under TEST UI only
     public void FailLevel()
     {
-        StopTrack();
+        StopTracking();
         CalculateRewardsAmount();
         LevelFailed?.Invoke();
     }
@@ -122,7 +137,7 @@ public class LevelProgressTracker : MonoBehaviour
     public void FinishLevel()
     {
         IsLevelFinished = true;
-        StopTrack();
+        StopTracking();
         CalculateRewardsAmount();
         LevelFinished?.Invoke();
     }

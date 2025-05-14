@@ -39,7 +39,7 @@ public class LevelLoader : MonoBehaviour
         CurrentLevelData = _levelSettings.MainMenuSettings;
         UnloadCurrentLevel();
         _uiZoneActivator.SwitchToMainMenuUI();
-        _levelProgressTracker.StopTrack();
+        _levelProgressTracker.StopTracking();
         LevelChanged?.Invoke();
     }
 
@@ -57,7 +57,7 @@ public class LevelLoader : MonoBehaviour
         _buferIslands.LoadIsland(CurrentLevelData.BuferIslandSize);
 
         _levelDataHolder.SetLevelData(_currentIslands.Islands, CurrentLevelData);
-        _levelProgressTracker.StartTrack();
+        _levelProgressTracker.StartTracking();
 
         LevelChanged?.Invoke();
     }

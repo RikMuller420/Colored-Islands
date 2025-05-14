@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BuferIslandBoostButton : MonoBehaviour
+public class ObjectivesFreezeBoostButton : MonoBehaviour
 {
     [SerializeField] private Button _button;
 
-    private BufferIslandBoost _bufferIslandBoost;
+    private ObjectivesFreezeBoost _objectivesFreezeBoost;
 
     private void OnEnable()
     {
@@ -17,13 +17,13 @@ public class BuferIslandBoostButton : MonoBehaviour
         _button.onClick.RemoveListener(ApplyBoost);
     }
 
-    public void Initialize(BufferIslandBoost bufferIslandBoost)
+    public void Initialize(ObjectivesFreezeBoost objectivesFreezeBoost)
     {
-        _bufferIslandBoost = bufferIslandBoost;
+        _objectivesFreezeBoost = objectivesFreezeBoost;
     }
 
     private void ApplyBoost()
     {
-        _bufferIslandBoost.BoostIslandsSize();
+        _objectivesFreezeBoost.FreezeObjectives();
     }
 }
