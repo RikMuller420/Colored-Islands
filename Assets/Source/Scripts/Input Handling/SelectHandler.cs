@@ -10,7 +10,7 @@ public class SelectHandler
     private MoveUnitsBehaviour _moveUnitsBehaviour;
     private FinishIslandBehaviour _finishIslandBehaviour;
 
-    public SelectHandler(UnitMover unitMover, BuferIslandsHolder buferIslands, LevelDataHolder levelDataHolder)
+    public SelectHandler(UnitMover unitMover, BuferIslandsHolder buferIslands, LevelObjectsHolder levelDataHolder)
     {
         _unitHighlighter = new UnitHighlighter();
         _moveUnitsBehaviour = new MoveUnitsBehaviour(this, _unitHighlighter, unitMover);

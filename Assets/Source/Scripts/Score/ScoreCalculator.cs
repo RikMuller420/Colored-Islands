@@ -6,9 +6,9 @@ public class ScoreCalculator
     private int _scorePerSavedMove = 200;
 
     private LevelProgressTracker _progressTracker;
-    private LevelDataHolder _levelDataHolder;
+    private LevelObjectsHolder _levelDataHolder;
 
-    public ScoreCalculator(LevelProgressTracker progressTracker, LevelDataHolder levelDataHolder)
+    public ScoreCalculator(LevelProgressTracker progressTracker, LevelObjectsHolder levelDataHolder)
     {
         _progressTracker = progressTracker;
         _levelDataHolder = levelDataHolder;

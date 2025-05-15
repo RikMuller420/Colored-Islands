@@ -12,9 +12,7 @@ public class Unit : PoolableObject, ISelectable
     {
         _collider = GetComponent<Collider>();
         Island = island;
-        Paint = paint;
-        _unitRenderer = new UnitRenderer(_renderer, paintMaterials);
-        _unitRenderer.SetPaint(paint);
+        SetPaint(paint, paintMaterials);
         Activate();
     }
 
@@ -27,6 +25,13 @@ public class Unit : PoolableObject, ISelectable
     public void SetIsland(BaseIsland island)
     {
         Island = island;
+    }
+
+    public void SetPaint(Paint paint, PaintMaterials paintMaterials)
+    {
+        Paint = paint;
+        _unitRenderer = new UnitRenderer(_renderer, paintMaterials);
+        _unitRenderer.SetPaint(paint);
     }
 
     public void Deactivate()

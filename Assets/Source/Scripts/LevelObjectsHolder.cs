@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 
-public class LevelDataHolder
+public class LevelObjectsHolder
 {
-    public LevelSettingsData LevelSettings { get; private set; }
     public IReadOnlyCollection<Island> Islands { get; private set; }
+    public LevelSettingsData LevelSettings { get; private set; }
 
     public void SetLevelData(IReadOnlyCollection<Island> islands, LevelSettingsData levelData)
     {

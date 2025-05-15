@@ -32,7 +32,7 @@ public class GameInitializer : MonoBehaviour
 
     public void InitializeGame()
     {
-        LevelDataHolder levelDataHolder = new LevelDataHolder();
+        LevelObjectsHolder levelDataHolder = new LevelObjectsHolder();
         SelectHandler selectHandler = new SelectHandler(_unitMover, _buferIslands, levelDataHolder);
         GameClickHandler gameClickHandler = new GameClickHandler(_inputHandler, _camera, _clickLayer, selectHandler);
         GameProgressStorage gameProgressStorage = new GameProgressStorage(_levelSettings);
@@ -41,18 +41,19 @@ public class GameInitializer : MonoBehaviour
         FullscreenAdOpener fullscreenAdOpener = new FullscreenAdOpener(_levelLoader, _yandexGame);
         BufferIslandBoost bufferIslandBoost = new BufferIslandBoost(_buferIslands, _unitMover);
         ObjectivesFreezeBoost objectivesFreezeBoost = new ObjectivesFreezeBoost(_levelProgressTracker, _unitMover);
+        PaintAmountReduceBoost paintAmountReduceBoost = new PaintAmountReduceBoost(levelDataHolder, _buferIslands, _materials);
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(gameProgressStorage, _levelLoader);
-        _boostButtonInitializer.InitializeButtons(bufferIslandBoost, objectivesFreezeBoost);
+        _boostButtonInitializer.InitializeButtons(bufferIslandBoost, objectivesFreezeBoost, paintAmountReduceBoost);
         _walletView.Initialize(walletProvider);
         _lastLevelTextUpdater.Initialize(gameProgressStorage);
 
         _levelProgressTracker.Initialize(gameProgressStorage, levelDataHolder);
         _finalScoreWindow.Initialize(gameProgressStorage, _levelProgressTracker);
 
-        _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _buferIslands,
-                                _levelProgressTracker, _uiZoneActivator, levelDataHolder);
+        _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _levelProgressTracker,
+                                _uiZoneActivator, levelDataHolder, _buferIslands);
 
         _testUI.Initialize(gameProgressStorage, walletProvider);
     }

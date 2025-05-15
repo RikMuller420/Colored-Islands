@@ -5,16 +5,16 @@ public class FinishIslandBehaviour : SelectIslandBehaviour
 {
     private SelectHandler _selectHandler;
     private UnitMover _unitMover;
-    private LevelDataHolder _levelDataHolder;
+    private LevelObjectsHolder _levelDataHolder;
     private BuferIslandsHolder _buferIslands;
 
-    public FinishIslandBehaviour(SelectHandler selectHandler, LevelDataHolder levelDataHolder,
+    public FinishIslandBehaviour(SelectHandler selectHandler, LevelObjectsHolder levelDataHolder,
                                 BuferIslandsHolder buferIslands, UnitMover unitMover)
     {
         _selectHandler = selectHandler;
         _levelDataHolder = levelDataHolder;
-        _buferIslands = buferIslands;
         _unitMover = unitMover;
+        _buferIslands = buferIslands;
     }
 
     public void SelectIsland(BaseIsland baseIsland)
@@ -36,21 +36,21 @@ public class FinishIslandBehaviour : SelectIslandBehaviour
 
         foreach (PlacementPoint point in freePoints)
         {
-            SendAnySuitableUnit(island);
+            MoveAnySuitableUnit(island);
         }
 
         foreach (PlacementPoint point in wrongUnitPoints)
         {
             BaseIsland freeIsland = FindFreeIsland();
             _unitMover.MoveUnit(point.OccupiedUnit, freeIsland);
-            SendAnySuitableUnit(island);
+            MoveAnySuitableUnit(island);
         }
     }
 
-    private void SendAnySuitableUnit(Island homeIsland)
+    private void MoveAnySuitableUnit(Island targetIsland)
     {
-        Unit suitableUnit = FindSutableUnit(homeIsland);
-        _unitMover.MoveUnit(suitableUnit, homeIsland);
+        Unit suitableUnit = FindSutableUnit(targetIsland);
+        _unitMover.MoveUnit(suitableUnit, targetIsland);
     }
 
     private BaseIsland FindFreeIsland()

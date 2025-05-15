@@ -31,13 +31,13 @@ public class Island : BaseIsland
         SetPaint(paint);
     }
 
-    private void SetPaint(Paint paint)
+    public void SetPaint(Paint paint)
     {
         Paint = paint;
         _renderer.SetPaint(paint);
     }
 
-    private void TryFinish()
+    public void TryFinish()
     {
         if (IsDone == false)
         {

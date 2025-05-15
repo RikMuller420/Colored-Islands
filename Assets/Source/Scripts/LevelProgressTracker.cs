@@ -4,12 +4,11 @@ using UnityEngine;
 public class LevelProgressTracker : MonoBehaviour
 {
     [SerializeField] private UnitMover _unitMover;
-    [SerializeField] private FinalScoreWindow _finalScoreWindow;
 
     private bool _isTracking = false;
     private float _levelTime = 0f;
     private int _levelMoves = 0;
-    private LevelDataHolder _levelDataHolder;
+    private LevelObjectsHolder _levelDataHolder;
     private GoldCalculator _goldCalculator;
     private ScoreCalculator _scoreCalculator;
 
@@ -45,7 +44,7 @@ public class LevelProgressTracker : MonoBehaviour
         }
     }
 
-    public void Initialize(GameProgressStorage progressStorage, LevelDataHolder levelDataHolder)
+    public void Initialize(GameProgressStorage progressStorage, LevelObjectsHolder levelDataHolder)
     {
         _levelDataHolder = levelDataHolder;
         _goldCalculator = new GoldCalculator(this, progressStorage);
