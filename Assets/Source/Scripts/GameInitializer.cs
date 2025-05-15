@@ -14,7 +14,6 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private LevelLoader _levelLoader;
     [SerializeField] private UIZoneSwitcher _uiZoneActivator;
     [SerializeField] private LevelProgressTracker _levelProgressTracker;
-    [SerializeField] private UnitMover _unitMover;
     [SerializeField] private Camera _camera;
     [SerializeField] private WalletView _walletView;
     [SerializeField] private LastLevelTextUpdater _lastLevelTextUpdater;
@@ -33,14 +32,15 @@ public class GameInitializer : MonoBehaviour
     public void InitializeGame()
     {
         LevelObjectsHolder levelDataHolder = new LevelObjectsHolder();
-        SelectHandler selectHandler = new SelectHandler(_unitMover, _buferIslands, levelDataHolder);
+        UnitMover unitMover = new UnitMover();
+        SelectHandler selectHandler = new SelectHandler(unitMover, _buferIslands, levelDataHolder);
         GameClickHandler gameClickHandler = new GameClickHandler(_inputHandler, _camera, _clickLayer, selectHandler);
         GameProgressStorage gameProgressStorage = new GameProgressStorage(_levelSettings);
         GameProgressUpdater levelProgressUpdater = new GameProgressUpdater(_levelProgressTracker, gameProgressStorage);
         WalletProvider walletProvider = new WalletProvider(gameProgressStorage);
         FullscreenAdOpener fullscreenAdOpener = new FullscreenAdOpener(_levelLoader, _yandexGame);
-        BufferIslandBoost bufferIslandBoost = new BufferIslandBoost(_buferIslands, _unitMover);
-        ObjectivesFreezeBoost objectivesFreezeBoost = new ObjectivesFreezeBoost(_levelProgressTracker, _unitMover);
+        BufferIslandBoost bufferIslandBoost = new BufferIslandBoost(_buferIslands, unitMover);
+        ObjectivesFreezeBoost objectivesFreezeBoost = new ObjectivesFreezeBoost(_levelProgressTracker, unitMover);
         PaintAmountReduceBoost paintAmountReduceBoost = new PaintAmountReduceBoost(levelDataHolder, _buferIslands, _materials);
 
         _nextLevelButton.Initialize(_levelLoader);
@@ -49,7 +49,7 @@ public class GameInitializer : MonoBehaviour
         _walletView.Initialize(walletProvider);
         _lastLevelTextUpdater.Initialize(gameProgressStorage);
 
-        _levelProgressTracker.Initialize(gameProgressStorage, levelDataHolder);
+        _levelProgressTracker.Initialize(gameProgressStorage, levelDataHolder, unitMover);
         _finalScoreWindow.Initialize(gameProgressStorage, _levelProgressTracker);
 
         _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _levelProgressTracker,

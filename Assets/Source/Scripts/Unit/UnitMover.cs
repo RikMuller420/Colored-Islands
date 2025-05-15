@@ -1,7 +1,6 @@
 using System;
-using UnityEngine;
 
-public class UnitMover : MonoBehaviour
+public class UnitMover
 {
     public event Action UnitsMoved;
 
