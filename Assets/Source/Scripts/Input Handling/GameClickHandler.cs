@@ -2,22 +2,32 @@ using UnityEngine;
 
 public class GameClickHandler
 {
-    private InputHandler _inputHandler;
     private Camera _camera;
-    private LayerMask _clickLayer;
-    private SelectHandler _selectHandler;
 
-    private float _maxClickDistance = 1000f;
+    private ClickHandlerData _currentClickHandler;
+    private ClickHandlerData _defaultClickHandler;
 
-    public GameClickHandler(InputHandler inputHandler, Camera camera, LayerMask clickLayer,
+    public GameClickHandler(InputHandler inputHandler, Camera camera,
+                            LayerMask allIslandsAndUnitsLayer,
                             SelectHandler selectHandler)
     {
-        _clickLayer = clickLayer;
         _camera = camera;
-        _inputHandler = inputHandler;
-        _selectHandler = selectHandler;
+        var defaultClickHandler = new DefaultClickHandlier(selectHandler);
 
-        _inputHandler.Clicked += OnClick;
+        _defaultClickHandler = new ClickHandlerData(defaultClickHandler, allIslandsAndUnitsLayer);
+
+        ResetClickHandler();
+        inputHandler.Clicked += OnClick;
+    }
+
+    public void ResetClickHandler()
+    {
+        _currentClickHandler = _defaultClickHandler;
+    }
+
+    public void SetClickHandler(ClickHandlerData clickHandler)
+    {
+        _currentClickHandler = clickHandler;
     }
 
     private void OnClick(Vector2 clickPosition)
@@ -31,14 +41,9 @@ public class GameClickHandler
 
         Ray ray = _camera.ScreenPointToRay(clickPosition);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, _maxClickDistance, _clickLayer))
+        if (Physics.Raycast(ray, out RaycastHit hit, _currentClickHandler.MaxClickDistance, _currentClickHandler.LayerMask))
         {
-            if (hit.collider.TryGetComponent(out ISelectable selectable))
-            {
-                _selectHandler.Select(selectable);
-
-                return;
-            }
+            _currentClickHandler.ClickHandler.HandleClick(hit);
         }
     }
 }

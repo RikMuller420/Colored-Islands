@@ -1,29 +1,35 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
-public class FinishIslandBehaviour : SelectIslandBehaviour
+public class IslandInstantFinisher : IClickHandler
 {
-    private SelectHandler _selectHandler;
     private UnitMover _unitMover;
     private LevelObjectsHolder _levelDataHolder;
     private BuferIslandsHolder _buferIslands;
 
-    public FinishIslandBehaviour(SelectHandler selectHandler, LevelObjectsHolder levelDataHolder,
-                                BuferIslandsHolder buferIslands, UnitMover unitMover)
+    public event Action IslandFinished;
+
+    public IslandInstantFinisher(LevelObjectsHolder levelDataHolder, BuferIslandsHolder buferIslands,
+                                 UnitMover unitMover)
     {
-        _selectHandler = selectHandler;
         _levelDataHolder = levelDataHolder;
         _unitMover = unitMover;
         _buferIslands = buferIslands;
     }
 
-    public void SelectIsland(BaseIsland baseIsland)
+    public void HandleClick(RaycastHit hit)
     {
-        if (baseIsland is Island island == false)
+        if (hit.collider.TryGetComponent(out Island island))
         {
-            return;
+            FinishIsland(island);
+            IslandFinished?.Invoke();
         }
+    }
 
+    private void FinishIsland(Island island)
+    {
         IReadOnlyCollection<PlacementPoint> freePoints = island.Points
             .Where(point => point.IsFree)
             .ToList()

@@ -7,7 +7,8 @@ public class GameInitializer : MonoBehaviour
 
     [SerializeField] private LevelSettings _levelSettings;
     [SerializeField] private PaintMaterials _materials;
-    [SerializeField] private LayerMask _clickLayer;
+    [SerializeField] private LayerMask _allIslandsAndUnitsLayer;
+    [SerializeField] private LayerMask _paintedIslands;
     [SerializeField] private UnitsPool _unitsPool;
     [SerializeField] private BuferIslandsHolder _buferIslands;
     [SerializeField] private InputHandler _inputHandler;
@@ -23,6 +24,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private FirstUnfinishedLevelButton _firstUnfinishedLevelButton;
     [SerializeField] private NextLevelButton _nextLevelButton;
     [SerializeField] private BoostButtonInitializer _boostButtonInitializer;
+    [SerializeField] private BoostButtonAnimator _boostButtonAnimator;
 
     private void Start()
     {
@@ -31,21 +33,27 @@ public class GameInitializer : MonoBehaviour
 
     public void InitializeGame()
     {
-        LevelObjectsHolder levelDataHolder = new LevelObjectsHolder();
-        UnitMover unitMover = new UnitMover();
-        SelectHandler selectHandler = new SelectHandler(unitMover, _buferIslands, levelDataHolder);
-        GameClickHandler gameClickHandler = new GameClickHandler(_inputHandler, _camera, _clickLayer, selectHandler);
-        GameProgressStorage gameProgressStorage = new GameProgressStorage(_levelSettings);
-        GameProgressUpdater levelProgressUpdater = new GameProgressUpdater(_levelProgressTracker, gameProgressStorage);
-        WalletProvider walletProvider = new WalletProvider(gameProgressStorage);
-        FullscreenAdOpener fullscreenAdOpener = new FullscreenAdOpener(_levelLoader, _yandexGame);
-        BufferIslandBoost bufferIslandBoost = new BufferIslandBoost(_buferIslands, unitMover);
-        ObjectivesFreezeBoost objectivesFreezeBoost = new ObjectivesFreezeBoost(_levelProgressTracker, unitMover);
-        PaintAmountReduceBoost paintAmountReduceBoost = new PaintAmountReduceBoost(levelDataHolder, _buferIslands, _materials);
+        var levelDataHolder = new LevelObjectsHolder();
+        var unitMover = new UnitMover();
+        var selectHandler = new SelectHandler(unitMover, _buferIslands, levelDataHolder);
+        var gameClickHandler = new GameClickHandler(_inputHandler, _camera, _allIslandsAndUnitsLayer,
+                                                    selectHandler);
+        var gameProgressStorage = new GameProgressStorage(_levelSettings);
+        var levelProgressUpdater = new GameProgressUpdater(_levelProgressTracker, gameProgressStorage);
+        var walletProvider = new WalletProvider(gameProgressStorage);
+        var fullscreenAdOpener = new FullscreenAdOpener(_levelLoader, _yandexGame);
+
+        var bufferIslandBoost = new BufferIslandBoost(_buferIslands, unitMover);
+        var objectivesFreezeBoost = new ObjectivesFreezeBoost(_levelProgressTracker, unitMover);
+        var paintAmountReduceBoost = new PaintAmountReduceBoost(levelDataHolder, _buferIslands, _materials);
+        var islandInstantFinisher = new IslandInstantFinisher(levelDataHolder, _buferIslands, unitMover);
+        var islandFinishBoost = new IslandFinishBoost(selectHandler, gameClickHandler, islandInstantFinisher,
+                                                    _paintedIslands, _boostButtonAnimator, _levelLoader);
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(gameProgressStorage, _levelLoader);
-        _boostButtonInitializer.InitializeButtons(bufferIslandBoost, objectivesFreezeBoost, paintAmountReduceBoost);
+        _boostButtonInitializer.InitializeButtons(bufferIslandBoost, objectivesFreezeBoost,
+                                                  paintAmountReduceBoost, islandFinishBoost);
         _walletView.Initialize(walletProvider);
         _lastLevelTextUpdater.Initialize(gameProgressStorage);
 

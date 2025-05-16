@@ -6,9 +6,10 @@ public class BoostButtonInitializer : MonoBehaviour
     [SerializeField] private List<BuferIslandBoostButton> _islandBoostButtons = new();
     [SerializeField] private List<ObjectivesFreezeBoostButton> _objectivesFreezeButtons = new();
     [SerializeField] private List<PaintAmountReduceBoostButton> _paintAmountReduceBoostButtons = new();
+    [SerializeField] private List<IslandFinishBoostButton> _islandFinishBoostButtons = new();
 
     public void InitializeButtons(BufferIslandBoost bufferIslandBoost, ObjectivesFreezeBoost objectivesFreezeBoost,
-                                  PaintAmountReduceBoost paintAmountReduceBoost)
+                                  PaintAmountReduceBoost paintAmountReduceBoost, IslandFinishBoost islandFinishBoost)
     {
         foreach (BuferIslandBoostButton islandBoostButton in _islandBoostButtons)
         {
@@ -20,9 +21,14 @@ public class BoostButtonInitializer : MonoBehaviour
             objectivesFreezeButton.Initialize(objectivesFreezeBoost);
         }
 
-        foreach (PaintAmountReduceBoostButton paintAmountReduceButtons in _paintAmountReduceBoostButtons)
+        foreach (PaintAmountReduceBoostButton paintAmountReduceButton in _paintAmountReduceBoostButtons)
         {
-            paintAmountReduceButtons.Initialize(paintAmountReduceBoost);
+            paintAmountReduceButton.Initialize(paintAmountReduceBoost);
+        }
+
+        foreach (IslandFinishBoostButton islandFinishButton in _islandFinishBoostButtons)
+        {
+            islandFinishButton.Initialize(islandFinishBoost);
         }
     }
 }
