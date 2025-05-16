@@ -1,37 +1,52 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using Newtonsoft.Json;
 
 [Serializable]
 public class GameProgress
 {
-    [SerializeField] private List<LevelProgress> _levels;
-    [SerializeField] private int _scoreAmount;
-    [SerializeField] private int _goldAmount;
+    [JsonProperty] private List<LevelProgress> _levels;
+    [JsonProperty] private int _scoreAmount;
+    [JsonProperty] private int _goldAmount;
+    [JsonProperty] private Dictionary<string, int> _boostsAmounts;
 
     public GameProgress()
     {
         _levels = new List<LevelProgress>();
         _scoreAmount = 0;
         _goldAmount = 0;
+        _boostsAmounts = new Dictionary<string, int>()
+        {
+            { typeof(IslandFinishBoost).FullName, 0 },
+            { typeof(ObjectivesFreezeBoost).FullName, 0 },
+            { typeof(BufferIslandBoost).FullName, 0 },
+            { typeof(PaintAmountReduceBoost).FullName, 0 }
+        };
     }
 
-    public LevelProgress FirstUnfinishedLevel => _levels.FirstOrDefault(level => !level.IsDone);
-    public IReadOnlyCollection<LevelProgress> Levels => _levels.AsReadOnly();
-    public int ScoreAmount => _scoreAmount;
-    public int GoldAmount => _goldAmount;
+    [JsonIgnore] public LevelProgress FirstUnfinishedLevel => _levels.FirstOrDefault(level => !level.IsDone);
+    [JsonIgnore] public IReadOnlyCollection<LevelProgress> Levels => _levels.AsReadOnly();
+    [JsonIgnore] public int ScoreAmount => _scoreAmount;
+    [JsonIgnore] public int GoldAmount => _goldAmount;
+
+    public int GetBoostAmount<T>() where T : Boost => _boostsAmounts[typeof(T).FullName];
+
+    public void SetBoostAmount<T>(int amount) where T : Boost
+    {
+        if (_boostsAmounts.ContainsKey(typeof(T).FullName) == false)
+        {
+            throw new ArgumentException(nameof(T));
+        }
+
+        _boostsAmounts[typeof(T).FullName] = amount;
+    }
 
     public void SetGoldAmount(int amount)
     {
         if (amount < 0)
         {
             throw new ArgumentException(nameof(amount));
-        }
-
-        if (_goldAmount == amount)
-        {
-            return;
         }
 
         _goldAmount = amount;

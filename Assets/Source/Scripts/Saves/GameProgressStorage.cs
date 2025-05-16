@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using YG;
 
 public class GameProgressStorage
@@ -11,6 +12,7 @@ public class GameProgressStorage
 
     public event Action GoldAmountChanged;
     public event Action LevelProgressChanged;
+    public event Action BoostsAmountChanged;
 
     public GameProgressStorage(LevelSettings levelSettings)
     {
@@ -31,19 +33,26 @@ public class GameProgressStorage
     public int ScoreAmount => _progress.ScoreAmount;
     public int GoldAmount => _progress.GoldAmount;
 
+    public int GetBoostAmount<T>() where T : Boost => _progress.GetBoostAmount<T>();
+
     //Used Under TEST UI only
     public void ResetProgress()
     {
-        _progress = new GameProgress();
+        CreateNewSave();
 
-        foreach (LevelSettingsData level in _levelSettings.Levels)
-        {
-            _progress.AddLevel(new LevelProgress(level.Id));
-        }
-
-        Save();
         GoldAmountChanged?.Invoke();
         LevelProgressChanged?.Invoke();
+    }
+
+    public void SetBoostAmount<T>(int amount, bool autoSave = true) where T : Boost
+    {
+        _progress.SetBoostAmount<T>(amount);
+        BoostsAmountChanged?.Invoke();
+
+        if (autoSave)
+        {
+            Save();
+        }
     }
 
     public void SetGoldAmount(int amount, bool autoSave = true)
@@ -91,19 +100,31 @@ public class GameProgressStorage
 
         if (json != "")
         {
-            _progress = _progressSerializer.Deserialize(json);
+            try
+            {
+                _progress = _progressSerializer.Deserialize(json);
+            }
+            catch
+            {
+                CreateNewSave();
+            }
         }
         else
         {
-            _progress = new GameProgress();
-
-            foreach (LevelSettingsData level in _levelSettings.Levels)
-            {
-                _progress.AddLevel(new LevelProgress(level.Id));
-            }
-
-            Save();
+            CreateNewSave();
         }
+    }
+
+    private void CreateNewSave()
+    {
+        _progress = new GameProgress();
+
+        foreach (LevelSettingsData level in _levelSettings.Levels)
+        {
+            _progress.AddLevel(new LevelProgress(level.Id));
+        }
+
+        Save();
     }
 
     private bool IsNewLevelsCreatedInBuild(IReadOnlyCollection<LevelSettingsData> actualLevels, 
@@ -121,7 +142,9 @@ public class GameProgressStorage
             }
         }
 
-        return newLevels.Count == 0;
+        Debug.Log(_progress.Levels.Count + " -> " + actualLevels.Count);
+
+        return newLevels.Count != 0;
     }
 
     private void ActulizeGameProgress(List<LevelSettingsData> newLevels)

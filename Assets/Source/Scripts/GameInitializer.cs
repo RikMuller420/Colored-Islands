@@ -45,7 +45,8 @@ public class GameInitializer : MonoBehaviour
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(gameProgressStorage, _levelLoader);
-        _boostButtonInitializer.Initialize(unitMover, gameClickHandler, selectHandler, levelDataHolder);
+        _boostButtonInitializer.Initialize(unitMover, gameClickHandler, selectHandler, levelDataHolder,
+                                           gameProgressStorage);
         _walletView.Initialize(walletProvider);
         _lastLevelTextUpdater.Initialize(gameProgressStorage);
 

@@ -16,7 +16,7 @@ public class BoostInitializer : MonoBehaviour
     [SerializeField] private List<BoostButton> _islandFinishBoostButtons = new();
 
     public void Initialize(UnitMover unitMover, ClickHandler gameClickHandler, SelectHandler selectHandler,
-                           LevelObjectsHolder levelDataHolder)
+                           LevelObjectsHolder levelDataHolder, GameProgressStorage gameProgressStorage)
     {
 
         var islandInstantFinisher = new IslandFinishBehaviour(levelDataHolder, _buferIslands, unitMover, _paintedIslands);
@@ -26,6 +26,7 @@ public class BoostInitializer : MonoBehaviour
         var bufferIslandBoost = new BufferIslandBoost(_buferIslands, unitMover);
         var objectivesFreezeBoost = new ObjectivesFreezeBoost(_levelProgressTracker, unitMover, _levelLoader);
         var paintAmountReduceBoost = new PaintAmountReduceBoost(levelDataHolder, _buferIslands, _materials);
+        var boostAmountProvider = new BoostAmountProvider(gameProgressStorage);
 
         Dictionary<Boost, IEnumerable<BoostButton>> boostsButtons = new Dictionary<Boost, IEnumerable<BoostButton>>()
         {
@@ -37,16 +38,17 @@ public class BoostInitializer : MonoBehaviour
 
         var boostAvailabilityUpdater = new BoostAvailabilityUpdater(boostsButtons, _levelLoader);
         var boostAnimator = new BoostAnimator(boostsButtons, _objectiveFreezeAnimator);
-        InitializeButtons(boostsButtons);
+        InitializeButtons(boostsButtons, boostAmountProvider);
     }
 
-    private void InitializeButtons(Dictionary<Boost, IEnumerable<BoostButton>> boostsButtons)
+    private void InitializeButtons(Dictionary<Boost, IEnumerable<BoostButton>> boostsButtons,
+                                    BoostAmountProvider boostAmountProvider)
     {
         foreach (var boostButton in boostsButtons)
         {
             foreach (BoostButton button in boostButton.Value)
             {
-                button.Initialize(boostButton.Key);
+                button.Initialize(boostButton.Key, boostAmountProvider);
             }
         }
     }

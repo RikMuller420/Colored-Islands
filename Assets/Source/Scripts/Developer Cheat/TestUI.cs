@@ -19,6 +19,11 @@ public class TestUI : MonoBehaviour
     [SerializeField] private Button _failLevelButton;
     [SerializeField] private Button _resetSaveButton;
 
+    [SerializeField] private Button _addBuferIslandBoostButton;
+    [SerializeField] private Button _addFinishIslandBoostButton;
+    [SerializeField] private Button _addFreezeTimerBoostButton;
+    [SerializeField] private Button _addReduceColorBoostButton;
+
     private WalletProvider _wallet;
     private GameProgressStorage _progressStorage;
 
@@ -31,6 +36,11 @@ public class TestUI : MonoBehaviour
         _finishLevelButton.onClick.AddListener(FinishLevel);
         _failLevelButton.onClick.AddListener(FailLevel);
         _resetSaveButton.onClick.AddListener(ResetSave);
+
+        _addBuferIslandBoostButton.onClick.AddListener(AddBuferIslandBoost);
+        _addFinishIslandBoostButton.onClick.AddListener(AddFinishIslandBoost);
+        _addFreezeTimerBoostButton.onClick.AddListener(AddFreezeTimerBoost);
+        _addReduceColorBoostButton.onClick.AddListener(AddReduceColorBoost);
     }
     private void OnDisable()
     {
@@ -41,6 +51,11 @@ public class TestUI : MonoBehaviour
         _finishLevelButton.onClick.RemoveListener(FinishLevel);
         _failLevelButton.onClick.RemoveListener(FailLevel);
         _resetSaveButton.onClick.RemoveListener(ResetSave);
+
+        _addBuferIslandBoostButton.onClick.RemoveListener(AddBuferIslandBoost);
+        _addFinishIslandBoostButton.onClick.RemoveListener(AddFinishIslandBoost);
+        _addFreezeTimerBoostButton.onClick.RemoveListener(AddFreezeTimerBoost);
+        _addReduceColorBoostButton.onClick.RemoveListener(AddReduceColorBoost);
     }
 
     public void Initialize(GameProgressStorage progressStorage, WalletProvider wallet)
@@ -103,5 +118,29 @@ public class TestUI : MonoBehaviour
     {
         _progressStorage.ResetProgress();
         _levelLoader.LoadMainMenu();
+    }
+
+    private void AddBuferIslandBoost()
+    {
+        int boostAmount = _progressStorage.GetBoostAmount<BufferIslandBoost>() + 1;
+        _progressStorage.SetBoostAmount<BufferIslandBoost>(boostAmount);
+    }
+
+    private void AddFinishIslandBoost()
+    {
+        int boostAmount = _progressStorage.GetBoostAmount<IslandFinishBoost>() + 1;
+        _progressStorage.SetBoostAmount<IslandFinishBoost>(boostAmount);
+    }
+
+    private void AddFreezeTimerBoost()
+    {
+        int boostAmount = _progressStorage.GetBoostAmount<ObjectivesFreezeBoost>() + 1;
+        _progressStorage.SetBoostAmount<ObjectivesFreezeBoost>(boostAmount);
+    }
+
+    private void AddReduceColorBoost()
+    {
+        int boostAmount = _progressStorage.GetBoostAmount<PaintAmountReduceBoost>() + 1;
+        _progressStorage.SetBoostAmount<PaintAmountReduceBoost>(boostAmount);
     }
 }

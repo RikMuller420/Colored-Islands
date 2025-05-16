@@ -14,11 +14,6 @@ public class WalletProvider
 
     public int GoldAmount => _gameProgressStorage.GoldAmount;
 
-    public void OnGoldAmountInSavedProgressChanged()
-    {
-        GoldAmountChanged?.Invoke(GoldAmount);
-    }
-
     public void SpendGold(int amount)
     {
         if (amount < 0)
@@ -33,5 +28,10 @@ public class WalletProvider
 
         int newGoldAmount = GoldAmount - amount;
         _gameProgressStorage.SetGoldAmount(newGoldAmount);
+    }
+
+    private void OnGoldAmountInSavedProgressChanged()
+    {
+        GoldAmountChanged?.Invoke(GoldAmount);
     }
 }

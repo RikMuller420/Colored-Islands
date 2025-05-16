@@ -1,14 +1,14 @@
-using UnityEngine;
+using Newtonsoft.Json;
 
 public class GameProgressSerializer
 {
     public string Serialize(GameProgress data)
     {
-        return JsonUtility.ToJson(data);
+        return JsonConvert.SerializeObject(data);
     }
 
     public GameProgress Deserialize(string json)
     {
-        return JsonUtility.FromJson<GameProgress>(json);
+        return JsonConvert.DeserializeObject<GameProgress>(json);
     }
 }
