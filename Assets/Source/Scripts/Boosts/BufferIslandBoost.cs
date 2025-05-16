@@ -1,4 +1,4 @@
-public class BufferIslandBoost
+public class BufferIslandBoost : Boost
 {
     private BuferIslandsHolder _buferIslandsHolder;
     private UnitMover _unitMover;
@@ -9,7 +9,7 @@ public class BufferIslandBoost
         _unitMover = unitMover;
     }
 
-    public void BoostIslandsSize()
+    public override void TryApplyBoost()
     {
         BaseIsland oldIsland = _buferIslandsHolder.CurrentIsland;
         int newSize = oldIsland.Points.Count + 1;
@@ -27,5 +27,7 @@ public class BufferIslandBoost
 
             _unitMover.MoveUnit(point.OccupiedUnit, newIsland);
         }
+
+        InvokeBoostApplyedEvent();
     }
 }

@@ -1,43 +1,68 @@
-using DG.Tweening;
-using UnityEngine;
-using UnityEngine.UI;
+using System.Collections.Generic;
 
-public class BoostButtonAnimator : MonoBehaviour
+public class BoostButtonAnimator
 {
-    [SerializeField] private Image _buttonBackground;
+    private IEnumerable<BoostButton> _buferIslandBoostButtons;
+    private IEnumerable<BoostButton> _objectivesFreezeButtons;
+    private IEnumerable<BoostButton> _paintAmountReduceBoostButtons;
+    private IEnumerable<BoostButton> _islandFinishBoostButtons;
 
-    private Color _originalColor = Color.white;
-    private Color _blinkColor = new Color(0.6f, 0.6f, 0.6f);
-    private float _blinkDuration = 1f;
-    private Tween _blinkSequence;
-
-    public void ShowFinishIslandAnimation()
+    public void Initialize(IEnumerable<BoostButton> buferIslandBoostButtons,
+                           IEnumerable<BoostButton> objectivesFreezeButtons,
+                           IEnumerable<BoostButton> paintAmountReduceBoostButtons,
+                           IEnumerable<BoostButton> islandFinishBoostButtons)
     {
-    
+        _buferIslandBoostButtons = buferIslandBoostButtons;
+        _objectivesFreezeButtons = objectivesFreezeButtons;
+        _paintAmountReduceBoostButtons = paintAmountReduceBoostButtons;
+        _islandFinishBoostButtons = islandFinishBoostButtons;
     }
 
-    public void StopAnimation()
+    public void HighlightFinishIslandBoost()
     {
-    
+        DisableInteractable(_buferIslandBoostButtons);
+        DisableInteractable(_objectivesFreezeButtons);
+        DisableInteractable(_paintAmountReduceBoostButtons);
+        StartBlinking(_islandFinishBoostButtons);
     }
 
-    public void StartBlinking()
+    public void StopHighlightFinishIslandBoost()
     {
-        _blinkSequence = DOTween.Sequence()
-            .Append(_buttonBackground.DOColor(_blinkColor, _blinkDuration))
-            .Append(_buttonBackground.DOColor(_originalColor, _blinkDuration))
-            .SetLoops(-1)
-            .SetEase(Ease.Linear);
+        EnableInteractable(_buferIslandBoostButtons);
+        EnableInteractable(_objectivesFreezeButtons);
+        EnableInteractable(_paintAmountReduceBoostButtons);
+        StopBlinking(_islandFinishBoostButtons);
     }
 
-    public void StopBlinking()
+    public void EnableInteractable(IEnumerable<BoostButton> buttons)
     {
-        if (_blinkSequence != null)
+        foreach (BoostButton button in buttons)
         {
-            _blinkSequence.Kill();
-            _blinkSequence = null;
+            button.EnableInteractable();
         }
+    }
 
-        _buttonBackground.color = _originalColor;
+    public void DisableInteractable(IEnumerable<BoostButton> buttons)
+    {
+        foreach (BoostButton button in buttons)
+        {
+            button.DisableInteractable();
+        }
+    }
+
+    public void StartBlinking(IEnumerable<BoostButton> buttons)
+    {
+        foreach (BoostButton button in buttons)
+        {
+            button.Animator.StartBlinking();
+        }
+    }
+
+    public void StopBlinking(IEnumerable<BoostButton> buttons)
+    {
+        foreach (BoostButton button in buttons)
+        {
+            button.Animator.StopBlinking();
+        }
     }
 }

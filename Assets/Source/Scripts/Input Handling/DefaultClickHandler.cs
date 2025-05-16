@@ -1,15 +1,15 @@
 using UnityEngine;
 
-public class DefaultClickHandlier : IClickHandler
+public class DefaultClickHandler : ClickBehaviour
 {
     private SelectHandler _selectHandler;
 
-    public DefaultClickHandlier(SelectHandler selectHandler)
+    public DefaultClickHandler(SelectHandler selectHandler, LayerMask layerMask) : base(layerMask)
     {
         _selectHandler = selectHandler;
     }
 
-    public void HandleClick(RaycastHit hit)
+    public override void HandleClick(RaycastHit hit)
     {
         if (hit.collider.TryGetComponent(out ISelectable selectable))
         {

@@ -1,42 +1,54 @@
-using UnityEngine;
-
-public class IslandFinishBoost
+public class IslandFinishBoost : Boost
 {
     private SelectHandler _selectHandler;
-    private GameClickHandler _gameClickHandler;
-    private IslandInstantFinisher _islandInstantFinisher;
-    private ClickHandlerData _islandFinisher;
-    private BoostButtonAnimator _buttonAnimator;
+    private ClickHandler _gameClickHandler;
+    private IslandFinishBehaviour _islandFinishBehaviour;
     private LevelLoader _levelLoader;
 
     private bool _isBoostApplying = false;
 
-    public IslandFinishBoost(SelectHandler selectHandler, GameClickHandler gameClickHandler,
-                             IslandInstantFinisher islandInstantFinisher, LayerMask paintedIslands,
-                             BoostButtonAnimator buttonAnimators, LevelLoader levelLoader)
+    public IslandFinishBoost(SelectHandler selectHandler, ClickHandler gameClickHandler,
+                             IslandFinishBehaviour islandInstantFinisher,
+                             LevelLoader levelLoader)
     {
         _selectHandler = selectHandler;
         _gameClickHandler = gameClickHandler;
-        _islandInstantFinisher = islandInstantFinisher;
-        _islandFinisher = new ClickHandlerData(islandInstantFinisher, paintedIslands);
-        _buttonAnimator = buttonAnimators;
+        _islandFinishBehaviour = islandInstantFinisher;
         _levelLoader = levelLoader;
 
-        _islandInstantFinisher.IslandFinished += OnBoostApplyed;
+        _islandFinishBehaviour.IslandFinished += OnBoostApplyed;
         _levelLoader.LevelChanged += OnLevelChanged;
     }
 
-    public void StartBoostApplying()
+    public override void TryApplyBoost()
+    {
+        if (_isBoostApplying)
+        {
+            StopBoostApplying();
+        }
+        else
+        {
+            StartBoostApplying();
+        }
+    }
+
+    private void StartBoostApplying()
     {
         _selectHandler.ResetSelection();
-        _gameClickHandler.SetClickHandler(_islandFinisher);
-        _buttonAnimator.ShowFinishIslandAnimation();
+        _gameClickHandler.SetClickBehaviour(_islandFinishBehaviour);
         _isBoostApplying = true;
+    }
+
+    private void StopBoostApplying()
+    {
+        _gameClickHandler.ResetClickHandler();
+        _isBoostApplying = false;
     }
 
     private void OnBoostApplyed()
     {
         StopBoostApplying();
+        InvokeBoostApplyedEvent();
     }
 
     private void OnLevelChanged()
@@ -45,12 +57,5 @@ public class IslandFinishBoost
         {
             StopBoostApplying();
         }
-    }
-
-    private void StopBoostApplying()
-    {
-        _gameClickHandler.ResetClickHandler();
-        _buttonAnimator.StopAnimation();
-        _isBoostApplying = false;
     }
 }

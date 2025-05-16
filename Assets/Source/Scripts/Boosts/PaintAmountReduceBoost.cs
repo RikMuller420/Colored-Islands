@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-public class PaintAmountReduceBoost
+public class PaintAmountReduceBoost : Boost
 {
     private LevelObjectsHolder _levelDataHolder;
     private BuferIslandsHolder _buferIslands;
@@ -18,7 +18,7 @@ public class PaintAmountReduceBoost
         _paintMaterials = paintMaterials;
     }
 
-    public void ReduceColorAmount()
+    public override void TryApplyBoost()
     {
         ReadOnlyCollection<Paint> paints = SortedPaints();
 
@@ -47,6 +47,7 @@ public class PaintAmountReduceBoost
         }
 
         SwapUnitsPaint(_buferIslands.CurrentIsland, oldPaint, newPaint);
+        InvokeBoostApplyedEvent();
     }
 
     private void SwapUnitsPaint(BaseIsland island, Paint oldPaint, Paint newPaint)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class IslandInstantFinisher : IClickHandler
+public class IslandFinishBehaviour : ClickBehaviour
 {
     private UnitMover _unitMover;
     private LevelObjectsHolder _levelDataHolder;
@@ -11,15 +11,15 @@ public class IslandInstantFinisher : IClickHandler
 
     public event Action IslandFinished;
 
-    public IslandInstantFinisher(LevelObjectsHolder levelDataHolder, BuferIslandsHolder buferIslands,
-                                 UnitMover unitMover)
+    public IslandFinishBehaviour(LevelObjectsHolder levelDataHolder, BuferIslandsHolder buferIslands,
+                                        UnitMover unitMover, LayerMask layerMask) : base(layerMask)
     {
         _levelDataHolder = levelDataHolder;
         _unitMover = unitMover;
         _buferIslands = buferIslands;
     }
 
-    public void HandleClick(RaycastHit hit)
+    public override void HandleClick(RaycastHit hit)
     {
         if (hit.collider.TryGetComponent(out Island island))
         {
