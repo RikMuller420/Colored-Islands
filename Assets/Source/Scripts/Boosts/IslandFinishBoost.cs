@@ -14,7 +14,8 @@ public class IslandFinishBoost : Boost
 
     public IslandFinishBoost(SelectHandler selectHandler, ClickHandler gameClickHandler,
                              IslandFinishBehaviour islandInstantFinisher,
-                             LevelLoader levelLoader)
+                             LevelLoader levelLoader, BoostAmountProvider boostAmountProvider) :
+                             base(boostAmountProvider)
     {
         _selectHandler = selectHandler;
         _gameClickHandler = gameClickHandler;
@@ -55,7 +56,7 @@ public class IslandFinishBoost : Boost
     private void OnBoostApplyed()
     {
         StopBoostApplying();
-        InvokeBoostApplyedEvent();
+        SpendBoost<IslandFinishBoost>();
     }
 
     private void OnLevelChanged()

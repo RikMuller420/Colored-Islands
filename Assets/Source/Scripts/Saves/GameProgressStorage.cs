@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using YG;
 
 public class GameProgressStorage
@@ -42,6 +41,7 @@ public class GameProgressStorage
 
         GoldAmountChanged?.Invoke();
         LevelProgressChanged?.Invoke();
+        BoostsAmountChanged?.Invoke();
     }
 
     public void SetBoostAmount<T>(int amount, bool autoSave = true) where T : Boost
@@ -141,8 +141,6 @@ public class GameProgressStorage
                 newLevels.Add(actualLevel);
             }
         }
-
-        Debug.Log(_progress.Levels.Count + " -> " + actualLevels.Count);
 
         return newLevels.Count != 0;
     }

@@ -11,7 +11,8 @@ public class PaintAmountReduceBoost : Boost
     private int _bestNewColorIndex = 2;
 
     public PaintAmountReduceBoost(LevelObjectsHolder levelDataHolder, BuferIslandsHolder buferIslands,
-                                    PaintMaterials paintMaterials)
+                                    PaintMaterials paintMaterials, BoostAmountProvider boostAmountProvider) :
+                                    base(boostAmountProvider)
     {
         _levelDataHolder = levelDataHolder;
         _buferIslands = buferIslands;
@@ -47,7 +48,7 @@ public class PaintAmountReduceBoost : Boost
         }
 
         SwapUnitsPaint(_buferIslands.CurrentIsland, oldPaint, newPaint);
-        InvokeBoostApplyedEvent();
+        SpendBoost<PaintAmountReduceBoost>();
     }
 
     private void SwapUnitsPaint(BaseIsland island, Paint oldPaint, Paint newPaint)

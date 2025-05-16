@@ -3,7 +3,8 @@ public class BufferIslandBoost : Boost
     private BuferIslandsHolder _buferIslandsHolder;
     private UnitMover _unitMover;
 
-    public BufferIslandBoost(BuferIslandsHolder buferIslandsHolder, UnitMover unitMover)
+    public BufferIslandBoost(BuferIslandsHolder buferIslandsHolder, UnitMover unitMover,
+                            BoostAmountProvider boostAmountProvider) : base(boostAmountProvider)
     {
         _buferIslandsHolder = buferIslandsHolder;
         _unitMover = unitMover;
@@ -28,6 +29,6 @@ public class BufferIslandBoost : Boost
             _unitMover.MoveUnit(point.OccupiedUnit, newIsland);
         }
 
-        InvokeBoostApplyedEvent();
+        SpendBoost<BufferIslandBoost>();
     }
 }

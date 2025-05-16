@@ -18,15 +18,14 @@ public class BoostInitializer : MonoBehaviour
     public void Initialize(UnitMover unitMover, ClickHandler gameClickHandler, SelectHandler selectHandler,
                            LevelObjectsHolder levelDataHolder, GameProgressStorage gameProgressStorage)
     {
-
+        var boostAmountProvider = new BoostAmountProvider(gameProgressStorage);
         var islandInstantFinisher = new IslandFinishBehaviour(levelDataHolder, _buferIslands, unitMover, _paintedIslands);
 
         var islandFinishBoost = new IslandFinishBoost(selectHandler, gameClickHandler, islandInstantFinisher,
-                                                      _levelLoader);
-        var bufferIslandBoost = new BufferIslandBoost(_buferIslands, unitMover);
-        var objectivesFreezeBoost = new ObjectivesFreezeBoost(_levelProgressTracker, unitMover, _levelLoader);
-        var paintAmountReduceBoost = new PaintAmountReduceBoost(levelDataHolder, _buferIslands, _materials);
-        var boostAmountProvider = new BoostAmountProvider(gameProgressStorage);
+                                                      _levelLoader, boostAmountProvider);
+        var bufferIslandBoost = new BufferIslandBoost(_buferIslands, unitMover, boostAmountProvider);
+        var objectivesFreezeBoost = new ObjectivesFreezeBoost(_levelProgressTracker, unitMover, _levelLoader, boostAmountProvider);
+        var paintAmountReduceBoost = new PaintAmountReduceBoost(levelDataHolder, _buferIslands, _materials, boostAmountProvider);
 
         Dictionary<Boost, IEnumerable<BoostButton>> boostsButtons = new Dictionary<Boost, IEnumerable<BoostButton>>()
         {

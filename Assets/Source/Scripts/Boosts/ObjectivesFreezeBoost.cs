@@ -12,7 +12,8 @@ public class ObjectivesFreezeBoost : Boost
     public event Action BoostStopApplyed;
 
     public ObjectivesFreezeBoost(LevelProgressTracker levelProgressTracker, UnitMover unitMover,
-                                LevelLoader levelLoader)
+                                LevelLoader levelLoader, BoostAmountProvider boostAmountProvider) :
+                                base(boostAmountProvider)       
     {
         _levelProgressTracker = levelProgressTracker;
         _levelLoader = levelLoader;
@@ -26,7 +27,7 @@ public class ObjectivesFreezeBoost : Boost
         _usedMoves = 0;
         _levelProgressTracker.PauseTracking();
         _isBoostApplying = true;
-        InvokeBoostApplyedEvent();
+        SpendBoost<ObjectivesFreezeBoost>();
     }
 
     private void OnUnitMoved()

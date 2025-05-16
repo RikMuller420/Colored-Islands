@@ -46,18 +46,32 @@ public class BoostButton : MonoBehaviour
         Button.interactable = false;
     }
 
-    private void TryApplyBoost() => _boost.TryApplyBoost();
+    private void TryApplyBoost()
+    {
+        if (GetBoostAmount() == 0)
+        {
+            //Открыть окно магазина
+        }
+        else
+        {
+            _boost.TryApplyBoost();
+        }
+    }
 
     private void OnBoostAmountChanged() => UpdateBoostAmountText();
 
     private void UpdateBoostAmountText()
+    {
+        _amountText.text = GetBoostAmount().ToString();
+    }
+
+    private int GetBoostAmount()
     {
         Type boostType = _boost.GetType();
         MethodInfo getBoostAmount = _boostAmountProvider.GetType()
                             .GetMethod(nameof(_boostAmountProvider.BoostAmount))
                             .MakeGenericMethod(boostType);
 
-        int boostAmount = (int)getBoostAmount.Invoke(_boostAmountProvider, null);
-        _amountText.text = boostAmount.ToString();
+        return (int)getBoostAmount.Invoke(_boostAmountProvider, null);
     }
 }
