@@ -1,3 +1,5 @@
+using System;
+
 public class IslandFinishBoost : Boost
 {
     private SelectHandler _selectHandler;
@@ -6,6 +8,9 @@ public class IslandFinishBoost : Boost
     private LevelLoader _levelLoader;
 
     private bool _isBoostApplying = false;
+
+    public event Action BoostStartApplyed;
+    public event Action BoostStopApplyed;
 
     public IslandFinishBoost(SelectHandler selectHandler, ClickHandler gameClickHandler,
                              IslandFinishBehaviour islandInstantFinisher,
@@ -37,12 +42,14 @@ public class IslandFinishBoost : Boost
         _selectHandler.ResetSelection();
         _gameClickHandler.SetClickBehaviour(_islandFinishBehaviour);
         _isBoostApplying = true;
+        BoostStartApplyed?.Invoke();
     }
 
     private void StopBoostApplying()
     {
         _gameClickHandler.ResetClickHandler();
         _isBoostApplying = false;
+        BoostStopApplyed?.Invoke();
     }
 
     private void OnBoostApplyed()

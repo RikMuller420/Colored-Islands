@@ -8,6 +8,7 @@ public class BoostInitializer : MonoBehaviour
     [SerializeField] private PaintMaterials _materials;
     [SerializeField] private LevelLoader _levelLoader;
     [SerializeField] private LevelProgressTracker _levelProgressTracker;
+    [SerializeField] private GameObject _objectiveFreezeAnimator;
 
     [SerializeField] private List<BoostButton> _buferIslandBoostButtons = new();
     [SerializeField] private List<BoostButton> _objectivesFreezeButtons = new();
@@ -35,6 +36,7 @@ public class BoostInitializer : MonoBehaviour
         };
 
         var boostAvailabilityUpdater = new BoostAvailabilityUpdater(boostsButtons, _levelLoader);
+        var boostAnimator = new BoostAnimator(boostsButtons, _objectiveFreezeAnimator);
         InitializeButtons(boostsButtons);
     }
 

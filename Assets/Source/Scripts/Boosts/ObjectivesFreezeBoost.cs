@@ -1,3 +1,5 @@
+using System;
+
 public class ObjectivesFreezeBoost : Boost
 {
     private LevelProgressTracker _levelProgressTracker;
@@ -6,6 +8,8 @@ public class ObjectivesFreezeBoost : Boost
     private int _usedMoves = 0;
     private int _maxMoves = 7;
     private bool _isBoostApplying = false;
+
+    public event Action BoostStopApplyed;
 
     public ObjectivesFreezeBoost(LevelProgressTracker levelProgressTracker, UnitMover unitMover,
                                 LevelLoader levelLoader)
@@ -37,15 +41,21 @@ public class ObjectivesFreezeBoost : Boost
         if (_usedMoves == _maxMoves)
         {
             _levelProgressTracker.ContinueTracking();
-            _isBoostApplying = false;
+            StopBoostApplying();
         }
     }
 
     private void OnLevelChanged()
     {
+        StopBoostApplying();
+    }
+
+    private void StopBoostApplying()
+    {
         if (_isBoostApplying)
         {
             _isBoostApplying = false;
+            BoostStopApplyed?.Invoke();
         }
     }
 }

@@ -22,7 +22,7 @@ public class ButtonAnimator
             .Append(_buttonBackground.DOColor(_blinkColor, _blinkDuration))
             .Append(_buttonBackground.DOColor(_originalColor, _blinkDuration))
             .SetLoops(-1)
-            .SetEase(Ease.Linear);
+            .SetEase(Ease.InOutQuad);
     }
 
     public void StopBlinking()

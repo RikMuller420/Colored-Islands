@@ -30,10 +30,10 @@ public class BoostAvailabilityUpdater
 
     private void OnLevelChanged()
     {
-        SetBoostsAviable();
+        EnableInteractibleInButtons();
     }
 
-    private void SetBoostsAviable()
+    private void EnableInteractibleInButtons()
     {
         foreach (var boostButton in _boostsButtons)
         {
