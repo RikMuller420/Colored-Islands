@@ -4,7 +4,7 @@ public class BoostAmountProvider
 {
     private GameProgressStorage _gameProgressStorage;
 
-    public event Action BoostsAmountChanged;
+    public event Action<BoostType> BoostsAmountChanged;
 
     public BoostAmountProvider(GameProgressStorage gameProgressStorage)
     {
@@ -12,13 +12,11 @@ public class BoostAmountProvider
         _gameProgressStorage.BoostsAmountChanged += OnBoostsAmountInSavedProgressChanged;
     }
 
-    public int BufferIslandBoostAmount => _gameProgressStorage.GetBoostAmount<BufferIslandBoost>();
+    public int BoostAmount(BoostType boostType) => _gameProgressStorage.GetBoostAmount(boostType);
 
-    public int BoostAmount<T>() where T : Boost => _gameProgressStorage.GetBoostAmount<T>();
-
-    public void SpendBoost<T>() where T : Boost
+    public void SpendBoost(BoostType boostType)
     {
-        int boostAmount = BoostAmount<T>();
+        int boostAmount = BoostAmount(boostType);
 
         if (boostAmount == 0)
         {
@@ -26,11 +24,19 @@ public class BoostAmountProvider
         }
 
         boostAmount--;
-        _gameProgressStorage.SetBoostAmount<T>(boostAmount);
+        _gameProgressStorage.SetBoostAmount(boostType, boostAmount);
     }
 
-    private void OnBoostsAmountInSavedProgressChanged()
+    public void AddBoost(BoostType boostType)
     {
-        BoostsAmountChanged?.Invoke();
+        int boostAmount = BoostAmount(boostType);
+        boostAmount++;
+        _gameProgressStorage.SetBoostAmount(boostType, boostAmount);
     }
+
+    private void OnBoostsAmountInSavedProgressChanged(BoostType boostType)
+    {
+        BoostsAmountChanged?.Invoke(boostType);
+    }
+
 }

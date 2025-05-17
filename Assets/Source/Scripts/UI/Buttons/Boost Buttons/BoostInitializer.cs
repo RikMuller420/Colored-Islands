@@ -16,9 +16,8 @@ public class BoostInitializer : MonoBehaviour
     [SerializeField] private List<BoostButton> _islandFinishBoostButtons = new();
 
     public void Initialize(UnitMover unitMover, ClickHandler gameClickHandler, SelectHandler selectHandler,
-                           LevelObjectsHolder levelDataHolder, GameProgressStorage gameProgressStorage)
+                           LevelObjectsHolder levelDataHolder, BoostAmountProvider boostAmountProvider)
     {
-        var boostAmountProvider = new BoostAmountProvider(gameProgressStorage);
         var islandInstantFinisher = new IslandFinishBehaviour(levelDataHolder, _buferIslands, unitMover, _paintedIslands);
 
         var islandFinishBoost = new IslandFinishBoost(selectHandler, gameClickHandler, islandInstantFinisher,

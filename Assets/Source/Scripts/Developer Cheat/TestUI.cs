@@ -40,7 +40,7 @@ public class TestUI : MonoBehaviour
         _addBuferIslandBoostButton.onClick.AddListener(AddBuferIslandBoost);
         _addFinishIslandBoostButton.onClick.AddListener(AddFinishIslandBoost);
         _addFreezeTimerBoostButton.onClick.AddListener(AddFreezeTimerBoost);
-        _addReduceColorBoostButton.onClick.AddListener(AddReduceColorBoost);
+        _addReduceColorBoostButton.onClick.AddListener(AddReducePaintBoost);
     }
     private void OnDisable()
     {
@@ -55,7 +55,7 @@ public class TestUI : MonoBehaviour
         _addBuferIslandBoostButton.onClick.RemoveListener(AddBuferIslandBoost);
         _addFinishIslandBoostButton.onClick.RemoveListener(AddFinishIslandBoost);
         _addFreezeTimerBoostButton.onClick.RemoveListener(AddFreezeTimerBoost);
-        _addReduceColorBoostButton.onClick.RemoveListener(AddReduceColorBoost);
+        _addReduceColorBoostButton.onClick.RemoveListener(AddReducePaintBoost);
     }
 
     public void Initialize(GameProgressStorage progressStorage, WalletProvider wallet)
@@ -122,25 +122,27 @@ public class TestUI : MonoBehaviour
 
     private void AddBuferIslandBoost()
     {
-        int boostAmount = _progressStorage.GetBoostAmount<BufferIslandBoost>() + 1;
-        _progressStorage.SetBoostAmount<BufferIslandBoost>(boostAmount);
+        AddBoost(BoostType.GrowBuferIsland);
     }
 
     private void AddFinishIslandBoost()
     {
-        int boostAmount = _progressStorage.GetBoostAmount<IslandFinishBoost>() + 1;
-        _progressStorage.SetBoostAmount<IslandFinishBoost>(boostAmount);
+        AddBoost(BoostType.FinishIsland);
     }
 
     private void AddFreezeTimerBoost()
     {
-        int boostAmount = _progressStorage.GetBoostAmount<ObjectivesFreezeBoost>() + 1;
-        _progressStorage.SetBoostAmount<ObjectivesFreezeBoost>(boostAmount);
+        AddBoost(BoostType.FreezeObjectives);
     }
 
-    private void AddReduceColorBoost()
+    private void AddReducePaintBoost()
     {
-        int boostAmount = _progressStorage.GetBoostAmount<PaintAmountReduceBoost>() + 1;
-        _progressStorage.SetBoostAmount<PaintAmountReduceBoost>(boostAmount);
+        AddBoost(BoostType.ReducePaints);
+    }
+
+    private void AddBoost(BoostType boostType)
+    {
+        int boostAmount = _progressStorage.GetBoostAmount(boostType) + 1;
+        _progressStorage.SetBoostAmount(boostType, boostAmount);
     }
 }

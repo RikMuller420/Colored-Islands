@@ -23,6 +23,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private FirstUnfinishedLevelButton _firstUnfinishedLevelButton;
     [SerializeField] private NextLevelButton _nextLevelButton;
     [SerializeField] private BoostInitializer _boostButtonInitializer;
+    [SerializeField] private InGameShopInitializer _inGameShopInitializer;
 
     private void Start()
     {
@@ -45,8 +46,13 @@ public class GameInitializer : MonoBehaviour
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(gameProgressStorage, _levelLoader);
+
+        var boostAmountProvider = new BoostAmountProvider(gameProgressStorage);
+
         _boostButtonInitializer.Initialize(unitMover, gameClickHandler, selectHandler, levelDataHolder,
-                                           gameProgressStorage);
+                                           boostAmountProvider);
+        _inGameShopInitializer.Initialize(boostAmountProvider, walletProvider);
+
         _walletView.Initialize(walletProvider);
         _lastLevelTextUpdater.Initialize(gameProgressStorage);
 

@@ -18,6 +18,7 @@ public class PaintAmountReduceBoost : Boost
         _buferIslands = buferIslands;
         _paintMaterials = paintMaterials;
     }
+    public override BoostType Type => BoostType.ReducePaints;
 
     public override void TryApplyBoost()
     {
@@ -48,7 +49,7 @@ public class PaintAmountReduceBoost : Boost
         }
 
         SwapUnitsPaint(_buferIslands.CurrentIsland, oldPaint, newPaint);
-        SpendBoost<PaintAmountReduceBoost>();
+        SpendBoost(Type);
     }
 
     private void SwapUnitsPaint(BaseIsland island, Paint oldPaint, Paint newPaint)

@@ -26,6 +26,8 @@ public class IslandFinishBoost : Boost
         _levelLoader.LevelChanged += OnLevelChanged;
     }
 
+    public override BoostType Type => BoostType.FinishIsland;
+
     public override void TryApplyBoost()
     {
         if (_isBoostApplying)
@@ -56,7 +58,7 @@ public class IslandFinishBoost : Boost
     private void OnBoostApplyed()
     {
         StopBoostApplying();
-        SpendBoost<IslandFinishBoost>();
+        SpendBoost(Type);
     }
 
     private void OnLevelChanged()

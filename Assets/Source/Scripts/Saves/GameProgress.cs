@@ -9,19 +9,19 @@ public class GameProgress
     [JsonProperty] private List<LevelProgress> _levels;
     [JsonProperty] private int _scoreAmount;
     [JsonProperty] private int _goldAmount;
-    [JsonProperty] private Dictionary<string, int> _boostsAmounts;
+    [JsonProperty] private Dictionary<BoostType, int> _boostsAmounts;
 
     public GameProgress()
     {
         _levels = new List<LevelProgress>();
         _scoreAmount = 0;
         _goldAmount = 0;
-        _boostsAmounts = new Dictionary<string, int>()
+        _boostsAmounts = new Dictionary<BoostType, int>()
         {
-            { typeof(IslandFinishBoost).FullName, 0 },
-            { typeof(ObjectivesFreezeBoost).FullName, 0 },
-            { typeof(BufferIslandBoost).FullName, 0 },
-            { typeof(PaintAmountReduceBoost).FullName, 0 }
+            { BoostType.FinishIsland, 0 },
+            { BoostType.FreezeObjectives, 0 },
+            { BoostType.GrowBuferIsland, 0 },
+            { BoostType.ReducePaints, 0 }
         };
     }
 
@@ -30,16 +30,16 @@ public class GameProgress
     [JsonIgnore] public int ScoreAmount => _scoreAmount;
     [JsonIgnore] public int GoldAmount => _goldAmount;
 
-    public int GetBoostAmount<T>() where T : Boost => _boostsAmounts[typeof(T).FullName];
+    public int GetBoostAmount(BoostType boostType) => _boostsAmounts[boostType];
 
-    public void SetBoostAmount<T>(int amount) where T : Boost
+    public void SetBoostAmount(BoostType boostType, int amount)
     {
-        if (_boostsAmounts.ContainsKey(typeof(T).FullName) == false)
+        if (_boostsAmounts.ContainsKey(boostType) == false)
         {
-            throw new ArgumentException(nameof(T));
+            throw new ArgumentException(nameof(boostType));
         }
 
-        _boostsAmounts[typeof(T).FullName] = amount;
+        _boostsAmounts[boostType] = amount;
     }
 
     public void SetGoldAmount(int amount)

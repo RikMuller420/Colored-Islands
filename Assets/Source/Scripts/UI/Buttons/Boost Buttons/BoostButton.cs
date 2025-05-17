@@ -1,5 +1,3 @@
-using System;
-using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +7,8 @@ public class BoostButton : MonoBehaviour
     [SerializeField] protected Button Button;
     [SerializeField] private Image _buttonBackground;
     [SerializeField] private TextMeshProUGUI _amountText;
-    
+    [SerializeField] private BoostSettings _boostSettings;
+
     private BoostAmountProvider _boostAmountProvider;
     private Boost _boost;
 
@@ -58,7 +57,7 @@ public class BoostButton : MonoBehaviour
         }
     }
 
-    private void OnBoostAmountChanged() => UpdateBoostAmountText();
+    private void OnBoostAmountChanged(BoostType boostType) => UpdateBoostAmountText();
 
     private void UpdateBoostAmountText()
     {
@@ -67,11 +66,6 @@ public class BoostButton : MonoBehaviour
 
     private int GetBoostAmount()
     {
-        Type boostType = _boost.GetType();
-        MethodInfo getBoostAmount = _boostAmountProvider.GetType()
-                            .GetMethod(nameof(_boostAmountProvider.BoostAmount))
-                            .MakeGenericMethod(boostType);
-
-        return (int)getBoostAmount.Invoke(_boostAmountProvider, null);
+        return _boostAmountProvider.BoostAmount(_boost.Type);
     }
 }

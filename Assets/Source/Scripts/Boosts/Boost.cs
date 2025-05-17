@@ -1,5 +1,6 @@
 using System;
 
+[Serializable]
 public abstract class Boost 
 {
     private BoostAmountProvider _boostAmountProvider;
@@ -11,11 +12,13 @@ public abstract class Boost
         _boostAmountProvider = boostAmountProvider;
     }
 
+    public abstract BoostType Type { get; }
+
     public abstract void TryApplyBoost();
 
-    protected void SpendBoost<T>() where T : Boost
+    protected void SpendBoost(BoostType boostType)
     {
         BoostApplyed?.Invoke(this);
-        _boostAmountProvider.SpendBoost<T>();
+        _boostAmountProvider.SpendBoost(boostType);
     }
 }

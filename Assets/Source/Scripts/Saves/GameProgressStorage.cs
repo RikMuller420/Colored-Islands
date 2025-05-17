@@ -11,7 +11,7 @@ public class GameProgressStorage
 
     public event Action GoldAmountChanged;
     public event Action LevelProgressChanged;
-    public event Action BoostsAmountChanged;
+    public event Action<BoostType> BoostsAmountChanged;
 
     public GameProgressStorage(LevelSettings levelSettings)
     {
@@ -32,7 +32,7 @@ public class GameProgressStorage
     public int ScoreAmount => _progress.ScoreAmount;
     public int GoldAmount => _progress.GoldAmount;
 
-    public int GetBoostAmount<T>() where T : Boost => _progress.GetBoostAmount<T>();
+    public int GetBoostAmount(BoostType boostType)=> _progress.GetBoostAmount(boostType);
 
     //Used Under TEST UI only
     public void ResetProgress()
@@ -41,13 +41,16 @@ public class GameProgressStorage
 
         GoldAmountChanged?.Invoke();
         LevelProgressChanged?.Invoke();
-        BoostsAmountChanged?.Invoke();
+        BoostsAmountChanged?.Invoke(BoostType.GrowBuferIsland);
+        BoostsAmountChanged?.Invoke(BoostType.FinishIsland);
+        BoostsAmountChanged?.Invoke(BoostType.FreezeObjectives);
+        BoostsAmountChanged?.Invoke(BoostType.ReducePaints);
     }
 
-    public void SetBoostAmount<T>(int amount, bool autoSave = true) where T : Boost
+    public void SetBoostAmount(BoostType boostType, int amount, bool autoSave = true)
     {
-        _progress.SetBoostAmount<T>(amount);
-        BoostsAmountChanged?.Invoke();
+        _progress.SetBoostAmount(boostType, amount);
+        BoostsAmountChanged?.Invoke(boostType);
 
         if (autoSave)
         {

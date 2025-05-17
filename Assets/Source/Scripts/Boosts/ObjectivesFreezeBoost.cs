@@ -22,12 +22,14 @@ public class ObjectivesFreezeBoost : Boost
         levelLoader.LevelChanged += OnLevelChanged;
     }
 
+    public override BoostType Type => BoostType.FreezeObjectives;
+
     public override void TryApplyBoost()
     {
         _usedMoves = 0;
         _levelProgressTracker.PauseTracking();
         _isBoostApplying = true;
-        SpendBoost<ObjectivesFreezeBoost>();
+        SpendBoost(Type);
     }
 
     private void OnUnitMoved()

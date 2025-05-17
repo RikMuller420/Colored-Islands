@@ -1,3 +1,4 @@
+[System.Serializable]
 public class BufferIslandBoost : Boost
 {
     private BuferIslandsHolder _buferIslandsHolder;
@@ -9,6 +10,8 @@ public class BufferIslandBoost : Boost
         _buferIslandsHolder = buferIslandsHolder;
         _unitMover = unitMover;
     }
+
+    public override BoostType Type => BoostType.GrowBuferIsland;
 
     public override void TryApplyBoost()
     {
@@ -29,6 +32,6 @@ public class BufferIslandBoost : Boost
             _unitMover.MoveUnit(point.OccupiedUnit, newIsland);
         }
 
-        SpendBoost<BufferIslandBoost>();
+        SpendBoost(Type);
     }
 }
