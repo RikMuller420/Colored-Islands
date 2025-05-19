@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class BoostAnimator
 {
-    private Dictionary<Boost, IEnumerable<BoostButton>> _boostsButtons;
-    private IEnumerable<BoostButton> _islandFinishBoostButtons;
+    private Dictionary<Boost, BoostButton> _boostsButtons;
+    private BoostButton _islandFinishBoostButton;
     private GameObject _objectiveFreezeAnimator;
 
-    public BoostAnimator(Dictionary<Boost, IEnumerable<BoostButton>> boostsButtons,
+    public BoostAnimator(Dictionary<Boost, BoostButton> boostsButtons,
                         GameObject objectiveFreezeAnimator)
     {
         _boostsButtons = boostsButtons;
@@ -20,7 +20,7 @@ public class BoostAnimator
                 finishIslandBoost.BoostStartApplyed += StartBlinkFinishBoostButton;
                 finishIslandBoost.BoostStopApplyed += StopBlinkFinishBoostButton;
 
-                _islandFinishBoostButtons = boostButton.Value;
+                _islandFinishBoostButton = boostButton.Value;
             }
 
             if (boostButton.Key is ObjectivesFreezeBoost objectivesFreezeBoost)
@@ -33,17 +33,12 @@ public class BoostAnimator
 
     private void StartBlinkFinishBoostButton()
     {
-        foreach (BoostButton button in _islandFinishBoostButtons)
-        {
-            button.Animator.StartBlinking();
-        }
+        _islandFinishBoostButton.Animator.StartBlinking();
+
     }
     private void StopBlinkFinishBoostButton()
     {
-        foreach (BoostButton button in _islandFinishBoostButtons)
-        {
-            button.Animator.StopBlinking();
-        }
+        _islandFinishBoostButton.Animator.StopBlinking();
     }
 
     private void StartObjectivesFreezeAnimation(Boost _)

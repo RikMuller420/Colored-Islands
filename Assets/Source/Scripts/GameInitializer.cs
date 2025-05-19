@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using YG;
 
@@ -5,9 +6,14 @@ public class GameInitializer : MonoBehaviour
 {
     [SerializeField] private TestUI _testUI;
 
+    [Header("Settings")]
     [SerializeField] private LevelSettings _levelSettings;
     [SerializeField] private PaintMaterials _materials;
+    [SerializeField] private BoostSettings _boostSettings;
+    [SerializeField] private YandexGame _yandexGame;
     [SerializeField] private LayerMask _allIslandsAndUnitsLayer;
+
+    [Header("Links")]
     [SerializeField] private UnitsPool _unitsPool;
     [SerializeField] private BuferIslandsHolder _buferIslands;
     [SerializeField] private InputHandler _inputHandler;
@@ -18,16 +24,17 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private WalletView _walletView;
     [SerializeField] private LastLevelTextUpdater _lastLevelTextUpdater;
     [SerializeField] private FinalScoreWindow _finalScoreWindow;
-    [SerializeField] private YandexGame _yandexGame;
 
     [SerializeField] private FirstUnfinishedLevelButton _firstUnfinishedLevelButton;
     [SerializeField] private NextLevelButton _nextLevelButton;
     [SerializeField] private BoostInitializer _boostButtonInitializer;
     [SerializeField] private InGameShopInitializer _inGameShopInitializer;
+    [SerializeField] private BoostBuyConfirmationWindow _boostBuyWindow;
 
     private void Start()
     {
         InitializeGame();
+        _levelLoader.LoadMainMenu();
     }
 
     public void InitializeGame()
@@ -47,11 +54,13 @@ public class GameInitializer : MonoBehaviour
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(gameProgressStorage, _levelLoader);
 
+        var upgradesProvider = new UpgradesProvider(gameProgressStorage);
         var boostAmountProvider = new BoostAmountProvider(gameProgressStorage);
 
         _boostButtonInitializer.Initialize(unitMover, gameClickHandler, selectHandler, levelDataHolder,
                                            boostAmountProvider);
-        _inGameShopInitializer.Initialize(boostAmountProvider, walletProvider);
+        _inGameShopInitializer.Initialize(upgradesProvider, boostAmountProvider, walletProvider);
+        _boostBuyWindow.Initialize(boostAmountProvider, _boostSettings, walletProvider);
 
         _walletView.Initialize(walletProvider);
         _lastLevelTextUpdater.Initialize(gameProgressStorage);
@@ -60,7 +69,8 @@ public class GameInitializer : MonoBehaviour
         _finalScoreWindow.Initialize(gameProgressStorage, _levelProgressTracker);
 
         _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _levelProgressTracker,
-                                _uiZoneActivator, levelDataHolder, _buferIslands);
+                                _uiZoneActivator, levelDataHolder, _buferIslands, gameProgressStorage);
+        _buferIslands.Initialize(_levelSettings);
 
         _testUI.Initialize(gameProgressStorage, walletProvider);
     }

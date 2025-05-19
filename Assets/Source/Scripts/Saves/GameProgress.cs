@@ -10,6 +10,7 @@ public class GameProgress
     [JsonProperty] private int _scoreAmount;
     [JsonProperty] private int _goldAmount;
     [JsonProperty] private Dictionary<BoostType, int> _boostsAmounts;
+    [JsonProperty] private Dictionary<UpgradeType, int> _upgradeStages;
 
     public GameProgress()
     {
@@ -23,6 +24,10 @@ public class GameProgress
             { BoostType.GrowBuferIsland, 0 },
             { BoostType.ReducePaints, 0 }
         };
+        _upgradeStages = new Dictionary<UpgradeType, int>()
+        {
+            { UpgradeType.BuferIslandSize, 0 }
+        };
     }
 
     [JsonIgnore] public LevelProgress FirstUnfinishedLevel => _levels.FirstOrDefault(level => !level.IsDone);
@@ -31,6 +36,7 @@ public class GameProgress
     [JsonIgnore] public int GoldAmount => _goldAmount;
 
     public int GetBoostAmount(BoostType boostType) => _boostsAmounts[boostType];
+    public int GetUpgradeStage(UpgradeType upgradeType) => _upgradeStages[upgradeType];
 
     public void SetBoostAmount(BoostType boostType, int amount)
     {
@@ -40,6 +46,16 @@ public class GameProgress
         }
 
         _boostsAmounts[boostType] = amount;
+    }
+
+    public void SetUpgradeStage(UpgradeType upgradeType, int stage)
+    {
+        if (_upgradeStages.ContainsKey(upgradeType) == false)
+        {
+            throw new ArgumentException(nameof(upgradeType));
+        }
+
+        _upgradeStages[upgradeType] = stage;
     }
 
     public void SetGoldAmount(int amount)

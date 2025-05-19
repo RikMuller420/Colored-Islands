@@ -1,6 +1,8 @@
 [System.Serializable]
 public class BufferIslandBoost : Boost
 {
+    private const int ExtraSize = 2;
+
     private BuferIslandsHolder _buferIslandsHolder;
     private UnitMover _unitMover;
 
@@ -16,7 +18,7 @@ public class BufferIslandBoost : Boost
     public override void TryApplyBoost()
     {
         BaseIsland oldIsland = _buferIslandsHolder.CurrentIsland;
-        int newSize = oldIsland.Points.Count + 1;
+        int newSize = oldIsland.Points.Count + ExtraSize;
 
         _buferIslandsHolder.DeactivateCurrentIsland();
         _buferIslandsHolder.LoadIsland(newSize);

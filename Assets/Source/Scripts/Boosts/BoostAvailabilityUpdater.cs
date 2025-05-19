@@ -4,9 +4,9 @@ public class BoostAvailabilityUpdater
 {
     private LevelLoader _levelLoader;
     
-    private Dictionary<Boost, IEnumerable<BoostButton>> _boostsButtons;
+    private Dictionary<Boost, BoostButton> _boostsButtons;
 
-    public BoostAvailabilityUpdater(Dictionary<Boost, IEnumerable<BoostButton>> boostsButtons,
+    public BoostAvailabilityUpdater(Dictionary<Boost, BoostButton> boostsButtons,
                                     LevelLoader levelLoader)
     {
         _boostsButtons = boostsButtons;
@@ -22,10 +22,7 @@ public class BoostAvailabilityUpdater
 
     private void OnBoostApplyed(Boost boost)
     {
-        foreach (BoostButton button in _boostsButtons[boost])
-        {
-            button.DisableInteractable();
-        }
+        _boostsButtons[boost].DisableInteractable();
     }
 
     private void OnLevelChanged()
@@ -37,10 +34,7 @@ public class BoostAvailabilityUpdater
     {
         foreach (var boostButton in _boostsButtons)
         {
-            foreach (BoostButton button in boostButton.Value)
-            {
-                button.EnableInteractable();
-            }
+            boostButton.Value.EnableInteractable();
         }
     }
 }

@@ -10,6 +10,7 @@ public class BoostButton : MonoBehaviour
     [SerializeField] private BoostSettings _boostSettings;
 
     private BoostAmountProvider _boostAmountProvider;
+    private BoostBuyConfirmationWindow _boostBuyWindow;
     private Boost _boost;
 
     public ButtonAnimator Animator { get; private set; }
@@ -26,9 +27,11 @@ public class BoostButton : MonoBehaviour
         _boostAmountProvider.BoostsAmountChanged -= OnBoostAmountChanged;
     }
 
-    public virtual void Initialize(Boost boost, BoostAmountProvider boostAmountProvider)
+    public void Initialize(Boost boost, BoostAmountProvider boostAmountProvider,
+                           BoostBuyConfirmationWindow boostBuyWindow)
     {
         _boost = boost;
+        _boostBuyWindow = boostBuyWindow;
         _boostAmountProvider = boostAmountProvider;
         Animator = new ButtonAnimator(_buttonBackground);
         enabled = true;
@@ -49,7 +52,7 @@ public class BoostButton : MonoBehaviour
     {
         if (GetBoostAmount() == 0)
         {
-            //Открыть окно магазина
+            _boostBuyWindow.Open(_boost.Type);
         }
         else
         {

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class UIOrientationChanger : MonoBehaviour
@@ -5,6 +6,7 @@ public class UIOrientationChanger : MonoBehaviour
     [SerializeField] private ScreenSizeChangeTracker _screenSizeChangeTracker;
     [SerializeField] private GameObject _boostsZoneVertical;
     [SerializeField] private GameObject _boostsZoneHorizontal;
+    [SerializeField] private List<BoostButton> _boostButtons;
 
     private bool _isVertical = true;
 
@@ -33,5 +35,13 @@ public class UIOrientationChanger : MonoBehaviour
     {
         _boostsZoneVertical.SetActive(_isVertical);
         _boostsZoneHorizontal.SetActive(_isVertical == false);
+
+        Transform boostButtonParent = _isVertical ? _boostsZoneVertical.transform : 
+                                                    _boostsZoneHorizontal.transform;
+
+        foreach (BoostButton button in _boostButtons)
+        {
+            button.transform.SetParent(boostButtonParent);
+        }
     }
 }

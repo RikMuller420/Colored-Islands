@@ -12,6 +12,7 @@ public class GameProgressStorage
     public event Action GoldAmountChanged;
     public event Action LevelProgressChanged;
     public event Action<BoostType> BoostsAmountChanged;
+    public event Action<UpgradeType> Upgraded;
 
     public GameProgressStorage(LevelSettings levelSettings)
     {
@@ -33,6 +34,7 @@ public class GameProgressStorage
     public int GoldAmount => _progress.GoldAmount;
 
     public int GetBoostAmount(BoostType boostType)=> _progress.GetBoostAmount(boostType);
+    public int GetUpgradeStage(UpgradeType upgradeType) => _progress.GetUpgradeStage(upgradeType);
 
     //Used Under TEST UI only
     public void ResetProgress()
@@ -45,12 +47,24 @@ public class GameProgressStorage
         BoostsAmountChanged?.Invoke(BoostType.FinishIsland);
         BoostsAmountChanged?.Invoke(BoostType.FreezeObjectives);
         BoostsAmountChanged?.Invoke(BoostType.ReducePaints);
+        Upgraded?.Invoke(UpgradeType.BuferIslandSize);
     }
 
     public void SetBoostAmount(BoostType boostType, int amount, bool autoSave = true)
     {
         _progress.SetBoostAmount(boostType, amount);
         BoostsAmountChanged?.Invoke(boostType);
+
+        if (autoSave)
+        {
+            Save();
+        }
+    }
+
+    public void SetUpgradeStage(UpgradeType upgradeType, int stage, bool autoSave = true)
+    {
+        _progress.SetUpgradeStage(upgradeType, stage);
+        Upgraded?.Invoke(upgradeType);
 
         if (autoSave)
         {

@@ -9,11 +9,12 @@ public class BoostInitializer : MonoBehaviour
     [SerializeField] private LevelLoader _levelLoader;
     [SerializeField] private LevelProgressTracker _levelProgressTracker;
     [SerializeField] private GameObject _objectiveFreezeAnimator;
+    [SerializeField] private BoostBuyConfirmationWindow boostBuyWindow;
 
-    [SerializeField] private List<BoostButton> _buferIslandBoostButtons = new();
-    [SerializeField] private List<BoostButton> _objectivesFreezeButtons = new();
-    [SerializeField] private List<BoostButton> _paintAmountReduceBoostButtons = new();
-    [SerializeField] private List<BoostButton> _islandFinishBoostButtons = new();
+    [SerializeField] private BoostButton _buferIslandBoostButton;
+    [SerializeField] private BoostButton _objectivesFreezeButton;
+    [SerializeField] private BoostButton _paintAmountReduceBoostButton;
+    [SerializeField] private BoostButton _islandFinishBoostButton;
 
     public void Initialize(UnitMover unitMover, ClickHandler gameClickHandler, SelectHandler selectHandler,
                            LevelObjectsHolder levelDataHolder, BoostAmountProvider boostAmountProvider)
@@ -26,28 +27,20 @@ public class BoostInitializer : MonoBehaviour
         var objectivesFreezeBoost = new ObjectivesFreezeBoost(_levelProgressTracker, unitMover, _levelLoader, boostAmountProvider);
         var paintAmountReduceBoost = new PaintAmountReduceBoost(levelDataHolder, _buferIslands, _materials, boostAmountProvider);
 
-        Dictionary<Boost, IEnumerable<BoostButton>> boostsButtons = new Dictionary<Boost, IEnumerable<BoostButton>>()
+        Dictionary<Boost, BoostButton> boostsButtons = new Dictionary<Boost, BoostButton>()
         {
-            { bufferIslandBoost, _buferIslandBoostButtons },
-            { objectivesFreezeBoost, _objectivesFreezeButtons },
-            { paintAmountReduceBoost, _paintAmountReduceBoostButtons },
-            { islandFinishBoost, _islandFinishBoostButtons }
+            { bufferIslandBoost, _buferIslandBoostButton },
+            { objectivesFreezeBoost, _objectivesFreezeButton },
+            { paintAmountReduceBoost, _paintAmountReduceBoostButton },
+            { islandFinishBoost, _islandFinishBoostButton }
         };
 
         var boostAvailabilityUpdater = new BoostAvailabilityUpdater(boostsButtons, _levelLoader);
         var boostAnimator = new BoostAnimator(boostsButtons, _objectiveFreezeAnimator);
-        InitializeButtons(boostsButtons, boostAmountProvider);
-    }
 
-    private void InitializeButtons(Dictionary<Boost, IEnumerable<BoostButton>> boostsButtons,
-                                    BoostAmountProvider boostAmountProvider)
-    {
         foreach (var boostButton in boostsButtons)
         {
-            foreach (BoostButton button in boostButton.Value)
-            {
-                button.Initialize(boostButton.Key, boostAmountProvider);
-            }
+            boostButton.Value.Initialize(boostButton.Key, boostAmountProvider, boostBuyWindow);
         }
     }
 }

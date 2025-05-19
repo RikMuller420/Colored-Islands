@@ -38,5 +38,4 @@ public class BoostAmountProvider
     {
         BoostsAmountChanged?.Invoke(boostType);
     }
-
 }
