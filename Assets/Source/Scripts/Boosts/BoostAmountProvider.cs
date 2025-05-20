@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
-public class BoostAmountProvider 
+public class BoostAmountProvider
 {
     private GameProgressStorage _gameProgressStorage;
 
@@ -32,6 +34,22 @@ public class BoostAmountProvider
         int boostAmount = BoostAmount(boostType);
         boostAmount++;
         _gameProgressStorage.SetBoostAmount(boostType, boostAmount);
+    }
+
+    public void AddBoostBundle(int amount, bool isAutoSave)
+    {
+        IEnumerable<BoostType> boostTypes = Enum.GetValues(typeof(BoostType)).Cast<BoostType>();
+        BoostType lastType = boostTypes.Last();
+
+        foreach (BoostType boostType in boostTypes)
+        {
+            int boostAmount = BoostAmount(boostType);
+            boostAmount += amount;
+
+            bool isSaveAfterThisBoost = boostType == lastType && isAutoSave;
+
+            _gameProgressStorage.SetBoostAmount(boostType, boostAmount, isSaveAfterThisBoost);
+        }
     }
 
     private void OnBoostsAmountInSavedProgressChanged(BoostType boostType)

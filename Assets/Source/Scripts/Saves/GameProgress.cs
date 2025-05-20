@@ -9,6 +9,7 @@ public class GameProgress
     [JsonProperty] private List<LevelProgress> _levels;
     [JsonProperty] private int _scoreAmount;
     [JsonProperty] private int _goldAmount;
+    [JsonProperty] private bool _isAdsRemoved;
     [JsonProperty] private Dictionary<BoostType, int> _boostsAmounts;
     [JsonProperty] private Dictionary<UpgradeType, int> _upgradeStages;
 
@@ -17,6 +18,7 @@ public class GameProgress
         _levels = new List<LevelProgress>();
         _scoreAmount = 0;
         _goldAmount = 0;
+        _isAdsRemoved = false;
         _boostsAmounts = new Dictionary<BoostType, int>()
         {
             { BoostType.FinishIsland, 0 },
@@ -34,9 +36,15 @@ public class GameProgress
     [JsonIgnore] public IReadOnlyCollection<LevelProgress> Levels => _levels.AsReadOnly();
     [JsonIgnore] public int ScoreAmount => _scoreAmount;
     [JsonIgnore] public int GoldAmount => _goldAmount;
+    [JsonIgnore] public bool IsAdsRemoved => _isAdsRemoved;
 
     public int GetBoostAmount(BoostType boostType) => _boostsAmounts[boostType];
     public int GetUpgradeStage(UpgradeType upgradeType) => _upgradeStages[upgradeType];
+
+    public void ApplyRemoveAddBonus()
+    {
+        _isAdsRemoved = true;
+    }
 
     public void SetBoostAmount(BoostType boostType, int amount)
     {

@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a99dfa08bd747dc449b963405f581409, type: 3}
+  m_Name: InAppSettings
+  m_EditorClassIdentifier: 
+  _inApps:
+  - _inAppType: 0
+    _id: gold1000
+    _localizationKey: Small Gold Bundle Title
+    _iconPrefab: {fileID: 5803391154291800864, guid: 642318dc1ff205243992391a3ad253ac, type: 3}
+    _price: 10
+    _inAppBonuses:
+    - _type: 0
+      _amount: 1000
+  - _inAppType: 1
+    _id: gold5000
+    _localizationKey: Big Gold Bundle Title
+    _iconPrefab: {fileID: 8140810823355626472, guid: 5250db55fc22f9b4a88ca4c6170b036a, type: 3}
+    _price: 30
+    _inAppBonuses:
+    - _type: 0
+      _amount: 5000
+  - _inAppType: 2
+    _id: removeAds
+    _localizationKey: Remove Ad Title
+    _iconPrefab: {fileID: 8640976401502833420, guid: e6459421351dbec4baa772d1a5b231ef, type: 3}
+    _price: 20
+    _inAppBonuses:
+    - _type: 2
+      _amount: 1
+  - _inAppType: 3
+    _id: bundle1
+    _localizationKey: Small Combo Bundle Title
+    _iconPrefab: {fileID: 953621410941906610, guid: 8c7d6a22ff419094c849764c6fd70ee1, type: 3}
+    _price: 20
+    _inAppBonuses:
+    - _type: 0
+      _amount: 2000
+    - _type: 1
+      _amount: 5
+  - _inAppType: 4
+    _id: bundle2
+    _localizationKey: Big Combo Bundle Title
+    _iconPrefab: {fileID: 8780307191776430075, guid: 3f769a92d595b244b819e245d2650996, type: 3}
+    _price: 50
+    _inAppBonuses:
+    - _type: 0
+      _amount: 10000
+    - _type: 1
+      _amount: 10

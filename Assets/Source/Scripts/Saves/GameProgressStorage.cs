@@ -13,6 +13,7 @@ public class GameProgressStorage
     public event Action LevelProgressChanged;
     public event Action<BoostType> BoostsAmountChanged;
     public event Action<UpgradeType> Upgraded;
+    public event Action RemoveAdsStateChanged;
 
     public GameProgressStorage(LevelSettings levelSettings)
     {
@@ -32,6 +33,7 @@ public class GameProgressStorage
     public IReadOnlyCollection<LevelProgress> Levels => _progress.Levels;
     public int ScoreAmount => _progress.ScoreAmount;
     public int GoldAmount => _progress.GoldAmount;
+    public bool IsAdsRemoved => _progress.IsAdsRemoved;
 
     public int GetBoostAmount(BoostType boostType)=> _progress.GetBoostAmount(boostType);
     public int GetUpgradeStage(UpgradeType upgradeType) => _progress.GetUpgradeStage(upgradeType);
@@ -48,14 +50,27 @@ public class GameProgressStorage
         BoostsAmountChanged?.Invoke(BoostType.FreezeObjectives);
         BoostsAmountChanged?.Invoke(BoostType.ReducePaints);
         Upgraded?.Invoke(UpgradeType.BuferIslandSize);
+        RemoveAdsStateChanged?.Invoke();
     }
 
-    public void SetBoostAmount(BoostType boostType, int amount, bool autoSave = true)
+
+    public void ApplyRemoveAddBonus(bool autoSave = true)
+    {
+        _progress.ApplyRemoveAddBonus();
+        RemoveAdsStateChanged?.Invoke();
+
+        if (autoSave)
+        {
+            Save();
+        }
+    }
+
+    public void SetBoostAmount(BoostType boostType, int amount, bool isAutoSave = true)
     {
         _progress.SetBoostAmount(boostType, amount);
         BoostsAmountChanged?.Invoke(boostType);
 
-        if (autoSave)
+        if (isAutoSave)
         {
             Save();
         }

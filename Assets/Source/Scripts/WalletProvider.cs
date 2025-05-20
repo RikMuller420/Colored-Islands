@@ -14,6 +14,17 @@ public class WalletProvider
 
     public int GoldAmount => _gameProgressStorage.GoldAmount;
 
+    public void AddGold(int amount, bool isAutoSave = true)
+    {
+        if (amount < 0)
+        {
+            throw new ArgumentException(nameof(amount));
+        }
+
+        int newGoldAmount = GoldAmount + amount;
+        _gameProgressStorage.SetGoldAmount(newGoldAmount, isAutoSave);
+    }
+
     public void SpendGold(int amount)
     {
         if (amount < 0)

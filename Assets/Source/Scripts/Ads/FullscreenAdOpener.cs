@@ -8,12 +8,12 @@ public class FullscreenAdOpener
     private int _changesWithoutAd = 0;
 
     private LevelLoader _levelLoader;
-    private YandexGame _yandexGame;
+    private RemoveAdsProvider _removeAdsProvider;
 
-    public FullscreenAdOpener(LevelLoader levelLoader, YandexGame yandexGame)
+    public FullscreenAdOpener(LevelLoader levelLoader, RemoveAdsProvider removeAdsProvider)
     {
         _levelLoader = levelLoader;
-        _yandexGame = yandexGame;
+        _removeAdsProvider = removeAdsProvider;
 
         _levelLoader.LevelChanged += OnLevelChanged;
         YandexGame.OpenFullAdEvent += OnAdOpened;
@@ -28,9 +28,14 @@ public class FullscreenAdOpener
 
         _changesWithoutAd++;
 
+        if (_removeAdsProvider.IsAdsRemoved)
+        {
+            return;
+        }
+
         if (_changesWithoutAd > _ñhangesBeforeAd)
         {
-            _yandexGame._FullscreenShow();
+            YandexGame.FullscreenShow();
         }
     }
 

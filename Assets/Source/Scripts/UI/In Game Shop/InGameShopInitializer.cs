@@ -15,6 +15,7 @@ public class InGameShopInitializer : MonoBehaviour
         {
             upgradeOfferLine.Initialize(upgradesProvider, _upgradeSettings, walletProvider);
         }
+
         foreach (BoostOfferLine boostOfferLine in _boostOfferLines)
         {
             boostOfferLine.Initialize(boostAmountProvider, _boostSettings, walletProvider);

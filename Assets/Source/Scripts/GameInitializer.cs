@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using YG;
 
@@ -29,6 +28,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private NextLevelButton _nextLevelButton;
     [SerializeField] private BoostInitializer _boostButtonInitializer;
     [SerializeField] private InGameShopInitializer _inGameShopInitializer;
+    [SerializeField] private InAppPurchaseInitializer _inAppPurchaseInitializer;
     [SerializeField] private BoostBuyConfirmationWindow _boostBuyWindow;
 
     private void Start()
@@ -46,21 +46,26 @@ public class GameInitializer : MonoBehaviour
         var defaultClickHandler = new DefaultClickHandler(selectHandler, _allIslandsAndUnitsLayer);
         var gameClickHandler = new ClickHandler(_inputHandler, _camera, defaultClickHandler);
         var gameProgressStorage = new GameProgressStorage(_levelSettings);
+
+        var upgradesProvider = new UpgradesProvider(gameProgressStorage);
+        var boostAmountProvider = new BoostAmountProvider(gameProgressStorage);
+        var removeAdsProvider = new RemoveAdsProvider(gameProgressStorage);
+
         var levelProgressUpdater = new GameProgressUpdater(_levelProgressTracker, gameProgressStorage);
         var walletProvider = new WalletProvider(gameProgressStorage);
-        var fullscreenAdOpener = new FullscreenAdOpener(_levelLoader, _yandexGame);
+        var fullscreenAdOpener = new FullscreenAdOpener(_levelLoader, removeAdsProvider);
 
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(gameProgressStorage, _levelLoader);
 
-        var upgradesProvider = new UpgradesProvider(gameProgressStorage);
-        var boostAmountProvider = new BoostAmountProvider(gameProgressStorage);
+
 
         _boostButtonInitializer.Initialize(unitMover, gameClickHandler, selectHandler, levelDataHolder,
                                            boostAmountProvider);
         _inGameShopInitializer.Initialize(upgradesProvider, boostAmountProvider, walletProvider);
         _boostBuyWindow.Initialize(boostAmountProvider, _boostSettings, walletProvider);
+        _inAppPurchaseInitializer.Initialize(walletProvider, boostAmountProvider, removeAdsProvider);
 
         _walletView.Initialize(walletProvider);
         _lastLevelTextUpdater.Initialize(gameProgressStorage);

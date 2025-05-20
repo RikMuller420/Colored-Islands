@@ -4,7 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using YG;
-using YG.Example;
 
 public class BoostBuyConfirmationWindow : MenuWindow
 {
