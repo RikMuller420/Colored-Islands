@@ -1,13 +1,17 @@
 using UnityEngine;
-using YG;
 
 public class LeadersMenuButton : MenuWindowOpener
 {
-    [SerializeField] private LeaderboardYG _leaderboard;
+    private LeaderboardProvider _leaderboardProvide;
+
+    public void Initialized(LeaderboardProvider leaderboardProvider)
+    {
+        _leaderboardProvide = leaderboardProvider;
+    }
 
     protected override void Open()
     {
-        _leaderboard.UpdateLB();
+        //_leaderboard.UpdateLB();
         base.Open();
     }
 }

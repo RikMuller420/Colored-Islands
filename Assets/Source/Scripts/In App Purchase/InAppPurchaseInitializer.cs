@@ -8,16 +8,17 @@ public class InAppPurchaseInitializer : MonoBehaviour
     [SerializeField] private RemoveAdsAviabilityUpdater _removeAdsAviabilityUpdater;
     [SerializeField] private List<InAppOffer> _inAppOffers = new();
 
-    public void Initialize(WalletProvider walletProvider, BoostAmountProvider boostProvider, RemoveAdsProvider removeAdsProvider)
+    public void Initialize(WalletProvider walletProvider, BoostAmountProvider boostProvider,
+                           RemoveAdsProvider removeAdsProvider, InAppPurchaseProvider inAppPurchaseProvider)
     {
-        var inAppPurchaseProvider = new InAppPurchaseProvider(_inAppSettings.InApps, walletProvider, boostProvider,
-                                                             removeAdsProvider, _inAppConfirmedWindow);
+        var inAppProvider = new InAppsProvider(_inAppSettings.InApps, walletProvider, boostProvider,
+                                                       removeAdsProvider, _inAppConfirmedWindow, inAppPurchaseProvider);
 
         _removeAdsAviabilityUpdater.Initialize(removeAdsProvider);
 
         foreach (InAppOffer inAppOffer in _inAppOffers)
         {
-            inAppOffer.Initialize(inAppPurchaseProvider);
+            inAppOffer.Initialize(inAppProvider);
         }
     }
 }

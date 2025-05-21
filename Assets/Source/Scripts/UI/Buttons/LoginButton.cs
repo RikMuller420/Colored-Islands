@@ -1,36 +1,38 @@
 using UnityEngine;
 using UnityEngine.UI;
-using YG;
 
 public class LoginButton : MonoBehaviour
 {
     [SerializeField] private Button _button;
-    [SerializeField] private YandexGame _yandexGame;
 
-    private void Awake()
-    {
-        UpdateButtonActivity();
-    }
+    private AuthorizationProvider _authorizationProvider;
 
     private void OnEnable()
     {
         _button.onClick.AddListener(AskForLogin);
-        _yandexGame.ResolvedAuthorization.AddListener(UpdateButtonActivity);
+        _authorizationProvider.AuthorizationStatusChanged += UpdateButtonActivity;
     }
 
     private void OnDisable()
     {
         _button.onClick.RemoveListener(AskForLogin);
-        _yandexGame.ResolvedAuthorization.RemoveListener(UpdateButtonActivity);
+        _authorizationProvider.AuthorizationStatusChanged -= UpdateButtonActivity;
+    }
+
+    public void Initialize(AuthorizationProvider authorizationProvider)
+    {
+        _authorizationProvider = authorizationProvider;
+        UpdateButtonActivity();
+        enabled = true;
     }
 
     private void AskForLogin()
     {
-        _yandexGame._OpenAuthDialog();
+        _authorizationProvider.AskForAuthorization();
     }
 
     private void UpdateButtonActivity()
     {
-        gameObject.SetActive(YandexGame.auth == false);
+        gameObject.SetActive(_authorizationProvider.IsAuthorized == false);
     }
 }

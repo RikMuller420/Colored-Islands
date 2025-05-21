@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using YG;
 
 public class GameProgressStorage
 {
     private LevelSettings _levelSettings;
     private GameProgressSerializer _progressSerializer;
     private GameProgress _progress;
+    private SaveProvider _saveProvider;
 
     public event Action GoldAmountChanged;
     public event Action LevelProgressChanged;
@@ -15,9 +15,10 @@ public class GameProgressStorage
     public event Action<UpgradeType> Upgraded;
     public event Action RemoveAdsStateChanged;
 
-    public GameProgressStorage(LevelSettings levelSettings)
+    public GameProgressStorage(LevelSettings levelSettings, SaveProvider saveProvider)
     {
         _levelSettings = levelSettings;
+        _saveProvider = saveProvider;
         _progressSerializer = new GameProgressSerializer();
 
         LoadSavedProgress();
@@ -122,15 +123,18 @@ public class GameProgressStorage
     public void Save()
     {
         string json = _progressSerializer.Serialize(_progress);
-        YandexGame.savesData.GameProgress = json;
-        YandexGame.SaveProgress();
+        _saveProvider.Save(json);
     }
 
     private void LoadSavedProgress()
     {
-        string json = YandexGame.savesData.GameProgress;
+        string json = _saveProvider.Load();
 
-        if (json != "")
+        if (json == null || json == "")
+        {
+            CreateNewSave();
+        }
+        else
         {
             try
             {
@@ -140,10 +144,6 @@ public class GameProgressStorage
             {
                 CreateNewSave();
             }
-        }
-        else
-        {
-            CreateNewSave();
         }
     }
 

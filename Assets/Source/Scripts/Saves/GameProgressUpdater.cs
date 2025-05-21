@@ -1,5 +1,4 @@
 using System.Linq;
-using YG;
 
 public class GameProgressUpdater
 {
@@ -7,11 +6,14 @@ public class GameProgressUpdater
 
     private LevelProgressTracker _progressTracker;
     private GameProgressStorage _progressStorage;
+    private LeaderboardProvider _leaderboardProvider;
 
-    public GameProgressUpdater(LevelProgressTracker progressTracker, GameProgressStorage progressStorage)
+    public GameProgressUpdater(LevelProgressTracker progressTracker, GameProgressStorage progressStorage,
+                               LeaderboardProvider leaderboardProvider)
     {
         _progressTracker = progressTracker;
         _progressStorage = progressStorage;
+        _leaderboardProvider = leaderboardProvider;
 
         _progressTracker.LevelFinished += UpdateSavedProgress;
         _progressTracker.LevelFailed += UpdateSavedProgress;
@@ -34,6 +36,6 @@ public class GameProgressUpdater
         _progressStorage.SetScoreAmount(newScoreAmount, false);
         _progressStorage.UpdateLevelProgress(updatedProgress, true);
 
-        YandexGame.NewLeaderboardScores(LeaderboardKey, _progressStorage.ScoreAmount);
+        _leaderboardProvider.SaveScore(LeaderboardKey, newScoreAmount);
     }
 }

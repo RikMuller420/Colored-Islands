@@ -1,5 +1,4 @@
 using UnityEngine;
-using YG;
 
 public class GameInitializer : MonoBehaviour
 {
@@ -9,7 +8,6 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private LevelSettings _levelSettings;
     [SerializeField] private PaintMaterials _materials;
     [SerializeField] private BoostSettings _boostSettings;
-    [SerializeField] private YandexGame _yandexGame;
     [SerializeField] private LayerMask _allIslandsAndUnitsLayer;
 
     [Header("Links")]
@@ -30,30 +28,41 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private InGameShopInitializer _inGameShopInitializer;
     [SerializeField] private InAppPurchaseInitializer _inAppPurchaseInitializer;
     [SerializeField] private BoostBuyConfirmationWindow _boostBuyWindow;
+    [SerializeField] private LoginButton _loginButton;
+
+    private InAppPurchaseConsumeProvider _inAppConsumer;
 
     private void Start()
     {
         InitializeGame();
         _levelLoader.LoadMainMenu();
+        _inAppConsumer.ConsumePurchase();
     }
 
     public void InitializeGame()
     {
+        var interAdProvider = new InterstitialAdProvider();
+        var rewardedAdProvider = new RewardedAdProvider();
+        var authorizationProvider = new AuthorizationProvider();
+        var saveProvider = new SaveProvider();
+        var inAppPurchaseProvider = new InAppPurchaseProvider();
+        var leaderboardProvider = new LeaderboardProvider();
+
         var levelDataHolder = new LevelObjectsHolder();
         var unitMover = new UnitMover();
         var selectHandler = new SelectHandler(unitMover, _buferIslands, levelDataHolder);
 
         var defaultClickHandler = new DefaultClickHandler(selectHandler, _allIslandsAndUnitsLayer);
         var gameClickHandler = new ClickHandler(_inputHandler, _camera, defaultClickHandler);
-        var gameProgressStorage = new GameProgressStorage(_levelSettings);
+        var gameProgressStorage = new GameProgressStorage(_levelSettings, saveProvider);
 
         var upgradesProvider = new UpgradesProvider(gameProgressStorage);
         var boostAmountProvider = new BoostAmountProvider(gameProgressStorage);
         var removeAdsProvider = new RemoveAdsProvider(gameProgressStorage);
 
-        var levelProgressUpdater = new GameProgressUpdater(_levelProgressTracker, gameProgressStorage);
+        var levelProgressUpdater = new GameProgressUpdater(_levelProgressTracker, gameProgressStorage, leaderboardProvider);
         var walletProvider = new WalletProvider(gameProgressStorage);
-        var fullscreenAdOpener = new FullscreenAdOpener(_levelLoader, removeAdsProvider);
+        var interAdOpener = new InterstitialAdOpener(_levelLoader, removeAdsProvider, interAdProvider);
 
 
         _nextLevelButton.Initialize(_levelLoader);
@@ -64,11 +73,12 @@ public class GameInitializer : MonoBehaviour
         _boostButtonInitializer.Initialize(unitMover, gameClickHandler, selectHandler, levelDataHolder,
                                            boostAmountProvider);
         _inGameShopInitializer.Initialize(upgradesProvider, boostAmountProvider, walletProvider);
-        _boostBuyWindow.Initialize(boostAmountProvider, _boostSettings, walletProvider);
-        _inAppPurchaseInitializer.Initialize(walletProvider, boostAmountProvider, removeAdsProvider);
+        _boostBuyWindow.Initialize(boostAmountProvider, _boostSettings, walletProvider, rewardedAdProvider);
+        _inAppPurchaseInitializer.Initialize(walletProvider, boostAmountProvider, removeAdsProvider, inAppPurchaseProvider);
 
         _walletView.Initialize(walletProvider);
         _lastLevelTextUpdater.Initialize(gameProgressStorage);
+        _loginButton.Initialize(authorizationProvider);
 
         _levelProgressTracker.Initialize(gameProgressStorage, levelDataHolder, unitMover);
         _finalScoreWindow.Initialize(gameProgressStorage, _levelProgressTracker);
@@ -78,5 +88,7 @@ public class GameInitializer : MonoBehaviour
         _buferIslands.Initialize(_levelSettings);
 
         _testUI.Initialize(gameProgressStorage, walletProvider);
+
+        _inAppConsumer = new InAppPurchaseConsumeProvider();
     }
 }

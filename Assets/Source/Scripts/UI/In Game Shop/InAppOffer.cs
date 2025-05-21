@@ -7,7 +7,7 @@ public class InAppOffer : MonoBehaviour
     [SerializeField] private InAppType _inAppType;
     [SerializeField] private Button _buyButton;
     [SerializeField] private TextMeshProUGUI _priceText;
-    [SerializeField] private InAppPurchaseProvider _inAppProvider;
+    [SerializeField] private InAppsProvider _inAppProvider;
 
     protected void OnEnable()
     {
@@ -19,7 +19,7 @@ public class InAppOffer : MonoBehaviour
         _buyButton.onClick.RemoveListener(TryBuy);
     }
 
-    public void Initialize(InAppPurchaseProvider inAppPurchaseProvider)
+    public void Initialize(InAppsProvider inAppPurchaseProvider)
     {
         _inAppProvider = inAppPurchaseProvider;
     }

@@ -3,11 +3,10 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using YG;
 
 public class BoostBuyConfirmationWindow : MenuWindow
 {
-    private const int RewardVideoId = 69;
+    private const string RewardVideoId = "boost";
 
     [SerializeField] private TextMeshProUGUI _priceText;
     [SerializeField] private Button _buyWithGoldButton;
@@ -18,6 +17,7 @@ public class BoostBuyConfirmationWindow : MenuWindow
     private BoostAmountProvider _boostAmountProvider;
     private WalletProvider _walletProvider;
     private BoostSettings _boostSettings;
+    private RewardedAdProvider _rewardedAdProvider;
 
     private BoostType _currentBoostType;
     private int _currentBoostPrice;
@@ -30,7 +30,6 @@ public class BoostBuyConfirmationWindow : MenuWindow
         base.OnEnable();
         _buyWithGoldButton.onClick.AddListener(BuyBoostWithGold);
         _buyWithAddButton.onClick.AddListener(BuyBoostWithAdd);
-        YandexGame.RewardVideoEvent += OnRewardWatched;
     }
 
     private new void OnDisable()
@@ -38,15 +37,15 @@ public class BoostBuyConfirmationWindow : MenuWindow
         base.OnDisable();
         _buyWithGoldButton.onClick.RemoveListener(BuyBoostWithGold);
         _buyWithAddButton.onClick.RemoveListener(BuyBoostWithAdd);
-        YandexGame.RewardVideoEvent -= OnRewardWatched;
     }
 
     public void Initialize(BoostAmountProvider boostAmountProvider, BoostSettings boostSettings,
-                           WalletProvider walletProvider)
+                           WalletProvider walletProvider, RewardedAdProvider rewardedAdProvider)
     {
         _boostAmountProvider = boostAmountProvider;
         _boostSettings = boostSettings;
         _walletProvider = walletProvider;
+        _rewardedAdProvider = rewardedAdProvider;
     }
 
     public void Open(BoostType boostType)
@@ -84,17 +83,12 @@ public class BoostBuyConfirmationWindow : MenuWindow
 
     private void BuyBoostWithAdd()
     {
-        YandexGame.RewVideoShow(RewardVideoId);
+        _rewardedAdProvider.ShowAdvReward(RewardVideoId, AddBoost);
         Close();
     }
 
-    private void OnRewardWatched(int rewardId)
+    private void AddBoost()
     {
-        if (rewardId != RewardVideoId)
-        {
-            return;
-        }
-
         _boostAmountProvider.AddBoost(_currentBoostType);
     }
 
