@@ -2,14 +2,14 @@ using System.Collections.Generic;
 
 public class LeaderboardData
 {
-    public LeaderboardData(string tableKey, int currentPlayerRank, IEnumerable<LeaderboardPlayerData> players)
+    public LeaderboardData(string key, int currentPlayerRank, IEnumerable<LeaderboardPlayerData> players)
     {
-        TableKey = tableKey;
+        Key = key;
         CurrentPlayerRank = currentPlayerRank;
         Players = players;
     }
 
-    public string TableKey { get; }
+    public string Key { get; }
     public int CurrentPlayerRank { get; }
     public IEnumerable<LeaderboardPlayerData> Players { get; }
 }

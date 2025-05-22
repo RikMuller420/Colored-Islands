@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameInitializer : MonoBehaviour
 {
@@ -29,6 +31,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private InAppPurchaseInitializer _inAppPurchaseInitializer;
     [SerializeField] private BoostBuyConfirmationWindow _boostBuyWindow;
     [SerializeField] private LoginButton _loginButton;
+    [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
 
     private InAppPurchaseConsumeProvider _inAppConsumer;
 
@@ -62,7 +65,7 @@ public class GameInitializer : MonoBehaviour
 
         var levelProgressUpdater = new GameProgressUpdater(_levelProgressTracker, gameProgressStorage, leaderboardProvider);
         var walletProvider = new WalletProvider(gameProgressStorage);
-        var interAdOpener = new InterstitialAdOpener(_levelLoader, removeAdsProvider, interAdProvider);
+        var interAdOpener = new InterstitialAdOpener(_levelLoader, removeAdsProvider, interAdProvider, rewardedAdProvider);
 
 
         _nextLevelButton.Initialize(_levelLoader);
@@ -87,7 +90,13 @@ public class GameInitializer : MonoBehaviour
                                 _uiZoneActivator, levelDataHolder, _buferIslands, gameProgressStorage);
         _buferIslands.Initialize(_levelSettings);
 
+        foreach (LeaderboardTab leaderboardTab in _leaderboardTabs)
+        {
+            leaderboardTab.Initialize(leaderboardProvider);
+        }
+
         _testUI.Initialize(gameProgressStorage, walletProvider);
+
 
         _inAppConsumer = new InAppPurchaseConsumeProvider();
     }

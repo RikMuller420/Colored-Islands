@@ -1,0 +1,69 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace UI.TabSystem
+{
+    public class TabSwitcher : MonoBehaviour
+    {
+        [SerializeField] private MenuWindow _parentWindow;
+        [SerializeField] private List<TabData> _tabs;
+
+        private TabData _activeTab;
+
+        private void Awake()
+        {
+            foreach (TabData tabData in _tabs)
+            {
+                DeactivateTab(tabData);
+            }
+
+            _activeTab = _tabs[0];
+        }
+
+        private void OnEnable()
+        {
+            _parentWindow.MenuOpened += OnMenuOpened;
+
+            foreach (TabData tab in _tabs)
+            {
+                tab.TabButton.TabSelected += OnTabButtonClicked;
+            }
+        }
+
+        private void OnDisable()
+        {
+            _parentWindow.MenuOpened -= OnMenuOpened;
+            
+            foreach (TabData tab in _tabs)
+            {
+                tab.TabButton.TabSelected -= OnTabButtonClicked;
+            }
+        }
+
+        private void OnMenuOpened()
+        {
+            ActivateTab(_activeTab);
+        }
+
+        private void OnTabButtonClicked(TabButton tabButton)
+        {
+            DeactivateTab(_activeTab);
+            _activeTab = _tabs.Find(tab => tab.TabButton == tabButton);
+            ActivateTab(_activeTab);
+        }
+
+        private void DeactivateTab(TabData tab)
+        {
+            tab.TabContent.Deactivte();
+            tab.TabButton.SetInactive();
+        }
+
+        private void ActivateTab(TabData tab)
+        {
+            tab.TabContent.Activate();
+            tab.TabButton.SetActive();
+        }
+    }
+}
+
+

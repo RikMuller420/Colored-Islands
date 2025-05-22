@@ -6,7 +6,7 @@ public class LeaderboardProvider
 {
     private const int QuantityTop = 3;
     private const int QuantityAround = 5;
-    private const string PhotoSizeKey = "big";
+    private const string PhotoSizeKey = "small";
 
     private LeaderboardConverter _leaderboardConverter;
 

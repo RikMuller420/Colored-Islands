@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,6 +6,8 @@ public class MenuWindow : ZoneUi
 {
     [SerializeField] private Button _closeButton;
     [SerializeField] private MenuDimmer _menuDimmer;
+
+    public event Action MenuOpened;
 
     protected void OnEnable()
     {
@@ -25,6 +28,7 @@ public class MenuWindow : ZoneUi
 
         _menuDimmer.Activate();
         base.Open();
+        MenuOpened?.Invoke();
     }
 
     public override void Close()

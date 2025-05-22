@@ -1,46 +1,67 @@
+using System;
+
 public class InterstitialAdOpener
 {
     private int _adMinLevelId = 3;
-    private int _ñhangesBeforeAd = 1;
-    private int _changesWithoutAd = 0;
+    private int _loadsBeforeAd = 0;
+    private float _adCooldownSeconds = 30f;
+
+    private int _currentLoadsWithoutAd = 0;
+    private DateTime _lastAdTime;
 
     private LevelLoader _levelLoader;
     private RemoveAdsProvider _removeAdsProvider;
     private InterstitialAdProvider _interAdProvider;
+    private RewardedAdProvider _rewardedAdProvider;
 
     public InterstitialAdOpener(LevelLoader levelLoader, RemoveAdsProvider removeAdsProvider,
-                              InterstitialAdProvider interAdProvider)
+                              InterstitialAdProvider interAdProvider, RewardedAdProvider rewardedAdProvider)
     {
         _levelLoader = levelLoader;
         _removeAdsProvider = removeAdsProvider;
         _interAdProvider = interAdProvider;
+        _rewardedAdProvider = rewardedAdProvider;
 
         _levelLoader.LevelChanged += OnLevelChanged;
-        _interAdProvider.AdShowed += OnAdOpened;
+        _interAdProvider.AdShowed += OnInterAdOpened;
+        _rewardedAdProvider.RewardedAdClosed += ResetAdTimer;
     }
 
     private void OnLevelChanged()
     {
+        _currentLoadsWithoutAd++;
+
         if (_levelLoader.CurrentLevelData.Id < _adMinLevelId)
         {
             return;
         }
-
-        _changesWithoutAd++;
 
         if (_removeAdsProvider.IsAdsRemoved)
         {
             return;
         }
 
-        if (_changesWithoutAd > _ñhangesBeforeAd)
+        float secondsFromLastAd = (float)(_lastAdTime - DateTime.Now).TotalSeconds;
+
+        if (secondsFromLastAd < _adCooldownSeconds)
+        {
+            return;
+        }
+
+        if (_currentLoadsWithoutAd > _loadsBeforeAd)
         {
             _interAdProvider.ShowAd();
         }
     }
 
-    private void OnAdOpened()
+    private void OnInterAdOpened()
     {
-        _changesWithoutAd = 0;
+        _currentLoadsWithoutAd = 0;
+        ResetAdTimer();
+    }
+
+    private void ResetAdTimer()
+    {
+        _lastAdTime = DateTime.Now;
     }
 }
