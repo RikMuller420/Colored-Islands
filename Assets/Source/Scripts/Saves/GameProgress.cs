@@ -12,6 +12,7 @@ public class GameProgress
     [JsonProperty] private bool _isAdsRemoved;
     [JsonProperty] private Dictionary<BoostType, int> _boostsAmounts;
     [JsonProperty] private Dictionary<UpgradeType, int> _upgradeStages;
+    [JsonProperty] private Dictionary<AudioGroup, bool> _isSoundOnStatus;
 
     public GameProgress()
     {
@@ -30,6 +31,11 @@ public class GameProgress
         {
             { UpgradeType.BuferIslandSize, 0 }
         };
+        _isSoundOnStatus = new Dictionary<AudioGroup, bool>()
+        {
+            { AudioGroup.MusicVolume, true },
+            { AudioGroup.UIVolume, true },
+        };
     }
 
     [JsonIgnore] public LevelProgress FirstUnfinishedLevel => _levels.FirstOrDefault(level => !level.IsDone);
@@ -40,6 +46,7 @@ public class GameProgress
 
     public int GetBoostAmount(BoostType boostType) => _boostsAmounts[boostType];
     public int GetUpgradeStage(UpgradeType upgradeType) => _upgradeStages[upgradeType];
+    public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _isSoundOnStatus[audioGroup];
 
     public void ApplyRemoveAddBonus()
     {
@@ -84,6 +91,16 @@ public class GameProgress
         }
 
         _scoreAmount = amount;
+    }
+
+    public void SetSoundEnabledStatus(AudioGroup audioGroup, bool isOn)
+    {
+        if (_isSoundOnStatus.ContainsKey(audioGroup) == false)
+        {
+            throw new ArgumentException(nameof(audioGroup));
+        }
+
+        _isSoundOnStatus[audioGroup] = isOn;
     }
 
     public void UpdateLevelProgress(LevelProgress levelProgress)

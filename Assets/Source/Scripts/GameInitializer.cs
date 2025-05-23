@@ -10,6 +10,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private LevelSettings _levelSettings;
     [SerializeField] private PaintMaterials _materials;
     [SerializeField] private BoostSettings _boostSettings;
+    [SerializeField] private AudioMixers _audioMixers;
     [SerializeField] private LayerMask _allIslandsAndUnitsLayer;
 
     [Header("Links")]
@@ -32,6 +33,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private BoostBuyConfirmationWindow _boostBuyWindow;
     [SerializeField] private LoginButton _loginButton;
     [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
+    [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
 
     private InAppPurchaseConsumeProvider _inAppConsumer;
 
@@ -66,7 +68,7 @@ public class GameInitializer : MonoBehaviour
         var levelProgressUpdater = new GameProgressUpdater(_levelProgressTracker, gameProgressStorage, leaderboardProvider);
         var walletProvider = new WalletProvider(gameProgressStorage);
         var interAdOpener = new InterstitialAdOpener(_levelLoader, removeAdsProvider, interAdProvider, rewardedAdProvider);
-
+        var soundVolumeProvider = new SoundVolumeProvider(_audioMixers, gameProgressStorage);
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(gameProgressStorage, _levelLoader);
@@ -93,6 +95,11 @@ public class GameInitializer : MonoBehaviour
         foreach (LeaderboardTab leaderboardTab in _leaderboardTabs)
         {
             leaderboardTab.Initialize(leaderboardProvider);
+        }
+
+        foreach (SoundToggleMuter soundToggleMuter in _soundToggleMuters)
+        {
+            soundToggleMuter.Initialize(soundVolumeProvider);
         }
 
         _testUI.Initialize(gameProgressStorage, walletProvider);

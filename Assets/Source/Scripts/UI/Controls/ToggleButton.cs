@@ -20,12 +20,12 @@ public class ToggleButton : MonoBehaviour
 
     private void OnEnable()
     {
-        _button.onClick.AddListener(ChangeToggle);
+        _button.onClick.AddListener(SwitchToggle);
     }
 
     private void OnDisable()
     {
-        _button.onClick.RemoveListener(ChangeToggle);
+        _button.onClick.RemoveListener(SwitchToggle);
     }
 
     private void OnValidate()
@@ -36,17 +36,23 @@ public class ToggleButton : MonoBehaviour
         }
 
         _isOn = _startEnabled;
-        UpdateToggleActivity();
+        UpdateToggleView();
     }
 
-    private void ChangeToggle()
+    public void SetToggle(bool isOn)
+    {
+        _isOn = isOn;
+        UpdateToggleView();
+    }
+
+    private void SwitchToggle()
     {
         _isOn = !_isOn;
-        UpdateToggleActivity();
+        UpdateToggleView();
         EnableChanged?.Invoke(_isOn);
     }
 
-    private void UpdateToggleActivity()
+    private void UpdateToggleView()
     {
         _toggleOn.SetActive(_isOn);
         _toggleOff.SetActive(!_isOn);

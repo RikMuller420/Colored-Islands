@@ -14,6 +14,7 @@ public class GameProgressStorage
     public event Action<BoostType> BoostsAmountChanged;
     public event Action<UpgradeType> Upgraded;
     public event Action RemoveAdsStateChanged;
+    public event Action<AudioGroup> SoundEnabledChanged;
 
     public GameProgressStorage(LevelSettings levelSettings, SaveProvider saveProvider)
     {
@@ -38,6 +39,8 @@ public class GameProgressStorage
 
     public int GetBoostAmount(BoostType boostType)=> _progress.GetBoostAmount(boostType);
     public int GetUpgradeStage(UpgradeType upgradeType) => _progress.GetUpgradeStage(upgradeType);
+    public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _progress.GetIsSoundOnStatus(audioGroup);
+
 
     //Used Under TEST UI only
     public void ResetProgress()
@@ -64,6 +67,12 @@ public class GameProgressStorage
         {
             Save();
         }
+    }
+
+    public void SetSoundToggle(AudioGroup audioGroup, bool isOn)
+    {
+        _progress.SetSoundEnabledStatus(audioGroup, isOn);
+        SoundEnabledChanged?.Invoke(audioGroup);
     }
 
     public void SetBoostAmount(BoostType boostType, int amount, bool isAutoSave = true)
