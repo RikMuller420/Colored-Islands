@@ -15,7 +15,7 @@ public class SoundVolumeProvider
         _mixers = mixers;
         _gameProgressStorage = gameProgressStorage;
 
-        gameProgressStorage.SoundEnabledChanged += SoundEnabledChanged;
+        gameProgressStorage.SoundEnabledChanged += OnSoundEnabledChanged;
 
         foreach (AudioMixerData mixer in _mixers.Mixers)
         {

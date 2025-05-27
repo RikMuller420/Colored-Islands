@@ -107,7 +107,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 31.6
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 6226925459766923563}
   - component: {fileID: 8404696900335387455}
   - component: {fileID: 27936291495514566}
+  - component: {fileID: 6804779690820925774}
   m_Layer: 5
   m_Name: Tab Button
   m_TagString: Untagged
@@ -379,6 +380,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AspectMode: 2
   m_AspectRatio: 3
+--- !u!114 &6804779690820925774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6220525122122617223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30f5bd08212ff6a43b2f7855c2f7ba38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 8404696900335387455}
+  _uiSoundPlayer: {fileID: 0}
+  _uiSoundType: 0
 --- !u!1 &6757887705474140413
 GameObject:
   m_ObjectHideFlags: 0

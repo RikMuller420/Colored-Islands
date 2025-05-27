@@ -32,6 +32,8 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private InAppPurchaseInitializer _inAppPurchaseInitializer;
     [SerializeField] private BoostBuyConfirmationWindow _boostBuyWindow;
     [SerializeField] private LoginButton _loginButton;
+    [SerializeField] private BackgroundMusicChanger _backgroundMusicChanger;
+    [SerializeField] private GameplaySoundPlayer _gameplaySoundPlayer;
     [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
     [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
 
@@ -69,6 +71,7 @@ public class GameInitializer : MonoBehaviour
         var walletProvider = new WalletProvider(gameProgressStorage);
         var interAdOpener = new InterstitialAdOpener(_levelLoader, removeAdsProvider, interAdProvider, rewardedAdProvider);
         var soundVolumeProvider = new SoundVolumeProvider(_audioMixers, gameProgressStorage);
+        var levelEndSoundPlayer = new LevelEndSoundPlayer(_levelProgressTracker, _gameplaySoundPlayer);
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(gameProgressStorage, _levelLoader);
@@ -91,6 +94,7 @@ public class GameInitializer : MonoBehaviour
         _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _levelProgressTracker,
                                 _uiZoneActivator, levelDataHolder, _buferIslands, gameProgressStorage);
         _buferIslands.Initialize(_levelSettings);
+        _backgroundMusicChanger.Initialize(_levelLoader);
 
         foreach (LeaderboardTab leaderboardTab in _leaderboardTabs)
         {

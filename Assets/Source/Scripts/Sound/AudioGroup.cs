@@ -2,5 +2,5 @@
 public enum AudioGroup
 {
     MusicVolume,
-    UIVolume
+    EffectsVolume
 }

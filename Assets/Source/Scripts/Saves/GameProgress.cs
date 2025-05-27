@@ -34,7 +34,7 @@ public class GameProgress
         _isSoundOnStatus = new Dictionary<AudioGroup, bool>()
         {
             { AudioGroup.MusicVolume, true },
-            { AudioGroup.UIVolume, true },
+            { AudioGroup.EffectsVolume, true },
         };
     }
 

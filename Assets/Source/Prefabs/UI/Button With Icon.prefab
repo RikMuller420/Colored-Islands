@@ -176,6 +176,7 @@ GameObject:
   - component: {fileID: 3426776723070302333}
   - component: {fileID: 2923015218791811961}
   - component: {fileID: 1201526448819737288}
+  - component: {fileID: 4086390521327902355}
   m_Layer: 5
   m_Name: Button With Icon
   m_TagString: Untagged
@@ -263,6 +264,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AspectMode: 1
   m_AspectRatio: 2.9
+--- !u!114 &4086390521327902355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6992895447135290461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30f5bd08212ff6a43b2f7855c2f7ba38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 2923015218791811961}
+  _uiSoundPlayer: {fileID: 0}
+  _uiSoundType: 0
 --- !u!1 &7765386788770830069
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +359,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Log in
+  m_text: "\u0410\u0432\u0442\u043E\u0440\u0438\u0437\u0430\u0446\u0438\u044F"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -370,7 +386,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45.65
+  m_fontSize: 21.05
   m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 1
