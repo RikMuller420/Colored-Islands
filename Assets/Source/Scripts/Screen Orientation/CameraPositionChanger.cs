@@ -6,9 +6,9 @@ public class CameraPositionChanger : MonoBehaviour
     [SerializeField] private ScreenSizeChangeTracker _screenSizeChangeTracker;
     [SerializeField] private Camera _camera;
 
-    [SerializeField] private Vector3 _defaultVerticalCameraPosition = new Vector3(0, 29f, -12.5f);
+    [SerializeField] private Vector3 _defaultVerticalCameraPosition = new Vector3(0, 12.2f, -11.2f);
     [SerializeField] private Vector3 _defaultHorizontalCameraPosition = new Vector3(0, 23f, -9.3f);
-    [SerializeField] private float _defaultCameraFoV = 25;
+    [SerializeField] private float _defaultCameraFoV = 50;
 
     private bool _isVertical = true;
 

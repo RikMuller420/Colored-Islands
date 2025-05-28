@@ -30,22 +30,22 @@ public class IslandFinishBehaviour : ClickBehaviour
 
     private void FinishIsland(Island island)
     {
-        IReadOnlyCollection<PlacementPoint> freePoints = island.Points
+        IReadOnlyCollection<IslandPoint> freePoints = island.Points
             .Where(point => point.IsFree)
             .ToList()
             .AsReadOnly();
 
-        IReadOnlyCollection<PlacementPoint> wrongUnitPoints = island.Points
+        IReadOnlyCollection<IslandPoint> wrongUnitPoints = island.Points
             .Where(point => point.IsFree == false && point.OccupiedUnit.Paint != island.Paint)
             .ToList()
             .AsReadOnly();
 
-        foreach (PlacementPoint point in freePoints)
+        foreach (IslandPoint point in freePoints)
         {
             MoveAnySuitableUnit(island);
         }
 
-        foreach (PlacementPoint point in wrongUnitPoints)
+        foreach (IslandPoint point in wrongUnitPoints)
         {
             BaseIsland freeIsland = FindFreeIsland();
             _unitMover.MoveUnit(point.OccupiedUnit, freeIsland);
@@ -100,7 +100,7 @@ public class IslandFinishBehaviour : ClickBehaviour
     private bool TryFindUnit(BaseIsland island, Paint unitPaint, out Unit unit)
     {
         unit = null;
-        PlacementPoint point = island.Points.FirstOrDefault(point =>
+        IslandPoint point = island.Points.FirstOrDefault(point =>
                             point.IsFree == false && point.OccupiedUnit.Paint == unitPaint);
 
         if (point != null)

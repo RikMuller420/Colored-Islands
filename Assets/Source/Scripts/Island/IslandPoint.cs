@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class PlacementPoint
+public class IslandPoint
 {
-    public PlacementPoint(Transform point)
+    public IslandPoint(Transform point)
     {
         Point = point;
         IsFree = true;

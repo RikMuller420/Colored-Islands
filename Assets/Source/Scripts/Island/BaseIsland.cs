@@ -7,21 +7,21 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class BaseIsland : MonoBehaviour, ISelectable
 {
-    private List<PlacementPoint> _placementPoints;
+    private List<IslandPoint> _placementPoints;
 
     public event Action UnitAdded;
 
     public int FreePointsCount => _placementPoints.Count(point => point.IsFree);
-    public IReadOnlyCollection<PlacementPoint> Points => new ReadOnlyCollection<PlacementPoint>(_placementPoints);
+    public IReadOnlyCollection<IslandPoint> Points => new ReadOnlyCollection<IslandPoint>(_placementPoints);
 
-    public void Initialize(List<PlacementPoint> placementPoints)
+    public void Initialize(List<IslandPoint> placementPoints)
     {
         _placementPoints = placementPoints;
     }
 
     public IEnumerable<Unit> GetUnits(Paint paint)
     {
-        foreach (PlacementPoint point in _placementPoints)
+        foreach (IslandPoint point in _placementPoints)
         {
             if (point.IsFree == false && point.OccupiedUnit.Paint == paint)
             {
@@ -32,7 +32,7 @@ public class BaseIsland : MonoBehaviour, ISelectable
 
     public void RemoveUnit(Unit unit)
     {
-        PlacementPoint point = _placementPoints.FirstOrDefault(p => p.IsFree == false && p.OccupiedUnit == unit);
+        IslandPoint point = _placementPoints.FirstOrDefault(p => p.IsFree == false && p.OccupiedUnit == unit);
 
         if (point != null)
         {
@@ -44,7 +44,7 @@ public class BaseIsland : MonoBehaviour, ISelectable
         throw new InvalidOperationException("Unit not found in placement points");
     }
 
-    public void AddUnit(Unit unit, out PlacementPoint placementPoint)
+    public void AddUnit(Unit unit, out IslandPoint placementPoint)
     {
         placementPoint = _placementPoints.FirstOrDefault(point => point.IsFree);
 

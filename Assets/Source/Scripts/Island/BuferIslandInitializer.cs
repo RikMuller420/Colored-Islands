@@ -13,11 +13,11 @@ public class BuferIslandInitializer : MonoBehaviour
 
     public void ResetPoints()
     {
-        List<PlacementPoint> placementPoints = new List<PlacementPoint>();
+        List<IslandPoint> placementPoints = new List<IslandPoint>();
 
         foreach (Transform point in _points)
         {
-            placementPoints.Add(new PlacementPoint(point));
+            placementPoints.Add(new IslandPoint(point));
         }
 
         _island.Initialize(placementPoints);

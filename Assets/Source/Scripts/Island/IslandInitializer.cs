@@ -22,11 +22,11 @@ public class IslandInitializer : MonoBehaviour
     public void Initialize(Func<Unit> createUnit, PaintMaterials paintMaterials)
     {
         FindRequireComponents();
-        List<PlacementPoint> placementPoints = new List<PlacementPoint>();
+        List<IslandPoint> placementPoints = new List<IslandPoint>();
 
         foreach(Transform point in _points)
         {
-            placementPoints.Add(new PlacementPoint(point));            
+            placementPoints.Add(new IslandPoint(point));            
         }
 
         _island.Initialize(placementPoints, Paint, paintMaterials);
@@ -37,7 +37,7 @@ public class IslandInitializer : MonoBehaviour
             {
                 Unit unit = createUnit.Invoke();
                 unit.Initialize(_island, startUnits.Paint, paintMaterials);
-                _island.AddUnit(unit, out PlacementPoint placementPoint);
+                _island.AddUnit(unit, out IslandPoint placementPoint);
                 unit.transform.position = placementPoint.Point.position;
             }
         }

@@ -54,7 +54,7 @@ public class PaintAmountReduceBoost : Boost
 
     private void SwapUnitsPaint(BaseIsland island, Paint oldPaint, Paint newPaint)
     {
-        foreach (PlacementPoint point in island.Points)
+        foreach (IslandPoint point in island.Points)
         {
             if (point.IsFree == false && point.OccupiedUnit.Paint == oldPaint)
             {
@@ -86,7 +86,7 @@ public class PaintAmountReduceBoost : Boost
 
     private void AddPaintAmount(Dictionary<Paint, int> paintsAmouts, BaseIsland island)
     {
-        foreach (PlacementPoint point in island.Points)
+        foreach (IslandPoint point in island.Points)
         {
             if (point.IsFree == false)
             {

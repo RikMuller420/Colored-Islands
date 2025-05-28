@@ -22,7 +22,7 @@ public class UnitMover
     public void MoveUnit(Unit unit, BaseIsland targetIsland)
     {
         unit.Island.RemoveUnit(unit);
-        targetIsland.AddUnit(unit, out PlacementPoint placementPoint);
+        targetIsland.AddUnit(unit, out IslandPoint placementPoint);
         unit.SetIsland(targetIsland);
         unit.transform.position = placementPoint.Point.position;
     }

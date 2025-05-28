@@ -24,7 +24,7 @@ public class BufferIslandBoost : Boost
         _buferIslandsHolder.LoadIsland(newSize);
         BaseIsland newIsland = _buferIslandsHolder.CurrentIsland;
 
-        foreach (PlacementPoint point in oldIsland.Points)
+        foreach (IslandPoint point in oldIsland.Points)
         {
             if (point.IsFree)
             {
