@@ -2,13 +2,17 @@ using UnityEngine;
 
 public class TabContent : MonoBehaviour
 {
+    [SerializeField] private CanvasGroup _canvasGroup;
+
     public virtual void Activate()
     {
-        gameObject.SetActive(true);
+        _canvasGroup.alpha = 1;
+        _canvasGroup.blocksRaycasts = true;
     }
 
     public void Deactivte()
     {
-        gameObject.SetActive(false);
+        _canvasGroup.alpha = 0;
+        _canvasGroup.blocksRaycasts = false;
     }
 }
