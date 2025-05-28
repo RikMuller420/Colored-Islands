@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public class InterstitialAdOpener
 {
@@ -41,7 +42,7 @@ public class InterstitialAdOpener
             return;
         }
 
-        float secondsFromLastAd = (float)(_lastAdTime - DateTime.Now).TotalSeconds;
+        float secondsFromLastAd = (float)(DateTime.Now - _lastAdTime).TotalSeconds;
 
         if (secondsFromLastAd < _adCooldownSeconds)
         {
