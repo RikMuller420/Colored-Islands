@@ -34,6 +34,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private LoginButton _loginButton;
     [SerializeField] private BackgroundMusicChanger _backgroundMusicChanger;
     [SerializeField] private GameplaySoundPlayer _gameplaySoundPlayer;
+    [SerializeField] private DeviceStyleChangeInitializer _deviceStyleChangeInitializer;
     [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
     [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
 
@@ -95,6 +96,7 @@ public class GameInitializer : MonoBehaviour
                                 _uiZoneActivator, levelDataHolder, _buferIslands, gameProgressStorage);
         _buferIslands.Initialize(_levelSettings);
         _backgroundMusicChanger.Initialize(_levelLoader);
+        _deviceStyleChangeInitializer.Initialize();
 
         foreach (LeaderboardTab leaderboardTab in _leaderboardTabs)
         {
