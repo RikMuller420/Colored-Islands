@@ -7,12 +7,9 @@ using UnityEngine;
 public class Island : BaseIsland
 {
     private IslandRenderer _renderer;
-    private float _instability;
-    private float _instabilityLimit = 500;
 
     public event Action IslandFinished;
 
-    public float Instablility => _instability / _instabilityLimit;  
     public Paint Paint { get; private set; }
     public bool IsDone => Points.All(point => !point.IsFree && point.OccupiedUnit.Paint == Paint);
 
@@ -24,23 +21,6 @@ public class Island : BaseIsland
     private void OnDisable()
     {
         UnitAdded -= TryFinish;
-    }
-
-    private void Update()
-    {
-        float instabilityStep = 0f;
-
-        foreach (IslandPoint point in Points)
-        {
-            if (point.IsFree == false && point.OccupiedUnit.Paint != Paint)
-            {
-                instabilityStep += 1f;
-            }
-        }
-
-        instabilityStep *= 1f;
-        _instability += instabilityStep * Time.deltaTime;
-        Debug.Log(gameObject.name + "  " + Instablility);
     }
 
     public void Initialize(List<IslandPoint> placementPoints, Paint paint, PaintMaterials paintMaterials)
