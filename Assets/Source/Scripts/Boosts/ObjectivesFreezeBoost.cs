@@ -32,7 +32,7 @@ public class ObjectivesFreezeBoost : Boost
         SpendBoost(Type);
     }
 
-    private void OnUnitMoved()
+    private void OnUnitMoved(UnitsMoveInfo _)
     {
         if (_isBoostApplying == false)
         {

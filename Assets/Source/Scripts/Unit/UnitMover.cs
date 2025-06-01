@@ -1,11 +1,14 @@
 using System;
+using System.Collections.Generic;
 
 public class UnitMover
 {
-    public event Action UnitsMoved;
+    public event Action<UnitsMoveInfo> UnitsMoved;
 
     public void MoveAllPossibleUnits(BaseIsland homeIsland, Paint unitsPaint, BaseIsland targetIsland)
     {
+        List<Unit> units = new List<Unit>();
+
         foreach (Unit unit in homeIsland.GetUnits(unitsPaint))
         {
             if (targetIsland.FreePointsCount == 0)
@@ -14,9 +17,11 @@ public class UnitMover
             }
 
             MoveUnit(unit, targetIsland);
+            units.Add(unit);
         }
 
-        UnitsMoved?.Invoke();
+        UnitsMoveInfo unitsMoveInfo = new UnitsMoveInfo(homeIsland, targetIsland, unitsPaint, units);
+        UnitsMoved?.Invoke(unitsMoveInfo);
     }
 
     public void MoveUnit(Unit unit, BaseIsland targetIsland)

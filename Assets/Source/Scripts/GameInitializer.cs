@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Lean.Localization;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -35,6 +36,8 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private BackgroundMusicChanger _backgroundMusicChanger;
     [SerializeField] private GameplaySoundPlayer _gameplaySoundPlayer;
     [SerializeField] private DeviceStyleChangeInitializer _deviceStyleChangeInitializer;
+    [SerializeField] private AngryBar _angryBar;
+    [SerializeField] private LeanToken _currentLevelNumberToken;
     [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
     [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
 
@@ -73,6 +76,7 @@ public class GameInitializer : MonoBehaviour
         var interAdOpener = new InterstitialAdOpener(_levelLoader, removeAdsProvider, interAdProvider, rewardedAdProvider);
         var soundVolumeProvider = new SoundVolumeProvider(_audioMixers, gameProgressStorage);
         var levelEndSoundPlayer = new LevelEndSoundPlayer(_levelProgressTracker, _gameplaySoundPlayer);
+        var angryTracker = new AngryTracker(levelDataHolder);
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(gameProgressStorage, _levelLoader);
@@ -89,14 +93,16 @@ public class GameInitializer : MonoBehaviour
         _lastLevelTextUpdater.Initialize(gameProgressStorage);
         _loginButton.Initialize(authorizationProvider);
 
-        _levelProgressTracker.Initialize(gameProgressStorage, levelDataHolder, unitMover);
+        _levelProgressTracker.Initialize(gameProgressStorage, levelDataHolder, unitMover, angryTracker);
         _finalScoreWindow.Initialize(gameProgressStorage, _levelProgressTracker);
 
         _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _levelProgressTracker,
-                                _uiZoneActivator, levelDataHolder, _buferIslands, gameProgressStorage);
+                                _uiZoneActivator, levelDataHolder, _buferIslands, gameProgressStorage,
+                                _currentLevelNumberToken);
         _buferIslands.Initialize(_levelSettings);
         _backgroundMusicChanger.Initialize(_levelLoader);
         _deviceStyleChangeInitializer.Initialize();
+        _angryBar.Initialize(_levelProgressTracker, _levelLoader);
 
         foreach (LeaderboardTab leaderboardTab in _leaderboardTabs)
         {

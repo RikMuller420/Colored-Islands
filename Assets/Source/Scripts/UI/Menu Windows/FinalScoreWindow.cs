@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Linq;
-using Lean.Localization;
-using TMPro;
 using UnityEngine;
 
 public class FinalScoreWindow : MenuWindow
@@ -9,12 +7,10 @@ public class FinalScoreWindow : MenuWindow
     [SerializeField] private GameObject _winTitle;
     [SerializeField] private GameObject _looseTitle;
     [SerializeField] private NextLevelButton _nextLevelButton;
-    [SerializeField] private TextMeshProUGUI _levelNumberText;
     [SerializeField] private StarsAnimator _starsAnimator;
     [SerializeField] private ScoreAnimator _scoreAnimator;
     [SerializeField] private ObjectivesAnimator _objectivesAnimator;
     [SerializeField] private ResultButtons _resultButtons;
-    [SerializeField] private LeanToken _currentLevelNumberToken;
 
     private GameProgressStorage _progressStorage;
     private LevelProgressTracker _progressTracker;
@@ -75,7 +71,6 @@ public class FinalScoreWindow : MenuWindow
 
     private void PreparePanel()
     {
-        _currentLevelNumberToken.SetValue(_progressTracker.LevelData.Id);
         _objectivesAnimator.ResetObjectives();
         _starsAnimator.ResetStars();
         _scoreAnimator.ResetAnimation();

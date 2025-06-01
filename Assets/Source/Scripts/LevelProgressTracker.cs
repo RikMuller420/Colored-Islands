@@ -10,12 +10,14 @@ public class LevelProgressTracker : MonoBehaviour
     private GoldCalculator _goldCalculator;
     private ScoreCalculator _scoreCalculator;
     private UnitMover _unitMover;
+    private AngryTracker _angryTracker;
 
     public event Action LevelFinished;
     public event Action LevelFailed;
     public event Action<float> TimeChanged;
-    public event Action<int> MovesChanged;
+    public event Action<float> AngryChanged;
     public event Action TrackStopped;
+    public event Action<Island> IslandFinished;
 
     public bool IsLevelFinished { get; private set; }
     public bool IsTimeTaskDone { get => _levelTime <= LevelData.ExtraStarTimeLimit; }
@@ -40,14 +42,23 @@ public class LevelProgressTracker : MonoBehaviour
         {
             _levelTime += Time.deltaTime;
             TimeChanged?.Invoke(_levelTime);
+
+            _angryTracker.AddAngryTick();
+            AngryChanged?.Invoke(_angryTracker.AngryValue);
+
+            if (_angryTracker.AngryValue >= 1f)
+            {
+                FailLevel();
+            }
         }
     }
 
     public void Initialize(GameProgressStorage progressStorage, LevelObjectsHolder levelDataHolder,
-                            UnitMover unitMover)
+                            UnitMover unitMover, AngryTracker angryTracker)
     {
         _levelDataHolder = levelDataHolder;
         _unitMover = unitMover;
+        _angryTracker = angryTracker;
         _goldCalculator = new GoldCalculator(this, progressStorage);
         _scoreCalculator = new ScoreCalculator(this, levelDataHolder);
         enabled = true;
@@ -66,6 +77,7 @@ public class LevelProgressTracker : MonoBehaviour
         _levelTime = 0f;
         ReachedGold = 0;
         ReachedScore = 0;
+        _angryTracker.ResetAngryValue();
         IsLevelFinished = false;
         _isTracking = true;
     }
@@ -91,7 +103,7 @@ public class LevelProgressTracker : MonoBehaviour
         TrackStopped?.Invoke();
     }
 
-    private void OnUnitsMoved()
+    private void OnUnitsMoved(UnitsMoveInfo unitsMoveInfo)
     {
         if (_isTracking == false)
         {
@@ -99,18 +111,18 @@ public class LevelProgressTracker : MonoBehaviour
         }
 
         _levelMoves++;
-        MovesChanged?.Invoke(_levelMoves);
 
-        if (_levelMoves == LevelData.LevelMoveLimit)
-        {
-            StopTracking();
-            CalculateRewardsAmount();
-            LevelFailed?.Invoke();
-        }
+        _angryTracker.AddUnitsMovedTick(unitsMoveInfo);
+        AngryChanged?.Invoke(_angryTracker.AngryValue);
     }
 
-    private void OnIslandFinished()
+    private void OnIslandFinished(Island finishedIsland)
     {
+        IslandFinished?.Invoke(finishedIsland);
+
+        _angryTracker.AddIslandFinishedTick(finishedIsland);
+        AngryChanged?.Invoke(_angryTracker.AngryValue);
+
         foreach (Island island in _levelDataHolder.Islands)
         {
             if (island.IsDone == false)
@@ -125,7 +137,6 @@ public class LevelProgressTracker : MonoBehaviour
         LevelFinished?.Invoke();
     }
 
-    //Under TEST UI only
     public void FailLevel()
     {
         StopTracking();

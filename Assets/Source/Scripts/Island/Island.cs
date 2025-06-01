@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using UnityEngine;
 
@@ -8,7 +7,7 @@ public class Island : BaseIsland
 {
     private IslandRenderer _renderer;
 
-    public event Action IslandFinished;
+    public event Action<Island> IslandFinished;
 
     public Paint Paint { get; private set; }
     public bool IsDone => Points.All(point => !point.IsFree && point.OccupiedUnit.Paint == Paint);
@@ -30,7 +29,6 @@ public class Island : BaseIsland
         MeshRenderer renderer = GetComponent<MeshRenderer>();
         _renderer = new IslandRenderer(renderer, paintMaterials);
         SetPaint(paint);
-        _instability = 0f;
     }
 
     public void SetPaint(Paint paint)
@@ -47,7 +45,7 @@ public class Island : BaseIsland
         }
 
         Deactivate();
-        IslandFinished?.Invoke();
+        IslandFinished?.Invoke(this);
     }
 
     private void Deactivate()

@@ -34,9 +34,9 @@ public class ScoreCalculator
                 score += (int)(_progressTracker.LevelData.ExtraStarTimeLimit - levelTime) * _scorePerSavedSecond;
             }
 
-            if (levelMoves < _progressTracker.LevelData.LevelMoveLimit)
+            if (levelMoves < _progressTracker.LevelData.ExtraStarMoveLimit)
             {
-                score += (int)(_progressTracker.LevelData.LevelMoveLimit - levelMoves) * _scorePerSavedMove;
+                score += (int)(_progressTracker.LevelData.ExtraStarMoveLimit - levelMoves) * _scorePerSavedMove;
             }
         }
 

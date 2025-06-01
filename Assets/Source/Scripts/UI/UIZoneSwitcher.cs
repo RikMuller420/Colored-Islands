@@ -9,15 +9,15 @@ public class UIZoneSwitcher : MonoBehaviour
 
     public void SwitchToInGameUI()
     {
-        OpenZones(_inGameZones);
         CloseZones(_mainMenuZones);
+        OpenZones(_inGameZones);
         CloseAllWindows();
     }
 
     public void SwitchToMainMenuUI()
     {
-        OpenZones(_mainMenuZones);
         CloseZones(_inGameZones);
+        OpenZones(_mainMenuZones);
         CloseAllWindows();
     }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Lean.Localization;
 using UnityEngine;
 
 public class LevelLoader : MonoBehaviour
@@ -11,6 +12,8 @@ public class LevelLoader : MonoBehaviour
     private UIZoneSwitcher _uiZoneActivator;
     private LevelObjectsHolder _levelDataHolder;
     private GameProgressStorage _gameProgressStorage;
+    private LeanToken _currentLevelNumberToken;
+
 
     private IslandsGroupInitializer _currentIslands;
     private BuferIslandsHolder _buferIslands;
@@ -24,7 +27,7 @@ public class LevelLoader : MonoBehaviour
     public void Initialize(LevelSettings levelSettings, UnitsPool unitsPool, PaintMaterials materials,
                             LevelProgressTracker levelProgressTracker, UIZoneSwitcher uiZoneActivator,
                             LevelObjectsHolder levelDataHolder, BuferIslandsHolder buferIslands,
-                            GameProgressStorage gameProgressStorage)
+                            GameProgressStorage gameProgressStorage, LeanToken currentLevelNumberToken)
     {
         _levelSettings = levelSettings;
         _unitsPool = unitsPool;
@@ -34,6 +37,7 @@ public class LevelLoader : MonoBehaviour
         _levelDataHolder = levelDataHolder;
         _buferIslands = buferIslands;
         _gameProgressStorage = gameProgressStorage;
+        _currentLevelNumberToken = currentLevelNumberToken;
         CurrentLevelData = _levelSettings.MainMenuSettings;
     }
 
@@ -49,6 +53,8 @@ public class LevelLoader : MonoBehaviour
     public void LoadLevel(int levelId)
     {
         _currentLevelId = levelId;
+        _currentLevelNumberToken.SetValue(levelId);
+
         _uiZoneActivator.SwitchToInGameUI();
 
         UnloadCurrentLevel();
