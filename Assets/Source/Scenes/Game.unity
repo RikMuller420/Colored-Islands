@@ -174,9 +174,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 11560685}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!114 &11560688
 MonoBehaviour:
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae6699bda461acc4d84a0302c983dc20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isOpened: 0
+  _isOpened: 1
   _canvasGroup: {fileID: 11560687}
 --- !u!114 &11560689
 MonoBehaviour:
@@ -235,6 +235,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvas: {fileID: 11560693}
+  _emojiAnimator: {fileID: 931517870}
+  _smoothBarChanger: {fileID: 1041814154}
 --- !u!223 &11560693
 Canvas:
   m_ObjectHideFlags: 0
@@ -11344,7 +11346,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bb63fd57ba80104685e22d32e7a7224, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _angryBar: {fileID: 11560692}
   _emojiAnimator: {fileID: 1057892294}
 --- !u!1001 &932909371
 PrefabInstance:
@@ -12469,7 +12470,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b1aa717ecbab8848ba5b07929dd25bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _angryBar: {fileID: 11560692}
   _filler: {fileID: 762765503}
 --- !u!1001 &1043041172
 PrefabInstance:

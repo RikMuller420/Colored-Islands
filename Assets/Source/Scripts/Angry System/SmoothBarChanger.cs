@@ -4,51 +4,33 @@ using UnityEngine.UI;
 
 public class SmoothBarChanger : MonoBehaviour
 {
-    [SerializeField] private AngryBar _angryBar;
     [SerializeField] private Image _filler;
 
     private float changeDuration = 0.3f;
     private float _startValue;
-    private float _targetValue;
     private float _time;
     private Coroutine _changeBarCoroutine;
     private WaitForEndOfFrame _wait = new WaitForEndOfFrame();
 
-    private void Awake()
-    {
-        UpdateFiller();
-    }
-
-    private void OnEnable()
-    {
-        _angryBar.Changed += UpdateFiller;
-    }
-
-    private void OnDisable()
-    {
-        _angryBar.Changed -= UpdateFiller;
-    }
-
-    private void UpdateFiller()
+    public void UpdateBarValue(float value)
     {
         if (_changeBarCoroutine != null)
         {
             StopCoroutine(_changeBarCoroutine);
         }
 
-        _changeBarCoroutine = StartCoroutine(ChangingBarValue());
+        _changeBarCoroutine = StartCoroutine(ChangingBarValue(value));
     }
 
-    private IEnumerator ChangingBarValue()
+    private IEnumerator ChangingBarValue(float targetValue)
     {
         _time = 0f;
         _startValue = _filler.fillAmount;
-        _targetValue = _angryBar.Value;
 
         while (_time < changeDuration)
         {
             _time += Time.deltaTime;
-            _filler.fillAmount = Mathf.Lerp(_startValue, _targetValue, _time / changeDuration);
+            _filler.fillAmount = Mathf.Lerp(_startValue, targetValue, _time / changeDuration);
 
             yield return _wait;
         }

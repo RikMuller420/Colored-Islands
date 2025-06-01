@@ -2,13 +2,12 @@ using UnityEngine;
 
 public class AngryBarEmojiChanger : MonoBehaviour
 {
-    [SerializeField] private AngryBar _angryBar;
     [SerializeField] private Animator _emojiAnimator;
 
     private float _animationZoneWidth = 0.1f;
     private int _currentAnimationZone = 0;
     private float _animationZoneThreshold = 0.02f;
-    private string[] _emojiTriggers = new string[]
+    private string[] _angryLineTriggers = new string[]
     {
         "BigSmile",
         "SmallSmile",
@@ -18,25 +17,29 @@ public class AngryBarEmojiChanger : MonoBehaviour
         "Rage",
         "BigRage"
     };
+    private string _winTrigger = "Win";
+    private string _loseTrigger = "Lose";
 
     private void Awake()
     {
-        _animationZoneWidth = 1f / _emojiTriggers.Length;
-        TryUpdateEmojiAnimation();
-    }
-    private void OnEnable()
-    {
-        _angryBar.Changed += TryUpdateEmojiAnimation;
+        _animationZoneWidth = 1f / _angryLineTriggers.Length;
     }
 
-    private void OnDisable()
+    public void PlayWinEmoji()
     {
-        _angryBar.Changed -= TryUpdateEmojiAnimation;
+        _emojiAnimator.SetTrigger(_winTrigger);
+        _currentAnimationZone = -1;
     }
 
-    private void TryUpdateEmojiAnimation()
+    public void PlayLooseEmoji()
     {
-        int newZoneIndex = Mathf.FloorToInt(_angryBar.Value / _animationZoneWidth);
+        _emojiAnimator.SetTrigger(_loseTrigger);
+        _currentAnimationZone = -1;
+    }
+
+    public void UpdateEmojiAnimation(float angryValue)
+    {
+        int newZoneIndex = Mathf.FloorToInt(angryValue / _animationZoneWidth);
 
         if (newZoneIndex != _currentAnimationZone)
         {
@@ -45,16 +48,16 @@ public class AngryBarEmojiChanger : MonoBehaviour
 
             if (newZoneIndex > _currentAnimationZone)
             {
-                isAnimationChangeRequire = _angryBar.Value >= zoneBoundary + _animationZoneThreshold;
+                isAnimationChangeRequire = angryValue >= zoneBoundary + _animationZoneThreshold;
             }
             else if (newZoneIndex < _currentAnimationZone)
             {
-                isAnimationChangeRequire = _angryBar.Value <= zoneBoundary + _animationZoneWidth - _animationZoneThreshold;
+                isAnimationChangeRequire = angryValue <= zoneBoundary + _animationZoneWidth - _animationZoneThreshold;
             }
 
             if (isAnimationChangeRequire)
             {
-                _emojiAnimator.SetTrigger(_emojiTriggers[newZoneIndex]);
+                _emojiAnimator.SetTrigger(_angryLineTriggers[newZoneIndex]);
                 _currentAnimationZone = newZoneIndex;
             }
         }
