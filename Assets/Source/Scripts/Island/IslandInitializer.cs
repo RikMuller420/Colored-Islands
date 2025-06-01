@@ -19,7 +19,7 @@ public class IslandInitializer : MonoBehaviour
     public List<Transform> Points => new List<Transform>(_points);
     public List<IslandStartUnits> StartUnits => new List<IslandStartUnits>(_startUnits);
 
-    public void Initialize(Func<Unit> createUnit, PaintMaterials paintMaterials)
+    public void Initialize(Func<Unit> createUnit, PaintMaterials paintMaterials, Transform unitsLookAtPoint)
     {
         FindRequireComponents();
         List<IslandPoint> placementPoints = new List<IslandPoint>();
@@ -39,6 +39,7 @@ public class IslandInitializer : MonoBehaviour
                 unit.Initialize(_island, startUnits.Paint, paintMaterials);
                 _island.AddUnit(unit, out IslandPoint placementPoint);
                 unit.transform.position = placementPoint.Point.position;
+                unit.MeshTransform.LookAt(unitsLookAtPoint);
             }
         }
     }

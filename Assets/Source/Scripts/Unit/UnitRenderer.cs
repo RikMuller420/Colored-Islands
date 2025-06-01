@@ -4,13 +4,13 @@ public class UnitRenderer
 {
     private const string OutlineShaderValueName = "_OtlWidth";
 
-    private MeshRenderer _renderer;
+    private SkinnedMeshRenderer _renderer;
     private PaintMaterials _paintMaterials;
 
-    private float maxOutlineWidth = 10f;
+    private float maxOutlineWidth = 6f;
     private float minOutlineWidth = 0f;
 
-    public UnitRenderer(MeshRenderer renderer, PaintMaterials paintMaterials)
+    public UnitRenderer(SkinnedMeshRenderer renderer, PaintMaterials paintMaterials)
     {
         _renderer = renderer;
         _paintMaterials = paintMaterials;
@@ -22,7 +22,9 @@ public class UnitRenderer
         {
             if (materials.Paint == paint)
             {
-                _renderer.sharedMaterial = materials.UnitMaterial;
+                Material[] sharedMaterials = _renderer.sharedMaterials;
+                sharedMaterials[0] = materials.UnitMaterial;
+                _renderer.materials = sharedMaterials;
 
                 return;
             }
@@ -31,11 +33,11 @@ public class UnitRenderer
 
     public void ActivateOutline()
     {
-        _renderer.material.SetFloat(OutlineShaderValueName, maxOutlineWidth);
+        _renderer.materials[0].SetFloat(OutlineShaderValueName, maxOutlineWidth);
     }
 
     public void DeactivateOutline()
     {
-        _renderer.material.SetFloat(OutlineShaderValueName, minOutlineWidth);
+        _renderer.materials[0].SetFloat(OutlineShaderValueName, minOutlineWidth);
     }
 }

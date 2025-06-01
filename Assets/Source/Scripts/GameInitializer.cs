@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Lean.Localization;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class GameInitializer : MonoBehaviour
 {
@@ -38,6 +37,9 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private DeviceStyleChangeInitializer _deviceStyleChangeInitializer;
     [SerializeField] private AngryBar _angryBar;
     [SerializeField] private LeanToken _currentLevelNumberToken;
+    [SerializeField] private UnitMovePerformer _unitMovePerformer;
+    [SerializeField] private Transform _unitsLookAtPoint;
+    [SerializeField] private AudioSource _unitMoveSound;
     [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
     [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
 
@@ -60,7 +62,7 @@ public class GameInitializer : MonoBehaviour
         var leaderboardProvider = new LeaderboardProvider();
 
         var levelDataHolder = new LevelObjectsHolder();
-        var unitMover = new UnitMover();
+        var unitMover = new UnitMover(_unitMovePerformer);
         var selectHandler = new SelectHandler(unitMover, _buferIslands, levelDataHolder);
 
         var defaultClickHandler = new DefaultClickHandler(selectHandler, _allIslandsAndUnitsLayer);
@@ -77,11 +79,11 @@ public class GameInitializer : MonoBehaviour
         var soundVolumeProvider = new SoundVolumeProvider(_audioMixers, gameProgressStorage);
         var levelEndSoundPlayer = new LevelEndSoundPlayer(_levelProgressTracker, _gameplaySoundPlayer);
         var angryTracker = new AngryTracker(levelDataHolder);
+        var unitsMoveSoundPlayer = new UnitsMoveSoundPlayer(unitMover, _unitMoveSound);
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(gameProgressStorage, _levelLoader);
-
-
+        _unitMovePerformer.Initialize(_unitsLookAtPoint);
 
         _boostButtonInitializer.Initialize(unitMover, gameClickHandler, selectHandler, levelDataHolder,
                                            boostAmountProvider);
@@ -98,7 +100,7 @@ public class GameInitializer : MonoBehaviour
 
         _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _levelProgressTracker,
                                 _uiZoneActivator, levelDataHolder, _buferIslands, gameProgressStorage,
-                                _currentLevelNumberToken);
+                                _currentLevelNumberToken, _unitsLookAtPoint);
         _buferIslands.Initialize(_levelSettings);
         _backgroundMusicChanger.Initialize(_levelLoader);
         _deviceStyleChangeInitializer.Initialize();

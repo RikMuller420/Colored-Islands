@@ -9,11 +9,11 @@ public class IslandsGroupInitializer : MonoBehaviour
 
     public IReadOnlyCollection<Island> Islands => _islands.Select(initializer => initializer.Island).ToList().AsReadOnly();
 
-    public void Initialize(Func<Unit> createUnit, PaintMaterials materials)
+    public void Initialize(Func<Unit> createUnit, PaintMaterials materials, Transform unitsLookAtPoint)
     {
         foreach (IslandInitializer island in _islands)
         {
-            island.Initialize(createUnit, materials);
+            island.Initialize(createUnit, materials, unitsLookAtPoint);
         }
     }
 

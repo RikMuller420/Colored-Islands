@@ -17,8 +17,6 @@ public class LevelProgressTracker : MonoBehaviour
     public event Action<float> TimeChanged;
     public event Action<float> AngryChanged;
     public event Action TrackStopped;
-    public event Action<Island> IslandFinished;
-
     public bool IsLevelFinished { get; private set; }
     public bool IsTimeTaskDone { get => _levelTime <= LevelData.ExtraStarTimeLimit; }
     public bool IsMoveTaskDone { get => _levelMoves <= LevelData.ExtraStarMoveLimit; }
@@ -118,10 +116,11 @@ public class LevelProgressTracker : MonoBehaviour
 
     private void OnIslandFinished(Island finishedIsland)
     {
-        IslandFinished?.Invoke(finishedIsland);
-
-        _angryTracker.AddIslandFinishedTick(finishedIsland);
-        AngryChanged?.Invoke(_angryTracker.AngryValue);
+        if (_isTracking)
+        {
+            _angryTracker.AddIslandFinishedTick(finishedIsland);
+            AngryChanged?.Invoke(_angryTracker.AngryValue);
+        }
 
         foreach (Island island in _levelDataHolder.Islands)
         {
