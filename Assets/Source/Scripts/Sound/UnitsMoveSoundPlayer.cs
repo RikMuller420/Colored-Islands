@@ -1,28 +1,40 @@
-using System.Threading.Tasks;
+using System.Collections;
 using UnityEngine;
 
-public class UnitsMoveSoundPlayer
+public class UnitsMoveSoundPlayer : MonoBehaviour
 {
     private UnitMover _unitMover;
     private AudioSource _moveSound;
 
-    private int _delay = 100;
+    private WaitForSeconds _wait;
+    private float _delay = 0.1f;
 
-    public UnitsMoveSoundPlayer(UnitMover unitMover, AudioSource moveSound)
+    private void Awake()
+    {
+        _wait = new WaitForSeconds(_delay);
+    }
+
+    public void Initialize(UnitMover unitMover, AudioSource moveSound)
     {
         _unitMover = unitMover;
         _moveSound = moveSound;
 
-        _unitMover.UnitsMoved += PlayMoveSound;
+        _unitMover.UnitsMoved += OnUnitMoved;
+        enabled = true;
     }
 
-    public async void PlayMoveSound(UnitsMoveInfo unitsMoveInfo)
+    private void OnUnitMoved(UnitsMoveInfo unitsMoveInfo)
     {
-        for (int i = 0; i < unitsMoveInfo.Units.Count; i++)
+        StartCoroutine(PlayMoveSound(unitsMoveInfo.Units.Count));
+    }
+
+    public IEnumerator PlayMoveSound(int soundCount)
+    {
+        for (int i = 0; i < soundCount; i++)
         {
             _moveSound.Play();
 
-            await Task.Delay(_delay);
+            yield return _wait;
         }
     }
 }

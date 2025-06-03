@@ -40,6 +40,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private UnitMovePerformer _unitMovePerformer;
     [SerializeField] private Transform _unitsLookAtPoint;
     [SerializeField] private AudioSource _unitMoveSound;
+    [SerializeField] private UnitsMoveSoundPlayer _unitsMoveSoundPlayer;
     [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
     [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
 
@@ -79,7 +80,6 @@ public class GameInitializer : MonoBehaviour
         var soundVolumeProvider = new SoundVolumeProvider(_audioMixers, gameProgressStorage);
         var levelEndSoundPlayer = new LevelEndSoundPlayer(_levelProgressTracker, _gameplaySoundPlayer);
         var angryTracker = new AngryTracker(levelDataHolder);
-        var unitsMoveSoundPlayer = new UnitsMoveSoundPlayer(unitMover, _unitMoveSound);
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(gameProgressStorage, _levelLoader);
@@ -105,6 +105,7 @@ public class GameInitializer : MonoBehaviour
         _backgroundMusicChanger.Initialize(_levelLoader);
         _deviceStyleChangeInitializer.Initialize();
         _angryBar.Initialize(_levelProgressTracker, _levelLoader);
+        _unitsMoveSoundPlayer.Initialize(unitMover, _unitMoveSound);
 
         foreach (LeaderboardTab leaderboardTab in _leaderboardTabs)
         {
