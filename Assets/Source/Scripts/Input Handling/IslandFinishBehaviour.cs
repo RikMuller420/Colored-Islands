@@ -40,6 +40,8 @@ public class IslandFinishBehaviour : ClickBehaviour
             .ToList()
             .AsReadOnly();
 
+        List<BaseIsland> usedIslands = new List<BaseIsland>() { island };
+
         foreach (IslandPoint point in freePoints)
         {
             MoveAnySuitableUnit(island);
@@ -50,6 +52,16 @@ public class IslandFinishBehaviour : ClickBehaviour
             BaseIsland freeIsland = FindFreeIsland();
             _unitMover.MoveUnit(point.OccupiedUnit, freeIsland);
             MoveAnySuitableUnit(island);
+
+            if (usedIslands.Contains(freeIsland) == false)
+            {
+                usedIslands.Add(freeIsland);
+            }
+        }
+
+        foreach (BaseIsland usedIsland in usedIslands)
+        {
+            _unitMover.OptimizeUnitsPosition(usedIsland);
         }
     }
 

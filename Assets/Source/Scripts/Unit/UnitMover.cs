@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class UnitMover
 {
-    private UnitMovePerformer _unitMovePerformer;
+    private IslandPaintDistributor _islandPaintDistributor;
 
     public event Action<UnitsMoveInfo> UnitsMoved;
 
-    public UnitMover(UnitMovePerformer unitMovePerformer)
+    public UnitMover()
     {
-        _unitMovePerformer = unitMovePerformer;
+        _islandPaintDistributor = new IslandPaintDistributor();
     }
 
     public void MoveAllPossibleUnits(BaseIsland homeIsland, Paint unitsPaint, BaseIsland targetIsland)
@@ -27,6 +28,7 @@ public class UnitMover
             units.Add(unit);
         }
 
+        OptimizeUnitsPosition(targetIsland);
         UnitsMoveInfo unitsMoveInfo = new UnitsMoveInfo(homeIsland, targetIsland, unitsPaint, units);
         UnitsMoved?.Invoke(unitsMoveInfo);
     }
@@ -38,6 +40,49 @@ public class UnitMover
         unit.SetIsland(targetIsland);
 
         UnitMoveTask unitMoveTask = new UnitMoveTask(unit, targetPoint);
-        _unitMovePerformer.AddTask(unitMoveTask);
+    }
+
+    public void OptimizeUnitsPosition(BaseIsland island)
+    {
+        Dictionary<IslandPoint, Paint> requredPaintsDistribution = _islandPaintDistributor.CalculateOptimalPaintDistribution(island);
+        Dictionary<IslandPoint, Paint> pointToFill = new Dictionary<IslandPoint, Paint>();
+        List<Unit> unitsToMove = new List<Unit>();
+
+        foreach (IslandPoint point in island.Points)
+        {
+            if (requredPaintsDistribution.ContainsKey(point) == false && point.IsFree == false)
+            {
+                unitsToMove.Add(point.OccupiedUnit);
+                point.RemoveUnit();
+            }
+        }
+
+        foreach (var requredPointPaint in requredPaintsDistribution)
+        {
+            IslandPoint point = requredPointPaint.Key;
+            Paint paint = requredPointPaint.Value;
+
+            if (point.IsFree)
+            {
+                pointToFill.Add(point, paint);
+            }
+            else if(point.OccupiedUnit.Paint != paint)
+            {
+                pointToFill.Add(point, paint);
+                unitsToMove.Add(point.OccupiedUnit);
+            }
+        }
+
+        foreach (var requredPointPaint in pointToFill)
+        {
+            IslandPoint point = requredPointPaint.Key;
+            Paint paint = requredPointPaint.Value;
+
+            Unit unit = unitsToMove.FirstOrDefault(unit => unit.Paint == paint);
+
+            point.SetUnit(unit);
+            UnitMoveTask unitMoveTask = new UnitMoveTask(unit, point);
+            unitsToMove.Remove(unit);
+        }
     }
 }

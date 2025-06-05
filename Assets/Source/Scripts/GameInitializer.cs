@@ -37,7 +37,6 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private DeviceStyleChangeInitializer _deviceStyleChangeInitializer;
     [SerializeField] private AngryBar _angryBar;
     [SerializeField] private LeanToken _currentLevelNumberToken;
-    [SerializeField] private UnitMovePerformer _unitMovePerformer;
     [SerializeField] private Transform _unitsLookAtPoint;
     [SerializeField] private AudioSource _unitMoveSound;
     [SerializeField] private UnitsMoveSoundPlayer _unitsMoveSoundPlayer;
@@ -63,7 +62,7 @@ public class GameInitializer : MonoBehaviour
         var leaderboardProvider = new LeaderboardProvider();
 
         var levelDataHolder = new LevelObjectsHolder();
-        var unitMover = new UnitMover(_unitMovePerformer);
+        var unitMover = new UnitMover();
         var selectHandler = new SelectHandler(unitMover, _buferIslands, levelDataHolder);
 
         var defaultClickHandler = new DefaultClickHandler(selectHandler, _allIslandsAndUnitsLayer);
@@ -83,7 +82,6 @@ public class GameInitializer : MonoBehaviour
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(gameProgressStorage, _levelLoader);
-        _unitMovePerformer.Initialize(_unitsLookAtPoint);
 
         _boostButtonInitializer.Initialize(unitMover, gameClickHandler, selectHandler, levelDataHolder,
                                            boostAmountProvider);

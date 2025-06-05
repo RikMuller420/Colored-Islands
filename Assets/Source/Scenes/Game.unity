@@ -16040,7 +16040,7 @@ MonoBehaviour:
   _deviceStyleChangeInitializer: {fileID: 1569563128}
   _angryBar: {fileID: 11560692}
   _currentLevelNumberToken: {fileID: 1155735743}
-  _unitMovePerformer: {fileID: 1691340741}
+  _unitMovePerformer: {fileID: 0}
   _unitsLookAtPoint: {fileID: 2075239040}
   _unitMoveSound: {fileID: 1110587395}
   _unitsMoveSoundPlayer: {fileID: 481787577}
@@ -19171,50 +19171,6 @@ MonoBehaviour:
   - Language: Turkish
     Text: Ayarlar
     Object: {fileID: 0}
---- !u!1 &1691340740
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1691340742}
-  - component: {fileID: 1691340741}
-  m_Layer: 0
-  m_Name: Unit Move Performer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1691340741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1691340740}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f3fb772fef96924d92b9f8a1ea1c2e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1691340742
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1691340740}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.15170169, y: -13.802777, z: 12.730303}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1693446181
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29968,7 +29924,6 @@ SceneRoots:
   - {fileID: 139415722}
   - {fileID: 1469927572}
   - {fileID: 636612476}
-  - {fileID: 1691340742}
   - {fileID: 398315537}
   - {fileID: 1252674483}
   - {fileID: 1486200999}

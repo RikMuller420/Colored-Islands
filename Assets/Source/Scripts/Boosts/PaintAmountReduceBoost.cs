@@ -7,16 +7,18 @@ public class PaintAmountReduceBoost : Boost
     private LevelObjectsHolder _levelDataHolder;
     private BuferIslandsHolder _buferIslands;
     private PaintMaterials _paintMaterials;
+    private UnitMover _unitMover;
 
     private int _bestNewColorIndex = 2;
 
     public PaintAmountReduceBoost(LevelObjectsHolder levelDataHolder, BuferIslandsHolder buferIslands,
-                                    PaintMaterials paintMaterials, BoostAmountProvider boostAmountProvider) :
-                                    base(boostAmountProvider)
+                                    PaintMaterials paintMaterials, BoostAmountProvider boostAmountProvider,
+                                    UnitMover unitMover) : base(boostAmountProvider)
     {
         _levelDataHolder = levelDataHolder;
         _buferIslands = buferIslands;
         _paintMaterials = paintMaterials;
+        _unitMover = unitMover;
     }
     public override BoostType Type => BoostType.ReducePaints;
 
@@ -49,6 +51,12 @@ public class PaintAmountReduceBoost : Boost
         }
 
         SwapUnitsPaint(_buferIslands.CurrentIsland, oldPaint, newPaint);
+
+        foreach (Island island in _levelDataHolder.Islands)
+        {
+            _unitMover.OptimizeUnitsPosition(island);
+        }
+
         SpendBoost(Type);
     }
 

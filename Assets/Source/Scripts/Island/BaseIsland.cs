@@ -1,27 +1,25 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public class BaseIsland : MonoBehaviour, ISelectable
 {
-    private List<IslandPoint> _placementPoints;
-
     public event Action UnitAdded;
 
-    public int FreePointsCount => _placementPoints.Count(point => point.IsFree);
-    public IReadOnlyCollection<IslandPoint> Points => new ReadOnlyCollection<IslandPoint>(_placementPoints);
+    public int FreePointsCount => Points.Count(point => point.IsFree);
+    public IReadOnlyCollection<IslandPoint> Points { get; private set; }
+
 
     public void Initialize(List<IslandPoint> placementPoints)
     {
-        _placementPoints = placementPoints;
+        Points = placementPoints.OrderByDescending(point => point.Point.position.z).ToList();
     }
 
     public IEnumerable<Unit> GetUnits(Paint paint)
     {
-        foreach (IslandPoint point in _placementPoints)
+        foreach (IslandPoint point in Points)
         {
             if (point.IsFree == false && point.OccupiedUnit.Paint == paint)
             {
@@ -32,7 +30,7 @@ public class BaseIsland : MonoBehaviour, ISelectable
 
     public void RemoveUnit(Unit unit)
     {
-        IslandPoint point = _placementPoints.FirstOrDefault(p => p.IsFree == false && p.OccupiedUnit == unit);
+        IslandPoint point = Points.FirstOrDefault(p => p.IsFree == false && p.OccupiedUnit == unit);
 
         if (point != null)
         {
@@ -44,9 +42,24 @@ public class BaseIsland : MonoBehaviour, ISelectable
         throw new InvalidOperationException("Unit not found in placement points");
     }
 
+
     public void AddUnit(Unit unit, out IslandPoint placementPoint)
     {
-        placementPoint = _placementPoints.FirstOrDefault(point => point.IsFree);
+        List<IslandPoint> aviablePoints = Points.Where(p => p.IsFree).ToList();
+        placementPoint = Points.FirstOrDefault(point => point.IsFree == false && point.OccupiedUnit.Paint == unit.Paint);
+
+        if (placementPoint != null)
+        {
+            IslandPoint startPoint = placementPoint;
+            IslandPoint closestPoint = IslandPaintDistributor.ClosestPoint(startPoint, aviablePoints);
+            placementPoint = closestPoint;
+            closestPoint.SetUnit(unit);
+            UnitAdded?.Invoke();
+
+            return;
+        }
+
+        placementPoint = Points.FirstOrDefault(point => point.IsFree);
 
         if (placementPoint != null)
         {

@@ -6,7 +6,7 @@ public class AngryTracker
 
     private float _angryValue = 0f;
 
-    private float _angryLimit = 1000f;
+    private float _angryLimit = 100000f;
     private float _angryByIslandFinish = 100f;
     private float _angryByUnitMove = 10f;
 

@@ -28,7 +28,8 @@ public class BoostInitializer : MonoBehaviour
                                                       _levelLoader, boostAmountProvider);
         var bufferIslandBoost = new BufferIslandBoost(_buferIslands, unitMover, boostAmountProvider);
         var objectivesFreezeBoost = new ObjectivesFreezeBoost(_levelProgressTracker, unitMover, _levelLoader, boostAmountProvider);
-        var paintAmountReduceBoost = new PaintAmountReduceBoost(levelDataHolder, _buferIslands, _materials, boostAmountProvider);
+        var paintAmountReduceBoost = new PaintAmountReduceBoost(levelDataHolder, _buferIslands, _materials, boostAmountProvider,
+                                                                unitMover);
 
         IEnumerable<Boost> boosts = new List<Boost>()
         {
