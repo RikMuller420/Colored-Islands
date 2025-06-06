@@ -62,7 +62,7 @@ public class GameInitializer : MonoBehaviour
         var leaderboardProvider = new LeaderboardProvider();
 
         var levelDataHolder = new LevelObjectsHolder();
-        var unitMover = new UnitMover();
+        var unitMover = new UnitMover(_unitsLookAtPoint);
         var selectHandler = new SelectHandler(unitMover, _buferIslands, levelDataHolder);
 
         var defaultClickHandler = new DefaultClickHandler(selectHandler, _allIslandsAndUnitsLayer);

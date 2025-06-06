@@ -44,6 +44,11 @@ public class Island : BaseIsland
             return;
         }
 
+        foreach (IslandPoint point in Points)
+        {
+            point.OccupiedUnit.Animator.Jump();
+        }
+
         Deactivate();
         IslandFinished?.Invoke(this);
     }

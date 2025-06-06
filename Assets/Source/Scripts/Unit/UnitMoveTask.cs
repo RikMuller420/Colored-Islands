@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class UnitMoveTask
 {
+    private Tween _pathTween;
+    private Transform _unitsLookAtTarget;
+
+    private bool _isMoveAnimationActive;
+    private float _deactivateMoveAnimationPercent = 0.5f;
+
     private float _maxMoveSpeed = 10f;
     private float _minMoveTime = 0.25f;
     private float _minArcPosition = 0.3f;
@@ -10,10 +16,11 @@ public class UnitMoveTask
     private float _minArcOffset = 0f;
     private float _maxArcOffset = 0.1f;
 
-    public UnitMoveTask(Unit unit, IslandPoint targetPoint)
+    public UnitMoveTask(Unit unit, IslandPoint targetPoint, Transform unitsLookAtTarget)
     {
         _unit = unit;
         _targetPoint = targetPoint;
+        _unitsLookAtTarget = unitsLookAtTarget;
         Vector3 intermediatePoint = CalculateIntermediatePoint(_currentPosition, _targetPosition);
         Vector3[] path = { _currentPosition, intermediatePoint, _targetPosition };
 
@@ -25,7 +32,13 @@ public class UnitMoveTask
         }
 
         unit.transform.DOKill();
-        unit.transform.DOPath(path, moveTime, PathType.CatmullRom).SetEase(Ease.OutQuad);
+        _pathTween = unit.transform.DOPath(path, moveTime, PathType.CatmullRom)
+                      .SetEase(Ease.OutQuad)
+                      .OnUpdate(OnMoveUpdate)
+                      .OnComplete(OnMoveComplete);
+
+        unit.Animator.StartWalk();
+        _isMoveAnimationActive = true;
     }
 
     private IslandPoint _targetPoint;
@@ -34,6 +47,21 @@ public class UnitMoveTask
     private Vector3 _currentPosition => _unit.transform.position;
     private Vector3 _targetPosition => _targetPoint.Point.transform.position;
 
+    private void OnMoveUpdate()
+    {
+        _unit.MeshTransform.LookAt(_unitsLookAtTarget);
+
+        if (_pathTween.ElapsedPercentage() >= _deactivateMoveAnimationPercent && _isMoveAnimationActive)
+        {
+            _unit.Animator.StopWalk();
+            _isMoveAnimationActive = false;
+        }
+    }
+
+    private void OnMoveComplete()
+    {
+        _unit.MeshTransform.LookAt(_unitsLookAtTarget);
+    }
 
     private Vector3 CalculateIntermediatePoint(Vector3 startPoint, Vector3 endPoint)
     {

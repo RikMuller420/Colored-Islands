@@ -1,15 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class UnitMover
 {
     private IslandPaintDistributor _islandPaintDistributor;
+    private Transform _unitsLookAtTarget;
 
     public event Action<UnitsMoveInfo> UnitsMoved;
 
-    public UnitMover()
+    public UnitMover(Transform unitsLookAtTarget)
     {
+        _unitsLookAtTarget = unitsLookAtTarget;
         _islandPaintDistributor = new IslandPaintDistributor();
     }
 
@@ -36,10 +39,10 @@ public class UnitMover
     public void MoveUnit(Unit unit, BaseIsland targetIsland)
     {
         unit.Island.RemoveUnit(unit);
-        targetIsland.AddUnit(unit, out IslandPoint targetPoint);
+        targetIsland.AddUnitToFreePoint(unit, out IslandPoint targetPoint);
         unit.SetIsland(targetIsland);
 
-        UnitMoveTask unitMoveTask = new UnitMoveTask(unit, targetPoint);
+        UnitMoveTask unitMoveTask = new UnitMoveTask(unit, targetPoint, _unitsLookAtTarget);
     }
 
     public void OptimizeUnitsPosition(BaseIsland island)
@@ -81,7 +84,7 @@ public class UnitMover
             Unit unit = unitsToMove.FirstOrDefault(unit => unit.Paint == paint);
 
             point.SetUnit(unit);
-            UnitMoveTask unitMoveTask = new UnitMoveTask(unit, point);
+            UnitMoveTask unitMoveTask = new UnitMoveTask(unit, point, _unitsLookAtTarget);
             unitsToMove.Remove(unit);
         }
     }

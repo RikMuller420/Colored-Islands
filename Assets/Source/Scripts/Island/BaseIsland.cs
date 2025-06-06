@@ -42,8 +42,15 @@ public class BaseIsland : MonoBehaviour, ISelectable
         throw new InvalidOperationException("Unit not found in placement points");
     }
 
+    public void AddUnitToFreePoint(Unit unit, out IslandPoint placementPoint)
+    {
+        List<IslandPoint> aviablePoints = Points.Where(p => p.IsFree).ToList();
+        placementPoint = IslandPaintDistributor.ClosestPoint(unit.transform.position, aviablePoints);
+        placementPoint.SetUnit(unit);
+        UnitAdded?.Invoke();
+    }
 
-    public void AddUnit(Unit unit, out IslandPoint placementPoint)
+    public void AddStartUnit(Unit unit, out IslandPoint placementPoint)
     {
         List<IslandPoint> aviablePoints = Points.Where(p => p.IsFree).ToList();
         placementPoint = Points.FirstOrDefault(point => point.IsFree == false && point.OccupiedUnit.Paint == unit.Paint);
@@ -51,7 +58,7 @@ public class BaseIsland : MonoBehaviour, ISelectable
         if (placementPoint != null)
         {
             IslandPoint startPoint = placementPoint;
-            IslandPoint closestPoint = IslandPaintDistributor.ClosestPoint(startPoint, aviablePoints);
+            IslandPoint closestPoint = IslandPaintDistributor.ClosestPoint(startPoint.Point.position, aviablePoints);
             placementPoint = closestPoint;
             closestPoint.SetUnit(unit);
             UnitAdded?.Invoke();

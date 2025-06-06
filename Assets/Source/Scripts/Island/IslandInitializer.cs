@@ -37,7 +37,7 @@ public class IslandInitializer : MonoBehaviour
             {
                 Unit unit = createUnit.Invoke();
                 unit.Initialize(_island, startUnits.Paint, paintMaterials);
-                _island.AddUnit(unit, out IslandPoint placementPoint);
+                _island.AddStartUnit(unit, out IslandPoint placementPoint);
                 unit.transform.position = placementPoint.Point.position;
                 unit.MeshTransform.LookAt(unitsLookAtPoint);
             }
