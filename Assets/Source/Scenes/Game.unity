@@ -3978,6 +3978,50 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 200
   m_TargetDisplay: 0
+--- !u!1 &312866210
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 312866212}
+  - component: {fileID: 312866211}
+  m_Layer: 0
+  m_Name: Game Progress Saver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &312866211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312866210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f16effc84d44d5a43a6f35046316fa8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &312866212
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312866210}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.15170169, y: -13.802777, z: 12.730303}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &319815692
 GameObject:
   m_ObjectHideFlags: 0
@@ -4151,7 +4195,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1705413737421989391, guid: b5e5a6c3c33c8b54aac3d8f179725b3d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1705413737421989391, guid: b5e5a6c3c33c8b54aac3d8f179725b3d, type: 3}
       propertyPath: m_SizeDelta.y
@@ -7483,7 +7527,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7481739804796193709, guid: 94b3ee229c8f8bf4aa5dd4f58da703d4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7481739804796193709, guid: 94b3ee229c8f8bf4aa5dd4f58da703d4, type: 3}
       propertyPath: m_SizeDelta.y
@@ -10430,7 +10474,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1705413737421989391, guid: b5e5a6c3c33c8b54aac3d8f179725b3d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1705413737421989391, guid: b5e5a6c3c33c8b54aac3d8f179725b3d, type: 3}
       propertyPath: m_SizeDelta.y
@@ -11621,7 +11665,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 8627790669553045408, guid: 8972efff69719fd4b8c8c810ad85a97c, type: 2}
   m_audioClip: {fileID: 8300000, guid: 9cb52b62ae23a134780933b97c81491a, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.58
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -13396,7 +13440,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 8627790669553045408, guid: 8972efff69719fd4b8c8c810ad85a97c, type: 2}
   m_audioClip: {fileID: 8300000, guid: 28c4defc9eebacc41bfbf20af4727ca8, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.72
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -16362,6 +16406,7 @@ MonoBehaviour:
   _materials: {fileID: 11400000, guid: 97dbb34807413f848a50c47a8f2eacfb, type: 2}
   _boostSettings: {fileID: 11400000, guid: d4cbe4d32a9e2f84d8fc5549c902ad8a, type: 2}
   _leaderboardSettings: {fileID: 11400000, guid: 25853bc103889f64cb1881cbd8960ba2, type: 2}
+  _localizationSettings: {fileID: 11400000, guid: a343cf2d870d3c647b1317158a155e9e, type: 2}
   _audioMixers: {fileID: 11400000, guid: 4be917e83a2b1e64096e0238cfeddb24, type: 2}
   _allIslandsAndUnitsLayer:
     serializedVersion: 2
@@ -16391,6 +16436,8 @@ MonoBehaviour:
   _unitMoveSound: {fileID: 1110587395}
   _unitsMoveSoundPlayer: {fileID: 481787577}
   _leaderboardWindow: {fileID: 1996121880}
+  _languageChanger: {fileID: 3151113378816028501}
+  _gameProgressSaver: {fileID: 312866211}
   _leaderboardTabs:
   - {fileID: 9052846374482463100}
   - {fileID: 756928078}
@@ -19972,7 +20019,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 8627790669553045408, guid: 8972efff69719fd4b8c8c810ad85a97c, type: 2}
   m_audioClip: {fileID: 8300000, guid: be9d4adddcb602440ac00743d73d2e4f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.35
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -21224,7 +21271,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7481739804796193709, guid: 94b3ee229c8f8bf4aa5dd4f58da703d4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7481739804796193709, guid: 94b3ee229c8f8bf4aa5dd4f58da703d4, type: 3}
       propertyPath: m_SizeDelta.y
@@ -27343,7 +27390,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3151113378816028500}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80ca094a32d0f4b46a6bc39d9f6b4029, type: 3}
   m_Name: 
@@ -30482,6 +30529,7 @@ SceneRoots:
   - {fileID: 1838237526}
   - {fileID: 139415722}
   - {fileID: 1469927572}
+  - {fileID: 312866212}
   - {fileID: 636612476}
   - {fileID: 398315537}
   - {fileID: 1252674483}

@@ -10,6 +10,8 @@ public class GameProgress
     [JsonProperty] private int _scoreAmount;
     [JsonProperty] private int _goldAmount;
     [JsonProperty] private bool _isAdsRemoved;
+    [JsonProperty] private bool _isLanguageSaved;
+    [JsonProperty] private Language _language;
     [JsonProperty] private Dictionary<BoostType, int> _boostsAmounts;
     [JsonProperty] private Dictionary<UpgradeType, int> _upgradeStages;
     [JsonProperty] private Dictionary<AudioGroup, bool> _isSoundOnStatus;
@@ -43,10 +45,18 @@ public class GameProgress
     [JsonIgnore] public int ScoreAmount => _scoreAmount;
     [JsonIgnore] public int GoldAmount => _goldAmount;
     [JsonIgnore] public bool IsAdsRemoved => _isAdsRemoved;
+    [JsonIgnore] public bool IsLanguageSaved => _isLanguageSaved;
+    [JsonIgnore] public Language Language => _language;
 
     public int GetBoostAmount(BoostType boostType) => _boostsAmounts[boostType];
     public int GetUpgradeStage(UpgradeType upgradeType) => _upgradeStages[upgradeType];
     public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _isSoundOnStatus[audioGroup];
+
+    public void SetLanguage(Language language)
+    {
+        _language = language;
+        _isLanguageSaved = true;
+    }
 
     public void ApplyRemoveAddBonus()
     {

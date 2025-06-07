@@ -1,36 +1,50 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using Lean.Localization;
 using UnityEngine;
+using static Unity.VisualScripting.Icons;
+using static UnityEngine.Rendering.DebugUI;
 
 public class LanguageChanger : MonoBehaviour
 {
     [SerializeField] private SliderButton _sliderButton;
 
+    private LocalizationSettings _localizationSettings;
+    private GameProgressStorage _gameProgressStorage;
     private ReadOnlyCollection<string> _languages;
 
-    private Dictionary<string, string> _languagesNames = new()
+    public void Initialize(LocalizationSettings localizationSettings, GameProgressStorage gameProgressStorage,
+                           LocalizationProvider localizationProvider)
     {
-        { "English", "English" },
-        { "Russian", "Русский" },
-        { "Turkish", "Türkçe" }
-    };
+        _localizationSettings = localizationSettings;
+        _gameProgressStorage = gameProgressStorage;
+        _languages = _localizationSettings.Languages.Select(language => language.Name).ToList().AsReadOnly();
+        int languageIndex = 0;
 
-    private void Start()
-    {
-        _languages = LeanLocalization.CurrentLanguages.Keys.ToList().AsReadOnly();
+        if (_gameProgressStorage.IsLanguageSaved)
+        {
+            languageIndex = _localizationSettings.Languages
+                                            .Select((language, index) => new { language.Language, Index = index })
+                                            .Where(language => language.Language == _gameProgressStorage.Language)
+                                            .Select(language => language.Index)
+                                            .FirstOrDefault();
+        }
+        else
+        {
+            languageIndex = _localizationSettings.Languages
+                                            .Select((language, index) => new { language.Key, Index = index })
+                                            .Where(language => language.Key == localizationProvider.GetLanguageKey())
+                                            .Select(language => language.Index)
+                                            .FirstOrDefault();
+            _gameProgressStorage.SetLanguage(_localizationSettings.Languages[languageIndex].Language);
+            _gameProgressStorage.Save();
+        }
 
-        string currentLanguage = LeanLocalization.GetFirstCurrentLanguage();
-        int currentIndex = _languages.IndexOf(currentLanguage);
+        _sliderButton.Initialize(_languages, languageIndex);
+        Language language = _localizationSettings.Languages[languageIndex].Language;
+        LeanLocalization.SetCurrentLanguageAll(language.ToString());
 
-        ReadOnlyCollection<string> orderedLanguageNames = _languages
-                            .Where(key => _languagesNames.ContainsKey(key))
-                            .Select(key => _languagesNames[key])
-                            .ToList()
-                            .AsReadOnly();
-
-        _sliderButton.Initialize(orderedLanguageNames, currentIndex);
+        enabled = true;
     }
 
     private void OnEnable()
@@ -45,6 +59,9 @@ public class LanguageChanger : MonoBehaviour
 
     private void ChangeLanguage(int value)
     {
-        LeanLocalization.SetCurrentLanguageAll(_languages[value]);
+        Language language = _localizationSettings.Languages[value].Language;
+        LeanLocalization.SetCurrentLanguageAll(language.ToString());
+        _gameProgressStorage.SetLanguage(language);
+        _gameProgressStorage.Save();
     }
 }

@@ -21,8 +21,6 @@ public class LeaderboardWindow : MenuWindow
     {
         bool isAuthorized = _authorizationProvider.IsAuthorized;
 
-        Debug.Log("isAuthorized");
-
         _loginHintBacground.SetActive(!isAuthorized);
         _loginHintContent.SetActive(!isAuthorized);
 

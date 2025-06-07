@@ -8,6 +8,7 @@ public class GameProgressStorage
     private GameProgressSerializer _progressSerializer;
     private GameProgress _progress;
     private SaveProvider _saveProvider;
+    private GameProgressSaver _gameProgressSaver;
 
     public event Action GoldAmountChanged;
     public event Action LevelProgressChanged;
@@ -16,10 +17,11 @@ public class GameProgressStorage
     public event Action RemoveAdsStateChanged;
     public event Action<AudioGroup> SoundEnabledChanged;
 
-    public GameProgressStorage(LevelSettings levelSettings, SaveProvider saveProvider)
+    public GameProgressStorage(LevelSettings levelSettings, SaveProvider saveProvider, GameProgressSaver gameProgressSaver)
     {
         _levelSettings = levelSettings;
         _saveProvider = saveProvider;
+        _gameProgressSaver = gameProgressSaver;
         _progressSerializer = new GameProgressSerializer();
 
         LoadSavedProgress();
@@ -36,11 +38,14 @@ public class GameProgressStorage
     public int ScoreAmount => _progress.ScoreAmount;
     public int GoldAmount => _progress.GoldAmount;
     public bool IsAdsRemoved => _progress.IsAdsRemoved;
+    public bool IsLanguageSaved => _progress.IsLanguageSaved;
+    public Language Language => _progress.Language;
 
-    public int GetBoostAmount(BoostType boostType)=> _progress.GetBoostAmount(boostType);
+    public int GetBoostAmount(BoostType boostType) => _progress.GetBoostAmount(boostType);
     public int GetUpgradeStage(UpgradeType upgradeType) => _progress.GetUpgradeStage(upgradeType);
     public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _progress.GetIsSoundOnStatus(audioGroup);
 
+    public void Save() => _gameProgressSaver.TrySave(_progress);
 
     //Used Under TEST UI only
     public void ResetProgress()
@@ -57,7 +62,8 @@ public class GameProgressStorage
         RemoveAdsStateChanged?.Invoke();
     }
 
-
+    public void SetLanguage(Language language) => _progress.SetLanguage(language);
+    
     public void ApplyRemoveAddBonus(bool autoSave = true)
     {
         _progress.ApplyRemoveAddBonus();
@@ -127,12 +133,6 @@ public class GameProgressStorage
         {
             Save();
         }
-    }
-
-    public void Save()
-    {
-        string json = _progressSerializer.Serialize(_progress);
-        _saveProvider.Save(json);
     }
 
     private void LoadSavedProgress()

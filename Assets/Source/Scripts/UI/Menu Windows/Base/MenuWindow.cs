@@ -26,7 +26,7 @@ public class MenuWindow : ZoneUi
             return;
         }
 
-        _menuDimmer.Activate();
+        _menuDimmer.Activate(this);
         base.Open();
         MenuOpened?.Invoke();
     }

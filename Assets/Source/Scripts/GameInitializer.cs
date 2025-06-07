@@ -11,6 +11,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private PaintMaterials _materials;
     [SerializeField] private BoostSettings _boostSettings;
     [SerializeField] private LeaderboardSettings _leaderboardSettings;
+    [SerializeField] private LocalizationSettings _localizationSettings;
     [SerializeField] private AudioMixers _audioMixers;
     [SerializeField] private LayerMask _allIslandsAndUnitsLayer;
 
@@ -41,6 +42,8 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private AudioSource _unitMoveSound;
     [SerializeField] private UnitsMoveSoundPlayer _unitsMoveSoundPlayer;
     [SerializeField] private LeaderboardWindow _leaderboardWindow;
+    [SerializeField] private LanguageChanger _languageChanger;
+    [SerializeField] private GameProgressSaver _gameProgressSaver;
     [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
     [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
     [SerializeField] private List<LoginButton> _loginButtons;
@@ -69,7 +72,7 @@ public class GameInitializer : MonoBehaviour
 
         var defaultClickHandler = new DefaultClickHandler(selectHandler, _allIslandsAndUnitsLayer);
         var gameClickHandler = new ClickHandler(_inputHandler, _camera, defaultClickHandler);
-        var gameProgressStorage = new GameProgressStorage(_levelSettings, saveProvider);
+        var gameProgressStorage = new GameProgressStorage(_levelSettings, saveProvider, _gameProgressSaver);
         var leaderboardScoreCalculator = new LeaderboardScoreCalculator(gameProgressStorage);
 
         var upgradesProvider = new UpgradesProvider(gameProgressStorage);
@@ -83,7 +86,9 @@ public class GameInitializer : MonoBehaviour
         var soundVolumeProvider = new SoundVolumeProvider(_audioMixers, gameProgressStorage);
         var levelEndSoundPlayer = new LevelEndSoundPlayer(_levelProgressTracker, _gameplaySoundPlayer);
         var angryTracker = new AngryTracker(levelDataHolder);
+        var localizationProvider = new LocalizationProvider();
 
+        _gameProgressSaver.Initialize(saveProvider);
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(gameProgressStorage, _levelLoader);
 
@@ -108,6 +113,7 @@ public class GameInitializer : MonoBehaviour
         _angryBar.Initialize(_levelProgressTracker, _levelLoader);
         _unitsMoveSoundPlayer.Initialize(unitMover, _unitMoveSound);
         _leaderboardWindow.Initialize(authorizationProvider);
+        _languageChanger.Initialize(_localizationSettings, gameProgressStorage, localizationProvider);
 
         foreach (LeaderboardTab leaderboardTab in _leaderboardTabs)
         {
