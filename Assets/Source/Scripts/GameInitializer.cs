@@ -10,6 +10,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private LevelSettings _levelSettings;
     [SerializeField] private PaintMaterials _materials;
     [SerializeField] private BoostSettings _boostSettings;
+    [SerializeField] private LeaderboardSettings _leaderboardSettings;
     [SerializeField] private AudioMixers _audioMixers;
     [SerializeField] private LayerMask _allIslandsAndUnitsLayer;
 
@@ -68,12 +69,14 @@ public class GameInitializer : MonoBehaviour
         var defaultClickHandler = new DefaultClickHandler(selectHandler, _allIslandsAndUnitsLayer);
         var gameClickHandler = new ClickHandler(_inputHandler, _camera, defaultClickHandler);
         var gameProgressStorage = new GameProgressStorage(_levelSettings, saveProvider);
+        var leaderboardScoreCalculator = new LeaderboardScoreCalculator(gameProgressStorage);
 
         var upgradesProvider = new UpgradesProvider(gameProgressStorage);
         var boostAmountProvider = new BoostAmountProvider(gameProgressStorage);
         var removeAdsProvider = new RemoveAdsProvider(gameProgressStorage);
 
-        var levelProgressUpdater = new GameProgressUpdater(_levelProgressTracker, gameProgressStorage, leaderboardProvider);
+        var levelProgressUpdater = new GameProgressUpdater(_levelProgressTracker, gameProgressStorage, leaderboardProvider,
+                                                           _leaderboardSettings, leaderboardScoreCalculator);
         var walletProvider = new WalletProvider(gameProgressStorage);
         var interAdOpener = new InterstitialAdOpener(_levelLoader, removeAdsProvider, interAdProvider, rewardedAdProvider);
         var soundVolumeProvider = new SoundVolumeProvider(_audioMixers, gameProgressStorage);
@@ -107,7 +110,7 @@ public class GameInitializer : MonoBehaviour
 
         foreach (LeaderboardTab leaderboardTab in _leaderboardTabs)
         {
-            leaderboardTab.Initialize(leaderboardProvider);
+            leaderboardTab.Initialize(leaderboardProvider, _leaderboardSettings);
         }
 
         foreach (SoundToggleMuter soundToggleMuter in _soundToggleMuters)

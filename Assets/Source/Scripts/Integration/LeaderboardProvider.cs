@@ -10,7 +10,7 @@ public class LeaderboardProvider
 
     private LeaderboardConverter _leaderboardConverter;
 
-    public event Action<LeaderboardData> LeaderboardReceived;
+    public event Action<Leaderboard> LeaderboardReceived;
 
     public LeaderboardProvider()
     {
@@ -28,9 +28,14 @@ public class LeaderboardProvider
         YG2.GetLeaderboard(tableKey, QuantityTop, QuantityAround, PhotoSizeKey);
     }
 
+    public void GetPlayerScore(string tableKey)
+    {
+        YG2.GetLeaderboard(tableKey, 0, 0);
+    }
+
     private void OnGetLeaderboard(LBData yandexLeaderboard)
     {
-        LeaderboardData leaderboard = _leaderboardConverter.ConvertFrom(yandexLeaderboard);
+        Leaderboard leaderboard = _leaderboardConverter.ConvertFrom(yandexLeaderboard);
         LeaderboardReceived?.Invoke(leaderboard);
     }
 }

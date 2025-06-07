@@ -16,7 +16,7 @@ public class LeaderboardView : MonoBehaviour
         _allResultsCount = _topPlayerViews.Count + _aroundPlayerViews.Count;
     }
 
-    public void UpdateLeaderboard(LeaderboardData leaderboardData)
+    public void UpdateLeaderboard(Leaderboard leaderboardData)
     {
         IReadOnlyList<LeaderboardPlayerData> topPlayers = GetTopPlayers(leaderboardData);
         UpdatePlayerViews(_topPlayerViews, topPlayers, leaderboardData.CurrentPlayerRank);
@@ -42,14 +42,14 @@ public class LeaderboardView : MonoBehaviour
         }
     }
 
-    private IReadOnlyList<LeaderboardPlayerData> GetTopPlayers(LeaderboardData leaderboardData)
+    private IReadOnlyList<LeaderboardPlayerData> GetTopPlayers(Leaderboard leaderboardData)
     {
         return leaderboardData.Players.Where(player => player.Rank <= _topPlayerViews.Count)
                                       .OrderBy(player => player.Rank)
                                       .ToList();
     }
 
-    private IReadOnlyList<LeaderboardPlayerData> GetAroundPlayers(LeaderboardData leaderboardData)
+    private IReadOnlyList<LeaderboardPlayerData> GetAroundPlayers(Leaderboard leaderboardData)
     {
         if (leaderboardData.CurrentPlayerRank <= _topPlayerViews.Count)
         {

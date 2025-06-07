@@ -1,20 +1,23 @@
 using System.Linq;
+using static YG.InfoYG;
 
 public class GameProgressUpdater
 {
-    private const string AllTimeLeaderboardKey = "LeaderboardAllTime";
-    private const string TopResultLeaderboardKey = "LeaderboardAbsolute";
-
     private LevelProgressTracker _progressTracker;
     private GameProgressStorage _progressStorage;
     private LeaderboardProvider _leaderboardProvider;
+    private LeaderboardSettings _leaderboardSettings;
+    private LeaderboardScoreCalculator _scoreCalculator;
 
     public GameProgressUpdater(LevelProgressTracker progressTracker, GameProgressStorage progressStorage,
-                               LeaderboardProvider leaderboardProvider)
+                               LeaderboardProvider leaderboardProvider, LeaderboardSettings leaderboardSettings,
+                               LeaderboardScoreCalculator scoreCalculator)
     {
         _progressTracker = progressTracker;
         _progressStorage = progressStorage;
         _leaderboardProvider = leaderboardProvider;
+        _leaderboardSettings = leaderboardSettings;
+        _scoreCalculator = scoreCalculator;
 
         _progressTracker.LevelFinished += UpdateSavedProgress;
         _progressTracker.LevelFailed += UpdateSavedProgress;
@@ -40,12 +43,13 @@ public class GameProgressUpdater
         _progressStorage.SetScoreAmount(newScoreAmount, false);
         _progressStorage.UpdateLevelProgress(updatedProgress, true);
 
-        _leaderboardProvider.SaveScore(AllTimeLeaderboardKey, newScoreAmount);
+        int totalScore = _scoreCalculator.GetScore(LeaderboardType.TotalGameScore);
+        _leaderboardProvider.SaveScore(_leaderboardSettings.LeaderboardKey(LeaderboardType.TotalGameScore), totalScore);
 
         if (isNewTopScore)
         {
-            int topResultScore = _progressStorage.Levels.Sum(level => level.BestScore); ;
-            _leaderboardProvider.SaveScore(TopResultLeaderboardKey, topResultScore);
+            int topResultScore = _scoreCalculator.GetScore(LeaderboardType.BestGameScore);
+            _leaderboardProvider.SaveScore(_leaderboardSettings.LeaderboardKey(LeaderboardType.BestGameScore), topResultScore);
         }
     }
 }

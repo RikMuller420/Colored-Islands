@@ -1,18 +1,19 @@
 using System.Collections.Generic;
-using UnityEngine;
 using YG.Utils.LB;
 
 public class LeaderboardConverter
 {
-    public LeaderboardData ConvertFrom(LBData yandexLeaderboard)
+    public Leaderboard ConvertFrom(LBData yandexLeaderboard)
     {
         int currentPlayerRank = yandexLeaderboard.currentPlayer.rank;
-        IEnumerable<LeaderboardPlayerData> players = FormPlayerCollection(yandexLeaderboard.players);
+        int currentPlayerScore = yandexLeaderboard.currentPlayer.score;
 
-        return new LeaderboardData(yandexLeaderboard.technoName, currentPlayerRank, players);
+        IReadOnlyCollection<LeaderboardPlayerData> players = FormPlayerCollection(yandexLeaderboard.players);
+
+        return new Leaderboard(yandexLeaderboard.technoName, currentPlayerRank, currentPlayerScore, players);
     }
 
-    private IEnumerable<LeaderboardPlayerData> FormPlayerCollection(LBPlayerData[] yndexPlayers)
+    private IReadOnlyCollection<LeaderboardPlayerData> FormPlayerCollection(LBPlayerData[] yndexPlayers)
     {
         List<LeaderboardPlayerData> players = new List<LeaderboardPlayerData>();
 

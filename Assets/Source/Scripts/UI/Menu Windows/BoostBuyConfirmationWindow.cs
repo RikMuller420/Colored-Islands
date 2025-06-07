@@ -84,12 +84,12 @@ public class BoostBuyConfirmationWindow : MenuWindow
     private void BuyBoostWithAdd()
     {
         _rewardedAdProvider.ShowAdvReward(RewardVideoId, AddBoost);
-        Close();
     }
 
     private void AddBoost()
     {
         _boostAmountProvider.AddBoost(_currentBoostType);
+        Close();
     }
 
     private void SetWindowTexts()
