@@ -32,7 +32,6 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private InGameShopInitializer _inGameShopInitializer;
     [SerializeField] private InAppPurchaseInitializer _inAppPurchaseInitializer;
     [SerializeField] private BoostBuyConfirmationWindow _boostBuyWindow;
-    [SerializeField] private LoginButton _loginButton;
     [SerializeField] private BackgroundMusicChanger _backgroundMusicChanger;
     [SerializeField] private GameplaySoundPlayer _gameplaySoundPlayer;
     [SerializeField] private DeviceStyleChangeInitializer _deviceStyleChangeInitializer;
@@ -41,8 +40,10 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private Transform _unitsLookAtPoint;
     [SerializeField] private AudioSource _unitMoveSound;
     [SerializeField] private UnitsMoveSoundPlayer _unitsMoveSoundPlayer;
+    [SerializeField] private LeaderboardWindow _leaderboardWindow;
     [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
     [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
+    [SerializeField] private List<LoginButton> _loginButtons;
 
     private InAppPurchaseConsumeProvider _inAppConsumer;
 
@@ -94,7 +95,6 @@ public class GameInitializer : MonoBehaviour
 
         _walletView.Initialize(walletProvider);
         _lastLevelTextUpdater.Initialize(gameProgressStorage);
-        _loginButton.Initialize(authorizationProvider);
 
         _levelProgressTracker.Initialize(gameProgressStorage, levelDataHolder, unitMover, angryTracker);
         _finalScoreWindow.Initialize(gameProgressStorage, _levelProgressTracker);
@@ -107,6 +107,7 @@ public class GameInitializer : MonoBehaviour
         _deviceStyleChangeInitializer.Initialize();
         _angryBar.Initialize(_levelProgressTracker, _levelLoader);
         _unitsMoveSoundPlayer.Initialize(unitMover, _unitMoveSound);
+        _leaderboardWindow.Initialize(authorizationProvider);
 
         foreach (LeaderboardTab leaderboardTab in _leaderboardTabs)
         {
@@ -116,6 +117,11 @@ public class GameInitializer : MonoBehaviour
         foreach (SoundToggleMuter soundToggleMuter in _soundToggleMuters)
         {
             soundToggleMuter.Initialize(soundVolumeProvider);
+        }
+
+        foreach (LoginButton loginButton in _loginButtons)
+        {
+            loginButton.Initialize(authorizationProvider);
         }
 
         _testUI.Initialize(gameProgressStorage, walletProvider);

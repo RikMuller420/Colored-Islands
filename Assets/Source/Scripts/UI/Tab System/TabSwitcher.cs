@@ -22,7 +22,7 @@ namespace UI.TabSystem
 
         private void OnEnable()
         {
-            _parentWindow.MenuOpened += OnMenuOpened;
+            _parentWindow.MenuOpened += UpdateActiveTab;
 
             foreach (TabData tab in _tabs)
             {
@@ -32,7 +32,7 @@ namespace UI.TabSystem
 
         private void OnDisable()
         {
-            _parentWindow.MenuOpened -= OnMenuOpened;
+            _parentWindow.MenuOpened -= UpdateActiveTab;
             
             foreach (TabData tab in _tabs)
             {
@@ -40,7 +40,7 @@ namespace UI.TabSystem
             }
         }
 
-        private void OnMenuOpened()
+        public void UpdateActiveTab()
         {
             ActivateTab(_activeTab);
         }
