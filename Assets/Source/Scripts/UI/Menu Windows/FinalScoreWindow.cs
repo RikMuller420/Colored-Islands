@@ -54,7 +54,7 @@ public class FinalScoreWindow : MenuWindow
         }
 
         PreparePanel();
-        Open();
+        Open(false);
         StartCoroutine(WinAnimation());
     }
 
@@ -65,7 +65,7 @@ public class FinalScoreWindow : MenuWindow
         _nextLevelButton.gameObject.SetActive(false);
 
         PreparePanel();
-        Open();
+        Open(false);
         StartCoroutine(FailAnimation());
     }
 

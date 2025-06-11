@@ -19,14 +19,14 @@ public class MenuWindow : ZoneUi
         _closeButton.onClick.RemoveListener(Close);
     }
 
-    public override void Open()
+    public void Open(bool isAbleToCloseWindow = true)
     {
         if (IsOpened)
         {
             return;
         }
 
-        _menuDimmer.Activate(this);
+        _menuDimmer.Activate(this, isAbleToCloseWindow);
         base.Open();
         MenuOpened?.Invoke();
     }

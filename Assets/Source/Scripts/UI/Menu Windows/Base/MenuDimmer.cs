@@ -23,12 +23,13 @@ public class MenuDimmer : MonoBehaviour
         _button.onClick.RemoveListener(CloseOpenedWindow);
     }
 
-    public void Activate(MenuWindow menu)
+    public void Activate(MenuWindow menu, bool isAbleToCloseWindow)
     {
         _openedMenu = menu;
+        _button.enabled = isAbleToCloseWindow;
+
         _backgroundDim.DOKill();
         _backgroundDim.blocksRaycasts = true;
-
         _backgroundDim
             .DOFade(_maxDimAlpha, _dimFadeDuration)
             .SetEase(Ease.OutQuad)
