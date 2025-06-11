@@ -72,7 +72,7 @@ public class IslandSettingsInGUILayout
         initializer.SetPaint(paint);
         MeshRenderer meshRenderer = initializer.GetComponent<MeshRenderer>();
         IslandRenderer islandRenderer = new IslandRenderer(meshRenderer, paintMaterials);
-        islandRenderer.SetPaint(paint);
+        islandRenderer.SetPaint(paint, initializer.Points);
 
         Undo.RegisterCreatedObjectUndo(meshRenderer, "Change material");
     }

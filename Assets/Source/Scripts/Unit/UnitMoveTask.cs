@@ -45,7 +45,7 @@ public class UnitMoveTask
     private Unit _unit;
 
     private Vector3 _currentPosition => _unit.transform.position;
-    private Vector3 _targetPosition => _targetPoint.Point.transform.position;
+    private Vector3 _targetPosition => _targetPoint.Transform.position;
 
     private void OnMoveUpdate()
     {

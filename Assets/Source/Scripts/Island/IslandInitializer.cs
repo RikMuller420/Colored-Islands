@@ -9,14 +9,14 @@ public class IslandInitializer : MonoBehaviour
     [SerializeField] private Paint _paint;
     [SerializeField] private Island _island;
     [SerializeField] private Transform _rootOfPoints;
-    [SerializeField] private List<Transform> _points = new List<Transform>();
+    [SerializeField] private List<SpriteRenderer> _points = new List<SpriteRenderer>();
     [SerializeField] private List<IslandStartUnits> _startUnits = new List<IslandStartUnits>();
 
     public int PointsCount => _points.Count;
     public Paint Paint => _paint;
     public Island Island => _island;
     public Transform RootOfPoints => _rootOfPoints;
-    public List<Transform> Points => new List<Transform>(_points);
+    public IReadOnlyList<SpriteRenderer> Points => new List<SpriteRenderer>(_points);
     public List<IslandStartUnits> StartUnits => new List<IslandStartUnits>(_startUnits);
 
     public void Initialize(Func<Unit> createUnit, PaintMaterials paintMaterials, Transform unitsLookAtPoint)
@@ -24,7 +24,7 @@ public class IslandInitializer : MonoBehaviour
         FindRequireComponents();
         List<IslandPoint> placementPoints = new List<IslandPoint>();
 
-        foreach(Transform point in _points)
+        foreach(SpriteRenderer point in _points)
         {
             placementPoints.Add(new IslandPoint(point));            
         }
@@ -38,7 +38,7 @@ public class IslandInitializer : MonoBehaviour
                 Unit unit = createUnit.Invoke();
                 unit.Initialize(_island, startUnits.Paint, paintMaterials);
                 _island.AddStartUnit(unit, out IslandPoint placementPoint);
-                unit.transform.position = placementPoint.Point.position;
+                unit.transform.position = placementPoint.Transform.position;
                 unit.MeshTransform.LookAt(unitsLookAtPoint);
             }
         }
@@ -49,14 +49,6 @@ public class IslandInitializer : MonoBehaviour
         _startUnits = startUnits;
     }
 
-    public void FillPoints(Transform rootOfPoints)
-    {
-        _rootOfPoints = rootOfPoints;
-        _points.Clear();
-        _points.AddRange(_rootOfPoints.GetComponentsInChildren<Transform>()
-                .Where(transform => transform != RootOfPoints));
-    }
-
     public void FindRequireComponents()
     {
         _island = GetComponent<Island>();
@@ -65,5 +57,19 @@ public class IslandInitializer : MonoBehaviour
     public void SetPaint(Paint paint)
     {
         _paint = paint;
+    }
+
+    public void FillPoints(Transform rootOfPoints)
+    {
+        _rootOfPoints = rootOfPoints;
+        _points.Clear();
+        _points.AddRange(_rootOfPoints.GetComponentsInChildren<SpriteRenderer>()
+                .Where(transform => transform != RootOfPoints));
+    }
+
+    [ContextMenu("Fill Points")]
+    public void FillPoints()
+    {
+        FillPoints(_rootOfPoints);
     }
 }

@@ -14,7 +14,7 @@ public class BaseIsland : MonoBehaviour, ISelectable
 
     public void Initialize(List<IslandPoint> placementPoints)
     {
-        Points = placementPoints.OrderByDescending(point => point.Point.position.z).ToList();
+        Points = placementPoints.OrderByDescending(point => point.Transform.position.z).ToList();
     }
 
     public IEnumerable<Unit> GetUnits(Paint paint)
@@ -58,7 +58,7 @@ public class BaseIsland : MonoBehaviour, ISelectable
         if (placementPoint != null)
         {
             IslandPoint startPoint = placementPoint;
-            IslandPoint closestPoint = IslandPaintDistributor.ClosestPoint(startPoint.Point.position, aviablePoints);
+            IslandPoint closestPoint = IslandPaintDistributor.ClosestPoint(startPoint.Transform.position, aviablePoints);
             placementPoint = closestPoint;
             closestPoint.SetUnit(unit);
             UnitAdded?.Invoke();

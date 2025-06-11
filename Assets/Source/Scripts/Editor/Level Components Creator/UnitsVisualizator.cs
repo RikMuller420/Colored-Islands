@@ -27,7 +27,7 @@ public class UnitsVisualizator
             {
                 for (int i = 0; i < islandStartUnits.Amout; i++)
                 {
-                    Vector3 placePos = island.Points[pointIndex].position;
+                    Vector3 placePos = island.Points[pointIndex].transform.position;
 
                     Unit unit = (Unit)PrefabUtility.InstantiatePrefab(unitPrefab);
                     Undo.RegisterCreatedObjectUndo(unit, "Create Prefab Instance");

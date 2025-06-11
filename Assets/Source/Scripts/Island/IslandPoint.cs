@@ -2,14 +2,15 @@ using UnityEngine;
 
 public class IslandPoint
 {
-    public IslandPoint(Transform point)
+    public IslandPoint(SpriteRenderer point)
     {
         Point = point;
         IsFree = true;
         OccupiedUnit = null;
     }
 
-    public Transform Point { get; }
+    public SpriteRenderer Point { get; }
+    public Transform Transform => Point.transform;
     public bool IsFree { get; private set; }
     public Unit OccupiedUnit { get; private set; }
 

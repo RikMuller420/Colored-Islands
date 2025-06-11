@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[RequireComponent(typeof(MeshRenderer))]
 public class Island : BaseIsland
 {
+    [SerializeField] private MeshRenderer _meshRenderer;
+
     private IslandRenderer _renderer;
+    private IReadOnlyCollection<SpriteRenderer> _points;
 
     public event Action<Island> IslandFinished;
 
@@ -26,15 +30,15 @@ public class Island : BaseIsland
     {
         base.Initialize(placementPoints);
 
-        MeshRenderer renderer = GetComponent<MeshRenderer>();
-        _renderer = new IslandRenderer(renderer, paintMaterials);
+        _points = Points.Select(point => point.Point).ToList().AsReadOnly();
+        _renderer = new IslandRenderer(_meshRenderer, paintMaterials);
         SetPaint(paint);
     }
 
     public void SetPaint(Paint paint)
     {
         Paint = paint;
-        _renderer.SetPaint(paint);
+        _renderer.SetPaint(paint, _points);
     }
 
     public void TryFinish()
@@ -62,5 +66,10 @@ public class Island : BaseIsland
         {
             point.OccupiedUnit.Deactivate();
         }
+    }
+
+    private void OnValidate()
+    {
+        _meshRenderer = GetComponent<MeshRenderer>();
     }
 }

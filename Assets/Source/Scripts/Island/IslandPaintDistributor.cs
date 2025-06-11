@@ -48,7 +48,7 @@ public class IslandPaintDistributor
 
         if (startPointPaint.Key != null)
         {
-            IslandPoint closestPoint = ClosestPoint(startPointPaint.Key.Point.position, aviablePoints);
+            IslandPoint closestPoint = ClosestPoint(startPointPaint.Key.Transform.position, aviablePoints);
 
             return closestPoint;
         }
@@ -58,8 +58,8 @@ public class IslandPaintDistributor
 
     public static IslandPoint ClosestPoint(Vector3 startPoint, List<IslandPoint> points)
     {
-        return points.OrderBy(point => Math.Pow(point.Point.position.x - startPoint.x, 2) +
-                                       Math.Pow(point.Point.position.z - startPoint.z, 2))
+        return points.OrderBy(point => Math.Pow(point.Transform.position.x - startPoint.x, 2) +
+                                       Math.Pow(point.Transform.position.z - startPoint.z, 2))
                      .FirstOrDefault();
     }
 
