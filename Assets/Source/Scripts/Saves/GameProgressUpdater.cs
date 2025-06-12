@@ -20,7 +20,6 @@ public class GameProgressUpdater
         _scoreCalculator = scoreCalculator;
 
         _progressTracker.LevelFinished += UpdateSavedProgress;
-        _progressTracker.LevelFailed += UpdateSavedProgress;
     }
 
     private void UpdateSavedProgress()
@@ -29,7 +28,7 @@ public class GameProgressUpdater
                                 .FirstOrDefault(level => level.Id == _progressTracker.LevelData.Id);
 
         bool isLevelFinished = _progressTracker.IsLevelFinished || savedLevel.IsDone;
-        bool isTimeTaskDone = _progressTracker.IsTimeTaskDone || savedLevel.IsTimeTaskDone;
+        bool isAngryTaskDone = _progressTracker.IsAngryTaskDone || savedLevel.IsAngryTaskDone;
         bool isMoveTaskDone = _progressTracker.IsMoveTaskDone || savedLevel.IsMoveTaskDone;
 
         int newGoldAmount = _progressStorage.GoldAmount + _progressTracker.ReachedGold;
@@ -37,7 +36,7 @@ public class GameProgressUpdater
         bool isNewTopScore = _progressTracker.ReachedScore > savedLevel.BestScore;
         int levelScore = isNewTopScore ? _progressTracker.ReachedScore : savedLevel.BestScore;
         LevelProgress updatedProgress = new LevelProgress(savedLevel.Id, isLevelFinished,
-                                                          isMoveTaskDone, isTimeTaskDone, levelScore);
+                                                          isMoveTaskDone, isAngryTaskDone, levelScore);
 
         _progressStorage.SetGoldAmount(newGoldAmount, false);
         _progressStorage.SetScoreAmount(newScoreAmount, false);

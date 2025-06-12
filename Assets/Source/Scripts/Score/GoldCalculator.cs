@@ -26,9 +26,9 @@ public class GoldCalculator
         int gold = 0;
         gold += savedProgress.IsDone ? _goldPerReEarnedStar : _goldPerNewStar;
 
-        if (_progressTracker.IsTimeTaskDone)
+        if (_progressTracker.IsAngryTaskDone)
         {
-            gold += savedProgress.IsTimeTaskDone ? _goldPerReEarnedStar : _goldPerNewStar;
+            gold += savedProgress.IsAngryTaskDone ? _goldPerReEarnedStar : _goldPerNewStar;
         }
 
         if (_progressTracker.IsMoveTaskDone)

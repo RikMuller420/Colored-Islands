@@ -8,16 +8,10 @@ public class LevelEndSoundPlayer
         _progressTracker = progressTracker;
         _gameplaySoundPlayer = gameplaySoundPlayer;
         _progressTracker.LevelFinished += PlayWinSound;
-        _progressTracker.LevelFailed += PlayFailSound;
     }
 
     private void PlayWinSound()
     {
         _gameplaySoundPlayer.PlaySound(GameplaySoundType.WinSound);
-    }
-
-    private void PlayFailSound()
-    {
-        _gameplaySoundPlayer.PlaySound(GameplaySoundType.FailSound);
     }
 }

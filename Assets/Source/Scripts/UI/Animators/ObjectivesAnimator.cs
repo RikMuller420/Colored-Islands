@@ -1,27 +1,28 @@
-using System;
 using UnityEngine;
 
 public class ObjectivesAnimator : MonoBehaviour
 {
-    [SerializeField] private ObjectiveAnimator _timeObjective;
+    [SerializeField] private ObjectiveAnimator _angryScoreObjective;
     [SerializeField] private ObjectiveAnimator _movesObjective;
     [SerializeField] private ObjectiveAnimator _goldObjective;
     [SerializeField] private NumberTextGrowAnimator _goldTextAnimator;
     [SerializeField] private TextGrowAnimatorSettings _goldGrowSettings;
 
+    private int _percentMultiplier = 100;
+
     public void ResetObjectives()
     {
-        _timeObjective.ResetObjective();
+        _angryScoreObjective.ResetObjective();
         _movesObjective.ResetObjective();
         _goldObjective.ResetObjective();
         _goldTextAnimator.ResetAnimation();
     }
 
-    public void ShowTimeObjectiveAnimation(LevelProgressTracker progressTracker, out float animationDuration)
+    public void ShowAngryScoreAnimation(LevelProgressTracker progressTracker, out float animationDuration)
     {
-        animationDuration = _timeObjective.AnimationDuration;
-        string time = SecondsToString(progressTracker.LevelData.ExtraStarTimeLimit);
-        _timeObjective.ShowAppearAnimation(time, progressTracker.IsTimeTaskDone);
+        animationDuration = _angryScoreObjective.AnimationDuration;
+        int revercedAngryPercent = _percentMultiplier - (int)(progressTracker.AngryValue * _percentMultiplier);
+        _angryScoreObjective.ShowAppearAnimation($"{revercedAngryPercent}%", progressTracker.IsAngryTaskDone);
     }
 
     public void ShowMoveObjectiveAnimation(LevelProgressTracker progressTracker, out float animationDuration)
@@ -41,12 +42,5 @@ public class ObjectivesAnimator : MonoBehaviour
         {
             _goldTextAnimator.ShowGrowAnimation(_goldGrowSettings, progressTracker.ReachedGold);
         }
-    }
-
-    private string SecondsToString(float seconds)
-    {
-        TimeSpan time = TimeSpan.FromSeconds(seconds);
-
-        return $"{(int)time.TotalMinutes}:{time.Seconds:D2}";
     }
 }

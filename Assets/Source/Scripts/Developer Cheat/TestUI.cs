@@ -34,7 +34,6 @@ public class TestUI : MonoBehaviour
         _addGoldButton.onClick.AddListener(AddGold);
         _spendGoldButton.onClick.AddListener(SpendGold);
         _finishLevelButton.onClick.AddListener(FinishLevel);
-        _failLevelButton.onClick.AddListener(FailLevel);
         _resetSaveButton.onClick.AddListener(ResetSave);
 
         _addBuferIslandBoostButton.onClick.AddListener(AddBuferIslandBoost);
@@ -49,7 +48,6 @@ public class TestUI : MonoBehaviour
         _addGoldButton.onClick.RemoveListener(AddGold);
         _spendGoldButton.onClick.RemoveListener(SpendGold);
         _finishLevelButton.onClick.RemoveListener(FinishLevel);
-        _failLevelButton.onClick.RemoveListener(FailLevel);
         _resetSaveButton.onClick.RemoveListener(ResetSave);
 
         _addBuferIslandBoostButton.onClick.RemoveListener(AddBuferIslandBoost);
@@ -102,16 +100,6 @@ public class TestUI : MonoBehaviour
         }
 
         _progressTracker.FinishLevel();
-    }
-
-    private void FailLevel()
-    {
-        if (_levelLoader.CurrentLevelData.Id == MainMenuLvlIndex)
-        {
-            return;
-        }
-
-        _progressTracker.FailLevel();
     }
 
     private void ResetSave()

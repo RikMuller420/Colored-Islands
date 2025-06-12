@@ -18,7 +18,7 @@ public class AngryBar : MonoBehaviour
 
         _levelProgressTracker.AngryChanged += OnAngyValueChanged;
         _levelProgressTracker.LevelFinished += OnLevelFinished;
-        _levelProgressTracker.LevelFailed += OnLevelFailed;
+        _levelProgressTracker.AngryTaskFailed += OnAngryTaskFailed;
         _levelLoader.LevelChanged += OnLevelStarted;
 
         enabled = true;
@@ -37,14 +37,15 @@ public class AngryBar : MonoBehaviour
         _canvas.overrideSorting = true;
     }
 
-    private void OnLevelFailed()
+    private void OnAngryTaskFailed()
     {
         _emojiAnimator.PlayLooseEmoji();
-        _canvas.overrideSorting = true;
+        _smoothBarChanger.StopAnimation();
     }
 
     private void OnLevelStarted()
     {
         _canvas.overrideSorting = false;
+        _smoothBarChanger.StartAnimation();
     }
 }

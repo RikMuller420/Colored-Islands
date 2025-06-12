@@ -7,7 +7,7 @@ public class LevelProgress
     [JsonProperty] private int _id;
     [JsonProperty] private bool _isDone;
     [JsonProperty] private bool _isMoveTaskDone;
-    [JsonProperty] private bool _isTimeTaskDone;
+    [JsonProperty] private bool _isAngryTaskDone;
     [JsonProperty] private int _bestScore;
 
     public LevelProgress(int id)
@@ -17,18 +17,18 @@ public class LevelProgress
 
     [JsonConstructor]
     public LevelProgress(int id, bool isDone, bool isMoveTaskDone,
-                         bool isTimeTaskDone, int bestScore)
+                         bool isAngryTaskDone, int bestScore)
     {
         _id = id;
         _isDone = isDone;
         _isMoveTaskDone = isMoveTaskDone;
-        _isTimeTaskDone = isTimeTaskDone;
+        _isAngryTaskDone = isAngryTaskDone;
         _bestScore = bestScore;
     }
 
     [JsonIgnore] public int Id => _id;
     [JsonIgnore] public bool IsDone => _isDone;
     [JsonIgnore] public bool IsMoveTaskDone => _isMoveTaskDone;
-    [JsonIgnore] public bool IsTimeTaskDone => _isTimeTaskDone;
+    [JsonIgnore] public bool IsAngryTaskDone => _isAngryTaskDone;
     [JsonIgnore] public int BestScore => _bestScore;
 }

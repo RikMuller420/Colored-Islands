@@ -4,6 +4,7 @@ using UnityEngine;
 public class LevelProgressTracker : MonoBehaviour
 {
     private bool _isTracking = false;
+    private bool _isAngryTracking = false;
     private float _levelTime = 0f;
     private int _levelMoves = 0;
     private LevelObjectsHolder _levelDataHolder;
@@ -13,15 +14,17 @@ public class LevelProgressTracker : MonoBehaviour
     private AngryTracker _angryTracker;
 
     public event Action LevelFinished;
-    public event Action LevelFailed;
     public event Action<float> TimeChanged;
     public event Action<float> AngryChanged;
+    public event Action AngryTaskFailed;
     public event Action TrackStopped;
+
     public bool IsLevelFinished { get; private set; }
-    public bool IsTimeTaskDone { get => _levelTime <= LevelData.ExtraStarTimeLimit; }
-    public bool IsMoveTaskDone { get => _levelMoves <= LevelData.ExtraStarMoveLimit; }
+    public bool IsAngryTaskDone => _angryTracker.AngryValue < 1f;
+    public bool IsMoveTaskDone  => _levelMoves <= LevelData.ExtraStarMoveLimit;
     public int ReachedGold { get; private set; }
     public int ReachedScore { get; private set; }
+    public float AngryValue => _angryTracker.AngryValue;
     public LevelSettingsData LevelData => _levelDataHolder.LevelSettings;
 
     private void OnEnable()
@@ -41,12 +44,16 @@ public class LevelProgressTracker : MonoBehaviour
             _levelTime += Time.deltaTime;
             TimeChanged?.Invoke(_levelTime);
 
-            _angryTracker.AddAngryTick();
-            AngryChanged?.Invoke(_angryTracker.AngryValue);
-
-            if (_angryTracker.AngryValue >= 1f)
+            if (_isAngryTracking)
             {
-                FailLevel();
+                _angryTracker.AddAngryTick();
+                AngryChanged?.Invoke(_angryTracker.AngryValue);
+
+                if (_angryTracker.AngryValue >= 1f)
+                {
+                    AngryTaskFailed?.Invoke();
+                    _isAngryTracking = false;
+                }      
             }
         }
     }
@@ -78,6 +85,7 @@ public class LevelProgressTracker : MonoBehaviour
         _angryTracker.ResetAngryValue();
         IsLevelFinished = false;
         _isTracking = true;
+        _isAngryTracking = true;
     }
 
     public void PauseTracking()
@@ -110,13 +118,16 @@ public class LevelProgressTracker : MonoBehaviour
 
         _levelMoves++;
 
-        _angryTracker.AddUnitsMovedTick(unitsMoveInfo);
-        AngryChanged?.Invoke(_angryTracker.AngryValue);
+        if (_isAngryTracking)
+        {
+            _angryTracker.AddUnitsMovedTick(unitsMoveInfo);
+            AngryChanged?.Invoke(_angryTracker.AngryValue);
+        }
     }
 
     private void OnIslandFinished(Island finishedIsland)
     {
-        if (_isTracking)
+        if (_isTracking && _isAngryTracking)
         {
             _angryTracker.AddIslandFinishedTick(finishedIsland);
             AngryChanged?.Invoke(_angryTracker.AngryValue);
@@ -134,13 +145,6 @@ public class LevelProgressTracker : MonoBehaviour
         StopTracking();
         CalculateRewardsAmount();
         LevelFinished?.Invoke();
-    }
-
-    public void FailLevel()
-    {
-        StopTracking();
-        CalculateRewardsAmount();
-        LevelFailed?.Invoke();
     }
 
     //Under TEST UI only
