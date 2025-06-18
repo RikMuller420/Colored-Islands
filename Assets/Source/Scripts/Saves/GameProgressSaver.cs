@@ -14,7 +14,7 @@ public class GameProgressSaver : MonoBehaviour
 
     public void Initialize(SaveProvider saveProvider)
     {
-        _lastSaveTime = DateTime.MinValue;
+        _lastSaveTime = DateTime.Now;
         _waitForEndOfFrame = new WaitForEndOfFrame();
         _saveProvider = saveProvider;
         _progressSerializer = new GameProgressSerializer();

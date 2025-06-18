@@ -15,10 +15,14 @@ public class GameProgress
     [JsonProperty] private Dictionary<BoostType, int> _boostsAmounts;
     [JsonProperty] private Dictionary<UpgradeType, int> _upgradeStages;
     [JsonProperty] private Dictionary<AudioGroup, bool> _isSoundOnStatus;
+    [JsonProperty] private Dictionary<int, bool> _facesAvailabilities;
+    [JsonProperty] private Dictionary<Paint, CustomizationPreferences> _customizationPreferences;
 
     public GameProgress()
     {
         _levels = new List<LevelProgress>();
+        _facesAvailabilities = new Dictionary<int, bool>();
+        _customizationPreferences = new Dictionary<Paint, CustomizationPreferences>();
         _scoreAmount = 0;
         _goldAmount = 0;
         _isAdsRemoved = false;
@@ -38,6 +42,10 @@ public class GameProgress
             { AudioGroup.MusicVolume, true },
             { AudioGroup.EffectsVolume, true },
         };
+        foreach (Paint paint in Enum.GetValues(typeof(Paint)))
+        {
+            _customizationPreferences.Add(paint, new CustomizationPreferences((int)paint + 1, -1));
+        }
     }
 
     [JsonIgnore] public LevelProgress FirstUnfinishedLevel => _levels.FirstOrDefault(level => !level.IsDone);
@@ -47,10 +55,12 @@ public class GameProgress
     [JsonIgnore] public bool IsAdsRemoved => _isAdsRemoved;
     [JsonIgnore] public bool IsLanguageSaved => _isLanguageSaved;
     [JsonIgnore] public Language Language => _language;
+    [JsonIgnore] public Dictionary<int, bool> FacesAvailabilities => _facesAvailabilities;
 
     public int GetBoostAmount(BoostType boostType) => _boostsAmounts[boostType];
     public int GetUpgradeStage(UpgradeType upgradeType) => _upgradeStages[upgradeType];
     public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _isSoundOnStatus[audioGroup];
+    public CustomizationPreferences GetCustomizationPreference(Paint paint) => _customizationPreferences[paint];
 
     public void SetLanguage(Language language)
     {
@@ -61,6 +71,33 @@ public class GameProgress
     public void ApplyRemoveAddBonus()
     {
         _isAdsRemoved = true;
+    }
+
+    public void UnlockFace(int faceId)
+    {
+        _facesAvailabilities[faceId] = true;
+    }
+
+    public void ChangeCustomizationPreferenceFace(Paint paint, int faceId)
+    {
+        CustomizationPreferences preference = GetCustomizationPreference(paint);
+        
+        int hatId = preference.HatId;
+        _customizationPreferences[paint] = new CustomizationPreferences(faceId, hatId);
+
+    }
+
+    public void ChangeCustomizationPreferenceHat(Paint paint, int hatId)
+    {
+        CustomizationPreferences preference = GetCustomizationPreference(paint);
+
+        int faceId = preference.FaceId;
+        _customizationPreferences[paint] = new CustomizationPreferences(faceId, hatId);
+    }
+
+    public void AddFace(int faceId, bool isAviable)
+    {
+        _facesAvailabilities.Add(faceId, isAviable);
     }
 
     public void SetBoostAmount(BoostType boostType, int amount)

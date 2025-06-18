@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 public class GameProgressStorage
 {
     private LevelSettings _levelSettings;
+    private UnitsFaceSettings _unitsFaceSettings;
     private GameProgressSerializer _progressSerializer;
     private GameProgress _progress;
     private SaveProvider _saveProvider;
@@ -17,20 +19,18 @@ public class GameProgressStorage
     public event Action RemoveAdsStateChanged;
     public event Action<AudioGroup> SoundEnabledChanged;
 
-    public GameProgressStorage(LevelSettings levelSettings, SaveProvider saveProvider, GameProgressSaver gameProgressSaver)
+    public GameProgressStorage(LevelSettings levelSettings, UnitsFaceSettings unitsFaceSettings,
+                            SaveProvider saveProvider, GameProgressSaver gameProgressSaver)
     {
         _levelSettings = levelSettings;
+        _unitsFaceSettings = unitsFaceSettings;
         _saveProvider = saveProvider;
         _gameProgressSaver = gameProgressSaver;
         _progressSerializer = new GameProgressSerializer();
 
         LoadSavedProgress();
-
-        if (IsNewLevelsCreatedInBuild(_levelSettings.Levels, out List<LevelSettingsData> newLevels))
-        {
-            ActulizeGameProgress(newLevels);
-            Save();
-        }
+        ActulizeSavedLevels();
+        ActulizeSavedFaces();
     }
 
     public LevelProgress FirstUnfinishedLevel => Levels.FirstOrDefault(level => level.IsDone == false);
@@ -40,6 +40,8 @@ public class GameProgressStorage
     public bool IsAdsRemoved => _progress.IsAdsRemoved;
     public bool IsLanguageSaved => _progress.IsLanguageSaved;
     public Language Language => _progress.Language;
+    public Dictionary<int, bool> FacesAvailabilities => _progress.FacesAvailabilities;
+    public CustomizationPreferences GetCustomizationPreference(Paint paint) => _progress.GetCustomizationPreference(paint);
 
     public int GetBoostAmount(BoostType boostType) => _progress.GetBoostAmount(boostType);
     public int GetUpgradeStage(UpgradeType upgradeType) => _progress.GetUpgradeStage(upgradeType);
@@ -63,7 +65,11 @@ public class GameProgressStorage
     }
 
     public void SetLanguage(Language language) => _progress.SetLanguage(language);
-    
+
+    public void ChangeCustomizationPreferenceFace(Paint paint, int faceId) => _progress.ChangeCustomizationPreferenceFace(paint, faceId);
+    public void ChangeCustomizationPreferenceHat(Paint paint, int hatId) => _progress.ChangeCustomizationPreferenceHat(paint, hatId);
+    public void UnlockFace(int faceId) => _progress.UnlockFace(faceId);
+
     public void ApplyRemoveAddBonus(bool autoSave = true)
     {
         _progress.ApplyRemoveAddBonus();
@@ -165,32 +171,47 @@ public class GameProgressStorage
             _progress.AddLevel(new LevelProgress(level.Id));
         }
 
+        foreach (UnitFaceData unitFace in _unitsFaceSettings.Faces)
+        {
+            _progress.AddFace(unitFace.Id, unitFace.IsAviableOnStart);
+        }
+
         Save();
     }
 
-    private bool IsNewLevelsCreatedInBuild(IReadOnlyCollection<LevelSettingsData> actualLevels, 
-                                            out List<LevelSettingsData> newLevels)
+    private void ActulizeSavedLevels()
     {
-        newLevels = new List<LevelSettingsData>();
-
-        foreach (LevelSettingsData actualLevel in actualLevels)
+        foreach (LevelSettingsData actualLevel in _levelSettings.Levels)
         {
             bool isLevelSaved = _progress.Levels.Any(level => level.Id == actualLevel.Id);
 
             if (isLevelSaved == false)
             {
-                newLevels.Add(actualLevel);
+                _progress.AddLevel(new LevelProgress(actualLevel.Id));
+                Save();
             }
         }
-
-        return newLevels.Count != 0;
     }
 
-    private void ActulizeGameProgress(List<LevelSettingsData> newLevels)
+    private void ActulizeSavedFaces()
     {
-        foreach (LevelSettingsData newLevel in newLevels)
+        foreach (UnitFaceData actualFace in _unitsFaceSettings.Faces)
         {
-            _progress.AddLevel(new LevelProgress(newLevel.Id));
+            bool isFaceSaved = _progress.FacesAvailabilities.ContainsKey(actualFace.Id);
+
+            if (isFaceSaved)
+            {
+                if (actualFace.IsAviableOnStart && _progress.FacesAvailabilities[actualFace.Id] == false)
+                {
+                    _progress.UnlockFace(actualFace.Id);
+                    Save();
+                }
+            }
+            else
+            {
+                _progress.AddFace(actualFace.Id, actualFace.IsAviableOnStart);
+                Save();
+            }
         }
     }
 }
