@@ -10,17 +10,20 @@ public class UnitCustomizationView : MonoBehaviour
 
     private PaintMaterials _paintMaterials;
     private UnitsFaceSettings _unitsFaceSettings;
+    private UnitsHatSettings _unitsHatSettings;
 
-    public void Initialize(PaintMaterials paintMaterials, UnitsFaceSettings unitsFaceSettings)
+    public void Initialize(PaintMaterials paintMaterials, UnitsFaceSettings unitsFaceSettings, UnitsHatSettings unitsHatSettings)
     {
         _paintMaterials = paintMaterials;
         _unitsFaceSettings = unitsFaceSettings;
+        _unitsHatSettings = unitsHatSettings;
     }
 
     public void SetPaint(Paint paint)
     {
         PaintMaterialData paintData = _paintMaterials.Materials.FirstOrDefault(paintData => paintData.Paint == paint);
         _body.color = paintData.UnitUiColor;
+        _hat.color = paintData.UnitUiHatColor;
     }
 
     public void SetFace(int faceId)
@@ -29,8 +32,25 @@ public class UnitCustomizationView : MonoBehaviour
         _face.sprite = faceData.Sprite;
     }
 
-    public void SetHat()
+    public void SetHat(int hatId)
     {
-        
+        if (hatId == _unitsHatSettings.NoHatId)
+        {
+            _hat.sprite = null;
+            SetHatColor(0f);
+        }
+        else
+        {
+            UnitHatData hatData = _unitsHatSettings.Hats.FirstOrDefault(hat => hat.Id == hatId);
+            _hat.sprite = hatData.PreviewSprite;
+            SetHatColor(1f);
+        }
+    }
+
+    private void SetHatColor(float alpha)
+    {
+        Color color = _hat.color;
+        color.a = alpha;
+        _hat.color = color;
     }
 }

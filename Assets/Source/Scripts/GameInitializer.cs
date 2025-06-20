@@ -13,6 +13,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private LeaderboardSettings _leaderboardSettings;
     [SerializeField] private LocalizationSettings _localizationSettings;
     [SerializeField] private UnitsFaceSettings _unitsFaceSettings;
+    [SerializeField] private UnitsHatSettings _unitsHatSettings;
     [SerializeField] private AudioMixers _audioMixers;
     [SerializeField] private LayerMask _allIslandsAndUnitsLayer;
 
@@ -76,7 +77,7 @@ public class GameInitializer : MonoBehaviour
 
         var defaultClickHandler = new DefaultClickHandler(selectHandler, _allIslandsAndUnitsLayer);
         var gameClickHandler = new ClickHandler(_inputHandler, _camera, defaultClickHandler);
-        var progressStorage = new GameProgressStorage(_levelSettings, _unitsFaceSettings, saveProvider, _gameProgressSaver);
+        var progressStorage = new GameProgressStorage(_levelSettings, _unitsFaceSettings, _unitsHatSettings, saveProvider, _gameProgressSaver);
         var leaderboardScoreCalculator = new LeaderboardScoreCalculator(progressStorage);
 
         var upgradesProvider = new UpgradesProvider(progressStorage);
@@ -94,7 +95,7 @@ public class GameInitializer : MonoBehaviour
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(progressStorage, _levelLoader);
-        _customizationWindowInitializer.Initialize(progressStorage);
+        _customizationWindowInitializer.Initialize(progressStorage, _levelProgressTracker);
 
         _boostButtonInitializer.Initialize(unitMover, gameClickHandler, selectHandler, levelDataHolder,
                                            boostAmountProvider);

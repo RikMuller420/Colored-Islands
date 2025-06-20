@@ -1,27 +1,28 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class UnitCustomizator
 {
     private List<UnitSelectButton> _unitSelectButtons;
+    private List<HatSelectButton> _hatSelectButtons;
     private List<FaceSelectButton> _faceSelectButtons;
     private UnitCustomizationView _unitCustomizationView;
     private GameProgressStorage _progressStorage;
 
     private UnitSelectButton _currentUnitButton;
     private FaceSelectButton _currentFaceButton;
+    private HatSelectButton _currentHatButton;
 
     private Paint _currentPaint;
-    private int _currentFaceId;
 
     public UnitCustomizator(UnitCustomizationView unitCustomizationView, GameProgressStorage progressStorage,
-                            List<UnitSelectButton> unitSelectButtons, List<FaceSelectButton> faceSelectButtons)
+                            List<UnitSelectButton> unitSelectButtons, List<HatSelectButton> hatSelectButtons,
+                            List<FaceSelectButton> faceSelectButtons)
     {
         _unitCustomizationView = unitCustomizationView;
         _progressStorage = progressStorage;
         _unitSelectButtons = unitSelectButtons;
         _faceSelectButtons = faceSelectButtons;
+        _hatSelectButtons = hatSelectButtons;
 
         foreach (UnitSelectButton unitSelectButton in _unitSelectButtons)
         {
@@ -33,7 +34,10 @@ public class UnitCustomizator
             faceSelectButton.ButtonClicked += ChangeCurrentFace;
         }
 
-        //Подписатся на смену шапки
+        foreach (HatSelectButton hatSelectButton in _hatSelectButtons)
+        {
+            hatSelectButton.ButtonClicked += ChangeCurrentHat;
+        }
 
         ChangeCurrentPaint(_unitSelectButtons[0]);
     }
@@ -55,7 +59,8 @@ public class UnitCustomizator
         FaceSelectButton faceSelectButton = _faceSelectButtons.Find(button => button.FaceId == customizationPreferences.FaceId);
         ApplyNewFace(faceSelectButton);
 
-        //Загрузить из осхранения шапку
+        HatSelectButton hatSelectButton = _hatSelectButtons.Find(button => button.HatId == customizationPreferences.HatId);
+        AplyNewHat(hatSelectButton);
     }
 
     private void ChangeCurrentFace(FaceSelectButton faceButton)
@@ -63,8 +68,13 @@ public class UnitCustomizator
         ApplyNewFace(faceButton);
         _progressStorage.ChangeCustomizationPreferenceFace(_currentPaint, faceButton.FaceId);
         _progressStorage.Save();
+    }
 
-        CustomizationPreferences customizationPreferences = _progressStorage.GetCustomizationPreference(_currentPaint);
+    private void ChangeCurrentHat(HatSelectButton hatButton)
+    {
+        AplyNewHat(hatButton);
+        _progressStorage.ChangeCustomizationPreferenceHat(_currentPaint, hatButton.HatId);
+        _progressStorage.Save();
     }
 
     private void ApplyNewFace(FaceSelectButton faceButton)
@@ -76,7 +86,18 @@ public class UnitCustomizator
 
         _currentFaceButton = faceButton;
         _currentFaceButton.SetSelectedStyle();
-        _currentFaceId = faceButton.FaceId;
-        _unitCustomizationView.SetFace(_currentFaceId);
+        _unitCustomizationView.SetFace(faceButton.FaceId);
+    }
+
+    private void AplyNewHat(HatSelectButton hatButton)
+    {
+        if (_currentHatButton != null)
+        {
+            _currentHatButton.SetNonSelectedStyle();
+        }
+
+        _currentHatButton = hatButton;
+        _currentHatButton.SetSelectedStyle();
+        _unitCustomizationView.SetHat(hatButton.HatId);
     }
 }

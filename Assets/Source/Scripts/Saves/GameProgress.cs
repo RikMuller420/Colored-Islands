@@ -20,32 +20,12 @@ public class GameProgress
 
     public GameProgress()
     {
-        _levels = new List<LevelProgress>();
-        _facesAvailabilities = new Dictionary<int, bool>();
-        _customizationPreferences = new Dictionary<Paint, CustomizationPreferences>();
-        _scoreAmount = 0;
-        _goldAmount = 0;
-        _isAdsRemoved = false;
-        _boostsAmounts = new Dictionary<BoostType, int>()
-        {
-            { BoostType.FinishIsland, 0 },
-            { BoostType.FreezeObjectives, 0 },
-            { BoostType.GrowBuferIsland, 0 },
-            { BoostType.ReducePaints, 0 }
-        };
-        _upgradeStages = new Dictionary<UpgradeType, int>()
-        {
-            { UpgradeType.BuferIslandSize, 0 }
-        };
-        _isSoundOnStatus = new Dictionary<AudioGroup, bool>()
-        {
-            { AudioGroup.MusicVolume, true },
-            { AudioGroup.EffectsVolume, true },
-        };
-        foreach (Paint paint in Enum.GetValues(typeof(Paint)))
-        {
-            _customizationPreferences.Add(paint, new CustomizationPreferences((int)paint + 1, -1));
-        }
+        SetDefaultValues();
+    }
+
+    public GameProgress(UnitsHatSettings unitsHatSettings)
+    {
+        SetDefaultValues(unitsHatSettings.NoHatId);
     }
 
     [JsonIgnore] public LevelProgress FirstUnfinishedLevel => _levels.FirstOrDefault(level => !level.IsDone);
@@ -170,6 +150,36 @@ public class GameProgress
         }
 
         _levels.Add(levelProgress);
+    }
+
+    private void SetDefaultValues(int noHatId = 0)
+    {
+        _levels = new List<LevelProgress>();
+        _facesAvailabilities = new Dictionary<int, bool>();
+        _customizationPreferences = new Dictionary<Paint, CustomizationPreferences>();
+        _scoreAmount = 0;
+        _goldAmount = 0;
+        _isAdsRemoved = false;
+        _boostsAmounts = new Dictionary<BoostType, int>()
+        {
+            { BoostType.FinishIsland, 0 },
+            { BoostType.FreezeObjectives, 0 },
+            { BoostType.GrowBuferIsland, 0 },
+            { BoostType.ReducePaints, 0 }
+        };
+        _upgradeStages = new Dictionary<UpgradeType, int>()
+        {
+            { UpgradeType.BuferIslandSize, 0 }
+        };
+        _isSoundOnStatus = new Dictionary<AudioGroup, bool>()
+        {
+            { AudioGroup.MusicVolume, true },
+            { AudioGroup.EffectsVolume, true },
+        };
+        foreach (Paint paint in Enum.GetValues(typeof(Paint)))
+        {
+            _customizationPreferences.Add(paint, new CustomizationPreferences((int)paint + 1, noHatId));
+        }
     }
 }
 

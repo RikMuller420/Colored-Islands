@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 
 public class GameProgressStorage
 {
     private LevelSettings _levelSettings;
     private UnitsFaceSettings _unitsFaceSettings;
+    private UnitsHatSettings _unitsHatSettings;
     private GameProgressSerializer _progressSerializer;
     private GameProgress _progress;
     private SaveProvider _saveProvider;
@@ -20,10 +20,12 @@ public class GameProgressStorage
     public event Action<AudioGroup> SoundEnabledChanged;
 
     public GameProgressStorage(LevelSettings levelSettings, UnitsFaceSettings unitsFaceSettings,
+                            UnitsHatSettings unitsHatSettings,
                             SaveProvider saveProvider, GameProgressSaver gameProgressSaver)
     {
         _levelSettings = levelSettings;
         _unitsFaceSettings = unitsFaceSettings;
+        _unitsHatSettings = unitsHatSettings;
         _saveProvider = saveProvider;
         _gameProgressSaver = gameProgressSaver;
         _progressSerializer = new GameProgressSerializer();
@@ -164,7 +166,7 @@ public class GameProgressStorage
 
     private void CreateNewSave()
     {
-        _progress = new GameProgress();
+        _progress = new GameProgress(_unitsHatSettings);
 
         foreach (LevelSettingsData level in _levelSettings.Levels)
         {

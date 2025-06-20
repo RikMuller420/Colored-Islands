@@ -8,10 +8,12 @@ public struct PaintMaterialData
     [SerializeField] private Material _unitMaterial;
     [SerializeField] private Color _islandPointColor;
     [SerializeField] private Color _unitUiColor;
+    [SerializeField] private Color _unitUiHatColor;
 
     public Paint Paint => _paint;
     public Material IslandMaterial => _islandMaterial;
     public Material UnitMaterial => _unitMaterial;
     public Color IslandPointColor => _islandPointColor;
     public Color UnitUiColor => _unitUiColor;
+    public Color UnitUiHatColor => _unitUiHatColor;
 }
