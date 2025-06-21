@@ -34,7 +34,9 @@ public class UnitsVisualizator
 
                     unit.transform.position = placePos;
                     unit.transform.SetParent(_visualizationHolder.transform);
-                    unit.Initialize(island.Island, islandStartUnits.Paint, paintMaterials);
+                    //unit.Initialize(paintMaterials);
+                    //unit.SetPaint(islandStartUnits.Paint);
+                    unit.Activate();
 
                     pointIndex++;
                 }

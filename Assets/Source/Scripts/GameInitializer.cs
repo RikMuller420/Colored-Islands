@@ -12,8 +12,8 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private BoostSettings _boostSettings;
     [SerializeField] private LeaderboardSettings _leaderboardSettings;
     [SerializeField] private LocalizationSettings _localizationSettings;
-    [SerializeField] private UnitsFaceSettings _unitsFaceSettings;
-    [SerializeField] private UnitsHatSettings _unitsHatSettings;
+    [SerializeField] private UnitsFaceSettings _faceSettings;
+    [SerializeField] private UnitsHatSettings _hatSettings;
     [SerializeField] private AudioMixers _audioMixers;
     [SerializeField] private LayerMask _allIslandsAndUnitsLayer;
 
@@ -77,7 +77,7 @@ public class GameInitializer : MonoBehaviour
 
         var defaultClickHandler = new DefaultClickHandler(selectHandler, _allIslandsAndUnitsLayer);
         var gameClickHandler = new ClickHandler(_inputHandler, _camera, defaultClickHandler);
-        var progressStorage = new GameProgressStorage(_levelSettings, _unitsFaceSettings, _unitsHatSettings, saveProvider, _gameProgressSaver);
+        var progressStorage = new GameProgressStorage(_levelSettings, _faceSettings, _hatSettings, saveProvider, _gameProgressSaver);
         var leaderboardScoreCalculator = new LeaderboardScoreCalculator(progressStorage);
 
         var upgradesProvider = new UpgradesProvider(progressStorage);
@@ -92,6 +92,7 @@ public class GameInitializer : MonoBehaviour
         var levelEndSoundPlayer = new LevelEndSoundPlayer(_levelProgressTracker, _gameplaySoundPlayer);
         var angryTracker = new AngryTracker(levelDataHolder);
         var localizationProvider = new LocalizationProvider();
+        var customizationSettingsHolder = new CustomizationSettingsHolder(_materials, progressStorage, _faceSettings, _hatSettings);
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(progressStorage, _levelLoader);
@@ -111,7 +112,7 @@ public class GameInitializer : MonoBehaviour
 
         _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _levelProgressTracker,
                                 _uiZoneActivator, levelDataHolder, _buferIslands, progressStorage,
-                                _currentLevelNumberToken, _unitsLookAtPoint);
+                                _currentLevelNumberToken, _unitsLookAtPoint, customizationSettingsHolder);
         _buferIslands.Initialize(_levelSettings);
         _backgroundMusicChanger.Initialize(_levelLoader);
         _deviceStyleChangeInitializer.Initialize();

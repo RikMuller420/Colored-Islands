@@ -1,42 +1,38 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public class Unit : PoolableObject, ISelectable
 {
-    [SerializeField] private SkinnedMeshRenderer _renderer;
+    [SerializeField] private UnitRenderer _renderer;
     [SerializeField] private Transform _meshTransform;
     [SerializeField] private UnitAnimator _animator;
+    [SerializeField] private Collider _collider;
 
-    private Collider _collider;
-    private UnitRenderer _unitRenderer;
-
-    public void Initialize(BaseIsland island, Paint paint, PaintMaterials paintMaterials)
-    {
-        _collider = GetComponent<Collider>();
-        Island = island;
-        SetPaint(paint, paintMaterials);
-        Activate();
-    }
 
     public Paint Paint { get; private set; }
     public BaseIsland Island { get; private set; }
     public Transform MeshTransform => _meshTransform;
     public UnitAnimator Animator => _animator;
 
-    public void ActivateOutline() => _unitRenderer.ActivateOutline();
-    public void DeactivateOutline() => _unitRenderer.DeactivateOutline();
+    public void ActivateOutline() => _renderer.ActivateOutline();
+    public void DeactivateOutline() => _renderer.DeactivateOutline();
+
+    public void Initialize(CustomizationSettingsHolder customizationSettings)
+    {
+        _renderer.Initialize(customizationSettings);
+    }
 
     public void SetIsland(BaseIsland island)
     {
         Island = island;
     }
 
-    public void SetPaint(Paint paint, PaintMaterials paintMaterials)
+    public void SetPaint(Paint paint)
     {
         Paint = paint;
-        _unitRenderer = new UnitRenderer(_renderer, paintMaterials);
-        _unitRenderer.SetPaint(paint);
+        _renderer.SetPaint(paint);
     }
 
     public void Deactivate()
@@ -45,7 +41,7 @@ public class Unit : PoolableObject, ISelectable
         _collider.enabled = false;
     }
 
-    private void Activate()
+    public void Activate()
     {
         enabled = true;
         _collider.enabled = true;

@@ -18,6 +18,7 @@ public class GameProgressStorage
     public event Action<UpgradeType> Upgraded;
     public event Action RemoveAdsStateChanged;
     public event Action<AudioGroup> SoundEnabledChanged;
+    public event Action<Paint> CustomizationPreferenceChanged;
 
     public GameProgressStorage(LevelSettings levelSettings, UnitsFaceSettings unitsFaceSettings,
                             UnitsHatSettings unitsHatSettings,
@@ -67,10 +68,19 @@ public class GameProgressStorage
     }
 
     public void SetLanguage(Language language) => _progress.SetLanguage(language);
-
-    public void ChangeCustomizationPreferenceFace(Paint paint, int faceId) => _progress.ChangeCustomizationPreferenceFace(paint, faceId);
-    public void ChangeCustomizationPreferenceHat(Paint paint, int hatId) => _progress.ChangeCustomizationPreferenceHat(paint, hatId);
     public void UnlockFace(int faceId) => _progress.UnlockFace(faceId);
+
+    public void ChangeCustomizationPreferenceFace(Paint paint, int faceId)
+    {
+        _progress.ChangeCustomizationPreferenceFace(paint, faceId);
+        CustomizationPreferenceChanged?.Invoke(paint);
+    }
+
+    public void ChangeCustomizationPreferenceHat(Paint paint, int hatId)
+    {
+        _progress.ChangeCustomizationPreferenceHat(paint, hatId);
+        CustomizationPreferenceChanged?.Invoke(paint);
+    }
 
     public void ApplyRemoveAddBonus(bool autoSave = true)
     {

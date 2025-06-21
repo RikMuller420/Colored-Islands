@@ -5,14 +5,12 @@ public class BoostInitializer : MonoBehaviour
 {
     [SerializeField] private LayerMask _paintedIslands;
     [SerializeField] private BuferIslandsHolder _buferIslands;
-    [SerializeField] private PaintMaterials _materials;
     [SerializeField] private LevelLoader _levelLoader;
     [SerializeField] private LevelProgressTracker _levelProgressTracker;
     [SerializeField] private GameObject _objectiveFreezeAnimator;
     [SerializeField] private BoostBuyConfirmationWindow boostBuyWindow;
     [SerializeField] private GameplaySoundPlayer _gameplaySoundPlayer;
     [SerializeField] private MenuWindow _outOfBoostWindow;
-
 
     [SerializeField] private BoostButton _buferIslandBoostButton;
     [SerializeField] private BoostButton _objectivesFreezeButton;
@@ -28,7 +26,7 @@ public class BoostInitializer : MonoBehaviour
                                                       _levelLoader, boostAmountProvider);
         var bufferIslandBoost = new BufferIslandBoost(_buferIslands, unitMover, boostAmountProvider);
         var objectivesFreezeBoost = new ObjectivesFreezeBoost(_levelProgressTracker, unitMover, _levelLoader, boostAmountProvider);
-        var paintAmountReduceBoost = new PaintAmountReduceBoost(levelDataHolder, _buferIslands, _materials, boostAmountProvider,
+        var paintAmountReduceBoost = new PaintAmountReduceBoost(levelDataHolder, _buferIslands, boostAmountProvider,
                                                                 unitMover);
 
         IEnumerable<Boost> boosts = new List<Boost>()

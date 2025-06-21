@@ -19,7 +19,8 @@ public class IslandInitializer : MonoBehaviour
     public IReadOnlyList<SpriteRenderer> Points => new List<SpriteRenderer>(_points);
     public List<IslandStartUnits> StartUnits => new List<IslandStartUnits>(_startUnits);
 
-    public void Initialize(Func<Unit> createUnit, PaintMaterials paintMaterials, Transform unitsLookAtPoint)
+    public void Initialize(Func<Unit> createUnit, PaintMaterials paintMaterials, Transform unitsLookAtPoint,
+                          CustomizationSettingsHolder customizationSettings)
     {
         FindRequireComponents();
         List<IslandPoint> placementPoints = new List<IslandPoint>();
@@ -36,7 +37,11 @@ public class IslandInitializer : MonoBehaviour
             for (int i = 0; i < startUnits.Amout; i++)
             {
                 Unit unit = createUnit.Invoke();
-                unit.Initialize(_island, startUnits.Paint, paintMaterials);
+                unit.Initialize(customizationSettings);
+                unit.SetIsland(_island);
+                unit.SetPaint(startUnits.Paint);
+                unit.Activate();
+
                 _island.AddStartUnit(unit, out IslandPoint placementPoint);
                 unit.transform.position = placementPoint.Transform.position;
                 unit.MeshTransform.LookAt(unitsLookAtPoint);

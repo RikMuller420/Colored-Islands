@@ -1,43 +1,65 @@
+using System.Linq;
 using UnityEngine;
 
-public class UnitRenderer
+public class UnitRenderer : MonoBehaviour
 {
     private const string OutlineShaderValueName = "_OtlWidth";
 
-    private SkinnedMeshRenderer _renderer;
-    private PaintMaterials _paintMaterials;
+    [SerializeField] private SkinnedMeshRenderer _renderer;
+    [SerializeField] private Transform _hatHolder;
+
+    private Hat _hat;
+    private CustomizationSettingsHolder _customizationSettings;
 
     private float maxOutlineWidth = 6f;
     private float minOutlineWidth = 0f;
 
-    public UnitRenderer(SkinnedMeshRenderer renderer, PaintMaterials paintMaterials)
+    public void Initialize(CustomizationSettingsHolder customizationSettings)
     {
-        _renderer = renderer;
-        _paintMaterials = paintMaterials;
+        _customizationSettings = customizationSettings;
     }
 
     public void SetPaint(Paint paint)
     {
-        foreach (PaintMaterialData materials in _paintMaterials.Materials)
-        {
-            if (materials.Paint == paint)
-            {
-                Material[] sharedMaterials = _renderer.sharedMaterials;
-                sharedMaterials[0] = materials.UnitMaterial;
-                _renderer.materials = sharedMaterials;
+        UnitCustomizationSettings customizationSettings = _customizationSettings.GetCustomizationSettings(paint);
+        _renderer.sharedMaterials = customizationSettings.UnitMaterials;
+        UpdateHat(customizationSettings);
+    }
 
-                return;
-            }
+    private void UpdateHat(UnitCustomizationSettings customizationSettings)
+    {
+        if (_hat != null)
+        {
+            Destroy(_hat.GameObject);
+            _hat = null;
         }
+
+        if (customizationSettings.IsHatEquiped == false)
+        {
+            return;
+        }
+
+        _hat = Instantiate(customizationSettings.HatData.Prefab, _hatHolder);
+        _hat.MeshRenderer.sharedMaterial = customizationSettings.HatMaterial;
     }
 
     public void ActivateOutline()
     {
         _renderer.materials[0].SetFloat(OutlineShaderValueName, maxOutlineWidth);
+
+        if (_hat != null)
+        {
+            _hat.MeshRenderer.material.SetFloat(OutlineShaderValueName, maxOutlineWidth);
+        }
     }
 
     public void DeactivateOutline()
     {
         _renderer.materials[0].SetFloat(OutlineShaderValueName, minOutlineWidth);
+
+        if (_hat != null)
+        {
+            _hat.MeshRenderer.material.SetFloat(OutlineShaderValueName, minOutlineWidth);
+        }
     }
 }
