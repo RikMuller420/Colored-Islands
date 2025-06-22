@@ -2,7 +2,6 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
 public class Unit : PoolableObject, ISelectable
 {
     [SerializeField] private UnitRenderer _renderer;
