@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -34,8 +35,8 @@ public class UnitsVisualizator
 
                     unit.transform.position = placePos;
                     unit.transform.SetParent(_visualizationHolder.transform);
-                    //unit.Initialize(paintMaterials);
-                    //unit.SetPaint(islandStartUnits.Paint);
+                    Material material = paintMaterials.Materials.FirstOrDefault(paint => paint.Paint == islandStartUnits.Paint).UnitMaterial;
+                    unit.SetMaterial(material);
                     unit.Activate();
 
                     pointIndex++;

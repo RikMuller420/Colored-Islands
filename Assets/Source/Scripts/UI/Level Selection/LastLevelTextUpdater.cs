@@ -21,11 +21,11 @@ public class LastLevelTextUpdater : MonoBehaviour
     public void Initialize(GameProgressStorage progressStorage)
     {
         _progressStorage = progressStorage;
-        UpdateLevelNumberToken();
+        UpdateLevelNumberToken(0);
         enabled = true;
     }
 
-    private void UpdateLevelNumberToken()
+    private void UpdateLevelNumberToken(int changedLevel)
     {
         LevelProgress level = _progressStorage.FirstUnfinishedLevel;
 

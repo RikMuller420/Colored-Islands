@@ -6,8 +6,11 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class BaseIsland : MonoBehaviour, ISelectable
 {
+    [SerializeField] private Collider _collider;
+
     public event Action UnitAdded;
 
+    public Collider Collider => _collider;
     public int FreePointsCount => Points.Count(point => point.IsFree);
     public IReadOnlyCollection<IslandPoint> Points { get; private set; }
 
@@ -77,5 +80,10 @@ public class BaseIsland : MonoBehaviour, ISelectable
         }
 
         throw new InvalidOperationException("No available free placement points");
+    }
+
+    protected virtual void OnValidate()
+    {
+        _collider = GetComponent<Collider>();
     }
 }

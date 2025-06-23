@@ -62,4 +62,11 @@ public class UnitRenderer : MonoBehaviour
             _hat.MeshRenderer.material.SetFloat(OutlineShaderValueName, minOutlineWidth);
         }
     }
+
+#if UNITY_EDITOR
+    public void SetMaterial(Material material)
+    {
+        _renderer.sharedMaterial = material;
+    }
+#endif
 }

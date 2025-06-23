@@ -50,6 +50,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
     [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
     [SerializeField] private List<LoginButton> _loginButtons;
+    [SerializeField] private List<LevelTabInitializer> _levelTabInitializers;
 
     private InAppPurchaseConsumeProvider _inAppConsumer;
 
@@ -93,6 +94,7 @@ public class GameInitializer : MonoBehaviour
         var angryTracker = new AngryTracker(levelDataHolder);
         var localizationProvider = new LocalizationProvider();
         var customizationSettingsHolder = new CustomizationSettingsHolder(_materials, progressStorage, _faceSettings, _hatSettings);
+        var trainigSequenceLoader = new TrainigSequenceLoader(_levelLoader, levelDataHolder, _buferIslands, selectHandler);
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(progressStorage, _levelLoader);
@@ -136,9 +138,12 @@ public class GameInitializer : MonoBehaviour
             loginButton.Initialize(authorizationProvider);
         }
 
+        foreach (LevelTabInitializer levelTabInitializer in _levelTabInitializers)
+        {
+            levelTabInitializer.InitializeButtons(progressStorage, _levelLoader);
+        }
+
         _testUI.Initialize(progressStorage, walletProvider);
-
-
         _inAppConsumer = new InAppPurchaseConsumeProvider();
     }
 }

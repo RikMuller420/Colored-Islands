@@ -31,4 +31,26 @@ public class LevelProgress
     [JsonIgnore] public bool IsMoveTaskDone => _isMoveTaskDone;
     [JsonIgnore] public bool IsAngryTaskDone => _isAngryTaskDone;
     [JsonIgnore] public int BestScore => _bestScore;
+
+    public int GetStarsCount()
+    {
+        int stars = 0;
+
+        if (_isDone)
+        {
+            stars++;
+        }
+
+        if (_isMoveTaskDone)
+        {
+            stars++;
+        }
+
+        if (_isAngryTaskDone)
+        {
+            stars++;
+        }
+
+        return stars;
+    }
 }

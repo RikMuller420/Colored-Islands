@@ -1,3 +1,5 @@
+using System;
+
 public class SelectHandler
 {
     private SelectState _currentSelection;
@@ -6,6 +8,8 @@ public class SelectHandler
 
     private UnitMover _unitMover;
     private UnitHighlighter _unitHighlighter;
+
+    public event Action UnitsSelected;
 
     public SelectHandler(UnitMover unitMover, BuferIslandsHolder buferIslands, LevelObjectsHolder levelDataHolder)
     {
@@ -21,8 +25,8 @@ public class SelectHandler
     {
         switch (selectable)
         {
-            case Unit unit:
-                SelectUnit(unit);
+            case UnitCollider unitCollider:
+                SelectUnit(unitCollider);
                 break;
 
             case BaseIsland island:
@@ -41,14 +45,15 @@ public class SelectHandler
         _currentSelection = SelectState.None;
     }
 
-    private void SelectUnit(Unit unit)
+    private void SelectUnit(UnitCollider unitCollider)
     {
         ResetSelection();
 
         _currentSelection = SelectState.Units;
-        _selectedIsland = unit.Island;
-        _selectedPaint = unit.Paint;
+        _selectedIsland = unitCollider.Unit.Island;
+        _selectedPaint = unitCollider.Unit.Paint;
         _unitHighlighter.HighlightUnits(_selectedIsland, _selectedPaint);
+        UnitsSelected?.Invoke();
     }
 
     private void SelectIsland(BaseIsland island)

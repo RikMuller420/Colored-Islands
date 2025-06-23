@@ -2,18 +2,18 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-public class Unit : PoolableObject, ISelectable
+public class Unit : PoolableObject
 {
     [SerializeField] private UnitRenderer _renderer;
     [SerializeField] private Transform _meshTransform;
     [SerializeField] private UnitAnimator _animator;
     [SerializeField] private Collider _collider;
 
-
     public Paint Paint { get; private set; }
     public BaseIsland Island { get; private set; }
     public Transform MeshTransform => _meshTransform;
     public UnitAnimator Animator => _animator;
+    public Collider Collider => _collider;
 
     public void ActivateOutline() => _renderer.ActivateOutline();
     public void DeactivateOutline() => _renderer.DeactivateOutline();
@@ -45,4 +45,11 @@ public class Unit : PoolableObject, ISelectable
         enabled = true;
         _collider.enabled = true;
     }
+
+#if UNITY_EDITOR
+    public void SetMaterial(Material material)
+    {
+        _renderer.SetMaterial(material);
+    }
+#endif
 }

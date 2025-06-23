@@ -72,7 +72,7 @@ public class LevelLoader : MonoBehaviour
         int islandSize = CurrentLevelData.BuferIslandSize + extraIslandSize;
         _buferIslands.LoadIsland(islandSize);
 
-        _levelDataHolder.SetLevelData(_currentIslands.Islands, CurrentLevelData);
+        _levelDataHolder.SetLevelData(_currentIslands.transform, _currentIslands.Islands, CurrentLevelData);
         _levelProgressTracker.StartTracking();
 
         LevelChanged?.Invoke();

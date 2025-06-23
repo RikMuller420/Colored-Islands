@@ -13,7 +13,7 @@ public class GameProgressStorage
     private GameProgressSaver _gameProgressSaver;
 
     public event Action GoldAmountChanged;
-    public event Action LevelProgressChanged;
+    public event Action<int> LevelProgressChanged;
     public event Action<BoostType> BoostsAmountChanged;
     public event Action<UpgradeType> Upgraded;
     public event Action RemoveAdsStateChanged;
@@ -58,7 +58,7 @@ public class GameProgressStorage
         CreateNewSave();
 
         GoldAmountChanged?.Invoke();
-        LevelProgressChanged?.Invoke();
+        LevelProgressChanged?.Invoke(0);
         BoostsAmountChanged?.Invoke(BoostType.GrowBuferIsland);
         BoostsAmountChanged?.Invoke(BoostType.FinishIsland);
         BoostsAmountChanged?.Invoke(BoostType.FreezeObjectives);
@@ -145,7 +145,7 @@ public class GameProgressStorage
     public void UpdateLevelProgress(LevelProgress levelProgress, bool autoSave = true)
     {
         _progress.UpdateLevelProgress(levelProgress);
-        LevelProgressChanged?.Invoke();
+        LevelProgressChanged?.Invoke(levelProgress.Id);
 
         if (autoSave)
         {

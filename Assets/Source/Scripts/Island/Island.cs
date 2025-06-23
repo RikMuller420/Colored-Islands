@@ -68,8 +68,9 @@ public class Island : BaseIsland
         }
     }
 
-    private void OnValidate()
+    private new void OnValidate()
     {
         _meshRenderer = GetComponent<MeshRenderer>();
+        base.OnValidate();
     }
 }
