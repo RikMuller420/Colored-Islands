@@ -3,6 +3,7 @@ using UnityEngine;
 public class AngryTracker
 {
     private LevelObjectsHolder _levelDataHolder;
+    private LevelLoader _levelLoader;
 
     private float _angryValue = 0f;
 
@@ -12,9 +13,10 @@ public class AngryTracker
 
     public float AngryValue => _angryValue / _angryLimit;
 
-    public AngryTracker(LevelObjectsHolder levelDataHolder)
+    public AngryTracker(LevelObjectsHolder levelDataHolder, LevelLoader levelLoader)
     {
         _levelDataHolder = levelDataHolder;
+        _levelLoader = levelLoader;
     }
 
     public void AddAngryTick()
@@ -26,6 +28,7 @@ public class AngryTracker
             instabilityStep += CalculateIslandInstability(island);
         }
 
+        instabilityStep *= _levelLoader.CurrentLevelData.AngryBarSpeed;
         AddAngry(instabilityStep * Time.deltaTime);
     }
 

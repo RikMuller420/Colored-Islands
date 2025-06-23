@@ -1,4 +1,4 @@
-using UnityEngine.EventSystems;
+using UnityEngine;
 
 public class TrainigSequenceLoader
 {
@@ -6,14 +6,24 @@ public class TrainigSequenceLoader
     private LevelObjectsHolder _levelObjectsHolder;
     private BuferIslandsHolder _buferIslandsHolder;
     private SelectHandler _selectHandler;
+    private UnitMover _unitMover;
+    private Camera _mainCamera;
+    private BoostButtonActivator _boostButtonActivator;
+    private LevelProgressTracker _levelProgressTracker;
 
     public TrainigSequenceLoader(LevelLoader levelLoader, LevelObjectsHolder levelObjectsHolder,
-                                BuferIslandsHolder buferIslandsHolder, SelectHandler selectHandler)
+                                BuferIslandsHolder buferIslandsHolder, SelectHandler selectHandler,
+                                UnitMover unitMover, Camera mainCamera, BoostButtonActivator bosstButtonActivator,
+                                LevelProgressTracker levelProgressTracker)
     {
         _levelLoader = levelLoader;
         _levelObjectsHolder = levelObjectsHolder;
         _selectHandler = selectHandler;
+        _unitMover = unitMover;
         _buferIslandsHolder = buferIslandsHolder;
+        _mainCamera = mainCamera;
+        _boostButtonActivator = bosstButtonActivator;
+        _levelProgressTracker = levelProgressTracker;
 
         _levelLoader.LevelChanged += OnLevelChanged;
     }
@@ -25,10 +35,10 @@ public class TrainigSequenceLoader
             return;
         }
 
-        if (_levelObjectsHolder.IslandsParent.TryGetComponent(out TrainigSequenceLevel1 trainigSequenceLevel))
+        if (_levelObjectsHolder.IslandsParent.TryGetComponent(out TrainigSequence trainigSequence))
         {
-            trainigSequenceLevel.Initialize(_levelObjectsHolder, _buferIslandsHolder, _selectHandler);
-            trainigSequenceLevel.StartTraining();
+            trainigSequence.Initialize(_levelObjectsHolder, _buferIslandsHolder, _selectHandler, _unitMover, _mainCamera, _boostButtonActivator, _levelProgressTracker);
+            trainigSequence.StartTraining();
         }
     }
 }

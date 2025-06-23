@@ -9,6 +9,7 @@ public class FinalScoreWindow : MenuWindow
     [SerializeField] private ScoreAnimator _scoreAnimator;
     [SerializeField] private ObjectivesAnimator _objectivesAnimator;
     [SerializeField] private ResultButtons _resultButtons;
+    [SerializeField] private ZoneUi _boostButtonZone;
 
     private GameProgressStorage _progressStorage;
     private LevelProgressTracker _progressTracker;
@@ -43,6 +44,7 @@ public class FinalScoreWindow : MenuWindow
         LevelProgress nextLevel = _progressStorage.Levels.FirstOrDefault(level => level.Id > currentLevelId);
         bool isNextLevelExist = _progressStorage.FirstUnfinishedLevel != null;
         _nextLevelButton.gameObject.SetActive(nextLevel != null);
+        _boostButtonZone.CloseImmediate();
 
         if (nextLevel != null)
         {

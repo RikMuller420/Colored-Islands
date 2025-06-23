@@ -11,11 +11,12 @@ public struct LevelSettingsData
     [SerializeField] private Vector3 _cameraHorizontalOrientationOffset;
     [SerializeField] private Vector3 _cameraVerticalOrientationOffset;
     [SerializeField] private float _cameraFoVOffset;
+    [SerializeField] private float _angryBarSpeed;
 
     public LevelSettingsData(int id, IslandsGroupInitializer levelPrefab, int buferIslandSize,
                             int extraStarMoveLimit, float extraStarTimeLimit,
                             Vector3 cameraHorizontalOrientationOffset, Vector3 cameraVerticalOrientationOffset,
-                            float cameraFoVOffset)
+                            float cameraFoVOffset, float angryBarSpeed)
     {
         _id = id;
         _levelPrefab = levelPrefab;
@@ -25,6 +26,7 @@ public struct LevelSettingsData
         _cameraHorizontalOrientationOffset = cameraHorizontalOrientationOffset;
         _cameraVerticalOrientationOffset = cameraVerticalOrientationOffset;
         _cameraFoVOffset = cameraFoVOffset;
+        _angryBarSpeed = angryBarSpeed;
     }
 
     public int Id => _id;
@@ -35,4 +37,5 @@ public struct LevelSettingsData
     public Vector3 CameraHorizontalOrientationOffset => _cameraHorizontalOrientationOffset;
     public Vector3 CameraVerticalOrientationOffset => _cameraVerticalOrientationOffset;
     public float CameraFoVOffset => _cameraFoVOffset;
+    public float AngryBarSpeed => _angryBarSpeed;
 }

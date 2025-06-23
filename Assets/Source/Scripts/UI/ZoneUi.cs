@@ -64,6 +64,19 @@ public class ZoneUi : MonoBehaviour
             .OnComplete(DeactivateInteractivity);
     }
 
+    public void CloseImmediate()
+    {
+        if (IsOpened == false)
+        {
+            return;
+        }
+
+        _isOpened = false;
+        _canvasGroup.DOKill();
+        _canvasGroup.alpha = _minAlpha;
+        DeactivateInteractivity();
+    }
+
     private void ActivateInteractivity()
     {
         _canvasGroup.blocksRaycasts = true;

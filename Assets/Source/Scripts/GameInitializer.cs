@@ -47,6 +47,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private LanguageChanger _languageChanger;
     [SerializeField] private GameProgressSaver _gameProgressSaver;
     [SerializeField] private CustomizationWindowInitializer _customizationWindowInitializer;
+    [SerializeField] private BoostButtonActivator _boostButtonActivator;
     [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
     [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
     [SerializeField] private List<LoginButton> _loginButtons;
@@ -91,10 +92,11 @@ public class GameInitializer : MonoBehaviour
         var interAdOpener = new InterstitialAdOpener(_levelLoader, removeAdsProvider, interAdProvider, rewardedAdProvider);
         var soundVolumeProvider = new SoundVolumeProvider(_audioMixers, progressStorage);
         var levelEndSoundPlayer = new LevelEndSoundPlayer(_levelProgressTracker, _gameplaySoundPlayer);
-        var angryTracker = new AngryTracker(levelDataHolder);
+        var angryTracker = new AngryTracker(levelDataHolder, _levelLoader);
         var localizationProvider = new LocalizationProvider();
         var customizationSettingsHolder = new CustomizationSettingsHolder(_materials, progressStorage, _faceSettings, _hatSettings);
-        var trainigSequenceLoader = new TrainigSequenceLoader(_levelLoader, levelDataHolder, _buferIslands, selectHandler);
+        var trainigSequenceLoader = new TrainigSequenceLoader(_levelLoader, levelDataHolder, _buferIslands, selectHandler, unitMover,
+                                                            _camera, _boostButtonActivator, _levelProgressTracker);
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(progressStorage, _levelLoader);
