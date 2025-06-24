@@ -48,6 +48,8 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private GameProgressSaver _gameProgressSaver;
     [SerializeField] private CustomizationWindowInitializer _customizationWindowInitializer;
     [SerializeField] private BoostButtonActivator _boostButtonActivator;
+    [SerializeField] private UIOrientationChanger _uIOrientationChanger;
+    [SerializeField] private MenuWindow _inGameMenu;
     [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
     [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
     [SerializeField] private List<LoginButton> _loginButtons;
@@ -96,7 +98,8 @@ public class GameInitializer : MonoBehaviour
         var localizationProvider = new LocalizationProvider();
         var customizationSettingsHolder = new CustomizationSettingsHolder(_materials, progressStorage, _faceSettings, _hatSettings);
         var trainigSequenceLoader = new TrainigSequenceLoader(_levelLoader, levelDataHolder, _buferIslands, selectHandler, unitMover,
-                                                            _camera, _boostButtonActivator, _levelProgressTracker);
+                                                            _camera, _boostButtonActivator, _levelProgressTracker, _uIOrientationChanger,
+                                                            progressStorage, _inGameMenu);
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(progressStorage, _levelLoader);

@@ -8,6 +8,7 @@ public class MenuWindow : ZoneUi
     [SerializeField] private MenuDimmer _menuDimmer;
 
     public event Action MenuOpened;
+    public event Action MenuClosed;
 
     protected void OnEnable()
     {
@@ -40,5 +41,6 @@ public class MenuWindow : ZoneUi
 
         _menuDimmer.Deactivate();
         base.Close();
+        MenuClosed?.Invoke();
     }
 }

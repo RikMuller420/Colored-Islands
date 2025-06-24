@@ -10,11 +10,15 @@ public class TrainigSequenceLoader
     private Camera _mainCamera;
     private BoostButtonActivator _boostButtonActivator;
     private LevelProgressTracker _levelProgressTracker;
+    private UIOrientationChanger _uIOrientationChanger;
+    private GameProgressStorage _progressStorage;
+    private MenuWindow _inGameMenu;
 
     public TrainigSequenceLoader(LevelLoader levelLoader, LevelObjectsHolder levelObjectsHolder,
                                 BuferIslandsHolder buferIslandsHolder, SelectHandler selectHandler,
                                 UnitMover unitMover, Camera mainCamera, BoostButtonActivator bosstButtonActivator,
-                                LevelProgressTracker levelProgressTracker)
+                                LevelProgressTracker levelProgressTracker, UIOrientationChanger uIOrientationChanger,
+                                GameProgressStorage progressStorage, MenuWindow inGameMenu)
     {
         _levelLoader = levelLoader;
         _levelObjectsHolder = levelObjectsHolder;
@@ -24,6 +28,9 @@ public class TrainigSequenceLoader
         _mainCamera = mainCamera;
         _boostButtonActivator = bosstButtonActivator;
         _levelProgressTracker = levelProgressTracker;
+        _uIOrientationChanger = uIOrientationChanger;
+        _progressStorage = progressStorage;
+        _inGameMenu = inGameMenu;
 
         _levelLoader.LevelChanged += OnLevelChanged;
     }
@@ -37,7 +44,9 @@ public class TrainigSequenceLoader
 
         if (_levelObjectsHolder.IslandsParent.TryGetComponent(out TrainigSequence trainigSequence))
         {
-            trainigSequence.Initialize(_levelObjectsHolder, _buferIslandsHolder, _selectHandler, _unitMover, _mainCamera, _boostButtonActivator, _levelProgressTracker);
+            trainigSequence.Initialize(_levelObjectsHolder, _buferIslandsHolder, _selectHandler, _unitMover, _mainCamera,
+                                       _boostButtonActivator, _levelProgressTracker, _uIOrientationChanger, _progressStorage,
+                                       _inGameMenu);
             trainigSequence.StartTraining();
         }
     }

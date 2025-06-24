@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,9 @@ public class UIOrientationChanger : MonoBehaviour
     [SerializeField] private GameObject _boostsZoneHorizontal;
     [SerializeField] private List<BoostButton> _boostButtons;
 
-    private bool _isVertical = true;
+    public event Action OrientationChanged;
+
+    public bool IsVertical { get; private set; } = true;
 
     private void OnEnable()
     {
@@ -24,19 +27,20 @@ public class UIOrientationChanger : MonoBehaviour
     {
         bool isNewOrientationVertical = screenSize.y > screenSize.x;
 
-        if (isNewOrientationVertical != _isVertical)
+        if (isNewOrientationVertical != IsVertical)
         {
-            _isVertical = isNewOrientationVertical;
+            IsVertical = isNewOrientationVertical;
             UpdateOrientation();
+            OrientationChanged?.Invoke();
         }
     }
 
     private void UpdateOrientation()
     {
-        _boostsZoneVertical.SetActive(_isVertical);
-        _boostsZoneHorizontal.SetActive(_isVertical == false);
+        _boostsZoneVertical.SetActive(IsVertical);
+        _boostsZoneHorizontal.SetActive(IsVertical == false);
 
-        Transform boostButtonParent = _isVertical ? _boostsZoneVertical.transform : 
+        Transform boostButtonParent = IsVertical ? _boostsZoneVertical.transform : 
                                                     _boostsZoneHorizontal.transform;
 
         foreach (BoostButton button in _boostButtons)

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,8 +6,12 @@ using UnityEngine.UI;
 public class BoostButtonContent
 {
     [SerializeField] private BoostType _type;
-    [SerializeField] private Button _button;
+    [SerializeField] private BoostButton _button;
+    [SerializeField] private List<Image> _buttonImages;
+    [SerializeField] private GameObject _amountHolder;
 
     public BoostType Type => _type;
-    public Button Button => _button;
+    public BoostButton Button => _button;
+    public IReadOnlyCollection<Image> ButtonImages => _buttonImages;
+    public GameObject AmountHolder => _amountHolder;
 }

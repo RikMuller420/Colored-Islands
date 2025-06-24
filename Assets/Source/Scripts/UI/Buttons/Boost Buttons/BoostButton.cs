@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +13,8 @@ public class BoostButton : MonoBehaviour
     private BoostAmountProvider _boostAmountProvider;
     private BoostBuyConfirmationWindow _boostBuyWindow;
     private Boost _boost;
+
+    public event Action TryBoostApplying;
 
     public ButtonAnimator Animator { get; private set; }
 
@@ -50,6 +53,8 @@ public class BoostButton : MonoBehaviour
 
     private void TryApplyBoost()
     {
+        TryBoostApplying?.Invoke();
+
         if (GetBoostAmount() == 0)
         {
             _boostBuyWindow.Open(_boost.Type);

@@ -87,7 +87,7 @@ public class LevelLoader : MonoBehaviour
     {
         if (_currentIslands != null)
         {
-            Destroy(_currentIslands.gameObject);
+            DestroyImmediate(_currentIslands.gameObject);
         }
 
         _buferIslands.DeactivateCurrentIsland();
