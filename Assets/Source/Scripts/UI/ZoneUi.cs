@@ -5,10 +5,12 @@ public class ZoneUi : MonoBehaviour
 {
     [SerializeField] private bool _isOpened = false;
     [SerializeField] private CanvasGroup _canvasGroup;
+    [SerializeField] private float _openFadeDuration = 0.2f;
+    [SerializeField] private float _closeFadeDuration = 0.2f;
 
-    private float _fadeDuration = 0.2f;
     private float _maxAlpha = 1f;
     private float _minAlpha = 0f;
+    private float _openDelay = 1f;
 
     public bool IsOpened => _isOpened;
 
@@ -32,6 +34,23 @@ public class ZoneUi : MonoBehaviour
         }
     }
 
+    public void OpenWithDelay()
+    {
+        if (IsOpened)
+        {
+            return;
+        }
+
+        _isOpened = true;
+        _canvasGroup.DOKill();
+        _canvasGroup
+            .DOFade(_maxAlpha, _openFadeDuration)
+            .SetDelay(_openDelay)
+            .SetEase(Ease.OutQuad)
+            .SetUpdate(true)
+            .OnComplete(ActivateInteractivity);
+    }
+
     public virtual void Open()
     {
         if (IsOpened)
@@ -42,7 +61,7 @@ public class ZoneUi : MonoBehaviour
         _isOpened = true;
         _canvasGroup.DOKill();
         _canvasGroup
-            .DOFade(_maxAlpha, _fadeDuration)
+            .DOFade(_maxAlpha, _openFadeDuration)
             .SetEase(Ease.OutQuad)
             .SetUpdate(true)
             .OnComplete(ActivateInteractivity);
@@ -58,7 +77,7 @@ public class ZoneUi : MonoBehaviour
         _isOpened = false;
         _canvasGroup.DOKill();
         _canvasGroup
-            .DOFade(_minAlpha, _fadeDuration)
+            .DOFade(_minAlpha, _closeFadeDuration)
             .SetEase(Ease.InQuad)
             .SetUpdate(true)
             .OnComplete(DeactivateInteractivity);

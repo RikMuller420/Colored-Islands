@@ -65,7 +65,7 @@ public class TrainigSequenceLevel1 : TrainigSequence
         }
     }
 
-    private void OnUnitsMoved(UnitsMoveInfo unitsMoveInfo)
+    private void OnUnitsMoved(UnitsMoveInfo _)
     {
         if (_trainingMoves[_currentMoveIndex].Type == Level1TrainingMoveType.MoveUnits)
         {

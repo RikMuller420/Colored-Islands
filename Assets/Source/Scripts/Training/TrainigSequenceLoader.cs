@@ -47,7 +47,7 @@ public class TrainigSequenceLoader
             trainigSequence.Initialize(_levelObjectsHolder, _buferIslandsHolder, _selectHandler, _unitMover, _mainCamera,
                                        _boostButtonActivator, _levelProgressTracker, _uIOrientationChanger, _progressStorage,
                                        _inGameMenu);
-            trainigSequence.StartTraining();
+            trainigSequence.StartTrainingNextFrame();
         }
     }
 }

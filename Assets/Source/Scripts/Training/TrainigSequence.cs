@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,9 +22,12 @@ public abstract class TrainigSequence : MonoBehaviour
     protected Image PointerImage => _pointerImage;
     protected float FadeDuration { get; private set; } = 0.55f;
 
+    private WaitForEndOfFrame _wait;
+
     private void OnDestroy()
     {
         BoostButtonActivator.ActivateAllButtons();
+        ActivateAllColliders();
     }
 
     public void Initialize(LevelObjectsHolder levelObjectsHolder, BuferIslandsHolder buferIslandsHolder,
@@ -42,9 +46,16 @@ public abstract class TrainigSequence : MonoBehaviour
         UIOrientationChanger = uIOrientationChanger;
         ProgressStorage = progressStorage;
         InGameMenu = inGameMenu;
+        _wait = new WaitForEndOfFrame();
+    }
+
+    public void StartTrainingNextFrame()
+    {
+        StartCoroutine(StartingTrainingNextFrame());
     }
 
     public abstract void StartTraining();
+
 
     protected void ActivatePointer()
     {
@@ -78,6 +89,13 @@ public abstract class TrainigSequence : MonoBehaviour
         DeactivateColliders(BuferIslandsHolder.CurrentIsland);
     }
 
+    protected void AddBost(BoostType boostType)
+    {
+        int boostAmount = ProgressStorage.GetBoostAmount(boostType);
+        boostAmount++;
+        ProgressStorage.SetBoostAmount(boostType, boostAmount);
+    }
+
     private void ActivateColliders(BaseIsland island)
     {
         island.Collider.enabled = true;
@@ -106,5 +124,12 @@ public abstract class TrainigSequence : MonoBehaviour
 
             islandPoint.OccupiedUnit.Collider.enabled = false;
         }
+    }
+
+    private IEnumerator StartingTrainingNextFrame()
+    {
+        yield return _wait;
+
+        StartTraining();
     }
 }

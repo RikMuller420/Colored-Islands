@@ -11,13 +11,13 @@ public class BoostButtonActivator : MonoBehaviour
     private float _fadeDuration = 0.7f;
 
     public BoostButton GetBoostButton(BoostType boostType) =>
-        _boostButtons.Find(button => button.Type == boostType).Button;
+        _boostButtons.Find(button => button.Type == boostType).ButtonScript;
 
     public void DeactivateAllButtons()
     {
         foreach (BoostButtonContent button in _boostButtons)
         {
-            button.Button.gameObject.SetActive(false);
+            button.ButtonScript.gameObject.SetActive(false);
             button.AmountHolder.SetActive(false);
         }
     }
@@ -26,21 +26,28 @@ public class BoostButtonActivator : MonoBehaviour
     {
         foreach (BoostButtonContent button in _boostButtons)
         {
-            button.Button.gameObject.SetActive(true);
+            button.ButtonScript.gameObject.SetActive(true);
             button.AmountHolder.SetActive(true);
+            button.Button.interactable = true;
         }
+    }
+
+    public void SetButtonNonInteractible(BoostType type)
+    {
+        BoostButtonContent boostButton = _boostButtons.Find(button => button.Type == type);
+        boostButton.Button.interactable = false;
     }
 
     public void ActivateButtonImmediate(BoostType type)
     {
         BoostButtonContent boostButton = _boostButtons.Find(button => button.Type == type);
-        boostButton.Button.gameObject.SetActive(true);
+        boostButton.ButtonScript.gameObject.SetActive(true);
     }
 
     public void ActivateButtonWithFade(BoostType type)
     {
         BoostButtonContent boostButton = _boostButtons.Find(button => button.Type == type);
-        boostButton.Button.gameObject.SetActive(true);
+        boostButton.ButtonScript.gameObject.SetActive(true);
 
         foreach (Image image in boostButton.ButtonImages)
         {

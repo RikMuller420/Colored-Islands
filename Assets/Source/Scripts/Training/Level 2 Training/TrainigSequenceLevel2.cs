@@ -6,7 +6,7 @@ public class TrainigSequenceLevel2 : TrainigSequence
     [SerializeField] private RectTransform _verticalOrientationPointerPosition;
     [SerializeField] private RectTransform _horizontalOrientationPointerPosition;
 
-    private float _startDelay = 0.7f;
+    private float _startDelay = 1f;
     private WaitForSeconds _startWait;
     private BoostButton _boostButton;
     private bool _isTrainingDone = false;
@@ -25,7 +25,8 @@ public class TrainigSequenceLevel2 : TrainigSequence
         InGameMenu.MenuClosed += OnMenuClosed;
         _boostButton = BoostButtonActivator.GetBoostButton(BoostType.GrowBuferIsland);
         _boostButton.TryBoostApplying += OnTryApplyingBoost;
-        
+        BoostButtonActivator.ActivateButtonImmediate(BoostType.GrowBuferIsland);
+
         StartCoroutine(StartFirstTrainingMove());
     }
 
@@ -49,7 +50,6 @@ public class TrainigSequenceLevel2 : TrainigSequence
     {
         yield return _startWait;
 
-        BoostButtonActivator.ActivateButtonWithFade(BoostType.GrowBuferIsland);
         UpdatePointerPosition();
         ActivatePointer();
     }
@@ -66,9 +66,7 @@ public class TrainigSequenceLevel2 : TrainigSequence
 
     private void OnTryApplyingBoost()
     {
-        int boostAmount = ProgressStorage.GetBoostAmount(BoostType.GrowBuferIsland);
-        boostAmount++;
-        ProgressStorage.SetBoostAmount(BoostType.GrowBuferIsland, boostAmount);
+        AddBost(BoostType.GrowBuferIsland);
         ActivateAllColliders();
         DeactivatePointer();
         _isTrainingDone = true;
