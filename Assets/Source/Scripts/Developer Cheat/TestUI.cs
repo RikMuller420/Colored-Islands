@@ -104,7 +104,8 @@ public class TestUI : MonoBehaviour
 
     private void ResetSave()
     {
-        _progressStorage.ResetProgress();
+        _progressStorage.SetTrainingFinished(false);
+        //_progressStorage.ResetProgress();
         _levelLoader.LoadMainMenu();
     }
 

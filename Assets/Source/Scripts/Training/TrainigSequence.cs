@@ -18,6 +18,8 @@ public abstract class TrainigSequence : MonoBehaviour
     protected UIOrientationChanger UIOrientationChanger { get; private set; }
     protected GameProgressStorage ProgressStorage { get; private set; }
     protected MenuWindow InGameMenu { get; private set; }
+    protected FinalScoreWindow FinalScoreWindow { get; private set; }
+    protected MenuTrainigSequence MenuTrainigSequence { get; private set; }
     protected RectTransform Pointer => _pointer;
     protected Image PointerImage => _pointerImage;
     protected float FadeDuration { get; private set; } = 0.55f;
@@ -34,7 +36,7 @@ public abstract class TrainigSequence : MonoBehaviour
                            SelectHandler selectHandler, UnitMover unitMover, Camera mainCamera,
                            BoostButtonActivator boostButtonActivator, LevelProgressTracker levelProgressTracker,
                            UIOrientationChanger uIOrientationChanger, GameProgressStorage progressStorage,
-                           MenuWindow inGameMenu)
+                           MenuWindow inGameMenu, FinalScoreWindow finalScoreWindow, MenuTrainigSequence menuTrainigSequence)
     {
         LevelObjectsHolder = levelObjectsHolder;
         BuferIslandsHolder = buferIslandsHolder;
@@ -46,6 +48,8 @@ public abstract class TrainigSequence : MonoBehaviour
         UIOrientationChanger = uIOrientationChanger;
         ProgressStorage = progressStorage;
         InGameMenu = inGameMenu;
+        FinalScoreWindow = finalScoreWindow;
+        MenuTrainigSequence = menuTrainigSequence;
         _wait = new WaitForEndOfFrame();
     }
 

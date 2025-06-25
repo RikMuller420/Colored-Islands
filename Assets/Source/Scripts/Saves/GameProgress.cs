@@ -12,6 +12,7 @@ public class GameProgress
     [JsonProperty] private bool _isAdsRemoved;
     [JsonProperty] private bool _isLanguageSaved;
     [JsonProperty] private Language _language;
+    [JsonProperty] private bool _isTrainingFinished;
     [JsonProperty] private Dictionary<BoostType, int> _boostsAmounts;
     [JsonProperty] private Dictionary<UpgradeType, int> _upgradeStages;
     [JsonProperty] private Dictionary<AudioGroup, bool> _isSoundOnStatus;
@@ -35,12 +36,18 @@ public class GameProgress
     [JsonIgnore] public bool IsAdsRemoved => _isAdsRemoved;
     [JsonIgnore] public bool IsLanguageSaved => _isLanguageSaved;
     [JsonIgnore] public Language Language => _language;
+    [JsonIgnore] public bool IsTrainingFinished => _isTrainingFinished;
     [JsonIgnore] public Dictionary<int, bool> FacesAvailabilities => _facesAvailabilities;
 
     public int GetBoostAmount(BoostType boostType) => _boostsAmounts[boostType];
     public int GetUpgradeStage(UpgradeType upgradeType) => _upgradeStages[upgradeType];
     public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _isSoundOnStatus[audioGroup];
     public CustomizationPreferences GetCustomizationPreference(Paint paint) => _customizationPreferences[paint];
+
+    public void SetTrainingFinished(bool isFinished)
+    {
+        _isTrainingFinished = isFinished;
+    }
 
     public void SetLanguage(Language language)
     {

@@ -1,10 +1,15 @@
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TrainigSequenceLevel5 : TrainigSequence
 {
     [SerializeField] private RectTransform _verticalOrientationPointerPosition;
     [SerializeField] private RectTransform _horizontalOrientationPointerPosition;
+    [SerializeField] private CanvasGroup _finishTrainingPanel;
+    [SerializeField] private Button _lastStepButton;
+    [SerializeField] private Image _fullDimImage;
 
     private float _waitTime = 0.7f;
     private WaitForSeconds _wait;
@@ -37,6 +42,9 @@ public class TrainigSequenceLevel5 : TrainigSequence
 
         _reducePaintsBoostButton = BoostButtonActivator.GetBoostButton(BoostType.ReducePaints);
         _reducePaintsBoostButton.TryBoostApplying += OnTryApplyingReducePaintsBoost;
+
+        FinalScoreWindow.ScoreShowed += OnFinalScoreShowed;
+        _lastStepButton.onClick.AddListener(GoToMenuTraining);
     }
 
     private void OnUnitsMoved(UnitsMoveInfo _)
@@ -99,5 +107,32 @@ public class TrainigSequenceLevel5 : TrainigSequence
 
         Pointer.position = targetPosition.position;
         Pointer.localEulerAngles = targetPosition.localEulerAngles;
+    }
+
+    private void OnFinalScoreShowed()
+    {
+        if (ProgressStorage.IsTrainingFinished)
+        {
+            return;
+        }
+
+        _finishTrainingPanel.blocksRaycasts = true;
+        DOTween.Sequence().Append(_finishTrainingPanel.DOFade(1f, FadeDuration)
+                          .SetEase(Ease.InOutQuad))
+                          .OnComplete(() => _lastStepButton.interactable = true);
+
+        AddBost(BoostType.GrowBuferIsland);
+        AddBost(BoostType.FinishIsland);
+        AddBost(BoostType.FreezeObjectives);
+        AddBost(BoostType.ReducePaints);
+        ProgressStorage.SetTrainingFinished(true);
+        ProgressStorage.Save();
+    }
+
+    private void GoToMenuTraining()
+    {
+        DOTween.Sequence().Append(_fullDimImage.DOFade(1f, FadeDuration)
+                          .SetEase(Ease.InOutQuad))
+                          .OnComplete(() => MenuTrainigSequence.StartTraining());
     }
 }

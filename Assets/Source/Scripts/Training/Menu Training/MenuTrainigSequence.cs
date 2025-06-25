@@ -1,0 +1,85 @@
+using DG.Tweening;
+using Lean.Localization;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class MenuTrainigSequence : MonoBehaviour
+{
+    private const string CustomizationHintKey = "Customization Description";
+    private const string ShopHintKey = "Shop Description";
+    private const string FinalHintKey = "Final Training Hint";
+    private const string FinalHintAnimatorTrigger = "UpsideDown";
+
+    [SerializeField] private LevelLoader _levelLoader;
+    [SerializeField] private Image _fullDimImage;
+    [SerializeField] private MenuWindow _customizationWindow;
+    [SerializeField] private MenuWindow _shopWindow;
+
+    [SerializeField] private CanvasGroup _trainingHintGroup;
+    [SerializeField] private TextMeshProUGUI _trainingHintText;
+    [SerializeField] private Button _goNextButton;
+    [SerializeField] private Animator _emojiAnimator;
+
+    private float _startDelay = 0.3f;
+    private float _fadeDuration = 1f;
+    private float _descriptionTypeDuration = 1.7f;
+
+    public void StartTraining()
+    {
+        _fullDimImage.raycastTarget = true;
+        _fullDimImage.color = Color.black;
+        _levelLoader.LoadMainMenu();
+        _customizationWindow.Open();
+        DOTween.Sequence().Append(_fullDimImage.DOFade(0f, _fadeDuration)
+                  .SetDelay(_startDelay)
+                  .SetEase(Ease.InOutQuad))
+                  .OnComplete(() => StartCustomizationTraining());
+    }
+
+    private void StartCustomizationTraining()
+    {
+        _goNextButton.interactable = false;
+        _trainingHintGroup.blocksRaycasts = true;
+        DOTween.Sequence().Append(_trainingHintGroup.DOFade(1f, _fadeDuration));
+        PrintHint(CustomizationHintKey);
+        _goNextButton.onClick.AddListener(GoToShopTraining);
+    }
+
+    private void PrintHint(string key)
+    {
+        string description = LeanLocalization.GetTranslationText(key);
+        _trainingHintText.text = "";
+        DOTween.Sequence().Append(_trainingHintText.DOText(description, _descriptionTypeDuration)
+                          .SetEase(Ease.Linear))
+                          .OnComplete(() => _goNextButton.interactable = true);
+    }
+
+    private void GoToShopTraining()
+    {
+        _goNextButton.interactable = false;
+        _goNextButton.onClick.RemoveListener(GoToShopTraining);
+        _customizationWindow.Close();
+        _shopWindow.Open();
+        PrintHint(ShopHintKey);
+        _goNextButton.onClick.AddListener(StartFinalHintTraining);
+    }
+
+    private void StartFinalHintTraining()
+    {
+        _goNextButton.interactable = false;
+        _goNextButton.onClick.RemoveListener(StartFinalHintTraining);
+        _shopWindow.Close();
+        PrintHint(FinalHintKey);
+        _goNextButton.onClick.AddListener(CloseTraining);
+        _emojiAnimator.SetTrigger(FinalHintAnimatorTrigger);
+    }
+
+    private void CloseTraining()
+    {
+        _fullDimImage.raycastTarget = false;
+        _goNextButton.onClick.RemoveListener(CloseTraining);
+        DOTween.Sequence().Append(_trainingHintGroup.DOFade(0f, _fadeDuration));
+        _trainingHintGroup.blocksRaycasts = false;
+    }
+}

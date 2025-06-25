@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -17,6 +18,8 @@ public class FinalScoreWindow : MenuWindow
     private float _lastAnimationTimeReduction = 2f;
     private float _starAnimationTime = 0.75f;
     private WaitForSeconds _starAnimationInterval;
+
+    public event Action ScoreShowed;
 
     private new void OnEnable()
     {
@@ -81,6 +84,7 @@ public class FinalScoreWindow : MenuWindow
         animationDuration /= _lastAnimationTimeReduction;
 
         _resultButtons.Activate();
+        ScoreShowed?.Invoke();
     }
 
     private IEnumerator PlayStarAnimations()

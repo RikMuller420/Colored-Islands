@@ -13,12 +13,15 @@ public class TrainigSequenceLoader
     private UIOrientationChanger _uIOrientationChanger;
     private GameProgressStorage _progressStorage;
     private MenuWindow _inGameMenu;
+    private FinalScoreWindow _finalScoreWindow;
+    private MenuTrainigSequence _menuTrainigSequence;
 
     public TrainigSequenceLoader(LevelLoader levelLoader, LevelObjectsHolder levelObjectsHolder,
                                 BuferIslandsHolder buferIslandsHolder, SelectHandler selectHandler,
                                 UnitMover unitMover, Camera mainCamera, BoostButtonActivator bosstButtonActivator,
                                 LevelProgressTracker levelProgressTracker, UIOrientationChanger uIOrientationChanger,
-                                GameProgressStorage progressStorage, MenuWindow inGameMenu)
+                                GameProgressStorage progressStorage, MenuWindow inGameMenu, FinalScoreWindow finalScoreWindow,
+                                MenuTrainigSequence menuTrainigSequence)
     {
         _levelLoader = levelLoader;
         _levelObjectsHolder = levelObjectsHolder;
@@ -31,6 +34,8 @@ public class TrainigSequenceLoader
         _uIOrientationChanger = uIOrientationChanger;
         _progressStorage = progressStorage;
         _inGameMenu = inGameMenu;
+        _finalScoreWindow = finalScoreWindow;
+        _menuTrainigSequence = menuTrainigSequence;
 
         _levelLoader.LevelChanged += OnLevelChanged;
     }
@@ -46,7 +51,7 @@ public class TrainigSequenceLoader
         {
             trainigSequence.Initialize(_levelObjectsHolder, _buferIslandsHolder, _selectHandler, _unitMover, _mainCamera,
                                        _boostButtonActivator, _levelProgressTracker, _uIOrientationChanger, _progressStorage,
-                                       _inGameMenu);
+                                       _inGameMenu, _finalScoreWindow, _menuTrainigSequence);
             trainigSequence.StartTrainingNextFrame();
         }
     }

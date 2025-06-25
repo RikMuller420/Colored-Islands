@@ -43,12 +43,14 @@ public class GameProgressStorage
     public bool IsAdsRemoved => _progress.IsAdsRemoved;
     public bool IsLanguageSaved => _progress.IsLanguageSaved;
     public Language Language => _progress.Language;
+    public bool IsTrainingFinished => _progress.IsTrainingFinished;
     public Dictionary<int, bool> FacesAvailabilities => _progress.FacesAvailabilities;
     public CustomizationPreferences GetCustomizationPreference(Paint paint) => _progress.GetCustomizationPreference(paint);
 
     public int GetBoostAmount(BoostType boostType) => _progress.GetBoostAmount(boostType);
     public int GetUpgradeStage(UpgradeType upgradeType) => _progress.GetUpgradeStage(upgradeType);
     public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _progress.GetIsSoundOnStatus(audioGroup);
+    public void SetTrainingFinished(bool isFinished) => _progress.SetTrainingFinished(isFinished);
 
     public void Save() => _gameProgressSaver.TrySave(_progress);
 
