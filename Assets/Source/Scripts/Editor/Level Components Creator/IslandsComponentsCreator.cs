@@ -10,6 +10,11 @@ public class IslandsComponentsCreator
 
         foreach (Transform child in islandsParent)
         {
+            if (child.TryGetComponent<MeshRenderer>(out _) == false)
+            {
+                continue;
+            }
+
             IslandInitializer initializer = child.GetComponent<IslandInitializer>();
 
             if (child.TryGetComponent<Collider>(out _) == false)
