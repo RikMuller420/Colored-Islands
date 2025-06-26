@@ -10,7 +10,6 @@ public class ZoneUi : MonoBehaviour
 
     private float _maxAlpha = 1f;
     private float _minAlpha = 0f;
-    private float _openDelay = 1f;
 
     public bool IsOpened => _isOpened;
 
@@ -34,7 +33,7 @@ public class ZoneUi : MonoBehaviour
         }
     }
 
-    public void OpenWithDelay()
+    public void OpenWithDelay(float delay)
     {
         if (IsOpened)
         {
@@ -45,7 +44,7 @@ public class ZoneUi : MonoBehaviour
         _canvasGroup.DOKill();
         _canvasGroup
             .DOFade(_maxAlpha, _openFadeDuration)
-            .SetDelay(_openDelay)
+            .SetDelay(delay)
             .SetEase(Ease.OutQuad)
             .SetUpdate(true)
             .OnComplete(ActivateInteractivity);

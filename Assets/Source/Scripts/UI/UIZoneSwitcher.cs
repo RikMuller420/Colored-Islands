@@ -8,12 +8,14 @@ public class UIZoneSwitcher : MonoBehaviour
     [SerializeField] private List<MenuWindow> _windows;
     [SerializeField] private ZoneUi _boostButtonsZone;
 
+    private float _boostAppearDelay = 0.5f;
+
     public void SwitchToInGameUI()
     {
         CloseZones(_mainMenuZones);
         OpenZones(_inGameZones);
         CloseAllWindows();
-        _boostButtonsZone.OpenWithDelay();
+        _boostButtonsZone.OpenWithDelay(_boostAppearDelay);
     }
 
     public void SwitchToMainMenuUI()
