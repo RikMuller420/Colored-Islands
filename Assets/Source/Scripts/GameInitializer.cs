@@ -26,7 +26,6 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private LevelProgressTracker _levelProgressTracker;
     [SerializeField] private Camera _camera;
     [SerializeField] private WalletView _walletView;
-    [SerializeField] private LastLevelTextUpdater _lastLevelTextUpdater;
     [SerializeField] private FinalScoreWindow _finalScoreWindow;
 
     [SerializeField] private FirstUnfinishedLevelButton _firstUnfinishedLevelButton;
@@ -113,7 +112,6 @@ public class GameInitializer : MonoBehaviour
         _inAppPurchaseInitializer.Initialize(walletProvider, boostAmountProvider, removeAdsProvider, inAppPurchaseProvider);
 
         _walletView.Initialize(walletProvider);
-        _lastLevelTextUpdater.Initialize(progressStorage);
 
         _levelProgressTracker.Initialize(progressStorage, levelDataHolder, unitMover, angryTracker);
         _finalScoreWindow.Initialize(progressStorage, _levelProgressTracker);
