@@ -45,10 +45,12 @@ public class StarsAnimator : MonoBehaviour
         Color imageColor = star.color;
         imageColor.a = 0f;
         star.color = imageColor;
+        star.gameObject.SetActive(false);
     }
 
     private void PlayAnimation(Image star)
     {
+        star.gameObject.SetActive(true);
         Sequence scaleSequence = DOTween.Sequence();
         scaleSequence.Append(star.transform.DOScale(_scaleInGrow, _scaleDurationGrow))
                      .Append(star.transform.DOScale(_finalScale, _scaleDurationDecrease));
