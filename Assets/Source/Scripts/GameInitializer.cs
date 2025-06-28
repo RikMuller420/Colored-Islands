@@ -56,12 +56,20 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private List<LevelTabInitializer> _levelTabInitializers;
 
     private InAppPurchaseConsumeProvider _inAppConsumer;
+    private GameProgressStorage _progressStorage;
+
+    private int _lastTrainingLevel = 5;
 
     private void Start()
     {
         InitializeGame();
         _levelLoader.LoadMainMenu();
         _inAppConsumer.ConsumePurchase();
+
+        if (_progressStorage.FirstUnfinishedLevel.Id <= _lastTrainingLevel)
+        {
+            _levelLoader.LoadLevel(_progressStorage.FirstUnfinishedLevel.Id);
+        }
     }
 
     public void InitializeGame()
@@ -81,29 +89,29 @@ public class GameInitializer : MonoBehaviour
 
         var defaultClickHandler = new DefaultClickHandler(selectHandler, _allIslandsAndUnitsLayer);
         var gameClickHandler = new ClickHandler(_inputHandler, _camera, defaultClickHandler);
-        var progressStorage = new GameProgressStorage(_levelSettings, _faceSettings, _hatSettings, saveProvider, _gameProgressSaver);
-        var leaderboardScoreCalculator = new LeaderboardScoreCalculator(progressStorage);
+        _progressStorage = new GameProgressStorage(_levelSettings, _faceSettings, _hatSettings, saveProvider, _gameProgressSaver);
+        var leaderboardScoreCalculator = new LeaderboardScoreCalculator(_progressStorage);
 
-        var upgradesProvider = new UpgradesProvider(progressStorage);
-        var boostAmountProvider = new BoostAmountProvider(progressStorage);
-        var removeAdsProvider = new RemoveAdsProvider(progressStorage);
+        var upgradesProvider = new UpgradesProvider(_progressStorage);
+        var boostAmountProvider = new BoostAmountProvider(_progressStorage);
+        var removeAdsProvider = new RemoveAdsProvider(_progressStorage);
 
-        var levelProgressUpdater = new GameProgressUpdater(_levelProgressTracker, progressStorage, leaderboardProvider,
+        var levelProgressUpdater = new GameProgressUpdater(_levelProgressTracker, _progressStorage, leaderboardProvider,
                                                            _leaderboardSettings, leaderboardScoreCalculator);
-        var walletProvider = new WalletProvider(progressStorage);
+        var walletProvider = new WalletProvider(_progressStorage);
         var interAdOpener = new InterstitialAdOpener(_levelLoader, removeAdsProvider, interAdProvider, rewardedAdProvider);
-        var soundVolumeProvider = new SoundVolumeProvider(_audioMixers, progressStorage);
+        var soundVolumeProvider = new SoundVolumeProvider(_audioMixers, _progressStorage);
         var levelEndSoundPlayer = new LevelEndSoundPlayer(_levelProgressTracker, _gameplaySoundPlayer);
         var angryTracker = new AngryTracker(levelDataHolder, _levelLoader);
         var localizationProvider = new LocalizationProvider();
-        var customizationSettingsHolder = new CustomizationSettingsHolder(_materials, progressStorage, _faceSettings, _hatSettings);
+        var customizationSettingsHolder = new CustomizationSettingsHolder(_materials, _progressStorage, _faceSettings, _hatSettings);
         var trainigSequenceLoader = new TrainigSequenceLoader(_levelLoader, levelDataHolder, _buferIslands, selectHandler, unitMover,
                                                             _camera, _boostButtonActivator, _levelProgressTracker, _uIOrientationChanger,
-                                                            progressStorage, _inGameMenu, _finalScoreWindow, _menuTrainigSequence);
+                                                            _progressStorage, _inGameMenu, _finalScoreWindow, _menuTrainigSequence);
 
         _nextLevelButton.Initialize(_levelLoader);
-        _firstUnfinishedLevelButton.Initialize(progressStorage, _levelLoader);
-        _customizationWindowInitializer.Initialize(progressStorage, _levelProgressTracker);
+        _firstUnfinishedLevelButton.Initialize(_progressStorage, _levelLoader);
+        _customizationWindowInitializer.Initialize(_progressStorage, _levelProgressTracker);
 
         _boostButtonInitializer.Initialize(unitMover, gameClickHandler, selectHandler, levelDataHolder,
                                            boostAmountProvider);
@@ -113,11 +121,11 @@ public class GameInitializer : MonoBehaviour
 
         _walletView.Initialize(walletProvider);
 
-        _levelProgressTracker.Initialize(progressStorage, levelDataHolder, unitMover, angryTracker);
-        _finalScoreWindow.Initialize(progressStorage, _levelProgressTracker);
+        _levelProgressTracker.Initialize(_progressStorage, levelDataHolder, unitMover, angryTracker);
+        _finalScoreWindow.Initialize(_progressStorage, _levelProgressTracker);
 
         _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _levelProgressTracker,
-                                _uiZoneActivator, levelDataHolder, _buferIslands, progressStorage,
+                                _uiZoneActivator, levelDataHolder, _buferIslands, _progressStorage,
                                 _currentLevelNumberToken, _unitsLookAtPoint, customizationSettingsHolder);
         _buferIslands.Initialize(_levelSettings);
         _backgroundMusicChanger.Initialize(_levelLoader);
@@ -125,7 +133,7 @@ public class GameInitializer : MonoBehaviour
         _angryBar.Initialize(_levelProgressTracker, _levelLoader);
         _unitsMoveSoundPlayer.Initialize(unitMover, _unitMoveSound);
         _leaderboardWindow.Initialize(authorizationProvider);
-        _languageChanger.Initialize(_localizationSettings, progressStorage, localizationProvider);
+        _languageChanger.Initialize(_localizationSettings, _progressStorage, localizationProvider);
 
         foreach (LeaderboardTab leaderboardTab in _leaderboardTabs)
         {
@@ -144,10 +152,10 @@ public class GameInitializer : MonoBehaviour
 
         foreach (LevelTabInitializer levelTabInitializer in _levelTabInitializers)
         {
-            levelTabInitializer.InitializeButtons(progressStorage, _levelLoader);
+            levelTabInitializer.InitializeButtons(_progressStorage, _levelLoader);
         }
 
-        _testUI.Initialize(progressStorage, walletProvider);
+        _testUI.Initialize(_progressStorage, walletProvider);
         _inAppConsumer = new InAppPurchaseConsumeProvider();
     }
 }
