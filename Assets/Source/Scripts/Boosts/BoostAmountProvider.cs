@@ -7,6 +7,7 @@ public class BoostAmountProvider
     private GameProgressStorage _gameProgressStorage;
 
     public event Action<BoostType> BoostsAmountChanged;
+    public event Action<BoostType> BoostApplyed;
 
     public BoostAmountProvider(GameProgressStorage gameProgressStorage)
     {
@@ -27,6 +28,7 @@ public class BoostAmountProvider
 
         boostAmount--;
         _gameProgressStorage.SetBoostAmount(boostType, boostAmount);
+        BoostApplyed?.Invoke(boostType);
     }
 
     public void AddBoost(BoostType boostType)

@@ -5,13 +5,10 @@ public class BoostAnimator
 {
     private Dictionary<Boost, BoostButton> _boostsButtons;
     private BoostButton _islandFinishBoostButton;
-    private GameObject _objectiveFreezeAnimator;
 
-    public BoostAnimator(Dictionary<Boost, BoostButton> boostsButtons,
-                        GameObject objectiveFreezeAnimator)
+    public BoostAnimator(Dictionary<Boost, BoostButton> boostsButtons)
     {
         _boostsButtons = boostsButtons;
-        _objectiveFreezeAnimator = objectiveFreezeAnimator;
 
         foreach (var boostButton in _boostsButtons)
         {
@@ -21,12 +18,6 @@ public class BoostAnimator
                 finishIslandBoost.BoostStopApplyed += StopBlinkFinishBoostButton;
 
                 _islandFinishBoostButton = boostButton.Value;
-            }
-
-            if (boostButton.Key is ObjectivesFreezeBoost objectivesFreezeBoost)
-            {
-                objectivesFreezeBoost.BoostApplyed += StartObjectivesFreezeAnimation;
-                objectivesFreezeBoost.BoostStopApplyed += StopObjectivesFreezeAnimation;
             }
         }
     }
@@ -39,15 +30,5 @@ public class BoostAnimator
     private void StopBlinkFinishBoostButton()
     {
         _islandFinishBoostButton.Animator.StopBlinking();
-    }
-
-    private void StartObjectivesFreezeAnimation(Boost _)
-    {
-        _objectiveFreezeAnimator.SetActive(true);
-    }
-
-    private void StopObjectivesFreezeAnimation()
-    {
-        _objectiveFreezeAnimator.SetActive(false);
     }
 }

@@ -130,7 +130,7 @@ public class GameInitializer : MonoBehaviour
         _buferIslands.Initialize(_levelSettings);
         _backgroundMusicChanger.Initialize(_levelLoader);
         _deviceStyleChangeInitializer.Initialize();
-        _angryBar.Initialize(_levelProgressTracker, _levelLoader);
+        _angryBar.Initialize(_levelProgressTracker, _levelLoader, boostAmountProvider, _boostButtonInitializer.ObjectivesFreezeBoost);
         _unitsMoveSoundPlayer.Initialize(unitMover, _unitMoveSound);
         _leaderboardWindow.Initialize(authorizationProvider);
         _languageChanger.Initialize(_localizationSettings, _progressStorage, localizationProvider);

@@ -1,65 +1,76 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AngryBarEmojiChanger : MonoBehaviour
 {
+    private const string StartAnimationClip = "Start";
+    private const string LoseBool = "Is Losed";
+    private const string AngryFloat = "Angry Value";
+    private const string WinTrigger = "Win";
+    private const string BufferIslandTrigger = "Buffer Island Boost";
+    private const string FinishIslandTrigger = "Finish Island Boost";
+    private const string FreezeTrigger = "Freeze Boost";
+    private const string IsFreezedBool = "Is Freezed";
+    private const string ReducePaintTrigger = "Reduce Paint Boost";
+
     [SerializeField] private Animator _emojiAnimator;
 
-    private float _animationZoneWidth = 0.1f;
-    private int _currentAnimationZone = 0;
-    private float _animationZoneThreshold = 0.02f;
-    private string[] _angryLineTriggers = new string[]
-    {
-        "BigSmile",
-        "SmallSmile",
-        "Neutral",
-        "Sad",
-        "Panic",
-        "Rage",
-        "BigRage"
-    };
-    private string _winTrigger = "Win";
-    private string _loseTrigger = "Lose";
-
+    private Dictionary<BoostType, string> _boostTriggers;
+    private int _startAnimationHash;
+    private int _loseHash;
+    private int _angryValueHash;
+    private int _isFreezedHash;
+    
     private void Awake()
     {
-        _animationZoneWidth = 1f / _angryLineTriggers.Length;
+        _startAnimationHash = Animator.StringToHash(StartAnimationClip);
+        _loseHash = Animator.StringToHash(LoseBool);
+        _angryValueHash = Animator.StringToHash(AngryFloat);
+        _isFreezedHash = Animator.StringToHash(IsFreezedBool);
+
+        _boostTriggers = new Dictionary<BoostType, string>()
+        {
+            { BoostType.GrowBuferIsland, BufferIslandTrigger },
+            { BoostType.FinishIsland, FinishIslandTrigger },
+            { BoostType.FreezeObjectives, FreezeTrigger },
+            { BoostType.ReducePaints, ReducePaintTrigger }
+        };
+    }
+
+    public void ResetAnimator()
+    {
+        _emojiAnimator.SetBool(_loseHash, false);
+        _emojiAnimator.SetBool(_isFreezedHash, false);
+        _emojiAnimator.Play(_startAnimationHash);
     }
 
     public void PlayWinEmoji()
     {
-        _emojiAnimator.SetTrigger(_winTrigger);
-        _currentAnimationZone = -1;
+        _emojiAnimator.SetTrigger(WinTrigger);
     }
 
-    public void PlayLooseEmoji()
+    public void SetLooseEmoji()
     {
-        _emojiAnimator.SetTrigger(_loseTrigger);
-        _currentAnimationZone = -1;
+        _emojiAnimator.SetBool(_loseHash, true);
     }
 
     public void UpdateEmojiAnimation(float angryValue)
     {
-        int newZoneIndex = Mathf.FloorToInt(angryValue / _animationZoneWidth);
+        _emojiAnimator.SetFloat(_angryValueHash, angryValue);
+    }
 
-        if (newZoneIndex != _currentAnimationZone)
+    public void PlayBoostAnimation(BoostType type)
+    {
+        if (type == BoostType.FreezeObjectives)
         {
-            float zoneBoundary = newZoneIndex * _animationZoneWidth;
-            bool isAnimationChangeRequire = false;
-
-            if (newZoneIndex > _currentAnimationZone)
-            {
-                isAnimationChangeRequire = angryValue >= zoneBoundary + _animationZoneThreshold;
-            }
-            else if (newZoneIndex < _currentAnimationZone)
-            {
-                isAnimationChangeRequire = angryValue <= zoneBoundary + _animationZoneWidth - _animationZoneThreshold;
-            }
-
-            if (isAnimationChangeRequire)
-            {
-                _emojiAnimator.SetTrigger(_angryLineTriggers[newZoneIndex]);
-                _currentAnimationZone = newZoneIndex;
-            }
+            _emojiAnimator.SetBool(_isFreezedHash, true);
         }
+
+        _emojiAnimator.SetTrigger(_boostTriggers[type]);
+    }
+
+    public void StopFreezeBoostAnimation()
+    {
+        _emojiAnimator.SetBool(_isFreezedHash, false);
     }
 }
