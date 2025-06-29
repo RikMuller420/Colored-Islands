@@ -57,12 +57,20 @@ public class AngryBar : MonoBehaviour
         _canvas.overrideSorting = false;
         _emojiAnimator.ResetAnimator();
         _smoothBarChanger.StartAnimation();
+
+        Color color = _freezeImage.color;
+        color.a = 0;
+        _freezeImage.color = color;
     }
 
     private void OnBoostApplyed(BoostType type)
     {
         _emojiAnimator.PlayBoostAnimation(type);
-        _freezeImage.DOFade(_freezeImageMaxAlpha, _freezeImageFadeDuration);
+
+        if (type == BoostType.FreezeObjectives)
+        {
+            _freezeImage.DOFade(_freezeImageMaxAlpha, _freezeImageFadeDuration);
+        }
     }
 
     private void OnFreezeBoostStoppedApplyed()

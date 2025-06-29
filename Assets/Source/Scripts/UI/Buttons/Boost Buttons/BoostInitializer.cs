@@ -25,7 +25,7 @@ public class BoostInitializer : MonoBehaviour
 
         var islandFinishBoost = new IslandFinishBoost(selectHandler, gameClickHandler, islandInstantFinisher,
                                                       _levelLoader, boostAmountProvider);
-        var bufferIslandBoost = new BufferIslandBoost(_buferIslands, unitMover, boostAmountProvider);
+        var bufferIslandBoost = new BufferIslandBoost(_buferIslands, boostAmountProvider);
         ObjectivesFreezeBoost = new ObjectivesFreezeBoost(_levelProgressTracker, unitMover, _levelLoader, boostAmountProvider);
         var paintAmountReduceBoost = new PaintAmountReduceBoost(levelDataHolder, _buferIslands, boostAmountProvider,
                                                                 unitMover);

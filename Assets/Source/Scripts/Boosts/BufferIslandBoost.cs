@@ -4,13 +4,11 @@ public class BufferIslandBoost : Boost
     private const int ExtraSize = 2;
 
     private BuferIslandsHolder _buferIslandsHolder;
-    private UnitMover _unitMover;
 
-    public BufferIslandBoost(BuferIslandsHolder buferIslandsHolder, UnitMover unitMover,
+    public BufferIslandBoost(BuferIslandsHolder buferIslandsHolder,
                             BoostAmountProvider boostAmountProvider) : base(boostAmountProvider)
     {
         _buferIslandsHolder = buferIslandsHolder;
-        _unitMover = unitMover;
     }
 
     public override BoostType Type => BoostType.GrowBuferIsland;
@@ -19,21 +17,7 @@ public class BufferIslandBoost : Boost
     {
         BaseIsland oldIsland = _buferIslandsHolder.CurrentIsland;
         int newSize = oldIsland.Points.Count + ExtraSize;
-
-        _buferIslandsHolder.DeactivateCurrentIsland();
-        _buferIslandsHolder.LoadIsland(newSize);
-        BaseIsland newIsland = _buferIslandsHolder.CurrentIsland;
-
-        foreach (IslandPoint point in oldIsland.Points)
-        {
-            if (point.IsFree)
-            {
-                continue;
-            }
-
-            _unitMover.MoveUnit(point.OccupiedUnit, newIsland);
-        }
-
+        _buferIslandsHolder.SwapToNewIsland(newSize);
         SpendBoost(Type);
     }
 }

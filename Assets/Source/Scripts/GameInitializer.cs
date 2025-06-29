@@ -127,7 +127,7 @@ public class GameInitializer : MonoBehaviour
         _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _levelProgressTracker,
                                 _uiZoneActivator, levelDataHolder, _buferIslands, _progressStorage,
                                 _currentLevelNumberToken, _unitsLookAtPoint, customizationSettingsHolder);
-        _buferIslands.Initialize(_levelSettings);
+        _buferIslands.Initialize(_levelSettings, unitMover);
         _backgroundMusicChanger.Initialize(_levelLoader);
         _deviceStyleChangeInitializer.Initialize();
         _angryBar.Initialize(_levelProgressTracker, _levelLoader, boostAmountProvider, _boostButtonInitializer.ObjectivesFreezeBoost);

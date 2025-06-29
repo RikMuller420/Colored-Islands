@@ -22,7 +22,7 @@ public class IslandFinishBoost : Boost
         _islandFinishBehaviour = islandInstantFinisher;
         _levelLoader = levelLoader;
 
-        _islandFinishBehaviour.IslandFinished += OnBoostApplyed;
+        _islandFinishBehaviour.IslandFinished += OnIslandFinished;
         _levelLoader.LevelChanged += OnLevelChanged;
     }
 
@@ -55,10 +55,13 @@ public class IslandFinishBoost : Boost
         BoostStopApplyed?.Invoke();
     }
 
-    private void OnBoostApplyed()
+    private void OnIslandFinished()
     {
-        StopBoostApplying();
-        SpendBoost(Type);
+        if (_isBoostApplying)
+        {
+            StopBoostApplying();
+            SpendBoost(Type);
+        }
     }
 
     private void OnLevelChanged()
