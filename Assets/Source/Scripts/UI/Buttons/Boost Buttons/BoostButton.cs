@@ -7,6 +7,7 @@ public class BoostButton : MonoBehaviour
 {
     [SerializeField] protected Button Button;
     [SerializeField] private Image _buttonBackground;
+    [SerializeField] private GameObject _glow;
     [SerializeField] private TextMeshProUGUI _amountText;
     [SerializeField] private BoostSettings _boostSettings;
 
@@ -36,7 +37,7 @@ public class BoostButton : MonoBehaviour
         _boost = boost;
         _boostBuyWindow = boostBuyWindow;
         _boostAmountProvider = boostAmountProvider;
-        Animator = new ButtonAnimator(_buttonBackground);
+        Animator = new ButtonAnimator(_buttonBackground, _glow);
         enabled = true;
         UpdateBoostAmountText();
     }

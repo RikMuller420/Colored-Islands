@@ -55,7 +55,7 @@ public class IslandFinishBoost : Boost
         BoostStopApplyed?.Invoke();
     }
 
-    private void OnIslandFinished()
+    private void OnIslandFinished(Island _)
     {
         if (_isBoostApplying)
         {

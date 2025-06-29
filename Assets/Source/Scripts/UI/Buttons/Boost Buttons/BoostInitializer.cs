@@ -16,6 +16,9 @@ public class BoostInitializer : MonoBehaviour
     [SerializeField] private BoostButton _paintAmountReduceBoostButton;
     [SerializeField] private BoostButton _islandFinishBoostButton;
 
+    [SerializeField] private GameObject _finishIslandEffect;
+    [SerializeField] private GameObject _reduceColorEffect;
+
     public ObjectivesFreezeBoost ObjectivesFreezeBoost { get; private set; }
 
     public void Initialize(UnitMover unitMover, ClickHandler gameClickHandler, SelectHandler selectHandler,
@@ -49,7 +52,7 @@ public class BoostInitializer : MonoBehaviour
         };
 
         var boostAvailabilityUpdater = new BoostAvailabilityUpdater(boostsButtons, _levelLoader);
-        var boostAnimator = new BoostAnimator(boostsButtons);
+        var boostAnimator = new BoostAnimator(boostsButtons, islandInstantFinisher, _finishIslandEffect, _reduceColorEffect);
 
         foreach (var boostButton in boostsButtons)
         {

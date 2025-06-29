@@ -5,19 +5,22 @@ using UnityEngine.UI;
 public class ButtonAnimator
 {
     private Image _buttonBackground;
+    private GameObject _glow;
 
     private Color _originalColor = Color.white;
     private Color _blinkColor = new Color(0.6f, 0.6f, 0.6f);
     private float _blinkDuration = 1f;
     private Tween _blinkSequence;
 
-    public ButtonAnimator(Image buttonBackground)
+    public ButtonAnimator(Image buttonBackground, GameObject glow)
     {
         _buttonBackground = buttonBackground;
+        _glow = glow;
     }
 
     public void StartBlinking()
     {
+        _glow.SetActive(true);
         _blinkSequence = DOTween.Sequence()
             .Append(_buttonBackground.DOColor(_blinkColor, _blinkDuration))
             .Append(_buttonBackground.DOColor(_originalColor, _blinkDuration))
@@ -34,5 +37,6 @@ public class ButtonAnimator
         }
 
         _buttonBackground.color = _originalColor;
+        _glow.SetActive(false);
     }
 }

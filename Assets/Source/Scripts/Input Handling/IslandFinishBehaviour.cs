@@ -9,7 +9,7 @@ public class IslandFinishBehaviour : ClickBehaviour
     private LevelObjectsHolder _levelDataHolder;
     private BuferIslandsHolder _buferIslands;
 
-    public event Action IslandFinished;
+    public event Action<Island> IslandFinished;
 
     public IslandFinishBehaviour(LevelObjectsHolder levelDataHolder, BuferIslandsHolder buferIslands,
                                         UnitMover unitMover, LayerMask layerMask) : base(layerMask)
@@ -24,7 +24,7 @@ public class IslandFinishBehaviour : ClickBehaviour
         if (hit.collider.TryGetComponent(out Island island))
         {
             FinishIsland(island);
-            IslandFinished?.Invoke();
+            IslandFinished?.Invoke(island);
         }
     }
 
