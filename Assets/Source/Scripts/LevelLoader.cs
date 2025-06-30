@@ -18,6 +18,7 @@ public class LevelLoader : MonoBehaviour
 
     private IslandsGroupInitializer _currentIslands;
     private BuferIslandsHolder _buferIslands;
+    private GameObject _mainMenuIslands;
 
     private int _currentLevelId = 1;
 
@@ -29,7 +30,8 @@ public class LevelLoader : MonoBehaviour
                             LevelProgressTracker levelProgressTracker, UIZoneSwitcher uiZoneActivator,
                             LevelObjectsHolder levelDataHolder, BuferIslandsHolder buferIslands,
                             GameProgressStorage gameProgressStorage, LeanToken currentLevelNumberToken,
-                            Transform unitsLookAtPoint, CustomizationSettingsHolder customizationSettings)
+                            Transform unitsLookAtPoint, CustomizationSettingsHolder customizationSettings,
+                            GameObject mainMenuIslands)
     {
         _levelSettings = levelSettings;
         _unitsPool = unitsPool;
@@ -42,6 +44,7 @@ public class LevelLoader : MonoBehaviour
         _currentLevelNumberToken = currentLevelNumberToken;
         _unitsLookAtPoint = unitsLookAtPoint;
         _customizationSettings = customizationSettings;
+        _mainMenuIslands = mainMenuIslands;
 
         CurrentLevelData = _levelSettings.MainMenuSettings;
     }
@@ -50,6 +53,7 @@ public class LevelLoader : MonoBehaviour
     {
         CurrentLevelData = _levelSettings.MainMenuSettings;
         UnloadCurrentLevel();
+        _mainMenuIslands.SetActive(true);
         _uiZoneActivator.SwitchToMainMenuUI();
         _levelProgressTracker.StopTracking();
         LevelChanged?.Invoke();
@@ -63,6 +67,7 @@ public class LevelLoader : MonoBehaviour
         _uiZoneActivator.SwitchToInGameUI();
 
         UnloadCurrentLevel();
+        _mainMenuIslands.SetActive(false);
         CurrentLevelData = _levelSettings.Levels.FirstOrDefault(level => level.Id == levelId);
 
         _currentIslands = Instantiate(CurrentLevelData.LevelPrefab);

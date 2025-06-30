@@ -1,16 +1,20 @@
+using Cinemachine;
+using DG.Tweening;
 using UnityEngine;
 
 public class CameraPositionChanger : MonoBehaviour
 {
     [SerializeField] private LevelLoader _levelLoader;
     [SerializeField] private ScreenSizeChangeTracker _screenSizeChangeTracker;
-    [SerializeField] private Camera _camera;
+    [SerializeField] private Transform _cameraFollowTarget;
+    [SerializeField] private CinemachineVirtualCamera _camera;
 
     [SerializeField] private Vector3 _defaultVerticalCameraPosition = new Vector3(0, 12.2f, -11.2f);
     [SerializeField] private Vector3 _defaultHorizontalCameraPosition = new Vector3(0, 9f, -7.5f);
     [SerializeField] private float _defaultCameraFoV = 50;
 
     private bool _isVertical = true;
+    private float _fovChangeDuration = 1f;
 
     private void OnEnable()
     {
@@ -41,7 +45,14 @@ public class CameraPositionChanger : MonoBehaviour
         Vector3 offset = _isVertical ? _levelLoader.CurrentLevelData.CameraVerticalOrientationOffset :
                                         _levelLoader.CurrentLevelData.CameraHorizontalOrientationOffset;
 
-        _camera.transform.position = defaultPosition + offset;
-        _camera.fieldOfView = _defaultCameraFoV + _levelLoader.CurrentLevelData.CameraFoVOffset;
+        _cameraFollowTarget.position = defaultPosition + offset;
+        float fieldOfView = _defaultCameraFoV + _levelLoader.CurrentLevelData.CameraFoVOffset;
+
+        DOTween.To(
+            () => _camera.m_Lens.FieldOfView,
+            value => _camera.m_Lens.FieldOfView = value,
+            fieldOfView,
+            _fovChangeDuration
+        ).SetEase(Ease.InOutSine);
     }
 }

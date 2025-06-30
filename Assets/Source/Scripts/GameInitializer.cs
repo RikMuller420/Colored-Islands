@@ -50,6 +50,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private UIOrientationChanger _uIOrientationChanger;
     [SerializeField] private MenuWindow _inGameMenu;
     [SerializeField] private MenuTrainigSequence _menuTrainigSequence;
+    [SerializeField] private GameObject _mainMenuIslands;
     [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
     [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
     [SerializeField] private List<LoginButton> _loginButtons;
@@ -126,7 +127,8 @@ public class GameInitializer : MonoBehaviour
 
         _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _levelProgressTracker,
                                 _uiZoneActivator, levelDataHolder, _buferIslands, _progressStorage,
-                                _currentLevelNumberToken, _unitsLookAtPoint, customizationSettingsHolder);
+                                _currentLevelNumberToken, _unitsLookAtPoint, customizationSettingsHolder,
+                                _mainMenuIslands);
         _buferIslands.Initialize(_levelSettings, unitMover);
         _backgroundMusicChanger.Initialize(_levelLoader);
         _deviceStyleChangeInitializer.Initialize();
