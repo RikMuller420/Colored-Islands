@@ -11,19 +11,11 @@ public class FaceSelectButton : SelectButton
     public event Action<FaceSelectButton> ButtonClicked;
 
 
-    public void Initialize(int faceId, Sprite faceSprite, bool isAviable)
+    public void Initialize(int faceId, Sprite faceSprite, bool isAviable, bool wasUsed)
     {
         _faceImage.sprite = faceSprite;
         FaceId = faceId;
-
-        if (isAviable)
-        {
-            SetUnlockedStyle();
-        }
-        else
-        {
-            SetLockedStyle();
-        }
+        Initialize(isAviable, wasUsed);
     }
 
     private void OnEnable()
@@ -35,7 +27,6 @@ public class FaceSelectButton : SelectButton
     {
         Button.onClick.RemoveListener(OnButtonPressed);
     }
-
 
     private void OnButtonPressed()
     {

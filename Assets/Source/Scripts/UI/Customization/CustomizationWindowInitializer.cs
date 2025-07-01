@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CustomizationWindowInitializer : MonoBehaviour
@@ -14,6 +15,8 @@ public class CustomizationWindowInitializer : MonoBehaviour
     [SerializeField] private Transform _hatParent;
     [SerializeField] private HatSelectButton _hatPrefab;
     [SerializeField] private UnitCustomizationView _unitCustomizationView;
+    [SerializeField] private CustomizationWindowOpenerButton _customizationWindowOpenerButton;
+
 
     [SerializeField] private List<UnitSelectButton> _unitSelectButtons = new();
 
@@ -28,6 +31,8 @@ public class CustomizationWindowInitializer : MonoBehaviour
 
         CustomizationButtonAviabiltyUpdater buttonAviabiltyUpdater = new CustomizationButtonAviabiltyUpdater(
                                                 levelProgressTracker, progressStorage, hatSelectButtons, faceSelectButtons);
+
+        _customizationWindowOpenerButton.Initialize(unitCustomizator, buttonAviabiltyUpdater);
     }
 
     private List<HatSelectButton> CreateHatButtons(GameProgressStorage progressStorage)
@@ -35,14 +40,15 @@ public class CustomizationWindowInitializer : MonoBehaviour
         List<HatSelectButton> hatSelectButtons = new List<HatSelectButton>();
 
         HatSelectButton noHatButton = Instantiate(_hatPrefab, _hatParent);
-        noHatButton.Initialize(_unitsHatSettings.NoHatId, _noHatSprite, 0, true);
+        noHatButton.Initialize(_unitsHatSettings.NoHatId, _noHatSprite, 0, true, true);
         hatSelectButtons.Add(noHatButton);
 
         foreach (UnitHatData hatData in _unitsHatSettings.Hats)
         {
             HatSelectButton hatButton = Instantiate(_hatPrefab, _hatParent);
             bool isHatAviable = progressStorage.FirstUnfinishedLevel.Id > hatData.RequredLevel;
-            hatButton.Initialize(hatData.Id, hatData.SelectSprite, hatData.RequredLevel, isHatAviable);
+            bool wasHatUsed = progressStorage.WasHatUsed(hatData.Id);
+            hatButton.Initialize(hatData.Id, hatData.SelectSprite, hatData.RequredLevel, isHatAviable, wasHatUsed);
             hatSelectButtons.Add(hatButton);
         }
 
@@ -56,8 +62,8 @@ public class CustomizationWindowInitializer : MonoBehaviour
         foreach (UnitFaceData faceData in _unitsFaceSettings.Faces)
         {
             FaceSelectButton faceButton = Instantiate(_facePrefab, _facesParent);
-            bool isFaceAviable = progressStorage.FacesAvailabilities[faceData.Id];
-            faceButton.Initialize(faceData.Id, faceData.Sprite, isFaceAviable);
+            FaceAvailabilitie face = progressStorage.FaceAvailabilities.FirstOrDefault(face => face.FaceId == faceData.Id);
+            faceButton.Initialize(faceData.Id, faceData.Sprite, face.IsAviable, face.WasUsed);
             faceSelectButtons.Add(faceButton);
         }
 

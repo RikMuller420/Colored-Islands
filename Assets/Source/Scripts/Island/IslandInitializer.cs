@@ -38,6 +38,7 @@ public class IslandInitializer : MonoBehaviour
             {
                 Unit unit = createUnit.Invoke();
                 unit.Initialize(customizationSettings);
+                unit.ResetRotation();
                 unit.SetIsland(_island);
                 unit.SetPaint(startUnits.Paint);
                 unit.Activate();

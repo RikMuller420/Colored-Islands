@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
+using UI.TabSystem;
 
 public class GameProgressStorage
 {
@@ -34,6 +36,7 @@ public class GameProgressStorage
         LoadSavedProgress();
         ActulizeSavedLevels();
         ActulizeSavedFaces();
+        ActualizeSavedHats();
     }
 
     public LevelProgress FirstUnfinishedLevel => Levels.FirstOrDefault(level => level.IsDone == false);
@@ -44,7 +47,10 @@ public class GameProgressStorage
     public bool IsLanguageSaved => _progress.IsLanguageSaved;
     public Language Language => _progress.Language;
     public bool IsTrainingFinished => _progress.IsTrainingFinished;
-    public Dictionary<int, bool> FacesAvailabilities => _progress.FacesAvailabilities;
+    public IReadOnlyCollection<FaceAvailabilitie> FaceAvailabilities => _progress.FaceAvailabilities;
+    public Dictionary<int, bool> IsHatWasUsed => _progress.WasHatsUsed;
+    public bool WasHatUsed(int hatId) => _progress.WasHatsUsed.ContainsKey(hatId) ? _progress.WasHatsUsed[hatId] : true;
+
     public CustomizationPreferences GetCustomizationPreference(Paint paint) => _progress.GetCustomizationPreference(paint);
 
     public int GetBoostAmount(BoostType boostType) => _progress.GetBoostAmount(boostType);
@@ -71,6 +77,8 @@ public class GameProgressStorage
 
     public void SetLanguage(Language language) => _progress.SetLanguage(language);
     public void UnlockFace(int faceId) => _progress.UnlockFace(faceId);
+    public void MarkFaceUsed(int faceId) => _progress.MarkFaceUsed(faceId);
+    public void MarkHatUsed(int hatId) => _progress.MarkHatUsed(hatId);
 
     public void ChangeCustomizationPreferenceFace(Paint paint, int faceId)
     {
@@ -187,7 +195,12 @@ public class GameProgressStorage
 
         foreach (UnitFaceData unitFace in _unitsFaceSettings.Faces)
         {
-            _progress.AddFace(unitFace.Id, unitFace.IsAviableOnStart);
+            _progress.AddFace(unitFace.Id, unitFace.IsAviableOnStart, unitFace.IsAviableOnStart);
+        }
+
+        foreach(UnitHatData unitHat in _unitsHatSettings.Hats)
+        {
+            _progress.AddHat(unitHat.Id, false);
         }
 
         Save();
@@ -211,19 +224,34 @@ public class GameProgressStorage
     {
         foreach (UnitFaceData actualFace in _unitsFaceSettings.Faces)
         {
-            bool isFaceSaved = _progress.FacesAvailabilities.ContainsKey(actualFace.Id);
+            FaceAvailabilitie savedFace = _progress.FaceAvailabilities.FirstOrDefault(face => face.FaceId == actualFace.Id);
 
-            if (isFaceSaved)
+            if (savedFace == null)
             {
-                if (actualFace.IsAviableOnStart && _progress.FacesAvailabilities[actualFace.Id] == false)
-                {
-                    _progress.UnlockFace(actualFace.Id);
-                    Save();
-                }
+                _progress.AddFace(actualFace.Id, actualFace.IsAviableOnStart, actualFace.IsAviableOnStart);
+                Save(); 
             }
             else
             {
-                _progress.AddFace(actualFace.Id, actualFace.IsAviableOnStart);
+                if (actualFace.IsAviableOnStart && savedFace.IsAviable == false)
+                {
+                    _progress.UnlockFace(actualFace.Id);
+                    _progress.MarkFaceUsed(actualFace.Id);
+                    Save();
+                }
+            }
+        }
+    }
+
+    private void ActualizeSavedHats()
+    {
+        foreach (UnitHatData actualHat in _unitsHatSettings.Hats)
+        {
+            bool isHatSaved = _progress.WasHatsUsed.ContainsKey(actualHat.Id);
+
+            if (isHatSaved == false)
+            {
+                _progress.AddHat(actualHat.Id, false);
                 Save();
             }
         }

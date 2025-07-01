@@ -16,8 +16,9 @@ public class GameProgress
     [JsonProperty] private Dictionary<BoostType, int> _boostsAmounts;
     [JsonProperty] private Dictionary<UpgradeType, int> _upgradeStages;
     [JsonProperty] private Dictionary<AudioGroup, bool> _isSoundOnStatus;
-    [JsonProperty] private Dictionary<int, bool> _facesAvailabilities;
     [JsonProperty] private Dictionary<Paint, CustomizationPreferences> _customizationPreferences;
+    [JsonProperty] private Dictionary<int, bool> _wasHatsUsed;
+    [JsonProperty] private List<FaceAvailabilitie> _faceAvailabilities;
 
     public GameProgress()
     {
@@ -37,7 +38,8 @@ public class GameProgress
     [JsonIgnore] public bool IsLanguageSaved => _isLanguageSaved;
     [JsonIgnore] public Language Language => _language;
     [JsonIgnore] public bool IsTrainingFinished => _isTrainingFinished;
-    [JsonIgnore] public Dictionary<int, bool> FacesAvailabilities => _facesAvailabilities;
+    [JsonIgnore] public Dictionary<int, bool> WasHatsUsed => _wasHatsUsed;
+    [JsonIgnore] public IReadOnlyCollection<FaceAvailabilitie> FaceAvailabilities => _faceAvailabilities.AsReadOnly();
 
     public int GetBoostAmount(BoostType boostType) => _boostsAmounts[boostType];
     public int GetUpgradeStage(UpgradeType upgradeType) => _upgradeStages[upgradeType];
@@ -62,7 +64,28 @@ public class GameProgress
 
     public void UnlockFace(int faceId)
     {
-        _facesAvailabilities[faceId] = true;
+        FaceAvailabilitie face = _faceAvailabilities.Find(face => face.FaceId == faceId);
+        FaceAvailabilitie newFace = new FaceAvailabilitie(face.FaceId, true, face.WasUsed);
+
+        _faceAvailabilities.Remove(face);
+        _faceAvailabilities.Add(newFace);
+    }
+
+    public void MarkFaceUsed(int faceId)
+    {
+        FaceAvailabilitie face = _faceAvailabilities.Find(face => face.FaceId == faceId);
+        FaceAvailabilitie newFace = new FaceAvailabilitie(face.FaceId, face.IsAviable, true);
+
+        _faceAvailabilities.Remove(face);
+        _faceAvailabilities.Add(newFace);
+    }
+
+    public void MarkHatUsed(int hatId)
+    {
+        if (_wasHatsUsed.ContainsKey(hatId))
+        {
+            _wasHatsUsed[hatId] = true;
+        }
     }
 
     public void ChangeCustomizationPreferenceFace(Paint paint, int faceId)
@@ -82,9 +105,14 @@ public class GameProgress
         _customizationPreferences[paint] = new CustomizationPreferences(faceId, hatId);
     }
 
-    public void AddFace(int faceId, bool isAviable)
+    public void AddFace(int faceId, bool isAviable, bool wasUsed)
     {
-        _facesAvailabilities.Add(faceId, isAviable);
+        _faceAvailabilities.Add(new FaceAvailabilitie(faceId, isAviable, wasUsed));
+    }
+
+    public void AddHat(int hatId, bool wasUsed)
+    {
+        _wasHatsUsed.Add(hatId, wasUsed);
     }
 
     public void SetBoostAmount(BoostType boostType, int amount)
@@ -162,7 +190,8 @@ public class GameProgress
     private void SetDefaultValues(int noHatId = 0)
     {
         _levels = new List<LevelProgress>();
-        _facesAvailabilities = new Dictionary<int, bool>();
+        _faceAvailabilities = new List<FaceAvailabilitie>();
+        _wasHatsUsed = new Dictionary<int, bool>();
         _customizationPreferences = new Dictionary<Paint, CustomizationPreferences>();
         _scoreAmount = 0;
         _goldAmount = 0;

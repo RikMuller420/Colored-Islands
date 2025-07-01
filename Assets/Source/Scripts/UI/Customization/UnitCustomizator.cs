@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 public class UnitCustomizator
@@ -13,6 +14,12 @@ public class UnitCustomizator
     private HatSelectButton _currentHatButton;
 
     private Paint _currentPaint;
+
+    public IEnumerable<FaceSelectButton> FaceSelectButtons => _faceSelectButtons;
+    public IEnumerable<HatSelectButton> HatSelectButtons => _hatSelectButtons;
+
+    public event Action FaceUsed;
+    public event Action HatUsed;
 
     public UnitCustomizator(UnitCustomizationView unitCustomizationView, GameProgressStorage progressStorage,
                             List<UnitSelectButton> unitSelectButtons, List<HatSelectButton> hatSelectButtons,
@@ -66,15 +73,21 @@ public class UnitCustomizator
     private void ChangeCurrentFace(FaceSelectButton faceButton)
     {
         ApplyNewFace(faceButton);
+        faceButton.DeactivateUnusedMark();
         _progressStorage.ChangeCustomizationPreferenceFace(_currentPaint, faceButton.FaceId);
+        _progressStorage.MarkFaceUsed(faceButton.FaceId);
         _progressStorage.Save();
+        FaceUsed?.Invoke();
     }
 
     private void ChangeCurrentHat(HatSelectButton hatButton)
     {
         AplyNewHat(hatButton);
+        hatButton.DeactivateUnusedMark();
         _progressStorage.ChangeCustomizationPreferenceHat(_currentPaint, hatButton.HatId);
+        _progressStorage.MarkHatUsed(hatButton.HatId);
         _progressStorage.Save();
+        HatUsed?.Invoke();
     }
 
     private void ApplyNewFace(FaceSelectButton faceButton)

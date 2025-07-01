@@ -18,18 +18,29 @@ public class UnitLookAtRotator
     public UnitLookAtRotator(Transform body)
     {
         _body = body;
-        _initialLocalRotation = _body.rotation;
+        _initialLocalRotation = _body.localRotation;
+    }
+
+    public void ResetRotation()
+    {
+        StopRotationSequences();
+        _body.localRotation = _initialLocalRotation;
     }
 
     public void LookToTarget(Transform target, UnitsMoveInfo unitsMoveInfo)
     {
-        _lookAtSequenceStart?.Kill();
-        _lookAtSequenceEnd?.Kill();
+        StopRotationSequences();
 
         _lookAtSequenceStart = DOTween.Sequence()
                 .Append(_body.DORotateQuaternion(CalculateRotation(target.position, _lookAtAngleFirstInterval), RandomLookAtTime)
                 .SetEase(Ease.InOutQuad))
                 .OnComplete(() => LookAtMovedUnits(unitsMoveInfo));
+    }
+
+    private void StopRotationSequences()
+    {
+        _lookAtSequenceStart?.Kill();
+        _lookAtSequenceEnd?.Kill();
     }
 
     private void LookAtMovedUnits(UnitsMoveInfo unitsMoveInfo)

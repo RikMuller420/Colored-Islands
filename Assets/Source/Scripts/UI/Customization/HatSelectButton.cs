@@ -13,21 +13,13 @@ public class HatSelectButton : SelectButton
 
     public event Action<HatSelectButton> ButtonClicked;
 
-    public void Initialize(int hatId, Sprite hatSprite, int requredLevel, bool isAviable)
+    public void Initialize(int hatId, Sprite hatSprite, int requredLevel, bool isAviable, bool wasUsed)
     {
         _hatImage.sprite = hatSprite;
         HatId = hatId;
         RequredLevel = requredLevel;
         _requredLevelText.text = requredLevel.ToString();
-
-        if (isAviable)
-        {
-            SetUnlockedStyle();
-        }
-        else
-        {
-            SetLockedStyle();
-        }
+        Initialize(isAviable, wasUsed);
     }
 
     private void OnEnable()
@@ -39,7 +31,6 @@ public class HatSelectButton : SelectButton
     {
         Button.onClick.RemoveListener(OnButtonPressed);
     }
-
 
     private void OnButtonPressed()
     {

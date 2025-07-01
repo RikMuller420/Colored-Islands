@@ -10,6 +10,7 @@ public class Unit : PoolableObject
     [SerializeField] private Transform _body;
 
     private UnitLookAtRotator _lookAtRotator;
+    private bool _isInitialized;
 
     public Paint Paint { get; private set; }
     public BaseIsland Island { get; private set; }
@@ -22,8 +23,12 @@ public class Unit : PoolableObject
 
     public void Initialize(CustomizationSettingsHolder customizationSettings)
     {
-        _renderer.Initialize(customizationSettings);
-        _lookAtRotator = new UnitLookAtRotator(_body);
+        if (_isInitialized == false)
+        {
+            _renderer.Initialize(customizationSettings);
+            _lookAtRotator = new UnitLookAtRotator(_body);
+            _isInitialized = true;
+        }
     }
 
     public void SetIsland(BaseIsland island)
@@ -52,6 +57,7 @@ public class Unit : PoolableObject
     public void LookToTarget(Transform target, UnitsMoveInfo unitsMoveInfo) => 
                                             _lookAtRotator.LookToTarget(target, unitsMoveInfo);
 
+    public void ResetRotation() => _lookAtRotator.ResetRotation();
 
 #if UNITY_EDITOR
     public void SetMaterial(Material material)
