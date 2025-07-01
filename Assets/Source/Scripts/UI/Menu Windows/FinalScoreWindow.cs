@@ -11,6 +11,7 @@ public class FinalScoreWindow : MenuWindow
     [SerializeField] private ObjectivesAnimator _objectivesAnimator;
     [SerializeField] private ResultButtons _resultButtons;
     [SerializeField] private ZoneUi _boostButtonZone;
+    [SerializeField] private GameObject _confettiParticle;
 
     private GameProgressStorage _progressStorage;
     private LevelProgressTracker _progressTracker;
@@ -79,6 +80,7 @@ public class FinalScoreWindow : MenuWindow
     {
         yield return _openWindowAwait;
 
+        _confettiParticle.SetActive(true);
         PreparePanel();
         Open(false);
         StartCoroutine(PlayStarAnimations());
