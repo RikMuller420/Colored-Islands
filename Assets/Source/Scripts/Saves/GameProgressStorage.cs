@@ -21,6 +21,7 @@ public class GameProgressStorage
     public event Action RemoveAdsStateChanged;
     public event Action<AudioGroup> SoundEnabledChanged;
     public event Action<Paint> CustomizationPreferenceChanged;
+    public event Action TrainingFinished;
 
     public GameProgressStorage(LevelSettings levelSettings, UnitsFaceSettings unitsFaceSettings,
                             UnitsHatSettings unitsHatSettings,
@@ -37,6 +38,7 @@ public class GameProgressStorage
         ActulizeSavedLevels();
         ActulizeSavedFaces();
         ActualizeSavedHats();
+        ActualizeTrainingFinishedStatus();
     }
 
     public LevelProgress FirstUnfinishedLevel => Levels.FirstOrDefault(level => level.IsDone == false);
@@ -56,7 +58,12 @@ public class GameProgressStorage
     public int GetBoostAmount(BoostType boostType) => _progress.GetBoostAmount(boostType);
     public int GetUpgradeStage(UpgradeType upgradeType) => _progress.GetUpgradeStage(upgradeType);
     public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _progress.GetIsSoundOnStatus(audioGroup);
-    public void SetTrainingFinished(bool isFinished) => _progress.SetTrainingFinished(isFinished);
+
+    public void SetTrainingFinished(bool isFinished)
+    {
+        _progress.SetTrainingFinished(isFinished);
+        TrainingFinished?.Invoke();
+    }
 
     public void Save() => _gameProgressSaver.TrySave(_progress);
 
@@ -254,6 +261,15 @@ public class GameProgressStorage
                 _progress.AddHat(actualHat.Id, false);
                 Save();
             }
+        }
+    }
+
+    private void ActualizeTrainingFinishedStatus()
+    {
+        if (IsTrainingFinished == false && FirstUnfinishedLevel.Id > _levelSettings.LastTrainingLevel)
+        {
+            _progress.SetTrainingFinished(true);
+            Save();
         }
     }
 }

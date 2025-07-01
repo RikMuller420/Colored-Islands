@@ -15,13 +15,14 @@ public class TrainigSequenceLoader
     private MenuWindow _inGameMenu;
     private FinalScoreWindow _finalScoreWindow;
     private MenuTrainigSequence _menuTrainigSequence;
+    private LevelSettings _levelSettings;
 
     public TrainigSequenceLoader(LevelLoader levelLoader, LevelObjectsHolder levelObjectsHolder,
                                 BuferIslandsHolder buferIslandsHolder, SelectHandler selectHandler,
                                 UnitMover unitMover, Camera mainCamera, BoostButtonActivator bosstButtonActivator,
                                 LevelProgressTracker levelProgressTracker, UIOrientationChanger uIOrientationChanger,
                                 GameProgressStorage progressStorage, MenuWindow inGameMenu, FinalScoreWindow finalScoreWindow,
-                                MenuTrainigSequence menuTrainigSequence)
+                                MenuTrainigSequence menuTrainigSequence, LevelSettings levelSettings)
     {
         _levelLoader = levelLoader;
         _levelObjectsHolder = levelObjectsHolder;
@@ -36,8 +37,17 @@ public class TrainigSequenceLoader
         _inGameMenu = inGameMenu;
         _finalScoreWindow = finalScoreWindow;
         _menuTrainigSequence = menuTrainigSequence;
+        _levelSettings = levelSettings;
 
         _levelLoader.LevelChanged += OnLevelChanged;
+    }
+
+    public void TryLoadTrainingLevel()
+    {
+        if (_progressStorage.FirstUnfinishedLevel.Id <= _levelSettings.LastTrainingLevel)
+        {
+            _levelLoader.LoadLevel(_progressStorage.FirstUnfinishedLevel.Id);
+        }
     }
 
     private void OnLevelChanged()

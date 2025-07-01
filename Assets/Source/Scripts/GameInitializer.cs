@@ -51,6 +51,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private MenuWindow _inGameMenu;
     [SerializeField] private MenuTrainigSequence _menuTrainigSequence;
     [SerializeField] private GameObject _mainMenuIslands;
+    [SerializeField] private TrainingMenuUpdater _trainingMenuUpdater;
     [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
     [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
     [SerializeField] private List<LoginButton> _loginButtons;
@@ -58,8 +59,7 @@ public class GameInitializer : MonoBehaviour
 
     private InAppPurchaseConsumeProvider _inAppConsumer;
     private GameProgressStorage _progressStorage;
-
-    private int _lastTrainingLevel = 5;
+    private TrainigSequenceLoader _trainigLoader;
 
     private void Start()
     {
@@ -67,10 +67,7 @@ public class GameInitializer : MonoBehaviour
         _levelLoader.LoadMainMenu();
         _inAppConsumer.ConsumePurchase();
 
-        if (_progressStorage.FirstUnfinishedLevel.Id <= _lastTrainingLevel)
-        {
-            _levelLoader.LoadLevel(_progressStorage.FirstUnfinishedLevel.Id);
-        }
+        _trainigLoader.TryLoadTrainingLevel();
     }
 
     public void InitializeGame()
@@ -106,9 +103,10 @@ public class GameInitializer : MonoBehaviour
         var angryTracker = new AngryTracker(levelDataHolder, _levelLoader);
         var localizationProvider = new LocalizationProvider();
         var customizationSettingsHolder = new CustomizationSettingsHolder(_materials, _progressStorage, _faceSettings, _hatSettings);
-        var trainigSequenceLoader = new TrainigSequenceLoader(_levelLoader, levelDataHolder, _buferIslands, selectHandler, unitMover,
-                                                            _camera, _boostButtonActivator, _levelProgressTracker, _uIOrientationChanger,
-                                                            _progressStorage, _inGameMenu, _finalScoreWindow, _menuTrainigSequence);
+        _trainigLoader = new TrainigSequenceLoader(_levelLoader, levelDataHolder, _buferIslands, selectHandler, unitMover,
+                                                   _camera, _boostButtonActivator, _levelProgressTracker, _uIOrientationChanger,
+                                                   _progressStorage, _inGameMenu, _finalScoreWindow, _menuTrainigSequence,
+                                                   _levelSettings);
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(_progressStorage, _levelLoader);
@@ -136,6 +134,7 @@ public class GameInitializer : MonoBehaviour
         _unitsMoveSoundPlayer.Initialize(unitMover, _unitMoveSound);
         _leaderboardWindow.Initialize(authorizationProvider);
         _languageChanger.Initialize(_localizationSettings, _progressStorage, localizationProvider);
+        _trainingMenuUpdater.Initialize(_progressStorage);
 
         foreach (LeaderboardTab leaderboardTab in _leaderboardTabs)
         {
