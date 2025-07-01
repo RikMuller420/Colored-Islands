@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,22 +19,40 @@ public class UnitMover
 
     public void MoveAllPossibleUnits(BaseIsland homeIsland, Paint unitsPaint, BaseIsland targetIsland)
     {
-        List<Unit> units = new List<Unit>();
-
-        foreach (Unit unit in homeIsland.GetUnits(unitsPaint))
+        if (targetIsland.FreePointsCount == 0)
         {
-            if (targetIsland.FreePointsCount == 0)
-            {
-                break;
-            }
+            return;
+        }
 
+        IEnumerable<Unit> islandUnits = homeIsland.GetUnits(unitsPaint);
+        IReadOnlyCollection<Unit> movedUnits = islandUnits
+                        .OrderBy(unit => Vector3.SqrMagnitude(unit.transform.position - targetIsland.transform.position))
+                        .Take(targetIsland.FreePointsCount)
+                        .ToList();
+
+        IEnumerable<Unit> homeUnits = targetIsland.Points
+                                    .Where(point => !point.IsFree)
+                                    .Select(point => point.OccupiedUnit)
+                                    .ToList()
+                                    .AsReadOnly();
+
+
+
+        foreach (Unit unit in movedUnits)
+        {
             MoveUnit(unit, targetIsland);
-            units.Add(unit);
         }
 
         OptimizeUnitsPosition(targetIsland);
-        UnitsMoveInfo unitsMoveInfo = new UnitsMoveInfo(homeIsland, targetIsland, unitsPaint, units);
+        UnitsMoveInfo unitsMoveInfo = new UnitsMoveInfo(homeIsland, targetIsland, unitsPaint, movedUnits);
+
+        foreach (Unit homeUnit in homeUnits)
+        {
+            homeUnit.LookToTarget(homeIsland.transform, unitsMoveInfo);
+        }
+
         UnitsMoved?.Invoke(unitsMoveInfo);
+
     }
 
     public void MoveUnit(Unit unit, BaseIsland targetIsland)

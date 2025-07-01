@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Unit : PoolableObject
@@ -8,6 +7,9 @@ public class Unit : PoolableObject
     [SerializeField] private Transform _meshTransform;
     [SerializeField] private UnitAnimator _animator;
     [SerializeField] private Collider _collider;
+    [SerializeField] private Transform _body;
+
+    private UnitLookAtRotator _lookAtRotator;
 
     public Paint Paint { get; private set; }
     public BaseIsland Island { get; private set; }
@@ -21,6 +23,7 @@ public class Unit : PoolableObject
     public void Initialize(CustomizationSettingsHolder customizationSettings)
     {
         _renderer.Initialize(customizationSettings);
+        _lookAtRotator = new UnitLookAtRotator(_body);
     }
 
     public void SetIsland(BaseIsland island)
@@ -45,6 +48,10 @@ public class Unit : PoolableObject
         enabled = true;
         _collider.enabled = true;
     }
+
+    public void LookToTarget(Transform target, UnitsMoveInfo unitsMoveInfo) => 
+                                            _lookAtRotator.LookToTarget(target, unitsMoveInfo);
+
 
 #if UNITY_EDITOR
     public void SetMaterial(Material material)

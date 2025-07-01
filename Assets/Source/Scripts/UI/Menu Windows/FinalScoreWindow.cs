@@ -14,45 +14,70 @@ public class FinalScoreWindow : MenuWindow
 
     private GameProgressStorage _progressStorage;
     private LevelProgressTracker _progressTracker;
+    private LevelLoader _levelLoader;
 
+    private float _openWindowDelay = 1f;
     private float _lastAnimationTimeReduction = 2f;
     private float _starAnimationTime = 0.75f;
+    private WaitForSeconds _openWindowAwait;
     private WaitForSeconds _starAnimationInterval;
+    private Coroutine _openWindowCorutine;
 
     public event Action ScoreShowed;
 
     private new void OnEnable()
     {
-        _progressTracker.LevelFinished += ShowWinAnimation;
+        _progressTracker.LevelFinished += OnLevelFinished;
+        _levelLoader.LevelChanged += OnLevelChanged;
         base.OnEnable();
     }
 
     private new void OnDisable()
     {
-        _progressTracker.LevelFinished -= ShowWinAnimation;
+        _progressTracker.LevelFinished -= OnLevelFinished;
+        _levelLoader.LevelChanged -= OnLevelChanged;
         base.OnDisable();
     }
 
-    public void Initialize(GameProgressStorage progressStorage, LevelProgressTracker progressTracker)
+    public void Initialize(GameProgressStorage progressStorage, LevelProgressTracker progressTracker,
+                           LevelLoader levelLoader)
     {
+        _openWindowAwait = new WaitForSeconds(_openWindowDelay);
         _starAnimationInterval = new WaitForSeconds(_starAnimationTime);
         _progressStorage = progressStorage;
         _progressTracker = progressTracker;
+        _levelLoader = levelLoader;
         enabled = true;
     }
 
-    private void ShowWinAnimation()
+    private void OnLevelChanged()
+    {
+        if (_openWindowCorutine != null)
+        {
+            StopCoroutine(_openWindowCorutine);
+            _openWindowCorutine = null;
+        }
+    }
+
+    private void OnLevelFinished()
     {
         int currentLevelId = _progressTracker.LevelData.Id;
         LevelProgress nextLevel = _progressStorage.Levels.FirstOrDefault(level => level.Id > currentLevelId);
         bool isNextLevelExist = _progressStorage.FirstUnfinishedLevel != null;
         _nextLevelButton.gameObject.SetActive(nextLevel != null);
-        _boostButtonZone.CloseImmediate();
+        _boostButtonZone.Close();
 
         if (nextLevel != null)
         {
             _nextLevelButton.SetNextLevelId(nextLevel.Id);
         }
+
+        _openWindowCorutine = StartCoroutine(ShowWinAnimation());
+    }
+
+    private IEnumerator ShowWinAnimation()
+    {
+        yield return _openWindowAwait;
 
         PreparePanel();
         Open(false);

@@ -123,7 +123,7 @@ public class GameInitializer : MonoBehaviour
         _walletView.Initialize(walletProvider);
 
         _levelProgressTracker.Initialize(_progressStorage, levelDataHolder, unitMover, angryTracker);
-        _finalScoreWindow.Initialize(_progressStorage, _levelProgressTracker);
+        _finalScoreWindow.Initialize(_progressStorage, _levelProgressTracker, _levelLoader);
 
         _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _levelProgressTracker,
                                 _uiZoneActivator, levelDataHolder, _buferIslands, _progressStorage,
