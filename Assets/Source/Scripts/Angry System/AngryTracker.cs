@@ -4,6 +4,7 @@ public class AngryTracker
 {
     private LevelObjectsHolder _levelDataHolder;
     private LevelLoader _levelLoader;
+    private AngryTrackerBalancer _balancer;
 
     private float _angryValue = 0f;
 
@@ -13,10 +14,11 @@ public class AngryTracker
 
     public float AngryValue => _angryValue / _angryLimit;
 
-    public AngryTracker(LevelObjectsHolder levelDataHolder, LevelLoader levelLoader)
+    public AngryTracker(LevelObjectsHolder levelDataHolder, LevelLoader levelLoader, LevelProgressTracker progressTracker)
     {
         _levelDataHolder = levelDataHolder;
         _levelLoader = levelLoader;
+        _balancer = new AngryTrackerBalancer(progressTracker, levelLoader);
     }
 
     public void AddAngryTick()
@@ -28,7 +30,7 @@ public class AngryTracker
             instabilityStep += CalculateIslandInstability(island);
         }
 
-        instabilityStep *= _levelLoader.CurrentLevelData.AngryBarSpeed;
+        instabilityStep *= _levelLoader.CurrentLevelData.AngryBarSpeed * _balancer.Value;
         AddAngry(instabilityStep * Time.deltaTime);
     }
 

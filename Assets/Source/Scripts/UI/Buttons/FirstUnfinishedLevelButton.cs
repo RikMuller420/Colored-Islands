@@ -11,12 +11,12 @@ public class FirstUnfinishedLevelButton : MonoBehaviour
 
     private void OnEnable()
     {
-        _button.onClick.AddListener(LoadFirstUnfinishedLevel);
+        _button.onClick.AddListener(LoadLastAvailableLevel);
     }
 
     private void OnDisable()
     {
-        _button.onClick.RemoveListener(LoadFirstUnfinishedLevel);
+        _button.onClick.RemoveListener(LoadLastAvailableLevel);
     }
 
     public void Initialize(GameProgressStorage gameProgressStorage, LevelLoader levelLoader)
@@ -26,15 +26,8 @@ public class FirstUnfinishedLevelButton : MonoBehaviour
         enabled = true;
     }
 
-    private void LoadFirstUnfinishedLevel()
+    private void LoadLastAvailableLevel()
     {
-        LevelProgress level = _progressStorage.FirstUnfinishedLevel;
-
-        if (level == null)
-        {
-            level = _progressStorage.Levels.Last();
-        }
-
-        _levelLoader.LoadLevel(level.Id);
+        _levelLoader.LoadLevel(_progressStorage.LastAvailableLevelId);
     }
 }

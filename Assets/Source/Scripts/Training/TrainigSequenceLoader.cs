@@ -44,9 +44,9 @@ public class TrainigSequenceLoader
 
     public void TryLoadTrainingLevel()
     {
-        if (_progressStorage.FirstUnfinishedLevel.Id <= _levelSettings.LastTrainingLevel)
+        if (_progressStorage.LastAvailableLevelId <= _levelSettings.LastTrainingLevel)
         {
-            _levelLoader.LoadLevel(_progressStorage.FirstUnfinishedLevel.Id);
+            _levelLoader.LoadLevel(_progressStorage.LastAvailableLevelId);
         }
     }
 

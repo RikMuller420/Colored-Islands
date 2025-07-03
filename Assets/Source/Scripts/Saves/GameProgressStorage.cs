@@ -14,6 +14,8 @@ public class GameProgressStorage
     private SaveProvider _saveProvider;
     private GameProgressSaver _gameProgressSaver;
 
+    private int _lastLevelId;
+
     public event Action GoldAmountChanged;
     public event Action<int> LevelProgressChanged;
     public event Action<BoostType> BoostsAmountChanged;
@@ -39,8 +41,11 @@ public class GameProgressStorage
         ActulizeSavedFaces();
         ActualizeSavedHats();
         ActualizeTrainingFinishedStatus();
+
+        _lastLevelId = Levels.Max(level => level.Id);
     }
 
+    public int LastAvailableLevelId => Levels.FirstOrDefault(level => !level.IsDone)?.Id ?? _lastLevelId;
     public LevelProgress FirstUnfinishedLevel => Levels.FirstOrDefault(level => level.IsDone == false);
     public IReadOnlyCollection<LevelProgress> Levels => _progress.Levels;
     public int ScoreAmount => _progress.ScoreAmount;
@@ -266,7 +271,7 @@ public class GameProgressStorage
 
     private void ActualizeTrainingFinishedStatus()
     {
-        if (IsTrainingFinished == false && FirstUnfinishedLevel.Id > _levelSettings.LastTrainingLevel)
+        if (IsTrainingFinished == false && LastAvailableLevelId > _levelSettings.LastTrainingLevel)
         {
             _progress.SetTrainingFinished(true);
             Save();

@@ -30,7 +30,6 @@ public class GameProgress
         SetDefaultValues(unitsHatSettings.NoHatId);
     }
 
-    [JsonIgnore] public LevelProgress FirstUnfinishedLevel => _levels.FirstOrDefault(level => !level.IsDone);
     [JsonIgnore] public IReadOnlyCollection<LevelProgress> Levels => _levels.AsReadOnly();
     [JsonIgnore] public int ScoreAmount => _scoreAmount;
     [JsonIgnore] public int GoldAmount => _goldAmount;

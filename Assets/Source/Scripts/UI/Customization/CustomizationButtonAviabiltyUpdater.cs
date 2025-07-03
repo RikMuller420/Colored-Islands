@@ -25,7 +25,7 @@ public class CustomizationButtonAviabiltyUpdater
     {
         foreach (HatSelectButton hatButton in _hatSelectButtons)
         {
-            if (hatButton.RequredLevel < _progressStorage.FirstUnfinishedLevel.Id)
+            if (hatButton.RequredLevel < _progressStorage.LastAvailableLevelId)
             {
                 hatButton.SetUnlockedStyle();
 

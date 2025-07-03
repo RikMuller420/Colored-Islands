@@ -26,7 +26,7 @@ namespace UI.TabSystem
 
             foreach (TabData tab in _tabs)
             {
-                tab.TabButton.TabSelected += OnTabButtonClicked;
+                tab.TabButton.TabSelected += ActivateTab;
             }
         }
 
@@ -36,7 +36,7 @@ namespace UI.TabSystem
             
             foreach (TabData tab in _tabs)
             {
-                tab.TabButton.TabSelected -= OnTabButtonClicked;
+                tab.TabButton.TabSelected -= ActivateTab;
             }
         }
 
@@ -45,7 +45,12 @@ namespace UI.TabSystem
             ActivateTab(_activeTab);
         }
 
-        private void OnTabButtonClicked(TabButton tabButton)
+        public void ActivateTab(int index)
+        {
+            ActivateTab(_tabs[index].TabButton);
+        }
+
+        private void ActivateTab(TabButton tabButton)
         {
             DeactivateTab(_activeTab);
             _activeTab = _tabs.Find(tab => tab.TabButton == tabButton);

@@ -46,7 +46,7 @@ public class CustomizationWindowInitializer : MonoBehaviour
         foreach (UnitHatData hatData in _unitsHatSettings.Hats)
         {
             HatSelectButton hatButton = Instantiate(_hatPrefab, _hatParent);
-            bool isHatAviable = progressStorage.FirstUnfinishedLevel.Id > hatData.RequredLevel;
+            bool isHatAviable = progressStorage.LastAvailableLevelId > hatData.RequredLevel;
             bool wasHatUsed = progressStorage.WasHatUsed(hatData.Id);
             hatButton.Initialize(hatData.Id, hatData.SelectSprite, hatData.RequredLevel, isHatAviable, wasHatUsed);
             hatSelectButtons.Add(hatButton);

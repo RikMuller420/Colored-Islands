@@ -266,6 +266,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Description
       objectReference: {fileID: 0}
+    - target: {fileID: 4152685184897327526, guid: 9af9ec4c81ab34a4d8d44ab56c572d5e, type: 3}
+      propertyPath: baseHeight
+      value: 170
+      objectReference: {fileID: 0}
     - target: {fileID: 4616483875808524261, guid: 9af9ec4c81ab34a4d8d44ab56c572d5e, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -373,9 +377,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1626868654507459794, guid: 9af9ec4c81ab34a4d8d44ab56c572d5e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2888289948359961618}
-    - targetCorrespondingSourceObject: {fileID: 1626868654507459794, guid: 9af9ec4c81ab34a4d8d44ab56c572d5e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7210585545240197147}
     - targetCorrespondingSourceObject: {fileID: 6569522419699930071, guid: 9af9ec4c81ab34a4d8d44ab56c572d5e, type: 3}
       insertIndex: 1
       addedObject: {fileID: 7488808075791621797}
@@ -433,21 +434,6 @@ MonoBehaviour:
   _inAppType: 0
   _buyButton: {fileID: 5062589010319270895}
   _priceText: {fileID: 5959446299109485640}
---- !u!114 &7210585545240197147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4804446727684410054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e3ede2790099ea44b307f3935c24b9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rectTransform: {fileID: 5902139227386337493}
-  _text: {fileID: 9072714283395010176}
-  baseHeight: 170
 --- !u!114 &5062589010319270895 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1332770073968389627, guid: 9af9ec4c81ab34a4d8d44ab56c572d5e, type: 3}
@@ -492,11 +478,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!224 &5902139227386337493 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 420949026457425601, guid: 9af9ec4c81ab34a4d8d44ab56c572d5e, type: 3}
-  m_PrefabInstance: {fileID: 6070604581057351188}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5959446299109485640 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 471517205136646748, guid: 9af9ec4c81ab34a4d8d44ab56c572d5e, type: 3}
@@ -527,14 +508,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   translationName: Buy
   FallbackText: Buy
---- !u!114 &9072714283395010176 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3015123811387768980, guid: 9af9ec4c81ab34a4d8d44ab56c572d5e, type: 3}
-  m_PrefabInstance: {fileID: 6070604581057351188}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5357307904624166921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -11,6 +11,12 @@ public class TrainigSequenceLevel1 : TrainigSequence
     private int _currentMoveIndex;
     private Level1TrainingMove _currentTrainingMove;
 
+    private void OnDestroy()
+    {
+        SelectHandler.UnitsSelected -= OnUnitsSelected;
+        UnitMover.UnitsMoved -= OnUnitsMoved;
+    }
+
     public override void StartTraining()
     {
         _currentMoveIndex = 0;
@@ -24,7 +30,7 @@ public class TrainigSequenceLevel1 : TrainigSequence
 
     private void ActivateTrainingMove()
     {
-        DeactivateAllColliders();
+        DeactivateColliders();
 
         DOTween.Sequence().Append(PointerImage.DOFade(0f, FadeDuration)
                   .SetEase(Ease.InOutQuad))

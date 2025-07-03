@@ -83,7 +83,7 @@ public abstract class TrainigSequence : MonoBehaviour
         ActivateColliders(BuferIslandsHolder.CurrentIsland);
     }
 
-    protected void DeactivateAllColliders()
+    protected void DeactivateColliders()
     {
         foreach (Island island in LevelObjectsHolder.Islands)
         {
@@ -91,6 +91,21 @@ public abstract class TrainigSequence : MonoBehaviour
         }
 
         DeactivateColliders(BuferIslandsHolder.CurrentIsland);
+    }
+
+    protected void DeactivateColliders(BaseIsland island)
+    {
+        island.Collider.enabled = false;
+
+        foreach (IslandPoint islandPoint in island.Points)
+        {
+            if (islandPoint.IsFree)
+            {
+                continue;
+            }
+
+            islandPoint.OccupiedUnit.Collider.enabled = false;
+        }
     }
 
     protected void AddBost(BoostType boostType)
@@ -112,21 +127,6 @@ public abstract class TrainigSequence : MonoBehaviour
             }
 
             islandPoint.OccupiedUnit.Collider.enabled = true;
-        }
-    }
-
-    private void DeactivateColliders(BaseIsland island)
-    {
-        island.Collider.enabled = false;
-
-        foreach (IslandPoint islandPoint in island.Points)
-        {
-            if (islandPoint.IsFree)
-            {
-                continue;
-            }
-
-            islandPoint.OccupiedUnit.Collider.enabled = false;
         }
     }
 

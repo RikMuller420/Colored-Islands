@@ -25,6 +25,16 @@ public class TrainigSequenceLevel3 : TrainigSequence
         _wait = new WaitForSeconds(_waitTime);
     }
 
+    private void OnDestroy()
+    {
+        UIOrientationChanger.OrientationChanged -= UpdatePointerPosition;
+        InGameMenu.MenuOpened -= OnMenuOpened;
+        InGameMenu.MenuClosed -= OnMenuClosed;
+        UnitMover.UnitsMoved -= OnUnitsMoved;
+        _islandForBoost.IslandFinished -= OnIslandFinished;
+        _finishIslandBoostButton.TryBoostApplying -= OnTryApplyingFinishIslandBoost;
+    }
+
     public override void StartTraining()
     {
         BoostButtonActivator.DeactivateAllButtons();
@@ -57,7 +67,7 @@ public class TrainigSequenceLevel3 : TrainigSequence
 
     private IEnumerator StartFirstTrainingMove()
     {
-        DeactivateAllColliders();
+        DeactivateColliders();
         BoostButtonActivator.ActivateButtonWithFade(BoostType.FinishIsland);
 
         yield return _wait;
@@ -75,9 +85,10 @@ public class TrainigSequenceLevel3 : TrainigSequence
         ActivateIslandPointer();
     }
 
-    private void OnIslandFinished(Island _)
+    private void OnIslandFinished(Island island)
     {
         ActivateAllColliders();
+        DeactivateColliders(island);
         DOTween.Sequence().Append(_worldSpacePointerImage.DOFade(0f, FadeDuration)
                                   .SetEase(Ease.InOutQuad));
         _isTrainingDone = true;

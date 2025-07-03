@@ -24,6 +24,16 @@ public class TrainigSequenceLevel5 : TrainigSequence
         _wait = new WaitForSeconds(_waitTime);
     }
 
+    private void OnDestroy()
+    {
+        UIOrientationChanger.OrientationChanged -= UpdatePointerPosition;
+        InGameMenu.MenuOpened -= OnMenuOpened;
+        InGameMenu.MenuClosed -= OnMenuClosed;
+        UnitMover.UnitsMoved -= OnUnitsMoved;
+        _reducePaintsBoostButton.TryBoostApplying -= OnTryApplyingReducePaintsBoost;
+        FinalScoreWindow.ScoreShowed -= OnFinalScoreShowed;
+    }
+
     public override void StartTraining()
     {
         BoostButtonActivator.DeactivateAllButtons();
@@ -63,7 +73,7 @@ public class TrainigSequenceLevel5 : TrainigSequence
 
     private IEnumerator StartTrainingMove()
     {
-        DeactivateAllColliders();
+        DeactivateColliders();
         LevelProgressTracker.PauseTracking();
         BoostButtonActivator.ActivateButtonWithFade(BoostType.ReducePaints);
 

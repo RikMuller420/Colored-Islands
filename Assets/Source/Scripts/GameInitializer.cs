@@ -100,7 +100,7 @@ public class GameInitializer : MonoBehaviour
         var interAdOpener = new InterstitialAdOpener(_levelLoader, removeAdsProvider, interAdProvider, rewardedAdProvider);
         var soundVolumeProvider = new SoundVolumeProvider(_audioMixers, _progressStorage);
         var levelEndSoundPlayer = new LevelEndSoundPlayer(_levelProgressTracker, _gameplaySoundPlayer);
-        var angryTracker = new AngryTracker(levelDataHolder, _levelLoader);
+        var angryTracker = new AngryTracker(levelDataHolder, _levelLoader, _levelProgressTracker);
         var localizationProvider = new LocalizationProvider();
         var customizationSettingsHolder = new CustomizationSettingsHolder(_materials, _progressStorage, _faceSettings, _hatSettings);
         _trainigLoader = new TrainigSequenceLoader(_levelLoader, levelDataHolder, _buferIslands, selectHandler, unitMover,

@@ -16,10 +16,17 @@ public class TrainigSequenceLevel2 : TrainigSequence
         _startWait = new WaitForSeconds(_startDelay);
     }
 
+    private void OnDestroy()
+    {
+        InGameMenu.MenuOpened -= OnMenuOpened;
+        InGameMenu.MenuClosed -= OnMenuClosed;
+        _boostButton.TryBoostApplying -= OnTryApplyingBoost;
+    }
+
     public override void StartTraining()
     {
         BoostButtonActivator.DeactivateAllButtons();
-        DeactivateAllColliders();
+        DeactivateColliders();
         UIOrientationChanger.OrientationChanged += UpdatePointerPosition;
         InGameMenu.MenuOpened += OnMenuOpened;
         InGameMenu.MenuClosed += OnMenuClosed;

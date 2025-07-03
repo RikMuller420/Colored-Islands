@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class TrainigSequenceLevel4 : TrainigSequence
     [SerializeField] private RectTransform _horizontalOrientationPointerPosition;
     [SerializeField] private CanvasGroup _angyBarBubble;
     [SerializeField] private TextMeshProUGUI _angryBarDescription;
+    [SerializeField] private List<Island> _islands;
 
     private float _startDelay = 1f;
     private float _hideAngyBarDelay = 6f;
@@ -19,6 +21,21 @@ public class TrainigSequenceLevel4 : TrainigSequence
     private BoostButton _freezeObjectivesBoostButton;
     private bool _isTrainingStarted = false;
     private bool _isTrainingDone = false;
+    private List<BaseIsland> _finishedIslands = new();
+
+    private void OnDestroy()
+    {
+        UIOrientationChanger.OrientationChanged -= UpdatePointerPosition;
+        InGameMenu.MenuOpened -= OnMenuOpened;
+        InGameMenu.MenuClosed -= OnMenuClosed;
+        _freezeObjectivesBoostButton.TryBoostApplying -= OnTryApplyingBoost;
+        LevelProgressTracker.AngryChanged -= OnAngryValueChanged;
+
+        foreach (Island island in _islands)
+        {
+            island.IslandFinished -= OnIslandFinished;
+        }
+    }
 
     public override void StartTraining()
     {
@@ -37,7 +54,18 @@ public class TrainigSequenceLevel4 : TrainigSequence
 
         LevelProgressTracker.PauseTracking();
         LevelProgressTracker.AngryChanged += OnAngryValueChanged;
+
+        foreach (Island island in _islands)
+        {
+            island.IslandFinished += OnIslandFinished;
+        }
+
         StartCoroutine(OpenAngyBarHintInDelay());
+    }
+
+    private void OnIslandFinished(BaseIsland island)
+    {
+        _finishedIslands.Add(island);
     }
 
     private void OnAngryValueChanged(float value)
@@ -55,7 +83,7 @@ public class TrainigSequenceLevel4 : TrainigSequence
     private IEnumerator StartBoostTraining()
     {
         LevelProgressTracker.PauseTracking();
-        DeactivateAllColliders();
+        DeactivateColliders();
 
         BoostButtonActivator.ActivateButtonWithFade(BoostType.FreezeObjectives);
 
@@ -103,6 +131,12 @@ public class TrainigSequenceLevel4 : TrainigSequence
     {
         AddBost(BoostType.FreezeObjectives);
         ActivateAllColliders();
+
+        foreach (BaseIsland island in _finishedIslands)
+        {
+            DeactivateColliders(island);
+        }
+
         DeactivatePointer();
         _isTrainingDone = true;
     }

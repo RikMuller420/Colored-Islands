@@ -49,7 +49,7 @@ public class LevelButton : MonoBehaviour
 
     private void UpdateButtonAviability()
     {
-        _isLevelAviable = _levelId <= _progressStorage.FirstUnfinishedLevel.Id;
+        _isLevelAviable = _levelId <= _progressStorage.LastAvailableLevelId;
         _starsHolder.SetActive(_isLevelAviable);
         _button.interactable = _isLevelAviable;
         _lockIcon.SetActive(!_isLevelAviable);

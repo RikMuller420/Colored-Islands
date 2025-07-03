@@ -82,7 +82,7 @@ public class FinalScoreWindow : MenuWindow
 
         _confettiParticle.SetActive(true);
         PreparePanel();
-        Open(false);
+        OpenUnclosableWindow();
         StartCoroutine(PlayStarAnimations());
         StartCoroutine(WinAnimation());
     }
