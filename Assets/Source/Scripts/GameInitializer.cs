@@ -14,6 +14,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private LocalizationSettings _localizationSettings;
     [SerializeField] private UnitsFaceSettings _faceSettings;
     [SerializeField] private UnitsHatSettings _hatSettings;
+    [SerializeField] private InAppSettings _inAppSettings;
     [SerializeField] private AudioMixers _audioMixers;
     [SerializeField] private LayerMask _allIslandsAndUnitsLayer;
 
@@ -93,6 +94,7 @@ public class GameInitializer : MonoBehaviour
         var upgradesProvider = new UpgradesProvider(_progressStorage);
         var boostAmountProvider = new BoostAmountProvider(_progressStorage);
         var removeAdsProvider = new RemoveAdsProvider(_progressStorage);
+        var inAppByAddViewProvider = new InAppByAddViewProvider(_progressStorage, _inAppSettings);
 
         var levelProgressUpdater = new GameProgressUpdater(_levelProgressTracker, _progressStorage, leaderboardProvider,
                                                            _leaderboardSettings, leaderboardScoreCalculator);
@@ -116,7 +118,8 @@ public class GameInitializer : MonoBehaviour
                                            boostAmountProvider);
         _inGameShopInitializer.Initialize(upgradesProvider, boostAmountProvider, walletProvider);
         _boostBuyWindow.Initialize(boostAmountProvider, _boostSettings, walletProvider, rewardedAdProvider);
-        _inAppPurchaseInitializer.Initialize(walletProvider, boostAmountProvider, removeAdsProvider, inAppPurchaseProvider);
+        _inAppPurchaseInitializer.Initialize(walletProvider, boostAmountProvider, removeAdsProvider, inAppPurchaseProvider,
+                                             inAppByAddViewProvider, rewardedAdProvider, _progressStorage);
 
         _walletView.Initialize(walletProvider);
 

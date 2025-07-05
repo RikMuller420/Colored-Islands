@@ -9,7 +9,6 @@ public class UpgradesProvider
     public UpgradesProvider(GameProgressStorage gameProgressStorage)
     {
         _gameProgressStorage = gameProgressStorage;
-        _gameProgressStorage.Upgraded += OnUpgradedInSavedProgressd;
     }
 
     public int UpgradeStage(UpgradeType upgradeType) => _gameProgressStorage.GetUpgradeStage(upgradeType);
@@ -19,10 +18,7 @@ public class UpgradesProvider
         int upgradeStage = UpgradeStage(upgradeType);
         upgradeStage++;
         _gameProgressStorage.SetUpgradeStage(upgradeType, upgradeStage);
-    }
-
-    private void OnUpgradedInSavedProgressd(UpgradeType upgradeType)
-    {
+        _gameProgressStorage.Save();
         Upgraded?.Invoke(upgradeType);
     }
 }

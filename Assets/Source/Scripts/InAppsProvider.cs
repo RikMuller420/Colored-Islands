@@ -9,10 +9,12 @@ public class InAppsProvider
     private RemoveAdsProvider _removeAdsProvider;
     private InAppConfirmedWindow _inAppConfirmedWindow;
     private InAppPurchaseProvider _inAppPurchaseProvider;
+    private InAppByAddViewProvider _inAppByAddViewProvider;
 
     public InAppsProvider(IEnumerable<InAppSettingsData> inAppPurchases, WalletProvider walletProvider,
                           BoostAmountProvider boostProvider, RemoveAdsProvider removeAdsProvider,
-                          InAppConfirmedWindow inAppConfirmedWindow, InAppPurchaseProvider inAppPurchaseProvider)
+                          InAppConfirmedWindow inAppConfirmedWindow, InAppPurchaseProvider inAppPurchaseProvider,
+                          InAppByAddViewProvider inAppByAddViewProvider)
     {
         _inAppPurchases = inAppPurchases;
         _walletProvider = walletProvider;
@@ -20,8 +22,10 @@ public class InAppsProvider
         _removeAdsProvider = removeAdsProvider;
         _inAppConfirmedWindow = inAppConfirmedWindow;
         _inAppPurchaseProvider = inAppPurchaseProvider;
+        _inAppByAddViewProvider = inAppByAddViewProvider;
 
         _inAppPurchaseProvider.SuccessPurchased += OnPurchaseSuccess;
+        _inAppByAddViewProvider.InAppProgressFinished += OnPurchaseSuccess;
     }
 
     public void BuyPurchase(InAppType inAppType)

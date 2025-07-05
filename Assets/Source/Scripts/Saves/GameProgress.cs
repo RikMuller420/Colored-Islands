@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
 
 [Serializable]
@@ -15,6 +14,7 @@ public class GameProgress
     [JsonProperty] private bool _isTrainingFinished;
     [JsonProperty] private Dictionary<BoostType, int> _boostsAmounts;
     [JsonProperty] private Dictionary<UpgradeType, int> _upgradeStages;
+    [JsonProperty] private Dictionary<InAppType, int> _earnInAppWithAddProgress;
     [JsonProperty] private Dictionary<AudioGroup, bool> _isSoundOnStatus;
     [JsonProperty] private Dictionary<Paint, CustomizationPreferences> _customizationPreferences;
     [JsonProperty] private Dictionary<int, bool> _wasHatsUsed;
@@ -42,6 +42,7 @@ public class GameProgress
 
     public int GetBoostAmount(BoostType boostType) => _boostsAmounts[boostType];
     public int GetUpgradeStage(UpgradeType upgradeType) => _upgradeStages[upgradeType];
+    public int GetEarnedInAppWithAddProgress(InAppType inAppType) => _earnInAppWithAddProgress[inAppType];
     public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _isSoundOnStatus[audioGroup];
     public CustomizationPreferences GetCustomizationPreference(Paint paint) => _customizationPreferences[paint];
 
@@ -134,6 +135,16 @@ public class GameProgress
         _upgradeStages[upgradeType] = stage;
     }
 
+    public void SetEarnInAppWithAddProgress(InAppType inAppType, int progress)
+    {
+        if (_earnInAppWithAddProgress.ContainsKey(inAppType) == false)
+        {
+            throw new ArgumentException(nameof(inAppType));
+        }
+
+        _earnInAppWithAddProgress[inAppType] = progress;
+    }
+
     public void SetGoldAmount(int amount)
     {
         if (amount < 0)
@@ -195,6 +206,12 @@ public class GameProgress
         _scoreAmount = 0;
         _goldAmount = 0;
         _isAdsRemoved = false;
+
+        _earnInAppWithAddProgress = new Dictionary<InAppType, int>()
+        {
+            { InAppType.RemoveAds, 0 }
+        };
+
         _boostsAmounts = new Dictionary<BoostType, int>()
         {
             { BoostType.FinishIsland, 0 },
@@ -202,15 +219,18 @@ public class GameProgress
             { BoostType.GrowBuferIsland, 0 },
             { BoostType.ReducePaints, 0 }
         };
+
         _upgradeStages = new Dictionary<UpgradeType, int>()
         {
             { UpgradeType.BuferIslandSize, 0 }
         };
+
         _isSoundOnStatus = new Dictionary<AudioGroup, bool>()
         {
             { AudioGroup.MusicVolume, true },
             { AudioGroup.EffectsVolume, true },
         };
+
         foreach (Paint paint in Enum.GetValues(typeof(Paint)))
         {
             _customizationPreferences.Add(paint, new CustomizationPreferences((int)paint + 1, noHatId));

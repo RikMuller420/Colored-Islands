@@ -7,18 +7,27 @@ public class InAppPurchaseInitializer : MonoBehaviour
     [SerializeField] private InAppConfirmedWindow _inAppConfirmedWindow;
     [SerializeField] private RemoveAdsAviabilityUpdater _removeAdsAviabilityUpdater;
     [SerializeField] private List<InAppOffer> _inAppOffers = new();
+    [SerializeField] private List<InAppByAddViewOffer> _inAppByAddViewOffers = new();
 
     public void Initialize(WalletProvider walletProvider, BoostAmountProvider boostProvider,
-                           RemoveAdsProvider removeAdsProvider, InAppPurchaseProvider inAppPurchaseProvider)
+                           RemoveAdsProvider removeAdsProvider, InAppPurchaseProvider inAppPurchaseProvider,
+                           InAppByAddViewProvider inAppByAddViewProvider, RewardedAdProvider rewardedAdProvider,
+                            GameProgressStorage progressStorage)
     {
         var inAppProvider = new InAppsProvider(_inAppSettings.InApps, walletProvider, boostProvider,
-                                                       removeAdsProvider, _inAppConfirmedWindow, inAppPurchaseProvider);
+                                               removeAdsProvider, _inAppConfirmedWindow, inAppPurchaseProvider,
+                                               inAppByAddViewProvider);
 
         _removeAdsAviabilityUpdater.Initialize(removeAdsProvider);
 
         foreach (InAppOffer inAppOffer in _inAppOffers)
         {
             inAppOffer.Initialize(inAppProvider);
+        }
+
+        foreach (InAppByAddViewOffer inAppByAddViewOffer in _inAppByAddViewOffers)
+        {
+            inAppByAddViewOffer.Initialize(inAppByAddViewProvider, rewardedAdProvider, progressStorage);
         }
     }
 }

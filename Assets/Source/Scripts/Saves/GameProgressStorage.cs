@@ -20,6 +20,8 @@ public class GameProgressStorage
     public event Action<int> LevelProgressChanged;
     public event Action<BoostType> BoostsAmountChanged;
     public event Action<UpgradeType> Upgraded;
+    public event Action<InAppType> EarnInAppWithAddProgressUpdated;
+
     public event Action RemoveAdsStateChanged;
     public event Action<AudioGroup> SoundEnabledChanged;
     public event Action<Paint> CustomizationPreferenceChanged;
@@ -62,6 +64,7 @@ public class GameProgressStorage
 
     public int GetBoostAmount(BoostType boostType) => _progress.GetBoostAmount(boostType);
     public int GetUpgradeStage(UpgradeType upgradeType) => _progress.GetUpgradeStage(upgradeType);
+    public int GetEarnedInAppWithAddProgress(InAppType inAppType) => _progress.GetEarnedInAppWithAddProgress(inAppType);
     public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _progress.GetIsSoundOnStatus(audioGroup);
 
     public void SetTrainingFinished(bool isFinished)
@@ -141,6 +144,12 @@ public class GameProgressStorage
         {
             Save();
         }
+    }
+
+    public void SetEarnInAppWithAddProgress(InAppType inAppType, int progress)
+    {
+        _progress.SetEarnInAppWithAddProgress(inAppType, progress);
+        EarnInAppWithAddProgressUpdated?.Invoke(inAppType);
     }
 
     public void SetGoldAmount(int amount, bool autoSave = true)

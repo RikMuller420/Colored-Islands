@@ -4,6 +4,7 @@ public class RemoveAdsAviabilityUpdater : MonoBehaviour
 {
     [SerializeField] private GameObject _buyButton;
     [SerializeField] private GameObject _maxAmountHint;
+    [SerializeField] private GameObject _earnWithAddZone;
 
     private RemoveAdsProvider _removeAdsProvider;
 
@@ -27,6 +28,7 @@ public class RemoveAdsAviabilityUpdater : MonoBehaviour
     private void RemoveAdsStateChanged()
     {
         _buyButton.SetActive(_removeAdsProvider.IsAdsRemoved == false);
+        _earnWithAddZone.SetActive(_removeAdsProvider.IsAdsRemoved == false);
         _maxAmountHint.SetActive(_removeAdsProvider.IsAdsRemoved);
     }
 }

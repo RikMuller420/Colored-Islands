@@ -19,7 +19,6 @@ public class RemoveAdsProvider
         _gameProgressStorage.ApplyRemoveAddBonus(isAutoSave);
     }
 
-
     private void OnRemoveAdsStateChanged()
     {
         RemoveAdsStateChanged?.Invoke();
