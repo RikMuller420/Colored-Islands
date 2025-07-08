@@ -12,10 +12,12 @@ public class FinalScoreWindow : MenuWindow
     [SerializeField] private ResultButtons _resultButtons;
     [SerializeField] private ZoneUi _boostButtonZone;
     [SerializeField] private GameObject _confettiParticle;
+    [SerializeField] private LevelRewardWindow _levelRewardWindow;
 
     private GameProgressStorage _progressStorage;
     private LevelProgressTracker _progressTracker;
     private LevelLoader _levelLoader;
+    private LevelRewardSettings _levelRewardSettings;
 
     private float _openWindowDelay = 1f;
     private float _lastAnimationTimeReduction = 2f;
@@ -41,13 +43,14 @@ public class FinalScoreWindow : MenuWindow
     }
 
     public void Initialize(GameProgressStorage progressStorage, LevelProgressTracker progressTracker,
-                           LevelLoader levelLoader)
+                           LevelLoader levelLoader, LevelRewardSettings levelRewardSettings)
     {
         _openWindowAwait = new WaitForSeconds(_openWindowDelay);
         _starAnimationInterval = new WaitForSeconds(_starAnimationTime);
         _progressStorage = progressStorage;
         _progressTracker = progressTracker;
         _levelLoader = levelLoader;
+        _levelRewardSettings = levelRewardSettings;
         enabled = true;
     }
 
@@ -110,6 +113,7 @@ public class FinalScoreWindow : MenuWindow
         _objectivesAnimator.ShowGoldAnimation(_progressTracker, out animationDuration);
         animationDuration /= _lastAnimationTimeReduction;
 
+        TryOpenRewardWindow();
         _resultButtons.Activate();
         ScoreShowed?.Invoke();
     }
@@ -130,6 +134,18 @@ public class FinalScoreWindow : MenuWindow
         if (_progressTracker.IsMoveTaskDone)
         {
             _starsAnimator.PlayNextStarAnimation();
+        }
+    }
+
+    private void TryOpenRewardWindow()
+    {
+        int currentLevelId = _progressTracker.LevelData.Id;
+        LevelRewardData reward = _levelRewardSettings.LevelRewards.FirstOrDefault(reward => reward.LevelId == currentLevelId);
+        bool wasRewardReceived = _progressStorage.WasLevelRewardReceived(currentLevelId);
+
+        if (reward != null && wasRewardReceived == false)
+        {
+            _levelRewardWindow.Open(reward);
         }
     }
 }

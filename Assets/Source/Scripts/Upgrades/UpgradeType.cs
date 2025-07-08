@@ -1,4 +1,6 @@
 public enum UpgradeType 
 {
-    BuferIslandSize
+    BuferIslandSize,
+    IncreaseRewards,
+    SlowDownAngryBar
 }

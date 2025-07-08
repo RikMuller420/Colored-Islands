@@ -16,7 +16,7 @@ public class InAppPurchaseInitializer : MonoBehaviour
     {
         var inAppProvider = new InAppsProvider(_inAppSettings.InApps, walletProvider, boostProvider,
                                                removeAdsProvider, _inAppConfirmedWindow, inAppPurchaseProvider,
-                                               inAppByAddViewProvider);
+                                               inAppByAddViewProvider, progressStorage);
 
         _removeAdsAviabilityUpdater.Initialize(removeAdsProvider);
 

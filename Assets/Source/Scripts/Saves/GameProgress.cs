@@ -12,12 +12,14 @@ public class GameProgress
     [JsonProperty] private bool _isLanguageSaved;
     [JsonProperty] private Language _language;
     [JsonProperty] private bool _isTrainingFinished;
+    [JsonProperty] private int _aviableSpinCount;
     [JsonProperty] private Dictionary<BoostType, int> _boostsAmounts;
     [JsonProperty] private Dictionary<UpgradeType, int> _upgradeStages;
     [JsonProperty] private Dictionary<InAppType, int> _earnInAppWithAddProgress;
     [JsonProperty] private Dictionary<AudioGroup, bool> _isSoundOnStatus;
     [JsonProperty] private Dictionary<Paint, CustomizationPreferences> _customizationPreferences;
     [JsonProperty] private Dictionary<int, bool> _wasHatsUsed;
+    [JsonProperty] private Dictionary<int, bool> _wasLevelRewardReceived;
     [JsonProperty] private List<FaceAvailabilitie> _faceAvailabilities;
 
     public GameProgress()
@@ -37,7 +39,9 @@ public class GameProgress
     [JsonIgnore] public bool IsLanguageSaved => _isLanguageSaved;
     [JsonIgnore] public Language Language => _language;
     [JsonIgnore] public bool IsTrainingFinished => _isTrainingFinished;
+    [JsonIgnore] public int AviableSpinCount => _aviableSpinCount;
     [JsonIgnore] public Dictionary<int, bool> WasHatsUsed => _wasHatsUsed;
+    [JsonIgnore] public Dictionary<int, bool> WasLevelRewardReceived => _wasLevelRewardReceived;
     [JsonIgnore] public IReadOnlyCollection<FaceAvailabilitie> FaceAvailabilities => _faceAvailabilities.AsReadOnly();
 
     public int GetBoostAmount(BoostType boostType) => _boostsAmounts[boostType];
@@ -51,6 +55,11 @@ public class GameProgress
         _isTrainingFinished = isFinished;
     }
 
+    //Заменить во всех случаях на Add, Spend
+    public void SetSpinCount(int spinCount)
+    {
+        _aviableSpinCount = spinCount;
+    }
     public void SetLanguage(Language language)
     {
         _language = language;
@@ -78,6 +87,13 @@ public class GameProgress
 
         _faceAvailabilities.Remove(face);
         _faceAvailabilities.Add(newFace);
+    }
+    public void MarkLevelRewardReceived(int levelId)
+    {
+        if (_wasLevelRewardReceived.ContainsKey(levelId))
+        {
+            _wasLevelRewardReceived[levelId] = true;
+        }
     }
 
     public void MarkHatUsed(int hatId)
@@ -108,6 +124,11 @@ public class GameProgress
     public void AddFace(int faceId, bool isAviable, bool wasUsed)
     {
         _faceAvailabilities.Add(new FaceAvailabilitie(faceId, isAviable, wasUsed));
+    }
+
+    public void AddLevelReward(int levelId, bool wasReceived)
+    {
+        _wasLevelRewardReceived.Add(levelId, wasReceived);
     }
 
     public void AddHat(int hatId, bool wasUsed)
@@ -202,6 +223,7 @@ public class GameProgress
         _levels = new List<LevelProgress>();
         _faceAvailabilities = new List<FaceAvailabilitie>();
         _wasHatsUsed = new Dictionary<int, bool>();
+        _wasLevelRewardReceived = new Dictionary<int, bool>();
         _customizationPreferences = new Dictionary<Paint, CustomizationPreferences>();
         _scoreAmount = 0;
         _goldAmount = 0;
@@ -222,7 +244,9 @@ public class GameProgress
 
         _upgradeStages = new Dictionary<UpgradeType, int>()
         {
-            { UpgradeType.BuferIslandSize, 0 }
+            { UpgradeType.BuferIslandSize, 0 },
+            { UpgradeType.IncreaseRewards, 0 },
+            { UpgradeType.SlowDownAngryBar, 0 }
         };
 
         _isSoundOnStatus = new Dictionary<AudioGroup, bool>()

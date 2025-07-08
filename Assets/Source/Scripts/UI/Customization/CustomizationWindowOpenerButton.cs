@@ -16,6 +16,7 @@ public class CustomizationWindowOpenerButton : MenuWindowOpener
         unitCustomizator.FaceUsed += UpdateUnusedMarkActivity;
         unitCustomizator.HatUsed += UpdateUnusedMarkActivity;
         customizationAviabiltyUpdater.HatButtonUnlocked += UpdateUnusedMarkActivity;
+        customizationAviabiltyUpdater.FaceButtonUnlocked += UpdateUnusedMarkActivity;
 
         UpdateUnusedMarkActivity();
     }

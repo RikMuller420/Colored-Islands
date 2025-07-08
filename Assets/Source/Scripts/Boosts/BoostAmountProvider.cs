@@ -38,7 +38,7 @@ public class BoostAmountProvider
         _gameProgressStorage.SetBoostAmount(boostType, boostAmount);
     }
 
-    public void AddBoostBundle(int amount, bool isAutoSave)
+    public void AddBoostBundle(int amount)
     {
         IEnumerable<BoostType> boostTypes = Enum.GetValues(typeof(BoostType)).Cast<BoostType>();
         BoostType lastType = boostTypes.Last();
@@ -47,10 +47,7 @@ public class BoostAmountProvider
         {
             int boostAmount = BoostAmount(boostType);
             boostAmount += amount;
-
-            bool isSaveAfterThisBoost = boostType == lastType && isAutoSave;
-
-            _gameProgressStorage.SetBoostAmount(boostType, boostAmount, isSaveAfterThisBoost);
+            _gameProgressStorage.SetBoostAmount(boostType, boostAmount);
         }
     }
 

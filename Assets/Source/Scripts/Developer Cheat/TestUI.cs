@@ -14,7 +14,7 @@ public class TestUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _lvlText;
     [SerializeField] private Button _loadButton;
     [SerializeField] private Button _addGoldButton;
-    [SerializeField] private Button _spendGoldButton;
+    [SerializeField] private Button _addSpinButton;
     [SerializeField] private Button _finishLevelButton;
     [SerializeField] private Button _failLevelButton;
     [SerializeField] private Button _resetSaveButton;
@@ -32,7 +32,7 @@ public class TestUI : MonoBehaviour
         _levelSlider.onValueChanged.AddListener(OnSliderChange);
         _loadButton.onClick.AddListener(LoadLevel);
         _addGoldButton.onClick.AddListener(AddGold);
-        _spendGoldButton.onClick.AddListener(SpendGold);
+        _addSpinButton.onClick.AddListener(AddSpin);
         _finishLevelButton.onClick.AddListener(FinishLevel);
         _resetSaveButton.onClick.AddListener(ResetSave);
 
@@ -46,7 +46,7 @@ public class TestUI : MonoBehaviour
         _levelSlider.onValueChanged.RemoveListener(OnSliderChange);
         _loadButton.onClick.RemoveListener(LoadLevel);
         _addGoldButton.onClick.RemoveListener(AddGold);
-        _spendGoldButton.onClick.RemoveListener(SpendGold);
+        _addSpinButton.onClick.RemoveListener(AddSpin);
         _finishLevelButton.onClick.RemoveListener(FinishLevel);
         _resetSaveButton.onClick.RemoveListener(ResetSave);
 
@@ -76,20 +76,15 @@ public class TestUI : MonoBehaviour
         _levelLoader.LoadLevel(level);
     }
 
+    private void AddSpin()
+    {
+        int newSpinCount = _progressStorage.AviableSpinCount + 1;
+        _progressStorage.SetSpinCount(newSpinCount);
+    }
     private void AddGold()
     {
         int newGoldAmount = _progressStorage.GoldAmount + 100;
         _progressStorage.SetGoldAmount(newGoldAmount);
-    }
-
-    private void SpendGold()
-    {
-        if (_wallet.GoldAmount < 100)
-        {
-            return;
-        }
-
-        _wallet.SpendGold(100);
     }
 
     private void FinishLevel()
@@ -105,7 +100,7 @@ public class TestUI : MonoBehaviour
     private void ResetSave()
     {
         _progressStorage.SetTrainingFinished(false);
-        //_progressStorage.ResetProgress();
+        _progressStorage.ResetProgress();
         _levelLoader.LoadMainMenu();
     }
 

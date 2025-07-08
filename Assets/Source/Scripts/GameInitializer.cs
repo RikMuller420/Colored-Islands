@@ -15,6 +15,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private UnitsFaceSettings _faceSettings;
     [SerializeField] private UnitsHatSettings _hatSettings;
     [SerializeField] private InAppSettings _inAppSettings;
+    [SerializeField] private LevelRewardSettings _levelRewardSettings;
     [SerializeField] private AudioMixers _audioMixers;
     [SerializeField] private LayerMask _allIslandsAndUnitsLayer;
 
@@ -53,6 +54,13 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private MenuTrainigSequence _menuTrainigSequence;
     [SerializeField] private GameObject _mainMenuIslands;
     [SerializeField] private TrainingMenuUpdater _trainingMenuUpdater;
+    [SerializeField] private RouletteWheel _rouletteWhell;
+    [SerializeField] private RouletteRewardWindow _rouletteRewardWindow;
+    [SerializeField] private AviableSpinCountView _aviableSpinCountView;
+    [SerializeField] private RouletteWindowOpener _rouletteWindowOpener;
+    [SerializeField] private RouletteWindow _rouletteWindow;
+    [SerializeField] private Roulette _roulette;
+    [SerializeField] private LevelRewardWindow _levelRewardWindow;
     [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
     [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
     [SerializeField] private List<LoginButton> _loginButtons;
@@ -88,7 +96,7 @@ public class GameInitializer : MonoBehaviour
 
         var defaultClickHandler = new DefaultClickHandler(selectHandler, _allIslandsAndUnitsLayer);
         var gameClickHandler = new ClickHandler(_inputHandler, _camera, defaultClickHandler);
-        _progressStorage = new GameProgressStorage(_levelSettings, _faceSettings, _hatSettings, saveProvider, _gameProgressSaver);
+        _progressStorage = new GameProgressStorage(_levelSettings, _faceSettings, _hatSettings, _levelRewardSettings, saveProvider, _gameProgressSaver);
         var leaderboardScoreCalculator = new LeaderboardScoreCalculator(_progressStorage);
 
         var upgradesProvider = new UpgradesProvider(_progressStorage);
@@ -102,7 +110,7 @@ public class GameInitializer : MonoBehaviour
         var interAdOpener = new InterstitialAdOpener(_levelLoader, removeAdsProvider, interAdProvider, rewardedAdProvider);
         var soundVolumeProvider = new SoundVolumeProvider(_audioMixers, _progressStorage);
         var levelEndSoundPlayer = new LevelEndSoundPlayer(_levelProgressTracker, _gameplaySoundPlayer);
-        var angryTracker = new AngryTracker(levelDataHolder, _levelLoader, _levelProgressTracker);
+        var angryTracker = new AngryTracker(levelDataHolder, _levelLoader, _levelProgressTracker, _progressStorage);
         var localizationProvider = new LocalizationProvider();
         var customizationSettingsHolder = new CustomizationSettingsHolder(_materials, _progressStorage, _faceSettings, _hatSettings);
         _trainigLoader = new TrainigSequenceLoader(_levelLoader, levelDataHolder, _buferIslands, selectHandler, unitMover,
@@ -124,7 +132,7 @@ public class GameInitializer : MonoBehaviour
         _walletView.Initialize(walletProvider);
 
         _levelProgressTracker.Initialize(_progressStorage, levelDataHolder, unitMover, angryTracker);
-        _finalScoreWindow.Initialize(_progressStorage, _levelProgressTracker, _levelLoader);
+        _finalScoreWindow.Initialize(_progressStorage, _levelProgressTracker, _levelLoader, _levelRewardSettings);
 
         _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _levelProgressTracker,
                                 _uiZoneActivator, levelDataHolder, _buferIslands, _progressStorage,
@@ -138,6 +146,13 @@ public class GameInitializer : MonoBehaviour
         _leaderboardWindow.Initialize(authorizationProvider);
         _languageChanger.Initialize(_localizationSettings, _progressStorage, localizationProvider);
         _trainingMenuUpdater.Initialize(_progressStorage);
+        _rouletteWhell.Initialize(_progressStorage, _faceSettings);
+        _rouletteRewardWindow.Initialize(_faceSettings, _progressStorage, removeAdsProvider);
+        _aviableSpinCountView.Initialize(_progressStorage);
+        _rouletteWindowOpener.Initialize(_progressStorage);
+        _rouletteWindow.Initialize(_progressStorage);
+        _roulette.Initialize(_progressStorage);
+        _levelRewardWindow.Initialize(_hatSettings, _progressStorage, rewardedAdProvider);
 
         foreach (LeaderboardTab leaderboardTab in _leaderboardTabs)
         {

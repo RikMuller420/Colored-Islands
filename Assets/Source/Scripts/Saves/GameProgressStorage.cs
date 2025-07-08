@@ -9,6 +9,7 @@ public class GameProgressStorage
     private LevelSettings _levelSettings;
     private UnitsFaceSettings _unitsFaceSettings;
     private UnitsHatSettings _unitsHatSettings;
+    private LevelRewardSettings _levelRewardSettings;
     private GameProgressSerializer _progressSerializer;
     private GameProgress _progress;
     private SaveProvider _saveProvider;
@@ -26,14 +27,17 @@ public class GameProgressStorage
     public event Action<AudioGroup> SoundEnabledChanged;
     public event Action<Paint> CustomizationPreferenceChanged;
     public event Action TrainingFinished;
+    public event Action<int> FaceUnlocked;
+    public event Action SpinCountChanged;
 
     public GameProgressStorage(LevelSettings levelSettings, UnitsFaceSettings unitsFaceSettings,
-                            UnitsHatSettings unitsHatSettings,
+                            UnitsHatSettings unitsHatSettings, LevelRewardSettings levelRewardSettings,
                             SaveProvider saveProvider, GameProgressSaver gameProgressSaver)
     {
         _levelSettings = levelSettings;
         _unitsFaceSettings = unitsFaceSettings;
         _unitsHatSettings = unitsHatSettings;
+        _levelRewardSettings = levelRewardSettings;
         _saveProvider = saveProvider;
         _gameProgressSaver = gameProgressSaver;
         _progressSerializer = new GameProgressSerializer();
@@ -43,6 +47,7 @@ public class GameProgressStorage
         ActulizeSavedFaces();
         ActualizeSavedHats();
         ActualizeTrainingFinishedStatus();
+        //ActualizeReceivedLevelRewards();
 
         _lastLevelId = Levels.Max(level => level.Id);
     }
@@ -56,9 +61,12 @@ public class GameProgressStorage
     public bool IsLanguageSaved => _progress.IsLanguageSaved;
     public Language Language => _progress.Language;
     public bool IsTrainingFinished => _progress.IsTrainingFinished;
+    public int AviableSpinCount => _progress.AviableSpinCount;
     public IReadOnlyCollection<FaceAvailabilitie> FaceAvailabilities => _progress.FaceAvailabilities;
     public Dictionary<int, bool> IsHatWasUsed => _progress.WasHatsUsed;
     public bool WasHatUsed(int hatId) => _progress.WasHatsUsed.ContainsKey(hatId) ? _progress.WasHatsUsed[hatId] : true;
+    public bool WasLevelRewardReceived(int levelId) => _progress.WasLevelRewardReceived.ContainsKey(levelId) ? _progress.WasLevelRewardReceived[levelId] : true;
+
 
     public CustomizationPreferences GetCustomizationPreference(Paint paint) => _progress.GetCustomizationPreference(paint);
 
@@ -66,6 +74,13 @@ public class GameProgressStorage
     public int GetUpgradeStage(UpgradeType upgradeType) => _progress.GetUpgradeStage(upgradeType);
     public int GetEarnedInAppWithAddProgress(InAppType inAppType) => _progress.GetEarnedInAppWithAddProgress(inAppType);
     public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _progress.GetIsSoundOnStatus(audioGroup);
+
+    public void SetSpinCount(int spinCount)
+    {
+        _progress.SetSpinCount(spinCount);
+        Save();
+        SpinCountChanged?.Invoke();
+    }
 
     public void SetTrainingFinished(bool isFinished)
     {
@@ -91,9 +106,20 @@ public class GameProgressStorage
     }
 
     public void SetLanguage(Language language) => _progress.SetLanguage(language);
-    public void UnlockFace(int faceId) => _progress.UnlockFace(faceId);
     public void MarkFaceUsed(int faceId) => _progress.MarkFaceUsed(faceId);
     public void MarkHatUsed(int hatId) => _progress.MarkHatUsed(hatId);
+
+    public void MarkLevelRewardReceived(int levelId)
+    {
+        _progress.MarkLevelRewardReceived(levelId);
+        Save();
+    }
+
+    public void UnlockFace(int faceId)
+    {
+        _progress.UnlockFace(faceId);
+        FaceUnlocked?.Invoke(faceId);
+    }
 
     public void ChangeCustomizationPreferenceFace(Paint paint, int faceId)
     {
@@ -224,6 +250,11 @@ public class GameProgressStorage
             _progress.AddHat(unitHat.Id, false);
         }
 
+        foreach (LevelRewardData reward in _levelRewardSettings.LevelRewards)
+        {
+            _progress.AddLevelReward(reward.LevelId, false);
+        }
+
         Save();
     }
 
@@ -273,6 +304,20 @@ public class GameProgressStorage
             if (isHatSaved == false)
             {
                 _progress.AddHat(actualHat.Id, false);
+                Save();
+            }
+        }
+    }
+
+    private void ActualizeReceivedLevelRewards()
+    {
+        foreach (LevelRewardData actualReward in _levelRewardSettings.LevelRewards)
+        {
+            bool isRewardSaved = _progress.WasLevelRewardReceived.ContainsKey(actualReward.LevelId);
+
+            if (isRewardSaved == false)
+            {
+                _progress.AddLevelReward(actualReward.LevelId, false);
                 Save();
             }
         }

@@ -74,12 +74,12 @@ public class ZoneUi : MonoBehaviour
         }
 
         _isOpened = false;
+        DeactivateInteractivity();
         _canvasGroup.DOKill();
         _canvasGroup
             .DOFade(_minAlpha, _closeFadeDuration)
             .SetEase(Ease.InQuad)
-            .SetUpdate(true)
-            .OnComplete(DeactivateInteractivity);
+            .SetUpdate(true);
     }
 
     public void CloseImmediate()

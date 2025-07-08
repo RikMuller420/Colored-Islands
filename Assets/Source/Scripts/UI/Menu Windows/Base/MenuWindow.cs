@@ -10,19 +10,18 @@ public class MenuWindow : ZoneUi
     public event Action MenuOpened;
     public event Action MenuClosed;
 
-    protected void OnEnable()
+    protected virtual void OnEnable()
     {
-        _closeButton.onClick.AddListener(Close);
+        _closeButton?.onClick.AddListener(Close);
     }
 
-    protected void OnDisable()
+    protected virtual void OnDisable()
     {
-        _closeButton.onClick.RemoveListener(Close);
+        _closeButton?.onClick.RemoveListener(Close);
     }
 
     public override void Open()
     {
-        Debug.Log("open base");
         if (IsOpened)
         {
             return;
@@ -55,5 +54,17 @@ public class MenuWindow : ZoneUi
         _menuDimmer.Deactivate();
         base.Close();
         MenuClosed?.Invoke();
+    }
+
+    public void EnableCloseButtons()
+    {
+        _menuDimmer.Activate(this, true);
+        _closeButton.interactable = true;
+    }
+
+    public void DisableCloseButtons()
+    {
+        _menuDimmer.Activate(this, false);
+        _closeButton.interactable = false;
     }
 }

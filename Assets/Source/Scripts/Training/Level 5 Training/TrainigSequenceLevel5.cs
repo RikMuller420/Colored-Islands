@@ -135,6 +135,8 @@ public class TrainigSequenceLevel5 : TrainigSequence
         AddBost(BoostType.FinishIsland);
         AddBost(BoostType.FreezeObjectives);
         AddBost(BoostType.ReducePaints);
+        ProgressStorage.SetSpinCount(ProgressStorage.AviableSpinCount + 1);
+
         ProgressStorage.SetTrainingFinished(true);
         ProgressStorage.Save();
     }

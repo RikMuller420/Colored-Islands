@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class CustomizationButtonAviabiltyUpdater
 {
@@ -9,6 +10,7 @@ public class CustomizationButtonAviabiltyUpdater
     private List<FaceSelectButton> _faceSelectButtons;
 
     public event Action HatButtonUnlocked;
+    public event Action FaceButtonUnlocked;
 
     public CustomizationButtonAviabiltyUpdater(LevelProgressTracker levelProgressTracker, GameProgressStorage gameProgressStorage,
                                 List<HatSelectButton> hatSelectButtons, List<FaceSelectButton> faceSelectButtons)
@@ -19,6 +21,15 @@ public class CustomizationButtonAviabiltyUpdater
         _faceSelectButtons = faceSelectButtons;
 
         _levelProgressTracker.LevelFinished += UpdateHatAviability;
+        _progressStorage.FaceUnlocked += UpdateFaceAviability;
+    }
+
+    private void UpdateFaceAviability(int faceId)
+    {
+        FaceSelectButton faceButton = _faceSelectButtons.FirstOrDefault(face => face.FaceId == faceId);
+        faceButton.SetUnlockedStyle();
+        faceButton.ActivateUnusedMark();
+        FaceButtonUnlocked?.Invoke();
     }
 
     private void UpdateHatAviability()

@@ -5,20 +5,28 @@ public class AngryTracker
     private LevelObjectsHolder _levelDataHolder;
     private LevelLoader _levelLoader;
     private AngryTrackerBalancer _balancer;
+    private GameProgressStorage _progressStorage;
 
     private float _angryValue = 0f;
 
     private float _angryLimit = 1000f;
     private float _angryByIslandFinish = 100f;
     private float _angryByUnitMove = 10f;
+    private float _upgradeMultiplierStageStep = 0.1f;
+    private float _upgradeMultiplier = 1f;
 
     public float AngryValue => _angryValue / _angryLimit;
 
-    public AngryTracker(LevelObjectsHolder levelDataHolder, LevelLoader levelLoader, LevelProgressTracker progressTracker)
+    public AngryTracker(LevelObjectsHolder levelDataHolder, LevelLoader levelLoader, LevelProgressTracker progressTracker,
+                        GameProgressStorage progressStorage)
     {
         _levelDataHolder = levelDataHolder;
         _levelLoader = levelLoader;
+        _progressStorage = progressStorage;
         _balancer = new AngryTrackerBalancer(progressTracker, levelLoader);
+        UpdateUpgradeMultiplier(UpgradeType.SlowDownAngryBar);
+
+        _progressStorage.Upgraded += UpdateUpgradeMultiplier;
     }
 
     public void AddAngryTick()
@@ -30,7 +38,7 @@ public class AngryTracker
             instabilityStep += CalculateIslandInstability(island);
         }
 
-        instabilityStep *= _levelLoader.CurrentLevelData.AngryBarSpeed * _balancer.Value;
+        instabilityStep *= _levelLoader.CurrentLevelData.AngryBarSpeed * _balancer.Value * _upgradeMultiplier;
         AddAngry(instabilityStep * Time.deltaTime);
     }
 
@@ -75,5 +83,14 @@ public class AngryTracker
         }
 
         return instability;
+    }
+
+    private void UpdateUpgradeMultiplier(UpgradeType upgradeType)
+    {
+        if (upgradeType == UpgradeType.SlowDownAngryBar)
+        {
+            int stage = _progressStorage.GetUpgradeStage(UpgradeType.SlowDownAngryBar);
+            _upgradeMultiplier = 1f - (stage * _upgradeMultiplierStageStep);
+        }
     }
 }

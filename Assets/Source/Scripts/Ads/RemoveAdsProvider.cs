@@ -14,9 +14,9 @@ public class RemoveAdsProvider
 
     public bool IsAdsRemoved => _gameProgressStorage.IsAdsRemoved;
 
-    public void RemoveAds(bool isAutoSave)
+    public void RemoveAds()
     {
-        _gameProgressStorage.ApplyRemoveAddBonus(isAutoSave);
+        _gameProgressStorage.ApplyRemoveAddBonus();
     }
 
     private void OnRemoveAdsStateChanged()

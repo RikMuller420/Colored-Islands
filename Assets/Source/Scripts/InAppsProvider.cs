@@ -10,11 +10,12 @@ public class InAppsProvider
     private InAppConfirmedWindow _inAppConfirmedWindow;
     private InAppPurchaseProvider _inAppPurchaseProvider;
     private InAppByAddViewProvider _inAppByAddViewProvider;
+    private GameProgressStorage _progressStorage;
 
     public InAppsProvider(IEnumerable<InAppSettingsData> inAppPurchases, WalletProvider walletProvider,
                           BoostAmountProvider boostProvider, RemoveAdsProvider removeAdsProvider,
                           InAppConfirmedWindow inAppConfirmedWindow, InAppPurchaseProvider inAppPurchaseProvider,
-                          InAppByAddViewProvider inAppByAddViewProvider)
+                          InAppByAddViewProvider inAppByAddViewProvider, GameProgressStorage progressStorage)
     {
         _inAppPurchases = inAppPurchases;
         _walletProvider = walletProvider;
@@ -23,6 +24,7 @@ public class InAppsProvider
         _inAppConfirmedWindow = inAppConfirmedWindow;
         _inAppPurchaseProvider = inAppPurchaseProvider;
         _inAppByAddViewProvider = inAppByAddViewProvider;
+        _progressStorage = progressStorage;
 
         _inAppPurchaseProvider.SuccessPurchased += OnPurchaseSuccess;
         _inAppByAddViewProvider.InAppProgressFinished += OnPurchaseSuccess;
@@ -48,25 +50,26 @@ public class InAppsProvider
 
         foreach (InAppBonus bonus in inApp.InAppBonuses)
         {
-            bool isSaveAfterBonus = bonus == lastBonus;
-            AddBonus(bonus, isSaveAfterBonus);
+            AddBonus(bonus);
         }
+
+        _progressStorage.Save();
     }
 
-    private void AddBonus(InAppBonus bonus, bool isSaveAfterBonus)
+    private void AddBonus(InAppBonus bonus)
     {
         switch (bonus.Type)
         {
             case InAppBonusType.Gold:
-                _walletProvider.AddGold(bonus.Amount, isSaveAfterBonus);
+                _walletProvider.AddGold(bonus.Amount);
                 break;
 
             case InAppBonusType.BoostBundle:
-                _boostProvider.AddBoostBundle(bonus.Amount, isSaveAfterBonus);
+                _boostProvider.AddBoostBundle(bonus.Amount);
                 break;
 
             case InAppBonusType.RemoveAdds:
-                _removeAdsProvider.RemoveAds(isSaveAfterBonus);
+                _removeAdsProvider.RemoveAds();
                 break;
         }
     }
