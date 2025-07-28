@@ -11,7 +11,7 @@ public class LevelLoader : MonoBehaviour
     private LevelProgressTracker _levelProgressTracker;
     private UIZoneSwitcher _uiZoneActivator;
     private LevelObjectsHolder _levelDataHolder;
-    private GameProgressStorage _gameProgressStorage;
+    private UpgradesProvider _upgradesProvider;
     private LeanToken _currentLevelNumberToken;
     private Transform _unitsLookAtPoint;
     private CustomizationSettingsHolder _customizationSettings;
@@ -29,7 +29,7 @@ public class LevelLoader : MonoBehaviour
     public void Initialize(LevelSettings levelSettings, UnitsPool unitsPool, PaintMaterials materials,
                             LevelProgressTracker levelProgressTracker, UIZoneSwitcher uiZoneActivator,
                             LevelObjectsHolder levelDataHolder, BuferIslandsHolder buferIslands,
-                            GameProgressStorage gameProgressStorage, LeanToken currentLevelNumberToken,
+                            UpgradesProvider upgradesProvider, LeanToken currentLevelNumberToken,
                             Transform unitsLookAtPoint, CustomizationSettingsHolder customizationSettings,
                             GameObject mainMenuIslands)
     {
@@ -40,7 +40,7 @@ public class LevelLoader : MonoBehaviour
         _uiZoneActivator = uiZoneActivator;
         _levelDataHolder = levelDataHolder;
         _buferIslands = buferIslands;
-        _gameProgressStorage = gameProgressStorage;
+        _upgradesProvider = upgradesProvider;
         _currentLevelNumberToken = currentLevelNumberToken;
         _unitsLookAtPoint = unitsLookAtPoint;
         _customizationSettings = customizationSettings;
@@ -73,7 +73,7 @@ public class LevelLoader : MonoBehaviour
         _currentIslands = Instantiate(CurrentLevelData.LevelPrefab);
         _currentIslands.Initialize(_unitsPool.Get, _materials, _unitsLookAtPoint, _customizationSettings);
 
-        int extraIslandSize = _gameProgressStorage.GetUpgradeStage(UpgradeType.BuferIslandSize);
+        int extraIslandSize = (int)_upgradesProvider.UpgradeStageValue(UpgradeType.BuferIslandSize);
         int islandSize = CurrentLevelData.BuferIslandSize + extraIslandSize;
         _buferIslands.LoadIsland(islandSize);
 

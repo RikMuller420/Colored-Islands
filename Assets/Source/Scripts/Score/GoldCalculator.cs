@@ -7,11 +7,14 @@ public class GoldCalculator
 
     private LevelProgressTracker _progressTracker;
     private GameProgressStorage _progressStorage;
+    private UpgradesProvider _upgradesProvider;
 
-    public GoldCalculator(LevelProgressTracker progressTracker, GameProgressStorage gameProgressStorage)
+    public GoldCalculator(LevelProgressTracker progressTracker, GameProgressStorage gameProgressStorage,
+                        UpgradesProvider upgradesProvider)
     {
         _progressTracker = progressTracker;
         _progressStorage = gameProgressStorage;
+        _upgradesProvider = upgradesProvider;
     }
 
     public int CalculateGold()
@@ -36,6 +39,6 @@ public class GoldCalculator
             gold += savedProgress.IsMoveTaskDone ? _goldPerReEarnedStar : _goldPerNewStar;
         }
 
-        return gold;
+        return _upgradesProvider.CalculateUpgradedGoldAmount(gold);
     }
 }

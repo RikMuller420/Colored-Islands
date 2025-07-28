@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
-using UI.TabSystem;
 
 public class GameProgressStorage
 {
+    private const string SaveSignatureKey = "TestVersion";
+
     private LevelSettings _levelSettings;
     private UnitsFaceSettings _unitsFaceSettings;
     private UnitsHatSettings _unitsHatSettings;
@@ -47,7 +47,7 @@ public class GameProgressStorage
         ActulizeSavedFaces();
         ActualizeSavedHats();
         ActualizeTrainingFinishedStatus();
-        //ActualizeReceivedLevelRewards();
+        ActualizeReceivedLevelRewards();
 
         _lastLevelId = Levels.Max(level => level.Id);
     }
@@ -223,6 +223,11 @@ public class GameProgressStorage
             try
             {
                 _progress = _progressSerializer.Deserialize(json);
+
+                if (_progress.SaveSignatureKey != SaveSignatureKey)
+                {
+                    CreateNewSave();
+                }
             }
             catch
             {
@@ -234,6 +239,7 @@ public class GameProgressStorage
     private void CreateNewSave()
     {
         _progress = new GameProgress(_unitsHatSettings);
+        _progress.SetSaveSignatureKey(SaveSignatureKey);
 
         foreach (LevelSettingsData level in _levelSettings.Levels)
         {

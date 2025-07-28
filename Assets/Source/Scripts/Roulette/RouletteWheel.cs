@@ -16,17 +16,31 @@ public class RouletteWheel : MonoBehaviour
     private float _slotRotation;
     private float _fullWheelRotation = 360f;
     private float _maxDinishAngleOffset = 10f;
+    private int[] _goldInRewards = new int[8]
+    {
+        100,
+        200,
+        100,
+        200,
+        100,
+        500,
+        100,
+        1000
+    };
     private Quaternion _whellStartLocalRotation;
 
     private GameProgressStorage _progressStorage;
+    private UpgradesProvider _upgradesProvider;
 
     public event System.Action SpinStarted;
     public event System.Action<Slot> SpinFinished;
 
 
-    public void Initialize(GameProgressStorage progressStorage, UnitsFaceSettings faceSettings)
+    public void Initialize(GameProgressStorage progressStorage, UnitsFaceSettings faceSettings,
+                           UpgradesProvider upgradesProvider)
     {
         _progressStorage = progressStorage;
+        _upgradesProvider = upgradesProvider;
         _slotRotation = _fullWheelRotation / _slots.Count;
         _whellStartLocalRotation = _wheel.localRotation;
 
@@ -107,9 +121,11 @@ public class RouletteWheel : MonoBehaviour
             unusedSlots.RemoveAt(0);
         }
 
-        foreach (Slot slot in unusedSlots)
+        for (int i = 0; i< unusedSlots.Count; i++)
         {
-            slot.ActivateGoldIcon(100);
+            int goldAmount = _upgradesProvider.CalculateUpgradedGoldAmount(_goldInRewards[i]);
+
+            unusedSlots[i].ActivateGoldIcon(goldAmount);
         }
     }
 

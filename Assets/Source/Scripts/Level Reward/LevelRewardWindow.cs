@@ -21,6 +21,7 @@ public class LevelRewardWindow : MenuWindow
     private UnitsHatSettings _unitsHatSettings;
     private GameProgressStorage _progressStorage;
     private RewardedAdProvider _rewardedAdProvider;
+    private UpgradesProvider _upgradesProvider;
 
     private LevelRewardData _currentReward;
     private int _adsMultiplier = 2;
@@ -38,11 +39,12 @@ public class LevelRewardWindow : MenuWindow
     }
 
     public void Initialize(UnitsHatSettings unitsHatSettings, GameProgressStorage progressStorage,
-                            RewardedAdProvider rewardedAdProvider)
+                            RewardedAdProvider rewardedAdProvider, UpgradesProvider upgradesProvider)
     {
         _unitsHatSettings = unitsHatSettings;
         _progressStorage = progressStorage;
         _rewardedAdProvider = rewardedAdProvider;
+        _upgradesProvider = upgradesProvider;
     }
 
     public void Open(LevelRewardData levelRewardData)
@@ -57,7 +59,8 @@ public class LevelRewardWindow : MenuWindow
 
         if (levelRewardData.GoldAmount > 0)
         {
-            ActivateGoldIcon(levelRewardData.GoldAmount);
+            int goldAmount = _upgradesProvider.CalculateUpgradedGoldAmount(_currentReward.GoldAmount);
+            ActivateGoldIcon(goldAmount);
         }
 
         if (levelRewardData.BoostAmount > 0)
@@ -94,7 +97,8 @@ public class LevelRewardWindow : MenuWindow
     {
         if (_currentReward.GoldAmount > 0)
         {
-            int newGoldAmount = _progressStorage.GoldAmount + _currentReward.GoldAmount * multiplier;
+            int goldReward = _upgradesProvider.CalculateUpgradedGoldAmount(_currentReward.GoldAmount);
+            int newGoldAmount = _progressStorage.GoldAmount + goldReward;
             _progressStorage.SetGoldAmount(newGoldAmount);
         }
 
@@ -158,4 +162,5 @@ public class LevelRewardWindow : MenuWindow
 
         return hat != null;
     }
+
 }

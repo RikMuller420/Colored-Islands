@@ -22,6 +22,8 @@ public class BoostOfferLine : MonoBehaviour
         _boostAmountProvider.BoostsAmountChanged += OnBoostAmountChanged;
         _walletProvider.GoldAmountChanged += OnGoldAmountChanged;
         _buyButton.onClick.AddListener(BuyBoost);
+
+        OnGoldAmountChanged(_walletProvider.GoldAmount);
     }
 
     private void OnDisable()

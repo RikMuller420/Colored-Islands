@@ -4,7 +4,10 @@ using UnityEngine.UI;
 
 public class Roulette : MonoBehaviour
 {
+    private const string SpinButtonEnableBool = "IsEnable";
+
     [SerializeField] private Button _spinButton;
+    [SerializeField] private Animator _spinButtonAnimator;
     [SerializeField] private RouletteWheel _rouletteWheel;
     [SerializeField] private RouletteRewardWindow _rouletteRewardWindow;
 
@@ -52,6 +55,7 @@ public class Roulette : MonoBehaviour
         _rouletteWheel.Spin();
         _isPrepared = false;
         _spinButton.interactable = false;
+        _spinButtonAnimator.SetBool(SpinButtonEnableBool, false);
 
         int newSpinCount = _progressStorage.AviableSpinCount - 1;
         _progressStorage.SetSpinCount(newSpinCount);
@@ -73,7 +77,6 @@ public class Roulette : MonoBehaviour
     {
         PrepareRoulette();
         _spinButton.interactable = true;
-
-        //Закрыть окно, если спинов больше нет
+        _spinButtonAnimator.SetBool(SpinButtonEnableBool, true);
     }
 }

@@ -16,6 +16,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private UnitsHatSettings _hatSettings;
     [SerializeField] private InAppSettings _inAppSettings;
     [SerializeField] private LevelRewardSettings _levelRewardSettings;
+    [SerializeField] private UpgradeSettings _upgradeSettings;
     [SerializeField] private AudioMixers _audioMixers;
     [SerializeField] private LayerMask _allIslandsAndUnitsLayer;
 
@@ -99,7 +100,7 @@ public class GameInitializer : MonoBehaviour
         _progressStorage = new GameProgressStorage(_levelSettings, _faceSettings, _hatSettings, _levelRewardSettings, saveProvider, _gameProgressSaver);
         var leaderboardScoreCalculator = new LeaderboardScoreCalculator(_progressStorage);
 
-        var upgradesProvider = new UpgradesProvider(_progressStorage);
+        var upgradesProvider = new UpgradesProvider(_progressStorage, _upgradeSettings);
         var boostAmountProvider = new BoostAmountProvider(_progressStorage);
         var removeAdsProvider = new RemoveAdsProvider(_progressStorage);
         var inAppByAddViewProvider = new InAppByAddViewProvider(_progressStorage, _inAppSettings);
@@ -110,7 +111,7 @@ public class GameInitializer : MonoBehaviour
         var interAdOpener = new InterstitialAdOpener(_levelLoader, removeAdsProvider, interAdProvider, rewardedAdProvider);
         var soundVolumeProvider = new SoundVolumeProvider(_audioMixers, _progressStorage);
         var levelEndSoundPlayer = new LevelEndSoundPlayer(_levelProgressTracker, _gameplaySoundPlayer);
-        var angryTracker = new AngryTracker(levelDataHolder, _levelLoader, _levelProgressTracker, _progressStorage);
+        var angryTracker = new AngryTracker(levelDataHolder, _levelLoader, _levelProgressTracker, upgradesProvider);
         var localizationProvider = new LocalizationProvider();
         var customizationSettingsHolder = new CustomizationSettingsHolder(_materials, _progressStorage, _faceSettings, _hatSettings);
         _trainigLoader = new TrainigSequenceLoader(_levelLoader, levelDataHolder, _buferIslands, selectHandler, unitMover,
@@ -131,11 +132,11 @@ public class GameInitializer : MonoBehaviour
 
         _walletView.Initialize(walletProvider);
 
-        _levelProgressTracker.Initialize(_progressStorage, levelDataHolder, unitMover, angryTracker);
+        _levelProgressTracker.Initialize(_progressStorage, levelDataHolder, unitMover, angryTracker, upgradesProvider);
         _finalScoreWindow.Initialize(_progressStorage, _levelProgressTracker, _levelLoader, _levelRewardSettings);
 
         _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _levelProgressTracker,
-                                _uiZoneActivator, levelDataHolder, _buferIslands, _progressStorage,
+                                _uiZoneActivator, levelDataHolder, _buferIslands, upgradesProvider,
                                 _currentLevelNumberToken, _unitsLookAtPoint, customizationSettingsHolder,
                                 _mainMenuIslands);
         _buferIslands.Initialize(_levelSettings, unitMover);
@@ -146,13 +147,13 @@ public class GameInitializer : MonoBehaviour
         _leaderboardWindow.Initialize(authorizationProvider);
         _languageChanger.Initialize(_localizationSettings, _progressStorage, localizationProvider);
         _trainingMenuUpdater.Initialize(_progressStorage);
-        _rouletteWhell.Initialize(_progressStorage, _faceSettings);
+        _rouletteWhell.Initialize(_progressStorage, _faceSettings, upgradesProvider);
         _rouletteRewardWindow.Initialize(_faceSettings, _progressStorage, removeAdsProvider);
         _aviableSpinCountView.Initialize(_progressStorage);
         _rouletteWindowOpener.Initialize(_progressStorage);
         _rouletteWindow.Initialize(_progressStorage);
         _roulette.Initialize(_progressStorage);
-        _levelRewardWindow.Initialize(_hatSettings, _progressStorage, rewardedAdProvider);
+        _levelRewardWindow.Initialize(_hatSettings, _progressStorage, rewardedAdProvider, upgradesProvider);
 
         foreach (LeaderboardTab leaderboardTab in _leaderboardTabs)
         {

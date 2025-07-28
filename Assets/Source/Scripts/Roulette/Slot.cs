@@ -29,6 +29,7 @@ public class Slot : MonoBehaviour
     public void ActivateGoldIcon(int amount)
     {
         DeactivateIcons();
+
         _goldIcon.SetActive(true);
         _goldAmountText.gameObject.SetActive(true);
         _goldAmountText.text = amount.ToString();

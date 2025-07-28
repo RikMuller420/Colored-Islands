@@ -25,6 +25,8 @@ public class UpgradeOfferLine : MonoBehaviour
         _upgradesProvider.Upgraded += OnUpgraded;
         _walletProvider.GoldAmountChanged += UpdateBuyAviability;
         _buyButton.onClick.AddListener(BuyUpgrade);
+
+        UpdateBuyAviability(_walletProvider.GoldAmount);
     }
 
     private void OnDisable()

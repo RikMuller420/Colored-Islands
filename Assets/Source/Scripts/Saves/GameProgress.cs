@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 [Serializable]
 public class GameProgress
 {
+    [JsonProperty] private string _saveSignatureKey;
     [JsonProperty] private List<LevelProgress> _levels;
     [JsonProperty] private int _scoreAmount;
     [JsonProperty] private int _goldAmount;
@@ -32,6 +33,7 @@ public class GameProgress
         SetDefaultValues(unitsHatSettings.NoHatId);
     }
 
+    [JsonIgnore] public string SaveSignatureKey => _saveSignatureKey;
     [JsonIgnore] public IReadOnlyCollection<LevelProgress> Levels => _levels.AsReadOnly();
     [JsonIgnore] public int ScoreAmount => _scoreAmount;
     [JsonIgnore] public int GoldAmount => _goldAmount;
@@ -49,6 +51,11 @@ public class GameProgress
     public int GetEarnedInAppWithAddProgress(InAppType inAppType) => _earnInAppWithAddProgress[inAppType];
     public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _isSoundOnStatus[audioGroup];
     public CustomizationPreferences GetCustomizationPreference(Paint paint) => _customizationPreferences[paint];
+
+    public void SetSaveSignatureKey(string saveSignatureKey)
+    {
+        _saveSignatureKey = saveSignatureKey;
+    }
 
     public void SetTrainingFinished(bool isFinished)
     {

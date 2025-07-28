@@ -2,8 +2,6 @@
 using System.Linq;
 using Lean.Localization;
 using UnityEngine;
-using static Unity.VisualScripting.Icons;
-using static UnityEngine.Rendering.DebugUI;
 
 public class LanguageChanger : MonoBehaviour
 {

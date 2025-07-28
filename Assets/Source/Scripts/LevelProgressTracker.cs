@@ -59,12 +59,12 @@ public class LevelProgressTracker : MonoBehaviour
     }
 
     public void Initialize(GameProgressStorage progressStorage, LevelObjectsHolder levelDataHolder,
-                            UnitMover unitMover, AngryTracker angryTracker)
+                            UnitMover unitMover, AngryTracker angryTracker, UpgradesProvider upgradesProvider)
     {
         _levelDataHolder = levelDataHolder;
         _unitMover = unitMover;
         _angryTracker = angryTracker;
-        _goldCalculator = new GoldCalculator(this, progressStorage);
+        _goldCalculator = new GoldCalculator(this, progressStorage, upgradesProvider);
         _scoreCalculator = new ScoreCalculator(this, levelDataHolder);
         enabled = true;
     }
