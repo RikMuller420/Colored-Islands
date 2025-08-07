@@ -25,7 +25,7 @@ public class TrainigSequenceLevel4 : TrainigSequence
 
     private void OnDestroy()
     {
-        UIOrientationChanger.OrientationChanged -= UpdatePointerPosition;
+        ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
         InGameMenu.MenuOpened -= OnMenuOpened;
         InGameMenu.MenuClosed -= OnMenuClosed;
         _freezeObjectivesBoostButton.TryBoostApplying -= OnTryApplyingBoost;
@@ -40,7 +40,7 @@ public class TrainigSequenceLevel4 : TrainigSequence
     public override void StartTraining()
     {
         BoostButtonActivator.DeactivateAllButtons();
-        UIOrientationChanger.OrientationChanged += UpdatePointerPosition;
+        ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
         InGameMenu.MenuOpened += OnMenuOpened;
         InGameMenu.MenuClosed += OnMenuClosed;
 
@@ -62,6 +62,8 @@ public class TrainigSequenceLevel4 : TrainigSequence
 
         StartCoroutine(OpenAngyBarHintInDelay());
     }
+
+    private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition();
 
     private void OnIslandFinished(BaseIsland island)
     {

@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 
 public class LeaderboardTab : TabContent
@@ -26,11 +25,6 @@ public class LeaderboardTab : TabContent
     private void OnLeaderboardReceived(Leaderboard leaderboardData)
     {
         if (leaderboardData.Key != _leaderboarKey)
-        {
-            return;
-        }
-
-        if (leaderboardData.Players.Count <= 1)
         {
             return;
         }

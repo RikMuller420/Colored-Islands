@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class LeaderboardSynchronizer : MonoBehaviour
 {
-    private float _synchronizeInterval = 10;
+    private float _synchronizeInterval = 15;
     private WaitForSeconds _wait;
 
     private LeaderboardProvider _leaderboardProvider;
@@ -42,17 +42,12 @@ public class LeaderboardSynchronizer : MonoBehaviour
 
     private void SynchronizeLeaderboard(Leaderboard leaderboardData)
     {
-        if (leaderboardData.Players.Count > 1)
-        {
-            return;
-        }
-
         LeaderboardType type = _leaderboardSettings.LeaderboardType(leaderboardData.Key);
-        int _score = _scoreCalculator.GetScore(type);
+        int score = _scoreCalculator.GetScore(type);
 
-        if (_score != leaderboardData.CurrentPlayerScore)
+        if (score != leaderboardData.CurrentPlayerScore)
         {
-            _leaderboardProvider.SaveScore(leaderboardData.Key, _score);
+            _leaderboardProvider.SaveScore(leaderboardData.Key, score);
         }
     }
 }

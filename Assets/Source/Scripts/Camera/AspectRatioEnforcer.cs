@@ -14,6 +14,7 @@ public class AspectRatioEnforcer : MonoBehaviour
     private void Start()
     {
         maxAspect = maxAspectX / maxAspectY;
+        UpdateViewport(new Vector2(Screen.width, Screen.height));
     }
 
     private void OnEnable()
@@ -34,7 +35,7 @@ public class AspectRatioEnforcer : MonoBehaviour
         {
             float scaleWidth = maxAspect / screenAspect;
             float offsetLeft = (1f - scaleWidth) / 2f;
-            float offsetRight = (1f - scaleWidth) / 2f;
+            float offsetRight = 1f - offsetLeft;
 
             FitInAnchors(_mainUi, new Vector2(offsetLeft, offsetRight));
             FitInAnchors(_letterboxLeft, new Vector2(0, offsetLeft));

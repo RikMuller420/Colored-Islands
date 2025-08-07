@@ -16,13 +16,15 @@ public class TrainigSequenceLoader
     private FinalScoreWindow _finalScoreWindow;
     private MenuTrainigSequence _menuTrainigSequence;
     private LevelSettings _levelSettings;
+    private ScreenSizeChangeTracker _screenSizeChangeTracker;
 
     public TrainigSequenceLoader(LevelLoader levelLoader, LevelObjectsHolder levelObjectsHolder,
                                 BuferIslandsHolder buferIslandsHolder, SelectHandler selectHandler,
                                 UnitMover unitMover, Camera mainCamera, BoostButtonActivator bosstButtonActivator,
                                 LevelProgressTracker levelProgressTracker, UIOrientationChanger uIOrientationChanger,
                                 GameProgressStorage progressStorage, MenuWindow inGameMenu, FinalScoreWindow finalScoreWindow,
-                                MenuTrainigSequence menuTrainigSequence, LevelSettings levelSettings)
+                                MenuTrainigSequence menuTrainigSequence, LevelSettings levelSettings, 
+                                ScreenSizeChangeTracker screenSizeChangeTracker)
     {
         _levelLoader = levelLoader;
         _levelObjectsHolder = levelObjectsHolder;
@@ -38,6 +40,7 @@ public class TrainigSequenceLoader
         _finalScoreWindow = finalScoreWindow;
         _menuTrainigSequence = menuTrainigSequence;
         _levelSettings = levelSettings;
+        _screenSizeChangeTracker = screenSizeChangeTracker;
 
         _levelLoader.LevelChanged += OnLevelChanged;
     }
@@ -61,7 +64,7 @@ public class TrainigSequenceLoader
         {
             trainigSequence.Initialize(_levelObjectsHolder, _buferIslandsHolder, _selectHandler, _unitMover, _mainCamera,
                                        _boostButtonActivator, _levelProgressTracker, _uIOrientationChanger, _progressStorage,
-                                       _inGameMenu, _finalScoreWindow, _menuTrainigSequence);
+                                       _inGameMenu, _finalScoreWindow, _menuTrainigSequence, _screenSizeChangeTracker);
             trainigSequence.StartTrainingNextFrame();
         }
     }

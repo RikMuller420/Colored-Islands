@@ -26,7 +26,17 @@ public class InputHandler : MonoBehaviour
 
     private void OnClick(InputAction.CallbackContext context)
     {
-        Vector2 mousePosition = Mouse.current.position.ReadValue();
-        Clicked?.Invoke(mousePosition);
+        Vector2 inputPosition;
+
+        if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed)
+        {
+            inputPosition = Touchscreen.current.primaryTouch.position.ReadValue();
+        }
+        else
+        {
+            inputPosition = Mouse.current.position.ReadValue();
+        }
+
+        Clicked?.Invoke(inputPosition);
     }
 }

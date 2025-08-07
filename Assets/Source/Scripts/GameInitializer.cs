@@ -62,6 +62,8 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private RouletteWindow _rouletteWindow;
     [SerializeField] private Roulette _roulette;
     [SerializeField] private LevelRewardWindow _levelRewardWindow;
+    [SerializeField] private LeaderboardSynchronizer _leaderboardSynchronizer;
+    [SerializeField] private ScreenSizeChangeTracker _screenSizeChangeTracker;
     [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
     [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
     [SerializeField] private List<LoginButton> _loginButtons;
@@ -117,7 +119,7 @@ public class GameInitializer : MonoBehaviour
         _trainigLoader = new TrainigSequenceLoader(_levelLoader, levelDataHolder, _buferIslands, selectHandler, unitMover,
                                                    _camera, _boostButtonActivator, _levelProgressTracker, _uIOrientationChanger,
                                                    _progressStorage, _inGameMenu, _finalScoreWindow, _menuTrainigSequence,
-                                                   _levelSettings);
+                                                   _levelSettings, _screenSizeChangeTracker);
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(_progressStorage, _levelLoader);
@@ -154,6 +156,7 @@ public class GameInitializer : MonoBehaviour
         _rouletteWindow.Initialize(_progressStorage);
         _roulette.Initialize(_progressStorage);
         _levelRewardWindow.Initialize(_hatSettings, _progressStorage, rewardedAdProvider, upgradesProvider);
+        _leaderboardSynchronizer.Initialize(leaderboardProvider, _leaderboardSettings, leaderboardScoreCalculator);
 
         foreach (LeaderboardTab leaderboardTab in _leaderboardTabs)
         {

@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TrainigSequenceLevel1 : TrainigSequence
 {
@@ -15,6 +13,7 @@ public class TrainigSequenceLevel1 : TrainigSequence
     {
         SelectHandler.UnitsSelected -= OnUnitsSelected;
         UnitMover.UnitsMoved -= OnUnitsMoved;
+        ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
     }
 
     public override void StartTraining()
@@ -23,6 +22,7 @@ public class TrainigSequenceLevel1 : TrainigSequence
         BoostButtonActivator.DeactivateAllButtons();
         SelectHandler.UnitsSelected += OnUnitsSelected;
         UnitMover.UnitsMoved += OnUnitsMoved;
+        ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
 
         _currentTrainingMove = _trainingMoves[_currentMoveIndex];
         ActivateTrainingMove();
@@ -39,6 +39,8 @@ public class TrainigSequenceLevel1 : TrainigSequence
                   .SetEase(Ease.InOutQuad))
                   .OnComplete(ActivateTrainingMoveColliders);
     }
+
+    private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition();
 
     private void UpdatePointerPosition()
     {

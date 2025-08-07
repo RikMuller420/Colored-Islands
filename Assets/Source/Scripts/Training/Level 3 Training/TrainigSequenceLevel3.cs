@@ -27,10 +27,10 @@ public class TrainigSequenceLevel3 : TrainigSequence
 
     private void OnDestroy()
     {
-        UIOrientationChanger.OrientationChanged -= UpdatePointerPosition;
         InGameMenu.MenuOpened -= OnMenuOpened;
         InGameMenu.MenuClosed -= OnMenuClosed;
         UnitMover.UnitsMoved -= OnUnitsMoved;
+        ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
         _islandForBoost.IslandFinished -= OnIslandFinished;
         _finishIslandBoostButton.TryBoostApplying -= OnTryApplyingFinishIslandBoost;
     }
@@ -38,10 +38,10 @@ public class TrainigSequenceLevel3 : TrainigSequence
     public override void StartTraining()
     {
         BoostButtonActivator.DeactivateAllButtons();
-        UIOrientationChanger.OrientationChanged += UpdatePointerPosition;
         InGameMenu.MenuOpened += OnMenuOpened;
         InGameMenu.MenuClosed += OnMenuClosed;
         UnitMover.UnitsMoved += OnUnitsMoved;
+        ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
         _islandForBoost.IslandFinished += OnIslandFinished;
 
         BoostButtonActivator.ActivateButtonImmediate(BoostType.GrowBuferIsland);
@@ -50,6 +50,8 @@ public class TrainigSequenceLevel3 : TrainigSequence
         _finishIslandBoostButton = BoostButtonActivator.GetBoostButton(BoostType.FinishIsland);
         _finishIslandBoostButton.TryBoostApplying += OnTryApplyingFinishIslandBoost;
     }
+
+    private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition();
 
     private void OnUnitsMoved(UnitsMoveInfo _)
     {

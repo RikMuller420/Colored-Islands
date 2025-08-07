@@ -21,21 +21,24 @@ public class TrainigSequenceLevel2 : TrainigSequence
         InGameMenu.MenuOpened -= OnMenuOpened;
         InGameMenu.MenuClosed -= OnMenuClosed;
         _boostButton.TryBoostApplying -= OnTryApplyingBoost;
+        ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
     }
 
     public override void StartTraining()
     {
         BoostButtonActivator.DeactivateAllButtons();
         DeactivateColliders();
-        UIOrientationChanger.OrientationChanged += UpdatePointerPosition;
         InGameMenu.MenuOpened += OnMenuOpened;
         InGameMenu.MenuClosed += OnMenuClosed;
+        ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
         _boostButton = BoostButtonActivator.GetBoostButton(BoostType.GrowBuferIsland);
         _boostButton.TryBoostApplying += OnTryApplyingBoost;
         BoostButtonActivator.ActivateButtonImmediate(BoostType.GrowBuferIsland);
 
         StartCoroutine(StartFirstTrainingMove());
     }
+
+    private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition();
 
     private void OnMenuOpened()
     {

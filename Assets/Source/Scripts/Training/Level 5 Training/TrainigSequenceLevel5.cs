@@ -26,7 +26,7 @@ public class TrainigSequenceLevel5 : TrainigSequence
 
     private void OnDestroy()
     {
-        UIOrientationChanger.OrientationChanged -= UpdatePointerPosition;
+        ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
         InGameMenu.MenuOpened -= OnMenuOpened;
         InGameMenu.MenuClosed -= OnMenuClosed;
         UnitMover.UnitsMoved -= OnUnitsMoved;
@@ -37,7 +37,7 @@ public class TrainigSequenceLevel5 : TrainigSequence
     public override void StartTraining()
     {
         BoostButtonActivator.DeactivateAllButtons();
-        UIOrientationChanger.OrientationChanged += UpdatePointerPosition;
+        ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
         InGameMenu.MenuOpened += OnMenuOpened;
         InGameMenu.MenuClosed += OnMenuClosed;
         UnitMover.UnitsMoved += OnUnitsMoved;
@@ -56,6 +56,8 @@ public class TrainigSequenceLevel5 : TrainigSequence
         FinalScoreWindow.ScoreShowed += OnFinalScoreShowed;
         _lastStepButton.onClick.AddListener(GoToMenuTraining);
     }
+
+    private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition();
 
     private void OnUnitsMoved(UnitsMoveInfo _)
     {
