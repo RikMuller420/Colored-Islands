@@ -7,10 +7,12 @@ using UnityEngine;
 public class BaseIsland : MonoBehaviour, ISelectable
 {
     [SerializeField] private Collider _collider;
+    [SerializeField] private MeshRenderer _meshRenderer;
 
     public event Action UnitAdded;
 
     public Collider Collider => _collider;
+    public MeshRenderer MeshRenderer => _meshRenderer;
     public int FreePointsCount => Points.Count(point => point.IsFree);
     public IReadOnlyCollection<IslandPoint> Points { get; private set; }
 
@@ -84,6 +86,7 @@ public class BaseIsland : MonoBehaviour, ISelectable
 
     protected virtual void OnValidate()
     {
+        _meshRenderer = GetComponent<MeshRenderer>();
         _collider = GetComponent<Collider>();
     }
 }

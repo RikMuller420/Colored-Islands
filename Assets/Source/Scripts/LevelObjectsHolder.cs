@@ -3,14 +3,18 @@ using UnityEngine;
 
 public class LevelObjectsHolder
 {
-    public Transform IslandsParent { get; private set; }
-    public IEnumerable<Island> Islands { get; private set; } = new List<Island>();
+    private Level _level;
+
+    public Transform IslandsParent => _level?.transform;
+    public IEnumerable<Island> Islands => _level?.Islands;
+    public CameraTargets VerticalCameraTargets => _level?.CameraTargetsVertical;
+    public CameraTargets HorizontalCameraTargets => _level?.CameraTargetsHorizontal;
+    public MeshRenderer LevelBounds => _level?.LevelBounds;
     public LevelSettingsData LevelSettings { get; private set; }
 
-    public void SetLevelData(Transform islandsParent, IReadOnlyCollection<Island> islands, LevelSettingsData levelData)
+    public void SetLevelData(Level level, LevelSettingsData levelData)
     {
-        IslandsParent = islandsParent;
-        Islands = new List<Island>(islands).AsReadOnly();
+        _level = level;
         LevelSettings = levelData;
     }
 }

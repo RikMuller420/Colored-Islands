@@ -6,8 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(MeshRenderer))]
 public class Island : BaseIsland
 {
-    [SerializeField] private MeshRenderer _meshRenderer;
-
     private IslandRenderer _renderer;
     private IReadOnlyCollection<SpriteRenderer> _points;
 
@@ -31,7 +29,7 @@ public class Island : BaseIsland
         base.Initialize(placementPoints);
 
         _points = Points.Select(point => point.Point).ToList().AsReadOnly();
-        _renderer = new IslandRenderer(_meshRenderer, paintMaterials);
+        _renderer = new IslandRenderer(MeshRenderer, paintMaterials);
         SetPaint(paint);
     }
 
@@ -66,11 +64,5 @@ public class Island : BaseIsland
         {
             point.OccupiedUnit.Deactivate();
         }
-    }
-
-    private new void OnValidate()
-    {
-        _meshRenderer = GetComponent<MeshRenderer>();
-        base.OnValidate();
     }
 }

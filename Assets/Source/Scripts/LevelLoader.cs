@@ -16,7 +16,7 @@ public class LevelLoader : MonoBehaviour
     private Transform _unitsLookAtPoint;
     private CustomizationSettingsHolder _customizationSettings;
 
-    private IslandsGroupInitializer _currentIslands;
+    private Level _currentLevel;
     private BuferIslandsHolder _buferIslands;
     private GameObject _mainMenuIslands;
 
@@ -70,14 +70,14 @@ public class LevelLoader : MonoBehaviour
         _mainMenuIslands.SetActive(false);
         CurrentLevelData = _levelSettings.Levels.FirstOrDefault(level => level.Id == levelId);
 
-        _currentIslands = Instantiate(CurrentLevelData.LevelPrefab);
-        _currentIslands.Initialize(_unitsPool.Get, _materials, _unitsLookAtPoint, _customizationSettings);
+        _currentLevel = Instantiate(CurrentLevelData.LevelPrefab);
+        _currentLevel.Initialize(_unitsPool.Get, _materials, _unitsLookAtPoint, _customizationSettings);
 
         int extraIslandSize = (int)_upgradesProvider.UpgradeStageValue(UpgradeType.BuferIslandSize);
         int islandSize = CurrentLevelData.BuferIslandSize + extraIslandSize;
         _buferIslands.LoadIsland(islandSize);
 
-        _levelDataHolder.SetLevelData(_currentIslands.transform, _currentIslands.Islands, CurrentLevelData);
+        _levelDataHolder.SetLevelData(_currentLevel, CurrentLevelData);
         _levelProgressTracker.StartTracking();
 
         LevelChanged?.Invoke();
@@ -90,14 +90,14 @@ public class LevelLoader : MonoBehaviour
 
     public void UnloadCurrentLevel()
     {
-        if (_currentIslands != null)
+        if (_currentLevel != null)
         {
-            DestroyImmediate(_currentIslands.gameObject);
+            DestroyImmediate(_currentLevel.gameObject);
         }
 
         _buferIslands.DeactivateCurrentIsland();
         _unitsPool.ReleaseActiveObjects();
 
-        _currentIslands = null;
+        _currentLevel = null;
     }
 }

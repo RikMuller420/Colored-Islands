@@ -100,9 +100,12 @@ public class LevelProgressTracker : MonoBehaviour
 
     public void StopTracking()
     {
-        foreach (Island island in _levelDataHolder.Islands)
+        if (_levelDataHolder.Islands != null)
         {
-            island.IslandFinished -= OnIslandFinished;
+            foreach (Island island in _levelDataHolder.Islands)
+            {
+                island.IslandFinished -= OnIslandFinished;
+            }
         }
 
         _isTracking = false;

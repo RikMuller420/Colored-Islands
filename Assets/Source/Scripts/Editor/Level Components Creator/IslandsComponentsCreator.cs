@@ -4,6 +4,19 @@ using UnityEngine;
 
 public class IslandsComponentsCreator
 {
+    private Vector3 _verticalLookAtPosition = new Vector3(0f, 0f, -2f);
+    private Vector3 _verticalFollowPosition = new Vector3(0, 8.5f, -6.5f);
+
+    private Vector3 _horizontalLookAtPosition = new Vector3(0f, 0f, -1f);
+    private Vector3 _horizontalFollowPosition = new Vector3(0, 8.5f, -4.5f);
+
+    private Mesh _cubeMesh;
+
+    public IslandsComponentsCreator()
+    {
+        _cubeMesh = Resources.GetBuiltinResource<Mesh>("Cube.fbx");
+    }
+
     public IReadOnlyCollection<IslandInitializer> CreateRequireComponents(Transform islandsParent)
     {
         List<IslandInitializer> islandInitializers = new List<IslandInitializer>();
@@ -41,13 +54,69 @@ public class IslandsComponentsCreator
             }
         }
 
-        if (islandsParent.TryGetComponent<IslandsGroupInitializer>(out _) == false)
+        if (islandsParent.TryGetComponent<Level>(out _) == false)
         {
-            islandsParent.gameObject.AddComponent<IslandsGroupInitializer>();
+            islandsParent.gameObject.AddComponent<Level>();
         }
 
-        islandsParent.GetComponent<IslandsGroupInitializer>().SetIslands(islandInitializers);
+        Level levelInitializer = islandsParent.GetComponent<Level>();
+        levelInitializer.SetIslands(islandInitializers);
+        TryCreateLevelBounds(levelInitializer);
+        TryCeateCameraTarget(levelInitializer);
 
         return islandInitializers.AsReadOnly();
+    }
+
+    public void TryCreateLevelBounds(Level levelInitializer)
+    {
+        if (levelInitializer.LevelBounds != null)
+        {
+            return;
+        }
+
+        GameObject boundObject = new GameObject("Bounds");
+        boundObject.transform.localPosition = new Vector3(0f, 0f, -1f);
+        boundObject.transform.localScale = new Vector3(5f, 0.5f, 10f);
+
+        MeshRenderer meshRenderer = boundObject.AddComponent<MeshRenderer>();
+        meshRenderer.enabled = false;
+
+        MeshFilter meshFilter = boundObject.AddComponent<MeshFilter>();
+        meshFilter.sharedMesh = _cubeMesh;
+
+        levelInitializer.SetLevelBounds(meshRenderer);
+    }
+
+    private void TryCeateCameraTarget(Level levelInitializer)
+    {
+        if (levelInitializer.CameraTargetsHorizontal != null && levelInitializer.CameraTargetsVertical != null)
+        {
+            return;
+        }
+
+        GameObject targetsHolderObject = new GameObject("Camera Targets");
+        Transform targetsParent = targetsHolderObject.transform;
+        targetsParent.parent = levelInitializer.transform;
+
+
+        Transform lookAtVertical = CrateCameraTrget("Look At Point Vertical", _verticalLookAtPosition, targetsParent);
+        Transform followTargetVertical = CrateCameraTrget("Follow Target Vertical", _verticalFollowPosition, targetsParent);
+        CameraTargets verticalCameraTargets = new CameraTargets(lookAtVertical, followTargetVertical);
+
+        Transform lookAtHorizontal = CrateCameraTrget("Look At Point Horizontal", _horizontalLookAtPosition, targetsParent);
+        Transform followTargetHorizontal = CrateCameraTrget( "Follow Target Horizontal", _horizontalFollowPosition, targetsParent);
+        CameraTargets horizontalCameraTargets = new CameraTargets(lookAtVertical, followTargetVertical);
+
+        levelInitializer.SetCameraTargets(verticalCameraTargets, horizontalCameraTargets);
+    }
+
+    private Transform CrateCameraTrget(string name, Vector3 localPosition, Transform parent)
+    {
+        GameObject lookAtPoint = new GameObject(name);
+        Transform targetTransform = lookAtPoint.transform;
+        targetTransform.parent = parent;
+        targetTransform.localPosition = localPosition;
+
+        return targetTransform;
     }
 }
