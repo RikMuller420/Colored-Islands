@@ -144,8 +144,6 @@ public class CameraPositionChanger : MonoBehaviour
         {
             float cameraSqrOffset = (_cameraFollowTarget.position - _mainCamera.transform.position).sqrMagnitude;
 
-            Debug.Log(cameraSqrOffset);
-
             if (cameraSqrOffset < _cameraSqrTreshold)
             {
                 break;

@@ -8,6 +8,6 @@ public class AddMultipliedRewardWindow : MenuWindow
     {
         _levelRewardView.SetIcons(levelRewardData, adsMultiplier);
 
-        base.OpenUnclosableWindow();
+        base.Open();
     }
 }

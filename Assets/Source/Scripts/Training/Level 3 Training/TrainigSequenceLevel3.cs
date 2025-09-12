@@ -33,6 +33,7 @@ public class TrainigSequenceLevel3 : TrainigSequence
         ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
         _islandForBoost.IslandFinished -= OnIslandFinished;
         _finishIslandBoostButton.TryBoostApplying -= OnTryApplyingFinishIslandBoost;
+        ResetLevelState();
     }
 
     public override void StartTraining()

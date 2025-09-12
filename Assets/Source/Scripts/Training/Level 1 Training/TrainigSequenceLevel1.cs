@@ -14,6 +14,7 @@ public class TrainigSequenceLevel1 : TrainigSequence
         SelectHandler.UnitsSelected -= OnUnitsSelected;
         UnitMover.UnitsMoved -= OnUnitsMoved;
         ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
+        ResetLevelState();
     }
 
     public override void StartTraining()

@@ -32,6 +32,7 @@ public class TrainigSequenceLevel5 : TrainigSequence
         UnitMover.UnitsMoved -= OnUnitsMoved;
         _reducePaintsBoostButton.TryBoostApplying -= OnTryApplyingReducePaintsBoost;
         FinalScoreWindow.ScoreShowed -= OnFinalScoreShowed;
+        ResetLevelState();
     }
 
     public override void StartTraining()

@@ -22,6 +22,7 @@ public class TrainigSequenceLevel2 : TrainigSequence
         InGameMenu.MenuClosed -= OnMenuClosed;
         _boostButton.TryBoostApplying -= OnTryApplyingBoost;
         ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
+        ResetLevelState();
     }
 
     public override void StartTraining()

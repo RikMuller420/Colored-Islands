@@ -35,6 +35,8 @@ public class TrainigSequenceLevel4 : TrainigSequence
         {
             island.IslandFinished -= OnIslandFinished;
         }
+
+        ResetLevelState();
     }
 
     public override void StartTraining()

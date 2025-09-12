@@ -27,11 +27,6 @@ public abstract class TrainigSequence : MonoBehaviour
 
     private WaitForEndOfFrame _wait;
 
-    private void OnDestroy()
-    {
-        BoostButtonActivator.ActivateAllButtons();
-        ActivateAllColliders();
-    }
 
     public void Initialize(LevelObjectsHolder levelObjectsHolder, BuferIslandsHolder buferIslandsHolder,
                            SelectHandler selectHandler, UnitMover unitMover, Camera mainCamera,
@@ -63,6 +58,11 @@ public abstract class TrainigSequence : MonoBehaviour
 
     public abstract void StartTraining();
 
+    protected void ResetLevelState()
+    {
+        BoostButtonActivator.ActivateAllButtons();
+        ActivateAllColliders();
+    }
 
     protected void ActivatePointer()
     {
