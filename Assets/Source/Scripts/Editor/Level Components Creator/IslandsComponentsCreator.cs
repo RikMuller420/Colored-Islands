@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class IslandsComponentsCreator
 {
+    private const string CameraTargtesObjectName = "Camera Targets";
+    private const string BoundsObjectName = "Bounds";
+
     private Vector3 _verticalLookAtPosition = new Vector3(0f, 0f, -2f);
     private Vector3 _verticalFollowPosition = new Vector3(0, 8.5f, -6.5f);
 
@@ -12,9 +15,9 @@ public class IslandsComponentsCreator
 
     private Mesh _cubeMesh;
 
-    public IslandsComponentsCreator()
+    public IslandsComponentsCreator(Mesh cubeMesh)
     {
-        _cubeMesh = Resources.GetBuiltinResource<Mesh>("Cube.fbx");
+        _cubeMesh = cubeMesh;
     }
 
     public IReadOnlyCollection<IslandInitializer> CreateRequireComponents(Transform islandsParent)
@@ -23,7 +26,8 @@ public class IslandsComponentsCreator
 
         foreach (Transform child in islandsParent)
         {
-            if (child.TryGetComponent<MeshRenderer>(out _) == false)
+            if (child.TryGetComponent<MeshRenderer>(out _) == false ||
+                child.name == BoundsObjectName || child.name == CameraTargtesObjectName)
             {
                 continue;
             }
@@ -74,7 +78,7 @@ public class IslandsComponentsCreator
             return;
         }
 
-        GameObject boundObject = new GameObject("Bounds");
+        GameObject boundObject = new GameObject(BoundsObjectName);
         boundObject.transform.localPosition = new Vector3(0f, 0f, -1f);
         boundObject.transform.localScale = new Vector3(5f, 0.5f, 10f);
 
@@ -94,7 +98,7 @@ public class IslandsComponentsCreator
             return;
         }
 
-        GameObject targetsHolderObject = new GameObject("Camera Targets");
+        GameObject targetsHolderObject = new GameObject(CameraTargtesObjectName);
         Transform targetsParent = targetsHolderObject.transform;
         targetsParent.parent = levelInitializer.transform;
 

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 
 public class DevelopLevelCreator : MonoBehaviour
@@ -32,7 +33,9 @@ public class DevelopLevelCreator : MonoBehaviour
         Transform levelHolderTransform = levelHolder.transform;
         levelHolderTransform.parent = transform;
 
-        Level level = Instantiate(levelSettings.LevelPrefab, levelHolderTransform);
+        Object levelPrefab = levelSettings.LevelPrefab.gameObject;
+        GameObject levelObject = (GameObject)PrefabUtility.InstantiatePrefab(levelPrefab, levelHolderTransform);
+        Level level = levelObject.GetComponent<Level>();
 
         GameObject levelNumberObject = new GameObject("Level Number");
         levelNumberObject.transform.parent = levelHolderTransform;

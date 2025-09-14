@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using UnityEditor.PackageManager.UI;
 
 public class LevelComponentsCreator : EditorWindow
 {
@@ -8,11 +9,13 @@ public class LevelComponentsCreator : EditorWindow
 
     [SerializeField] private Unit _unitPrefab;
     [SerializeField] private PaintMaterials _paintMaterials;
+    [SerializeField] private Mesh _cubeMesh;
+
     private Transform _islandsParent;
 
     private IReadOnlyCollection<IslandInitializer> _islands = new List<IslandInitializer>();
 
-    private IslandsComponentsCreator _islandsComponentsCreator = new IslandsComponentsCreator();
+    private IslandsComponentsCreator _islandsComponentsCreator;
     private UnitsOnIslandDistributor _unitsOnIslandDistributor = new UnitsOnIslandDistributor();
     private UnitsVisualizator _unitsVisualizator = new UnitsVisualizator();
     private IslandSettingsInGUILayout _islandSettingsInGUILayout = new IslandSettingsInGUILayout();
@@ -24,13 +27,15 @@ public class LevelComponentsCreator : EditorWindow
     [MenuItem("Window/" + Title)]
     public static void ShowWindow()
     {
-        GetWindow<LevelComponentsCreator>(Title);
+        EditorWindow window = GetWindow<LevelComponentsCreator>(Title);
     }
 
     private void OnEnable()
     {
         _unitPrefab = AssetDatabase.LoadAssetAtPath<Unit>("Assets/Source/Prefabs/Unit.prefab");
         _paintMaterials = AssetDatabase.LoadAssetAtPath<PaintMaterials>("Assets/Source/Prefabs/PaintMaterials.asset");
+        _cubeMesh = Resources.GetBuiltinResource<Mesh>("Cube.fbx");
+        _islandsComponentsCreator = new IslandsComponentsCreator(_cubeMesh);
     }
 
     private void OnGUI()
