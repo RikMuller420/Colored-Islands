@@ -64,6 +64,8 @@ public class LevelRewardWindow : MenuWindow
 
     private void ReceiveRewardWithAdd()
     {
+        Debug.Log("ReceiveRewardWithAdd: " + (_currentReward == null));
+
         _levelRewardSaver.AddReward(_currentReward, _adsMultiplier);
         Close();
         _addMultipliedRewardWindow.Open(_currentReward, _adsMultiplier);
