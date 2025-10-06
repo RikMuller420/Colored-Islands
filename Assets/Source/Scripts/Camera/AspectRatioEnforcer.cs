@@ -7,13 +7,13 @@ public class AspectRatioEnforcer : MonoBehaviour
     [SerializeField] private RectTransform _letterboxLeft;
     [SerializeField] private RectTransform _letterboxRight;
 
-    private float maxAspectX = 16f;
-    private float maxAspectY = 9f;
-    private float maxAspect;
+    private float _maxAspectX = 20f;
+    private float _maxAspectY = 9f;
+    private float _maxAspect;
 
     private void Start()
     {
-        maxAspect = maxAspectX / maxAspectY;
+        _maxAspect = _maxAspectX / _maxAspectY;
         UpdateViewport(new Vector2(Screen.width, Screen.height));
     }
 
@@ -31,9 +31,9 @@ public class AspectRatioEnforcer : MonoBehaviour
     {
         float screenAspect = screenSize.x / screenSize.y;
 
-        if (screenAspect > maxAspect)
+        if (screenAspect > _maxAspect)
         {
-            float scaleWidth = maxAspect / screenAspect;
+            float scaleWidth = _maxAspect / screenAspect;
             float offsetLeft = (1f - scaleWidth) / 2f;
             float offsetRight = 1f - offsetLeft;
 
