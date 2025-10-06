@@ -21,7 +21,7 @@ public class CameraPositionChanger : MonoBehaviour
     private ScreenSizeChangeTracker _screenSizeChangeTracker;
     private UIOrientationChanger _uIOrientationChanger;
     private float _refreshRate = 0.1f;
-    private float _foVUpdateDelay = 1f;
+    private float _foVUpdateDelay = 0.2f;
     private Coroutine _updateFoVInDelayCorutine;
 
     private WaitForSeconds _waitUpdatePosition;
