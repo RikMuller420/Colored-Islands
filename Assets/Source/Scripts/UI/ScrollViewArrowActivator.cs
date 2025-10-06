@@ -7,6 +7,8 @@ public class ScrollViewArrowActivator : MonoBehaviour
     [SerializeField] private Scrollbar _scrollbar;
     [SerializeField] private GameObject _topArrow;
     [SerializeField] private GameObject _botArrow;
+    [SerializeField] private CanvasGroup _shadowTop;
+    [SerializeField] private CanvasGroup _shadowBot;
     [SerializeField] private RectTransform _content;
     [SerializeField] private RectTransform _window;
 
@@ -35,7 +37,10 @@ public class ScrollViewArrowActivator : MonoBehaviour
 
     private void UpdateArrowActivivty(float scrollValue)
     {
-        if (_isUpdating) return; // Предотвращаем множественные обновления
+        if (_isUpdating)
+        {
+            return;
+        }
 
         StartCoroutine(UpdateArrowActivityCoroutine(scrollValue));
     }
@@ -43,17 +48,24 @@ public class ScrollViewArrowActivator : MonoBehaviour
     private IEnumerator UpdateArrowActivityCoroutine(float scrollValue)
     {
         _isUpdating = true;
+
         yield return new WaitForEndOfFrame(); // Ждем конца кадра, чтобы избежать конфликта с UI rebuild
 
         if (_content.rect.height < _window.rect.height)
         {
             _topArrow.SetActive(false);
             _botArrow.SetActive(false);
+
+            _shadowTop.alpha = 0f;
+            _shadowBot.alpha = 0f;
         }
         else
         {
             _topArrow.SetActive(scrollValue < _topArrowValue);
             _botArrow.SetActive(scrollValue > _botArrowValue);
+
+            _shadowTop.alpha = Mathf.Lerp(1f, 0f, (scrollValue - _topArrowValue) / _thresholder);
+            _shadowBot.alpha = Mathf.Lerp(0f, 1f, (scrollValue - _botArrowValue) / _thresholder);
         }
 
         _isUpdating = false;
