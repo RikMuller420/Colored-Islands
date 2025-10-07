@@ -316,8 +316,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pointer: {fileID: 523874172130834784}
   _pointerImage: {fileID: 5742644028562093261}
-  _verticalOrientationPointerPosition: {fileID: 4293767129325002071}
-  _horizontalOrientationPointerPosition: {fileID: 4390160306997123493}
   _angyBarBubble: {fileID: 7138251134286400701}
   _angryBarDescription: {fileID: 7224547078915884641}
   _islands:
@@ -325,41 +323,6 @@ MonoBehaviour:
   - {fileID: 7629191946689121898}
   - {fileID: 215402565981547305}
   - {fileID: 1162790624071249850}
---- !u!1 &4119086436173905584
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4390160306997123493}
-  m_Layer: 0
-  m_Name: Horizontal Orientation Pointer Position
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &4390160306997123493
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4119086436173905584}
-  m_LocalRotation: {x: -0, y: -0, z: 0.27076843, w: 0.9626446}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 7927869333285283322}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 31.42}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -170.8, y: 472.5}
-  m_SizeDelta: {x: 165, y: 165}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4398554171721285136
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,41 +509,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1 &6350460333441454892
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4293767129325002071}
-  m_Layer: 0
-  m_Name: Vertical Orientation Pointer Position
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &4293767129325002071
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6350460333441454892}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7927869333285283322}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 150, y: 233}
-  m_SizeDelta: {x: 165, y: 165}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6607278051547453056
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,12 +688,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8811090450643850869, guid: 2fa83917fe3f64f49b2400aa3e4a891a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8213752727545441650}
-    - targetCorrespondingSourceObject: {fileID: 8811090450643850869, guid: 2fa83917fe3f64f49b2400aa3e4a891a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4293767129325002071}
-    - targetCorrespondingSourceObject: {fileID: 8811090450643850869, guid: 2fa83917fe3f64f49b2400aa3e4a891a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4390160306997123493}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2fa83917fe3f64f49b2400aa3e4a891a, type: 3}
 --- !u!224 &7927869333285283322 stripped

@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class TrainigSequenceLevel5 : TrainigSequence
 {
-    [SerializeField] private RectTransform _verticalOrientationPointerPosition;
-    [SerializeField] private RectTransform _horizontalOrientationPointerPosition;
     [SerializeField] private CanvasGroup _finishTrainingPanel;
     [SerializeField] private Button _lastStepButton;
     [SerializeField] private Image _fullDimImage;
@@ -18,6 +16,7 @@ public class TrainigSequenceLevel5 : TrainigSequence
     private int _movesBeforeTraining = 2;
     private int _performedMoves = 0;
     private bool _isTrainingStarted = false;
+    private RectTransform _buttonRectTransform;
 
     private void Awake()
     {
@@ -53,6 +52,7 @@ public class TrainigSequenceLevel5 : TrainigSequence
 
         _reducePaintsBoostButton = BoostButtonActivator.GetBoostButton(BoostType.ReducePaints);
         _reducePaintsBoostButton.TryBoostApplying += OnTryApplyingReducePaintsBoost;
+        _buttonRectTransform = BoostButtonActivator.GetBoostButtonRectTransform(BoostType.ReducePaints);
 
         FinalScoreWindow.ScoreShowed += OnFinalScoreShowed;
         _lastStepButton.onClick.AddListener(GoToMenuTraining);
@@ -114,12 +114,8 @@ public class TrainigSequenceLevel5 : TrainigSequence
 
     private void UpdatePointerPosition()
     {
-        RectTransform targetPosition = UIOrientationChanger.IsVertical
-            ? _verticalOrientationPointerPosition
-            : _horizontalOrientationPointerPosition;
-
-        Pointer.position = targetPosition.position;
-        Pointer.localEulerAngles = targetPosition.localEulerAngles;
+        Pointer.position = _buttonRectTransform.position;
+        Pointer.localEulerAngles = _buttonRectTransform.localEulerAngles;
     }
 
     private void OnFinalScoreShowed()

@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class TrainigSequenceLevel4 : TrainigSequence
 {
-    [SerializeField] private RectTransform _verticalOrientationPointerPosition;
-    [SerializeField] private RectTransform _horizontalOrientationPointerPosition;
     [SerializeField] private CanvasGroup _angyBarBubble;
     [SerializeField] private TextMeshProUGUI _angryBarDescription;
     [SerializeField] private List<Island> _islands;
@@ -22,6 +20,7 @@ public class TrainigSequenceLevel4 : TrainigSequence
     private bool _isTrainingStarted = false;
     private bool _isTrainingDone = false;
     private List<BaseIsland> _finishedIslands = new();
+    private RectTransform _buttonRectTransform;
 
     private void OnDestroy()
     {
@@ -53,6 +52,7 @@ public class TrainigSequenceLevel4 : TrainigSequence
 
         _freezeObjectivesBoostButton = BoostButtonActivator.GetBoostButton(BoostType.FreezeObjectives);
         _freezeObjectivesBoostButton.TryBoostApplying += OnTryApplyingBoost;
+        _buttonRectTransform = BoostButtonActivator.GetBoostButtonRectTransform(BoostType.FreezeObjectives);
 
         LevelProgressTracker.PauseTracking();
         LevelProgressTracker.AngryChanged += OnAngryValueChanged;
@@ -147,11 +147,7 @@ public class TrainigSequenceLevel4 : TrainigSequence
 
     private void UpdatePointerPosition()
     {
-        RectTransform targetPosition = UIOrientationChanger.IsVertical
-            ? _verticalOrientationPointerPosition
-            : _horizontalOrientationPointerPosition;
-
-        Pointer.position = targetPosition.position;
-        Pointer.localEulerAngles = targetPosition.localEulerAngles;
+        Pointer.position = _buttonRectTransform.position;
+        Pointer.localEulerAngles = _buttonRectTransform.localEulerAngles;
     }
 }

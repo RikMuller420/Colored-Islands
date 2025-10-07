@@ -6,9 +6,6 @@ using UnityEngine.UI;
 public class TrainigSequenceLevel3 : TrainigSequence
 {
     [SerializeField] private Island _islandForBoost;
-    [SerializeField] private RectTransform _verticalOrientationPointerPosition;
-    [SerializeField] private RectTransform _horizontalOrientationPointerPosition;
-
     [SerializeField] private RectTransform _worldSpacePointer;
     [SerializeField] private Image _worldSpacePointerImage;
 
@@ -19,6 +16,7 @@ public class TrainigSequenceLevel3 : TrainigSequence
     private int _movesBeforeTraining = 2;
     private int _performedMoves = 0;
     private bool _isTrainingStarted = false;
+    private RectTransform _buttonRectTransform;
 
     private void Awake()
     {
@@ -50,6 +48,7 @@ public class TrainigSequenceLevel3 : TrainigSequence
 
         _finishIslandBoostButton = BoostButtonActivator.GetBoostButton(BoostType.FinishIsland);
         _finishIslandBoostButton.TryBoostApplying += OnTryApplyingFinishIslandBoost;
+        _buttonRectTransform = BoostButtonActivator.GetBoostButtonRectTransform(BoostType.FinishIsland);
     }
 
     private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition();
@@ -125,11 +124,7 @@ public class TrainigSequenceLevel3 : TrainigSequence
 
     private void UpdatePointerPosition()
     {
-        RectTransform targetPosition = UIOrientationChanger.IsVertical
-            ? _verticalOrientationPointerPosition
-            : _horizontalOrientationPointerPosition;
-
-        Pointer.position = targetPosition.position;
-        Pointer.localEulerAngles = targetPosition.localEulerAngles;
+        Pointer.position = _buttonRectTransform.position;
+        Pointer.localEulerAngles = _buttonRectTransform.localEulerAngles;
     }
 }

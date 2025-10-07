@@ -12,6 +12,9 @@ public class BoostButtonActivator : MonoBehaviour
     public BoostButton GetBoostButton(BoostType boostType) =>
         _boostButtons.Find(button => button.Type == boostType).ButtonScript;
 
+    public RectTransform GetBoostButtonRectTransform(BoostType boostType) =>
+         _boostButtons.Find(button => button.Type == boostType).RectTransform;
+
     public void DeactivateAllButtons()
     {
         foreach (BoostButtonContent button in _boostButtons)

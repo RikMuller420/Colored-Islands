@@ -3,13 +3,11 @@ using UnityEngine;
 
 public class TrainigSequenceLevel2 : TrainigSequence
 {
-    [SerializeField] private RectTransform _verticalOrientationPointerPosition;
-    [SerializeField] private RectTransform _horizontalOrientationPointerPosition;
-
     private float _startDelay = 1f;
     private WaitForSeconds _startWait;
     private BoostButton _boostButton;
     private bool _isTrainingDone = false;
+    private RectTransform _buttonRectTransform;
 
     private void Awake()
     {
@@ -35,6 +33,7 @@ public class TrainigSequenceLevel2 : TrainigSequence
         _boostButton = BoostButtonActivator.GetBoostButton(BoostType.GrowBuferIsland);
         _boostButton.TryBoostApplying += OnTryApplyingBoost;
         BoostButtonActivator.ActivateButtonImmediate(BoostType.GrowBuferIsland);
+        _buttonRectTransform = BoostButtonActivator.GetBoostButtonRectTransform(BoostType.GrowBuferIsland);
 
         StartCoroutine(StartFirstTrainingMove());
     }
@@ -67,12 +66,8 @@ public class TrainigSequenceLevel2 : TrainigSequence
 
     private void UpdatePointerPosition()
     {
-        RectTransform targetPosition = UIOrientationChanger.IsVertical
-            ? _verticalOrientationPointerPosition
-            : _horizontalOrientationPointerPosition;
-
-        Pointer.position = targetPosition.position;
-        Pointer.localEulerAngles = targetPosition.localEulerAngles;
+        Pointer.position = _buttonRectTransform.position;
+        Pointer.localEulerAngles = _buttonRectTransform.localEulerAngles;
     }
 
     private void OnTryApplyingBoost()
