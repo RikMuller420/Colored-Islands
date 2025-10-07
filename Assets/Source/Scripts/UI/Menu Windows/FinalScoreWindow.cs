@@ -13,6 +13,7 @@ public class FinalScoreWindow : MenuWindow
     [SerializeField] private ZoneUi _boostButtonZone;
     [SerializeField] private GameObject _confettiParticle;
     [SerializeField] private LevelRewardWindow _levelRewardWindow;
+    [SerializeField] private ZoneUi _angryBar;
 
     private GameProgressStorage _progressStorage;
     private LevelProgressTracker _progressTracker;
@@ -86,6 +87,7 @@ public class FinalScoreWindow : MenuWindow
         _confettiParticle.SetActive(true);
         PreparePanel();
         OpenUnclosableWindow();
+        _angryBar.Close();
         StartCoroutine(PlayStarAnimations());
         StartCoroutine(WinAnimation());
     }
