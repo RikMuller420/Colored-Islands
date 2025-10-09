@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class LeaderboardTab : TabContent
@@ -7,6 +8,8 @@ public class LeaderboardTab : TabContent
 
     private LeaderboardProvider _leaderboardProvider;
     private string _leaderboarKey;
+    private float _refreshCooldownSeconds = 20f;
+    private DateTime _lastRefreshTime = DateTime.MinValue;
 
     public void Initialize(LeaderboardProvider leaderboardProvider, LeaderboardSettings leaderboardSettings)
     {
@@ -19,7 +22,12 @@ public class LeaderboardTab : TabContent
     public override void Activate()
     {
         base.Activate();
-        _leaderboardProvider.GetLeaderboard(_leaderboarKey);
+
+        if ((DateTime.Now - _lastRefreshTime).Seconds > _refreshCooldownSeconds)
+        {
+            _leaderboardProvider.GetLeaderboard(_leaderboarKey);
+            _lastRefreshTime = DateTime.Now;
+        }
     }
 
     private void OnLeaderboardReceived(Leaderboard leaderboardData)
