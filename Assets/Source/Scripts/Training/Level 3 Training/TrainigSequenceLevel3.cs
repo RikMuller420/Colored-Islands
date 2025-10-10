@@ -51,7 +51,7 @@ public class TrainigSequenceLevel3 : TrainigSequence
         _buttonRectTransform = BoostButtonActivator.GetBoostButtonRectTransform(BoostType.FinishIsland);
     }
 
-    private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition();
+    private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition(_buttonRectTransform);
 
     private void OnUnitsMoved(UnitsMoveInfo _)
     {
@@ -74,7 +74,7 @@ public class TrainigSequenceLevel3 : TrainigSequence
 
         yield return _wait;
 
-        UpdatePointerPosition();
+        UpdatePointerPosition(_buttonRectTransform);
         ActivatePointer();
     }
 
@@ -120,11 +120,5 @@ public class TrainigSequenceLevel3 : TrainigSequence
             Pointer.gameObject.SetActive(true);
             _worldSpacePointer.gameObject.SetActive(true);
         }
-    }
-
-    private void UpdatePointerPosition()
-    {
-        Pointer.position = _buttonRectTransform.position;
-        Pointer.localEulerAngles = _buttonRectTransform.localEulerAngles;
     }
 }

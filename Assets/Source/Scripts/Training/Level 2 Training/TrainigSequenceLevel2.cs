@@ -38,7 +38,7 @@ public class TrainigSequenceLevel2 : TrainigSequence
         StartCoroutine(StartFirstTrainingMove());
     }
 
-    private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition();
+    private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition(_buttonRectTransform);
 
     private void OnMenuOpened()
     {
@@ -60,14 +60,8 @@ public class TrainigSequenceLevel2 : TrainigSequence
     {
         yield return _startWait;
 
-        UpdatePointerPosition();
+        UpdatePointerPosition(_buttonRectTransform);
         ActivatePointer();
-    }
-
-    private void UpdatePointerPosition()
-    {
-        Pointer.position = _buttonRectTransform.position;
-        Pointer.localEulerAngles = _buttonRectTransform.localEulerAngles;
     }
 
     private void OnTryApplyingBoost()

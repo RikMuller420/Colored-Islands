@@ -58,7 +58,7 @@ public class TrainigSequenceLevel5 : TrainigSequence
         _lastStepButton.onClick.AddListener(GoToMenuTraining);
     }
 
-    private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition();
+    private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition(_buttonRectTransform);
 
     private void OnUnitsMoved(UnitsMoveInfo _)
     {
@@ -82,7 +82,7 @@ public class TrainigSequenceLevel5 : TrainigSequence
 
         yield return _wait;
 
-        UpdatePointerPosition();
+        UpdatePointerPosition(_buttonRectTransform);
         ActivatePointer();
     }
 
@@ -110,12 +110,6 @@ public class TrainigSequenceLevel5 : TrainigSequence
         {
             Pointer.gameObject.SetActive(true);
         }
-    }
-
-    private void UpdatePointerPosition()
-    {
-        Pointer.position = _buttonRectTransform.position;
-        Pointer.localEulerAngles = _buttonRectTransform.localEulerAngles;
     }
 
     private void OnFinalScoreShowed()

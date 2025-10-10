@@ -65,6 +65,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private LeaderboardSynchronizer _leaderboardSynchronizer;
     [SerializeField] private ScreenSizeChangeTracker _screenSizeChangeTracker;
     [SerializeField] private CameraPositionChanger _cameraPositionChanger;
+    [SerializeField] private Canvas _mainCanvas;
     [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
     [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
     [SerializeField] private List<LoginButton> _loginButtons;
@@ -120,7 +121,7 @@ public class GameInitializer : MonoBehaviour
         _trainigLoader = new TrainigSequenceLoader(_levelLoader, levelDataHolder, _buferIslands, selectHandler, unitMover,
                                                    _camera, _boostButtonActivator, _levelProgressTracker, _uIOrientationChanger,
                                                    _progressStorage, _inGameMenu, _finalScoreWindow, _menuTrainigSequence,
-                                                   _levelSettings, _screenSizeChangeTracker);
+                                                   _levelSettings, _screenSizeChangeTracker, _mainCanvas);
 
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(_progressStorage, _levelLoader);

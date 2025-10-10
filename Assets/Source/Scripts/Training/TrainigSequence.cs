@@ -24,6 +24,7 @@ public abstract class TrainigSequence : MonoBehaviour
     protected RectTransform Pointer => _pointer;
     protected Image PointerImage => _pointerImage;
     protected float FadeDuration { get; private set; } = 0.55f;
+    protected Canvas Canvas { get; private set; }
 
     private WaitForEndOfFrame _wait;
 
@@ -33,7 +34,7 @@ public abstract class TrainigSequence : MonoBehaviour
                            BoostButtonActivator boostButtonActivator, LevelProgressTracker levelProgressTracker,
                            UIOrientationChanger uIOrientationChanger, GameProgressStorage progressStorage,
                            MenuWindow inGameMenu, FinalScoreWindow finalScoreWindow, MenuTrainigSequence menuTrainigSequence,
-                           ScreenSizeChangeTracker screenSizeChangeTracker)
+                           ScreenSizeChangeTracker screenSizeChangeTracker, Canvas canvas)
     {
         LevelObjectsHolder = levelObjectsHolder;
         BuferIslandsHolder = buferIslandsHolder;
@@ -48,6 +49,7 @@ public abstract class TrainigSequence : MonoBehaviour
         FinalScoreWindow = finalScoreWindow;
         MenuTrainigSequence = menuTrainigSequence;
         ScreenSizeChangeTracker = screenSizeChangeTracker;
+        Canvas = canvas;
         _wait = new WaitForEndOfFrame();
     }
 
@@ -116,6 +118,13 @@ public abstract class TrainigSequence : MonoBehaviour
         int boostAmount = ProgressStorage.GetBoostAmount(boostType);
         boostAmount++;
         ProgressStorage.SetBoostAmount(boostType, boostAmount);
+    }
+
+    protected void UpdatePointerPosition(RectTransform buttonRectTransform)
+    {
+        Vector3 offset = new Vector3(0, Pointer.rect.height * Canvas.scaleFactor, 0);
+        Pointer.position = buttonRectTransform.position + offset;
+        Pointer.localEulerAngles = buttonRectTransform.localEulerAngles;
     }
 
     private void ActivateColliders(BaseIsland island)

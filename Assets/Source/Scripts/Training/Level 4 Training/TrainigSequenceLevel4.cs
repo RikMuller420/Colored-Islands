@@ -65,7 +65,7 @@ public class TrainigSequenceLevel4 : TrainigSequence
         StartCoroutine(OpenAngyBarHintInDelay());
     }
 
-    private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition();
+    private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition(_buttonRectTransform);
 
     private void OnIslandFinished(BaseIsland island)
     {
@@ -93,7 +93,7 @@ public class TrainigSequenceLevel4 : TrainigSequence
 
         yield return new WaitForSeconds(_pointerAppearDelay);
 
-        UpdatePointerPosition();
+        UpdatePointerPosition(_buttonRectTransform);
         ActivatePointer();
     }
 
@@ -143,11 +143,5 @@ public class TrainigSequenceLevel4 : TrainigSequence
 
         DeactivatePointer();
         _isTrainingDone = true;
-    }
-
-    private void UpdatePointerPosition()
-    {
-        Pointer.position = _buttonRectTransform.position;
-        Pointer.localEulerAngles = _buttonRectTransform.localEulerAngles;
     }
 }
