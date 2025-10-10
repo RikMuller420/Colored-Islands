@@ -59,12 +59,22 @@ namespace UI.TabSystem
 
         private void DeactivateTab(TabData tab)
         {
+            if (tab == null)
+            {
+                return;
+            }
+
             tab.TabContent.Deactivte();
             tab.TabButton.SetInactive();
         }
 
         private void ActivateTab(TabData tab)
         {
+            if (tab == null)
+            {
+                return;
+            }
+
             tab.TabContent.Activate();
             tab.TabButton.SetActive();
         }
