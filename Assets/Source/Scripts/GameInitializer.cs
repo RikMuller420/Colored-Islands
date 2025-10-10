@@ -62,6 +62,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private RouletteWindow _rouletteWindow;
     [SerializeField] private Roulette _roulette;
     [SerializeField] private LevelRewardWindow _levelRewardWindow;
+    [SerializeField] private AddMultipliedRewardWindow _addMultipliedRewardWindow;
     [SerializeField] private LeaderboardSynchronizer _leaderboardSynchronizer;
     [SerializeField] private ScreenSizeChangeTracker _screenSizeChangeTracker;
     [SerializeField] private CameraPositionChanger _cameraPositionChanger;
@@ -158,6 +159,7 @@ public class GameInitializer : MonoBehaviour
         _rouletteWindow.Initialize(_progressStorage);
         _roulette.Initialize(_progressStorage);
         _levelRewardWindow.Initialize(_hatSettings, _progressStorage, rewardedAdProvider, upgradesProvider);
+        _addMultipliedRewardWindow.Initialize(_hatSettings, upgradesProvider);
         _leaderboardSynchronizer.Initialize(leaderboardProvider, _leaderboardSettings, leaderboardScoreCalculator);
         _cameraPositionChanger.Initialize(_levelLoader, levelDataHolder, _buferIslands, _uIOrientationChanger, _screenSizeChangeTracker);
 

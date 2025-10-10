@@ -95,6 +95,7 @@ public class GameProgress
         _faceAvailabilities.Remove(face);
         _faceAvailabilities.Add(newFace);
     }
+
     public void MarkLevelRewardReceived(int levelId)
     {
         if (_wasLevelRewardReceived.ContainsKey(levelId))

@@ -4,6 +4,11 @@ public class AddMultipliedRewardWindow : MenuWindow
 {
     [SerializeField] private LevelRewardView _levelRewardView;
 
+    public void Initialize(UnitsHatSettings unitsHatSettings, UpgradesProvider upgradesProvider)
+    {
+        _levelRewardView.Initialize(unitsHatSettings, upgradesProvider);
+    }
+
     public void Open(LevelRewardData levelRewardData, int adsMultiplier)
     {
         _levelRewardView.SetIcons(levelRewardData, adsMultiplier);

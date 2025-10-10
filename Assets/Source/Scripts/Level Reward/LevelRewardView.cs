@@ -87,10 +87,10 @@ public class LevelRewardView : MonoBehaviour
         _rouletteIcon.SetActive(false);
     }
 
-    private bool IsHatInLevelReward(LevelRewardData levelRewardData, out UnitHatData hat)
+    private bool IsHatInLevelReward(LevelRewardData levelRewardData, out UnitHatData unitHat)
     {
-        hat = _unitsHatSettings.Hats.FirstOrDefault(hat => hat.RequredLevel == levelRewardData.LevelId);
+        unitHat = _unitsHatSettings.Hats.FirstOrDefault(hat => hat.RequredLevel == levelRewardData.LevelId);
 
-        return hat != null;
+        return unitHat != null;
     }
 }
