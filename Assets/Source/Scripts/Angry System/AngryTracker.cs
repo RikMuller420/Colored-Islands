@@ -10,7 +10,7 @@ public class AngryTracker
     private float _angryValue = 0f;
 
     private float _angryLimit = 1000f;
-    private float _angryByIslandFinish = 100f;
+    private float _angryByIslandFinish = 6f;
     private float _angryByUnitMove = 10f;
     private float _upgradeMultiplier = 1f;
 
@@ -48,14 +48,17 @@ public class AngryTracker
             return;
         }
 
-        float angry = _angryByUnitMove * unitsMoveInfo.Units.Count;
-        int angrySign = unitsMoveInfo.UnitsPaint == endIsland.Paint ? -1 : 1;
-        AddAngry(angrySign * angry);
+        if (unitsMoveInfo.UnitsPaint != endIsland.Paint)
+        {
+            float angry = _angryByUnitMove * unitsMoveInfo.Units.Count;
+            AddAngry(angry);
+        }
     }
 
     public void AddIslandFinishedTick(Island island)
     {
-        AddAngry(-_angryByIslandFinish);
+        float angry = island.Points.Count * _angryByIslandFinish;
+        AddAngry(-angry);
     }
 
     public void ResetAngryValue()
@@ -71,17 +74,7 @@ public class AngryTracker
 
     private float CalculateIslandInstability(Island island)
     {
-        float instability = 0f;
-
-        foreach (IslandPoint point in island.Points)
-        {
-            if (point.IsFree == false && point.OccupiedUnit.Paint != island.Paint)
-            {
-                instability += 1f;
-            }
-        }
-
-        return instability;
+        return island.Points.Count;
     }
 
     private void UpdateUpgradeMultiplier(UpgradeType upgradeType)
