@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine;
@@ -20,7 +21,7 @@ public class BuferIslandsHolder : MonoBehaviour
 
     public void LoadIsland(int size)
     {
-        BaseIsland oldIsland = CurrentIsland;
+        List<Unit> currentIslandUnits = GetCurrentIslandUnits();
         DeactivateCurrentIsland();
 
         BuferIslandInitializer islandInitializer = Instantiate(GetIslandPrefab(size));
@@ -35,7 +36,7 @@ public class BuferIslandsHolder : MonoBehaviour
                                    .OnComplete(() =>
                                    {
                                        CurrentIsland.Collider.enabled = true;
-                                       SwapUnitsToNewIsland(oldIsland);
+                                       SwapUnitsToNewIsland(currentIslandUnits);
                                    });
     }
 
@@ -67,19 +68,23 @@ public class BuferIslandsHolder : MonoBehaviour
                                 });
     }
 
-    private void SwapUnitsToNewIsland(BaseIsland oldIsland)
+    private List<Unit> GetCurrentIslandUnits()
     {
-        if (oldIsland == null)
+        if (CurrentIsland == null)
         {
-            return;
+            return new List<Unit>();
         }
 
-        foreach (IslandPoint point in oldIsland.Points)
+        return CurrentIsland.Points.Where(point => point.IsFree == false)
+                                   .Select(point => point.OccupiedUnit)
+                                   .ToList();
+    }
+
+    private void SwapUnitsToNewIsland(List<Unit> units)
+    {
+        foreach (Unit unit in units)
         {
-            if (point.IsFree == false)
-            {
-                _unitMover.MoveUnit(point.OccupiedUnit, CurrentIsland);
-            }
+            _unitMover.MoveUnit(unit, CurrentIsland);
         }
     }
 
