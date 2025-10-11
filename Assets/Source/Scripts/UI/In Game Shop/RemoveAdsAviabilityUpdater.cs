@@ -7,6 +7,7 @@ public class RemoveAdsAviabilityUpdater : MonoBehaviour
     [SerializeField] private GameObject _earnWithAddZone;
 
     private RemoveAdsProvider _removeAdsProvider;
+    private StickyAdProvider _stickyAdProvider;
 
     private void OnEnable()
     {
@@ -18,17 +19,25 @@ public class RemoveAdsAviabilityUpdater : MonoBehaviour
         _removeAdsProvider.RemoveAdsStateChanged += RemoveAdsStateChanged;
     }
 
-    public void Initialize(RemoveAdsProvider removeAdsProvider)
+    public void Initialize(RemoveAdsProvider removeAdsProvider, StickyAdProvider stickyAdProvide)
     {
         _removeAdsProvider = removeAdsProvider;
+        _stickyAdProvider = stickyAdProvide;
         RemoveAdsStateChanged();
         enabled = true;
     }
 
     private void RemoveAdsStateChanged()
     {
-        _buyButton.SetActive(_removeAdsProvider.IsAdsRemoved == false);
-        _earnWithAddZone.SetActive(_removeAdsProvider.IsAdsRemoved == false);
-        _maxAmountHint.SetActive(_removeAdsProvider.IsAdsRemoved);
+        bool isAdsRemoved = _removeAdsProvider.IsAdsRemoved;
+
+        _buyButton.SetActive(isAdsRemoved == false);
+        _earnWithAddZone.SetActive(isAdsRemoved == false);
+        _maxAmountHint.SetActive(isAdsRemoved);
+
+        if (isAdsRemoved)
+        {
+            _stickyAdProvider.DeactivateStickyAds();
+        }
     }
 }

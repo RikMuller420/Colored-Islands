@@ -90,6 +90,7 @@ public class GameInitializer : MonoBehaviour
         var interAdProvider = new InterstitialAdProvider();
         var rewardedAdProvider = new RewardedAdProvider();
         var authorizationProvider = new AuthorizationProvider();
+        var stickyAdProvider = new StickyAdProvider();
         var saveProvider = new SaveProvider();
         _gameProgressSaver.Initialize(saveProvider);
 
