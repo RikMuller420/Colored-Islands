@@ -5,6 +5,7 @@ public class LevelProgressTracker : MonoBehaviour
 {
     private bool _isTracking = false;
     private bool _isAngryTracking = false;
+    private bool _firstMoveDone = false;
     private float _levelTime = 0f;
     private int _levelMoves = 0;
     private LevelObjectsHolder _levelDataHolder;
@@ -85,7 +86,7 @@ public class LevelProgressTracker : MonoBehaviour
         _angryTracker.ResetAngryValue();
         IsLevelFinished = false;
         _isTracking = true;
-        _isAngryTracking = true;
+        _firstMoveDone = false;
     }
 
     public void PauseTracking()
@@ -120,6 +121,12 @@ public class LevelProgressTracker : MonoBehaviour
         }
 
         _levelMoves++;
+
+        if (_firstMoveDone == false)
+        {
+            _firstMoveDone = true;
+            _isAngryTracking = true;
+        }
 
         if (_isAngryTracking)
         {
