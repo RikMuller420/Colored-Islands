@@ -134,7 +134,7 @@ public class GameInitializer : MonoBehaviour
         _inGameShopInitializer.Initialize(upgradesProvider, boostAmountProvider, walletProvider);
         _boostBuyWindow.Initialize(boostAmountProvider, _boostSettings, walletProvider, rewardedAdProvider);
         _inAppPurchaseInitializer.Initialize(walletProvider, boostAmountProvider, removeAdsProvider, inAppPurchaseProvider,
-                                             inAppByAddViewProvider, rewardedAdProvider, _progressStorage);
+                                             inAppByAddViewProvider, rewardedAdProvider, _progressStorage, stickyAdProvider);
 
         _walletView.Initialize(walletProvider);
 
