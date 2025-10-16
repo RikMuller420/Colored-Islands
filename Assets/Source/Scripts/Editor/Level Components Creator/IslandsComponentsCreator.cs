@@ -10,7 +10,7 @@ public class IslandsComponentsCreator
     private Vector3 _verticalLookAtPosition = new Vector3(0f, 0f, -2f);
     private Vector3 _verticalFollowPosition = new Vector3(0, 8.5f, -6.5f);
 
-    private Vector3 _horizontalLookAtPosition = new Vector3(0f, 0f, -1f);
+    private Vector3 _horizontalLookAtPosition = new Vector3(0f, 0f, -1.2f);
     private Vector3 _horizontalFollowPosition = new Vector3(0, 8.5f, -4.5f);
 
     private Mesh _cubeMesh;
