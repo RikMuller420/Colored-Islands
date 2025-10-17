@@ -1,4 +1,4 @@
-Shader "Simple Toon/SToon Outline"
+Shader "Simple Toon/SToon Outline With Tattoo"
 {
 	Properties
     {
@@ -34,6 +34,9 @@ Shader "Simple Toon/SToon Outline"
         _ShnIntense ("Intensity", Range(0,1)) = 0
         _ShnRange ("Range", Range(0,1)) = 0.15
         _ShnSmooth ("Smoothness", Range(0,1)) = 0
+
+        [Header(Tattoo Overlay)][Space(5)]  //tattoo overlay
+        _OverlayTex ("Overlay Texture", 2D) = "white" {}
     }
 
     SubShader
@@ -54,6 +57,9 @@ Shader "Simple Toon/SToon Outline"
             #include "AutoLight.cginc"
             #include "STCore.cginc"
 
+            sampler2D _OverlayTex;
+            float4 _OverlayTex_ST;
+
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -68,6 +74,7 @@ Shader "Simple Toon/SToon Outline"
                 float4 pos : SV_POSITION;
                 half3 worldNormal : NORMAL;
 				float3 viewDir : TEXCOORD2;
+                float2 uvOverlay : TEXCOORD3;
             };
 
             v2f vert (appdata v)
@@ -75,6 +82,7 @@ Shader "Simple Toon/SToon Outline"
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uvOverlay = TRANSFORM_TEX(v.uv, _OverlayTex);
                 o.worldNormal = UnityObjectToWorldNormal(v.normal);
 				o.viewDir = WorldSpaceViewDir(v.vertex);
 
@@ -109,7 +117,10 @@ Shader "Simple Toon/SToon Outline"
 				fixed4 litcol = ColorBlend(_Color, _LightColor0, _AmbientCol);
 				fixed4 texcol = tex2D(_MainTex, i.uv) * litcol * _ColIntense + _ColBright;
 
-				float4 blendCol = ColorBlend(shadecol, texcol, toon);
+                fixed4 overlay = tex2D(_OverlayTex, i.uvOverlay);
+                texcol.rgb = lerp(texcol.rgb, overlay.rgb, overlay.a);
+                
+                float4 blendCol = ColorBlend(shadecol, texcol, toon);
 				float4 postCol = PostEffects(blendCol, toon, atten, NdotL, NdotH, VdotN, FdotV);
 
 				postCol.a = 1.;

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CustomizationSettingsHolder
 {
+    private const string UnitFaceTextureName = "_OverlayTex";
+
     private PaintMaterials _paintMaterials;
     private GameProgressStorage _progressStorage;
     private UnitsFaceSettings _faceSettings;
@@ -43,20 +45,32 @@ public class CustomizationSettingsHolder
         int faceId = _progressStorage.GetCustomizationPreference(paint).FaceId;
         int hatId = _progressStorage.GetCustomizationPreference(paint).HatId;
 
-        Material unitMaterial = _paintMaterials.Materials.FirstOrDefault(material => material.Paint == paint).UnitMaterial;
-        Material faceMaterial = _faceSettings.Faces.FirstOrDefault(face => face.Id == faceId).Material;
-        Material[] unitMaterials = new Material[] { unitMaterial , faceMaterial };
+        PaintMaterialData materialData = _paintMaterials.Materials.FirstOrDefault(material => material.Paint == paint);
+        Material unitMaterial = materialData.UnitMaterial;
+        Material selectedUnitMaterial = materialData.SelectedUnitMaterial;
+        UnitFaceData unitFaceData = _faceSettings.Faces.FirstOrDefault(face => face.Id == faceId);
+
+        PrepareUnitMaterial(unitMaterial, unitFaceData);
+        PrepareUnitMaterial(selectedUnitMaterial, unitFaceData);
 
         bool isHatEquiped = hatId != _hatSettings.NoHatId;
         UnitHatData hatData = isHatEquiped ? _hatSettings.Hats.FirstOrDefault(hat => hat.Id == hatId) : null;
-        Material hatMaterial = _paintMaterials.Materials.FirstOrDefault(material => material.Paint == paint).HatMaterial;
 
         return new UnitCustomizationSettings
         (
             paint,
-            unitMaterials,
+            unitMaterial,
+            selectedUnitMaterial,
             hatData,
-            hatMaterial
+            materialData.HatMaterial,
+            materialData.SelectedHatMaterial
         );
+    }
+
+    private void PrepareUnitMaterial(Material material, UnitFaceData faceData)
+    {
+        material.SetTexture(UnitFaceTextureName, faceData.Texture);
+        material.SetTextureScale(UnitFaceTextureName, faceData.Tilling);
+        material.SetTextureOffset(UnitFaceTextureName, faceData.Offset);
     }
 }

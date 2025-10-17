@@ -1,18 +1,13 @@
-using System.Linq;
 using UnityEngine;
 
 public class UnitRenderer : MonoBehaviour
 {
-    private const string OutlineShaderValueName = "_OtlWidth";
-
     [SerializeField] private SkinnedMeshRenderer _renderer;
     [SerializeField] private Transform _hatHolder;
 
     private Hat _hat;
     private CustomizationSettingsHolder _customizationSettings;
-
-    private float maxOutlineWidth = 6f;
-    private float minOutlineWidth = 0f;
+    private UnitCustomizationSettings _unitCustomizationSettings;
 
     public void Initialize(CustomizationSettingsHolder customizationSettings)
     {
@@ -21,9 +16,9 @@ public class UnitRenderer : MonoBehaviour
 
     public void SetPaint(Paint paint)
     {
-        UnitCustomizationSettings customizationSettings = _customizationSettings.GetCustomizationSettings(paint);
-        _renderer.sharedMaterials = customizationSettings.UnitMaterials;
-        UpdateHat(customizationSettings);
+        _unitCustomizationSettings = _customizationSettings.GetCustomizationSettings(paint);
+        _renderer.sharedMaterial = _unitCustomizationSettings.UnitMaterial;
+        UpdateHat(_unitCustomizationSettings);
     }
 
     private void UpdateHat(UnitCustomizationSettings customizationSettings)
@@ -45,21 +40,21 @@ public class UnitRenderer : MonoBehaviour
 
     public void ActivateOutline()
     {
-        _renderer.materials[0].SetFloat(OutlineShaderValueName, maxOutlineWidth);
+        _renderer.sharedMaterial = _unitCustomizationSettings.SelectedUnitMaterial;
 
         if (_hat != null)
         {
-            _hat.MeshRenderer.material.SetFloat(OutlineShaderValueName, maxOutlineWidth);
+            _hat.MeshRenderer.sharedMaterial = _unitCustomizationSettings.SelectedHatMaterial;
         }
     }
 
     public void DeactivateOutline()
     {
-        _renderer.materials[0].SetFloat(OutlineShaderValueName, minOutlineWidth);
+        _renderer.sharedMaterial = _unitCustomizationSettings.UnitMaterial;
 
         if (_hat != null)
         {
-            _hat.MeshRenderer.material.SetFloat(OutlineShaderValueName, minOutlineWidth);
+            _hat.MeshRenderer.sharedMaterial = _unitCustomizationSettings.HatMaterial;
         }
     }
 
