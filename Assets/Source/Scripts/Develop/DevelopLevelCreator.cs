@@ -4,6 +4,7 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 public class DevelopLevelCreator : MonoBehaviour
 {
     [SerializeField] private LevelSettings _levelSettings;
@@ -58,3 +59,4 @@ public class DevelopLevelCreator : MonoBehaviour
         levelView.LevelHolder.localPosition = new Vector3(0.8f + (levelView.LevelSettings.Id * 10f), 0, 0);
     }
 }
+#endif

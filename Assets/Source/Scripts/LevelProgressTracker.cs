@@ -86,7 +86,9 @@ public class LevelProgressTracker : MonoBehaviour
         _angryTracker.ResetAngryValue();
         IsLevelFinished = false;
         _isTracking = true;
+        _isAngryTracking = false;
         _firstMoveDone = false;
+        AngryChanged?.Invoke(_angryTracker.AngryValue);
     }
 
     public void PauseTracking()
