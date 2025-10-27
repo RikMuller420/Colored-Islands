@@ -19,6 +19,7 @@ public class LevelProgressTracker : MonoBehaviour
     public event Action<float> AngryChanged;
     public event Action AngryTaskFailed;
     public event Action TrackStopped;
+    public event Action FirstMoveDone;
 
     public bool IsLevelFinished { get; private set; }
     public bool IsAngryTaskDone => _angryTracker.AngryValue < 1f;
@@ -127,6 +128,7 @@ public class LevelProgressTracker : MonoBehaviour
         if (_firstMoveDone == false)
         {
             _firstMoveDone = true;
+            FirstMoveDone?.Invoke();
             _isAngryTracking = true;
         }
 

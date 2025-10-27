@@ -22,6 +22,7 @@ public class LevelLoader : MonoBehaviour
 
     private int _currentLevelId = 1;
 
+    public event Action LevelStartChanging;
     public event Action LevelChanged;
 
     public LevelSettingsData CurrentLevelData { get; private set; }
@@ -61,6 +62,8 @@ public class LevelLoader : MonoBehaviour
 
     public void LoadLevel(int levelId)
     {
+        LevelStartChanging?.Invoke();
+
         _currentLevelId = levelId;
         _currentLevelNumberToken.SetValue(levelId);
 

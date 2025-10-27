@@ -25,10 +25,10 @@ public class AngryTrackerBalancer
         _levelLoader = levelLoader;
 
         _progressTracker.LevelFinished += RecordWin;
-        _levelLoader.LevelChanged += OnLevelChanged;
+        _levelLoader.LevelStartChanging += OnLevelStartChanging;
     }
 
-    private void OnLevelChanged()
+    private void OnLevelStartChanging()
     {
         if (_isCurrentLevelFinished == false && _progressTracker.AngryValue > _angryValueLimit)
         {
@@ -48,7 +48,7 @@ public class AngryTrackerBalancer
 
         _loseStreak++;
 
-        Value = _defaultValue - (_loseStreak * (_step - 1));
+        Value = _defaultValue - (_loseStreak * _step);
         ClampValue();
     }
 
@@ -64,7 +64,7 @@ public class AngryTrackerBalancer
         _loseStreak = 0;
         _winStreak++;
 
-        Value = _defaultValue + (_winStreak * (_step - 1));
+        Value = _defaultValue + (_winStreak * _step);
         ClampValue();
     }
 

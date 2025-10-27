@@ -13,6 +13,7 @@ public class AngryTracker
     private float _angryByIslandFinish = 6f;
     private float _angryByUnitMove = 10f;
     private float _upgradeMultiplier = 1f;
+    private float _angrySpeed = 0.3f;
 
     public float AngryValue => _angryValue / _angryLimit;
 
@@ -37,7 +38,7 @@ public class AngryTracker
             instabilityStep += CalculateIslandInstability(island);
         }
 
-        instabilityStep *= _levelLoader.CurrentLevelData.AngryBarSpeed * _balancer.Value * _upgradeMultiplier;
+        instabilityStep *= _levelLoader.CurrentLevelData.AngryBarSpeed * _balancer.Value * _upgradeMultiplier * _angrySpeed;
         AddAngry(instabilityStep * Time.deltaTime);
     }
 
@@ -50,7 +51,7 @@ public class AngryTracker
 
         if (unitsMoveInfo.UnitsPaint != endIsland.Paint)
         {
-            float angry = _angryByUnitMove * unitsMoveInfo.Units.Count;
+            float angry = _angryByUnitMove * unitsMoveInfo.Units.Count * _angrySpeed;
             AddAngry(angry);
         }
     }

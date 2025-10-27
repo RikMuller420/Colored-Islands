@@ -11,7 +11,6 @@ public class TrainigSequenceLevel4 : TrainigSequence
     [SerializeField] private List<Island> _islands;
 
     private float _startDelay = 1f;
-    private float _hideAngyBarDelay = 6f;
     private float _bubbleFadeDuration = 0.7f;
     private float _pointerAppearDelay = 0.5f;
     private float _descriptionTypeDuration = 1.5f;
@@ -29,6 +28,7 @@ public class TrainigSequenceLevel4 : TrainigSequence
         InGameMenu.MenuClosed -= OnMenuClosed;
         _freezeObjectivesBoostButton.TryBoostApplying -= OnTryApplyingBoost;
         LevelProgressTracker.AngryChanged -= OnAngryValueChanged;
+        LevelProgressTracker.FirstMoveDone -= OnFirstMoveDone;
 
         foreach (Island island in _islands)
         {
@@ -54,8 +54,8 @@ public class TrainigSequenceLevel4 : TrainigSequence
         _freezeObjectivesBoostButton.TryBoostApplying += OnTryApplyingBoost;
         _buttonRectTransform = BoostButtonActivator.GetBoostButtonRectTransform(BoostType.FreezeObjectives);
 
-        LevelProgressTracker.PauseTracking();
         LevelProgressTracker.AngryChanged += OnAngryValueChanged;
+        LevelProgressTracker.FirstMoveDone += OnFirstMoveDone;
 
         foreach (Island island in _islands)
         {
@@ -70,6 +70,11 @@ public class TrainigSequenceLevel4 : TrainigSequence
     private void OnIslandFinished(BaseIsland island)
     {
         _finishedIslands.Add(island);
+    }
+
+    private void OnFirstMoveDone()
+    {
+        DOTween.Sequence().Append(_angyBarBubble.DOFade(0f, _bubbleFadeDuration));
     }
 
     private void OnAngryValueChanged(float value)
@@ -105,15 +110,6 @@ public class TrainigSequenceLevel4 : TrainigSequence
         _angryBarDescription.text = "";
         DOTween.Sequence().Append(_angyBarBubble.DOFade(1f, _bubbleFadeDuration))
                           .Join(_angryBarDescription.DOText(description, _descriptionTypeDuration).SetEase(Ease.Linear));
-        StartCoroutine(HideAngyBarInDelay());
-    }
-
-    private IEnumerator HideAngyBarInDelay()
-    {
-        yield return new WaitForSeconds(_hideAngyBarDelay);
-
-        DOTween.Sequence().Append(_angyBarBubble.DOFade(0f, _bubbleFadeDuration));
-        LevelProgressTracker.ContinueTracking();
     }
 
     private void OnMenuOpened()
