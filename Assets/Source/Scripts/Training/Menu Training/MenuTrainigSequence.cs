@@ -9,7 +9,6 @@ public class MenuTrainigSequence : MonoBehaviour
     private const string CustomizationHintKey = "Customization Description";
     private const string ShopHintKey = "Shop Description";
     private const string FinalHintKey = "Final Training Hint";
-    private const string FinalHintAnimatorTrigger = "UpsideDown";
 
     [SerializeField] private LevelLoader _levelLoader;
     [SerializeField] private Image _fullDimImage;
@@ -19,7 +18,6 @@ public class MenuTrainigSequence : MonoBehaviour
     [SerializeField] private CanvasGroup _trainingHintGroup;
     [SerializeField] private TextMeshProUGUI _trainingHintText;
     [SerializeField] private Button _goNextButton;
-    [SerializeField] private Animator _emojiAnimator;
 
     private float _startDelay = 0.3f;
     private float _fadeDuration = 1f;
@@ -72,7 +70,6 @@ public class MenuTrainigSequence : MonoBehaviour
         _shopWindow.Close();
         PrintHint(FinalHintKey);
         _goNextButton.onClick.AddListener(CloseTraining);
-        _emojiAnimator.SetTrigger(FinalHintAnimatorTrigger);
     }
 
     private void CloseTraining()

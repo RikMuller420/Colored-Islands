@@ -5,7 +5,7 @@ using YG.Utils.LB;
 public class LeaderboardProvider
 {
     private const int QuantityTop = 3;
-    private const int QuantityAround = 5;
+    private const int QuantityAround = 6;
     private const string PhotoSizeKey = "small";
 
     private LeaderboardConverter _leaderboardConverter;

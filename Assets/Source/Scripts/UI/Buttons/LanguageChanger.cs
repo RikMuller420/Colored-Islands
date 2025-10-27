@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class LanguageChanger : MonoBehaviour
 {
+    private const Language FirstLanguage = Language.Russian;
+    private const Language NonFirstLanguage = Language.English;
+
     [SerializeField] private SliderButton _sliderButton;
 
     private LocalizationSettings _localizationSettings;
@@ -40,7 +43,16 @@ public class LanguageChanger : MonoBehaviour
 
         _sliderButton.Initialize(_languages, languageIndex);
         Language language = _localizationSettings.Languages[languageIndex].Language;
-        LeanLocalization.SetCurrentLanguageAll(language.ToString());
+
+        if (language != FirstLanguage)
+        {
+            LeanLocalization.SetCurrentLanguageAll(language.ToString());
+        }
+        else
+        {
+            LeanLocalization.SetCurrentLanguageAll(NonFirstLanguage.ToString());
+            LeanLocalization.SetCurrentLanguageAll(language.ToString());
+        }
 
         enabled = true;
     }
