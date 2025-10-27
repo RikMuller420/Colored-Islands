@@ -12,7 +12,8 @@ public class InAppPurchaseInitializer : MonoBehaviour
     public void Initialize(WalletProvider walletProvider, BoostAmountProvider boostProvider,
                            RemoveAdsProvider removeAdsProvider, InAppPurchaseProvider inAppPurchaseProvider,
                            InAppByAddViewProvider inAppByAddViewProvider, RewardedAdProvider rewardedAdProvider,
-                           GameProgressStorage progressStorage, StickyAdProvider stickyAdProvider)
+                           GameProgressStorage progressStorage, StickyAdProvider stickyAdProvider,
+                           FreeStuffCollDownProvider collDownProvider)
     {
         var inAppProvider = new InAppsProvider(_inAppSettings.InApps, walletProvider, boostProvider,
                                                removeAdsProvider, _inAppConfirmedWindow, inAppPurchaseProvider,
@@ -27,7 +28,7 @@ public class InAppPurchaseInitializer : MonoBehaviour
 
         foreach (InAppByAddViewOffer inAppByAddViewOffer in _inAppByAddViewOffers)
         {
-            inAppByAddViewOffer.Initialize(inAppByAddViewProvider, rewardedAdProvider, progressStorage);
+            inAppByAddViewOffer.Initialize(inAppByAddViewProvider, rewardedAdProvider, collDownProvider);
         }
     }
 }

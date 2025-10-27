@@ -65,7 +65,7 @@ public class GameProgressStorage
     public IReadOnlyCollection<FaceAvailabilitie> FaceAvailabilities => _progress.FaceAvailabilities;
     public Dictionary<int, bool> IsHatWasUsed => _progress.WasHatsUsed;
     public bool WasHatUsed(int hatId) => _progress.WasHatsUsed.ContainsKey(hatId) ? _progress.WasHatsUsed[hatId] : true;
-    public bool WasLevelRewardReceived(int levelId) => false;// _progress.WasLevelRewardReceived.ContainsKey(levelId) ? _progress.WasLevelRewardReceived[levelId] : true;
+    public bool WasLevelRewardReceived(int levelId) => _progress.WasLevelRewardReceived.ContainsKey(levelId) ? _progress.WasLevelRewardReceived[levelId] : true;
 
 
     public CustomizationPreferences GetCustomizationPreference(Paint paint) => _progress.GetCustomizationPreference(paint);

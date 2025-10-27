@@ -66,6 +66,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private LeaderboardSynchronizer _leaderboardSynchronizer;
     [SerializeField] private ScreenSizeChangeTracker _screenSizeChangeTracker;
     [SerializeField] private CameraPositionChanger _cameraPositionChanger;
+    [SerializeField] private FreeStuffCollDownProvider _collDownProvider;
     [SerializeField] private Canvas _mainCanvas;
     [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
     [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
@@ -134,7 +135,8 @@ public class GameInitializer : MonoBehaviour
         _inGameShopInitializer.Initialize(upgradesProvider, boostAmountProvider, walletProvider);
         _boostBuyWindow.Initialize(boostAmountProvider, _boostSettings, walletProvider, rewardedAdProvider);
         _inAppPurchaseInitializer.Initialize(walletProvider, boostAmountProvider, removeAdsProvider, inAppPurchaseProvider,
-                                             inAppByAddViewProvider, rewardedAdProvider, _progressStorage, stickyAdProvider);
+                                             inAppByAddViewProvider, rewardedAdProvider, _progressStorage, stickyAdProvider,
+                                             _collDownProvider);
 
         _walletView.Initialize(walletProvider);
 

@@ -4,32 +4,31 @@ using UnityEngine.UI;
 public class InAppByAddViewOffer : MonoBehaviour
 {
     [SerializeField] private InAppType _inAppType;
-    [SerializeField] private Button _button;
+    [SerializeField] private AddButton _button;
     [SerializeField] private UpgradeIndicator _indicator;
 
     private InAppByAddViewProvider _inAppByAddViewProvider;
     private RewardedAdProvider _rewardedAdProvider;
-    private GameProgressStorage _progressStorage;
 
 
     protected void OnEnable()
     {
         _inAppByAddViewProvider.ProgressChanged += UpdateIndicator;
-        _button.onClick.AddListener(TryBuy);
+        _button.AviableClicked += TryBuy;
     }
 
     protected void OnDisable()
     {
         _inAppByAddViewProvider.ProgressChanged -= UpdateIndicator;
-        _button.onClick.RemoveListener(TryBuy);
+        _button.AviableClicked -= TryBuy;
     }
 
     public void Initialize(InAppByAddViewProvider inAppByAddViewProvider,
-                        RewardedAdProvider rewardedAdProvider, GameProgressStorage progressStorage)
+                        RewardedAdProvider rewardedAdProvider, FreeStuffCollDownProvider collDownProvider)
     {
         _inAppByAddViewProvider = inAppByAddViewProvider;
         _rewardedAdProvider = rewardedAdProvider;
-        _progressStorage = progressStorage;
+        _button.Initialize(collDownProvider);
         UpdateIndicator(_inAppType);
 
         enabled = true;
