@@ -63,7 +63,8 @@ public class CustomizationSettingsHolder
             selectedUnitMaterial,
             hatData,
             materialData.HatMaterial,
-            materialData.SelectedHatMaterial
+            materialData.SelectedHatMaterial,
+            materialData.UnitUiColor
         );
     }
 

@@ -3,7 +3,8 @@ using UnityEngine;
 public class UnitCustomizationSettings
 {
     public UnitCustomizationSettings(Paint paint, Material unitMaterial, Material selectedUnitMaterial,
-                                    UnitHatData hatData, Material hatMaterial, Material selectedHatMaterial)
+                                    UnitHatData hatData, Material hatMaterial, Material selectedHatMaterial,
+                                    Color trailColor)
     {
         Paint = paint;
         UnitMaterial = unitMaterial;
@@ -11,6 +12,7 @@ public class UnitCustomizationSettings
         HatData = hatData;
         HatMaterial = hatMaterial;
         SelectedHatMaterial = selectedHatMaterial;
+        TrailColor = trailColor;
     }
 
     public Paint Paint { get; }
@@ -20,4 +22,5 @@ public class UnitCustomizationSettings
     public UnitHatData HatData { get; }
     public Material HatMaterial { get; }
     public Material SelectedHatMaterial { get; }
+    public Color TrailColor { get; }
 }

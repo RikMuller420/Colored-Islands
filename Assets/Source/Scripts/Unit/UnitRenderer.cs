@@ -4,6 +4,7 @@ public class UnitRenderer : MonoBehaviour
 {
     [SerializeField] private SkinnedMeshRenderer _renderer;
     [SerializeField] private Transform _hatHolder;
+    [SerializeField] private TrailRenderer _trail;
 
     private Hat _hat;
     private CustomizationSettingsHolder _customizationSettings;
@@ -19,6 +20,7 @@ public class UnitRenderer : MonoBehaviour
         _unitCustomizationSettings = _customizationSettings.GetCustomizationSettings(paint);
         _renderer.sharedMaterial = _unitCustomizationSettings.UnitMaterial;
         UpdateHat(_unitCustomizationSettings);
+        _trail.startColor = _unitCustomizationSettings.TrailColor;
     }
 
     private void UpdateHat(UnitCustomizationSettings customizationSettings)
