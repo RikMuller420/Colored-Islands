@@ -6,12 +6,15 @@ public class IslandsComponentsCreator
 {
     private const string CameraTargtesObjectName = "Camera Targets";
     private const string BoundsObjectName = "Bounds";
+    private const string CenterPointName = "Center Point";
 
     private Vector3 _verticalLookAtPosition = new Vector3(0f, 0f, -2f);
     private Vector3 _verticalFollowPosition = new Vector3(0, 8.5f, -6.5f);
 
     private Vector3 _horizontalLookAtPosition = new Vector3(0f, 0f, -1.2f);
     private Vector3 _horizontalFollowPosition = new Vector3(0, 8.5f, -4.5f);
+
+    private Vector3 _islandCenterPointLocalPosition = new Vector3(0, 0.5f, 0);
 
     private Mesh _cubeMesh;
 
@@ -42,7 +45,8 @@ public class IslandsComponentsCreator
 
             if (child.TryGetComponent<Island>(out _) == false)
             {
-                child.gameObject.AddComponent<Island>();
+                Island island = child.gameObject.AddComponent<Island>();
+                TryCreateIslandCenterPoint(island);
                 EditorUtility.SetDirty(child.gameObject);
             }
 
@@ -71,7 +75,20 @@ public class IslandsComponentsCreator
         return islandInitializers.AsReadOnly();
     }
 
-    public void TryCreateLevelBounds(Level levelInitializer)
+    private void TryCreateIslandCenterPoint(Island island)
+    {
+        if (island.CenterPoint != null)
+        {
+            return;
+        }
+
+        GameObject centerPoint = new GameObject(CenterPointName);
+        centerPoint.transform.parent = island.transform;
+        centerPoint.transform.localPosition = _islandCenterPointLocalPosition;
+        island.SetCenterPoint(centerPoint.transform);
+    }
+
+    private void TryCreateLevelBounds(Level levelInitializer)
     {
         if (levelInitializer.LevelBounds != null)
         {

@@ -6,6 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(MeshRenderer))]
 public class Island : BaseIsland
 {
+    [SerializeField] private Transform _centerPoint;
+
     private IslandRenderer _renderer;
     private IReadOnlyCollection<SpriteRenderer> _points;
 
@@ -13,6 +15,7 @@ public class Island : BaseIsland
 
     public Paint Paint { get; private set; }
     public bool IsDone => Points.All(point => !point.IsFree && point.OccupiedUnit.Paint == Paint);
+    public Transform CenterPoint => _centerPoint;
 
     private void OnEnable()
     {
@@ -65,4 +68,11 @@ public class Island : BaseIsland
             point.OccupiedUnit.Deactivate();
         }
     }
+
+#if UNITY_EDITOR
+    public void SetCenterPoint(Transform centerPoint)
+    {
+        _centerPoint = centerPoint;
+    }
+#endif
 }

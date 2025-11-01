@@ -8,7 +8,6 @@ public class TrainigSequenceLevel4 : TrainigSequence
 {
     [SerializeField] private CanvasGroup _angyBarBubble;
     [SerializeField] private TextMeshProUGUI _angryBarDescription;
-    [SerializeField] private List<Island> _islands;
 
     private float _startDelay = 1f;
     private float _bubbleFadeDuration = 0.7f;
@@ -29,11 +28,7 @@ public class TrainigSequenceLevel4 : TrainigSequence
         _freezeObjectivesBoostButton.TryBoostApplying -= OnTryApplyingBoost;
         LevelProgressTracker.AngryChanged -= OnAngryValueChanged;
         LevelProgressTracker.FirstMoveDone -= OnFirstMoveDone;
-
-        foreach (Island island in _islands)
-        {
-            island.IslandFinished -= OnIslandFinished;
-        }
+        LevelProgressTracker.IslandFinished -= OnIslandFinished;
 
         ResetLevelState();
     }
@@ -56,11 +51,7 @@ public class TrainigSequenceLevel4 : TrainigSequence
 
         LevelProgressTracker.AngryChanged += OnAngryValueChanged;
         LevelProgressTracker.FirstMoveDone += OnFirstMoveDone;
-
-        foreach (Island island in _islands)
-        {
-            island.IslandFinished += OnIslandFinished;
-        }
+        LevelProgressTracker.IslandFinished += OnIslandFinished;
 
         StartCoroutine(OpenAngyBarHintInDelay());
     }

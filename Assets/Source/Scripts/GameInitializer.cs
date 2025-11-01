@@ -67,6 +67,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private ScreenSizeChangeTracker _screenSizeChangeTracker;
     [SerializeField] private CameraPositionChanger _cameraPositionChanger;
     [SerializeField] private FreeStuffCollDownProvider _collDownProvider;
+    [SerializeField] private IslandFinishParticlePool _islandFinishParticlePool;
     [SerializeField] private Canvas _mainCanvas;
     [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
     [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
@@ -120,6 +121,7 @@ public class GameInitializer : MonoBehaviour
         var levelEndSoundPlayer = new LevelEndSoundPlayer(_levelProgressTracker, _gameplaySoundPlayer);
         var angryTracker = new AngryTracker(levelDataHolder, _levelLoader, _levelProgressTracker, upgradesProvider);
         var localizationProvider = new LocalizationProvider();
+        var islandFinishParticlePlayer = new IslandFinishParticlePlayer(_levelProgressTracker, _islandFinishParticlePool);
         var customizationSettingsHolder = new CustomizationSettingsHolder(_materials, _progressStorage, _faceSettings, _hatSettings);
         _trainigLoader = new TrainigSequenceLoader(_levelLoader, levelDataHolder, _buferIslands, selectHandler, unitMover,
                                                    _camera, _boostButtonActivator, _levelProgressTracker, _uIOrientationChanger,

@@ -29,7 +29,8 @@ public class TrainigSequenceLevel3 : TrainigSequence
         InGameMenu.MenuClosed -= OnMenuClosed;
         UnitMover.UnitsMoved -= OnUnitsMoved;
         ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
-        _islandForBoost.IslandFinished -= OnIslandFinished;
+
+        _islandForBoost.IslandFinished -= OnIslandForBoostFinished;
         _finishIslandBoostButton.TryBoostApplying -= OnTryApplyingFinishIslandBoost;
         ResetLevelState();
     }
@@ -41,7 +42,7 @@ public class TrainigSequenceLevel3 : TrainigSequence
         InGameMenu.MenuClosed += OnMenuClosed;
         UnitMover.UnitsMoved += OnUnitsMoved;
         ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
-        _islandForBoost.IslandFinished += OnIslandFinished;
+        _islandForBoost.IslandFinished += OnIslandForBoostFinished;
 
         BoostButtonActivator.ActivateButtonImmediate(BoostType.GrowBuferIsland);
         BoostButtonActivator.SetButtonNonInteractible(BoostType.GrowBuferIsland);
@@ -87,7 +88,7 @@ public class TrainigSequenceLevel3 : TrainigSequence
         ActivateIslandPointer();
     }
 
-    private void OnIslandFinished(Island island)
+    private void OnIslandForBoostFinished(Island island)
     {
         ActivateAllColliders();
         DeactivateColliders(island);

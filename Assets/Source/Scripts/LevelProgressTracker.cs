@@ -14,6 +14,7 @@ public class LevelProgressTracker : MonoBehaviour
     private UnitMover _unitMover;
     private AngryTracker _angryTracker;
 
+    public event Action<Island> IslandFinished;
     public event Action LevelFinished;
     public event Action<float> TimeChanged;
     public event Action<float> AngryChanged;
@@ -141,6 +142,8 @@ public class LevelProgressTracker : MonoBehaviour
 
     private void OnIslandFinished(Island finishedIsland)
     {
+        IslandFinished?.Invoke(finishedIsland);
+
         if (_isTracking && _isAngryTracking)
         {
             _angryTracker.AddIslandFinishedTick(finishedIsland);

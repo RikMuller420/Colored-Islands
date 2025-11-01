@@ -32,6 +32,11 @@ public class Level : MonoBehaviour
         _islands = islands;
     }
 
+    private void SetIslandCenterPoint(Island island)
+    {
+        
+    }
+
     public void SetLevelBounds(MeshRenderer levelBounds)
     {
         _levelBounds = levelBounds;
