@@ -82,6 +82,15 @@ public class IslandsComponentsCreator
             return;
         }
 
+        Transform existCenterPoint = island.transform.Find(CenterPointName);
+
+        if (existCenterPoint != null)
+        {
+            island.SetCenterPoint(existCenterPoint);
+
+            return;
+        }
+
         GameObject centerPoint = new GameObject(CenterPointName);
         centerPoint.transform.parent = island.transform;
         centerPoint.transform.localPosition = _islandCenterPointLocalPosition;
