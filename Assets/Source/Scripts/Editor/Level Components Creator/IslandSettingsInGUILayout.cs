@@ -72,8 +72,11 @@ public class IslandSettingsInGUILayout
         initializer.SetPaint(paint);
         MeshRenderer meshRenderer = initializer.GetComponent<MeshRenderer>();
         IslandRenderer islandRenderer = new IslandRenderer(meshRenderer, paintMaterials);
-        islandRenderer.SetPaint(paint, initializer.Points);
+        ColorSample colorSample = GetDefaultColorSample(paint);
+        islandRenderer.SetPaint(colorSample, initializer.Points);
 
         Undo.RegisterCreatedObjectUndo(meshRenderer, "Change material");
     }
+
+    private ColorSample GetDefaultColorSample(Paint paint) => (ColorSample)(int)paint;
 }

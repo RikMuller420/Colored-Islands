@@ -12,18 +12,22 @@ public class UnitCustomizationView : MonoBehaviour
     private UnitsFaceSettings _unitsFaceSettings;
     private UnitsHatSettings _unitsHatSettings;
 
-    public void Initialize(PaintMaterials paintMaterials, UnitsFaceSettings unitsFaceSettings, UnitsHatSettings unitsHatSettings)
+    public void Initialize(PaintMaterials paintMaterials, UnitsFaceSettings unitsFaceSettings,
+                           UnitsHatSettings unitsHatSettings)
     {
         _paintMaterials = paintMaterials;
         _unitsFaceSettings = unitsFaceSettings;
         _unitsHatSettings = unitsHatSettings;
     }
 
-    public void SetPaint(Paint paint)
+    public void SetColor(ColorSample colorSample)
     {
-        PaintMaterialData paintData = _paintMaterials.Materials.FirstOrDefault(paintData => paintData.Paint == paint);
+        PaintMaterialData paintData = _paintMaterials.Materials.FirstOrDefault(paintData => paintData.ColorSample == colorSample);
         _body.color = paintData.UnitUiColor;
+
+        float hatAlpha = _hat.color.a;
         _hat.color = paintData.UnitUiHatColor;
+        SetHatAlpha(hatAlpha);
     }
 
     public void SetFace(int faceId)
@@ -37,17 +41,17 @@ public class UnitCustomizationView : MonoBehaviour
         if (hatId == _unitsHatSettings.NoHatId)
         {
             _hat.sprite = null;
-            SetHatColor(0f);
+            SetHatAlpha(0f);
         }
         else
         {
             UnitHatData hatData = _unitsHatSettings.Hats.FirstOrDefault(hat => hat.Id == hatId);
             _hat.sprite = hatData.PreviewSprite;
-            SetHatColor(1f);
+            SetHatAlpha(1f);
         }
     }
 
-    private void SetHatColor(float alpha)
+    private void SetHatAlpha(float alpha)
     {
         Color color = _hat.color;
         color.a = alpha;

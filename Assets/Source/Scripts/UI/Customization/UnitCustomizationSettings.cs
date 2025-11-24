@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class UnitCustomizationSettings
 {
-    public UnitCustomizationSettings(Paint paint, Material unitMaterial, Material selectedUnitMaterial,
+    public UnitCustomizationSettings(Paint paint, ColorSample colorSample, Material unitMaterial, Material selectedUnitMaterial,
                                     UnitHatData hatData, Material hatMaterial, Material selectedHatMaterial,
                                     Color trailColor)
     {
         Paint = paint;
+        ColorSample = colorSample;
         UnitMaterial = unitMaterial;
         SelectedUnitMaterial = selectedUnitMaterial;
         HatData = hatData;
@@ -16,6 +17,7 @@ public class UnitCustomizationSettings
     }
 
     public Paint Paint { get; }
+    public ColorSample ColorSample { get; }
     public Material UnitMaterial { get; }
     public Material SelectedUnitMaterial { get; }
     public bool IsHatEquiped => HatData != null;

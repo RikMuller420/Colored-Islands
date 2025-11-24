@@ -18,11 +18,13 @@ public class Level : MonoBehaviour
     public IReadOnlyCollection<Island> Islands => _islands.Select(initializer => initializer.Island).ToList().AsReadOnly();
 
     public void Initialize(Func<Unit> createUnit, PaintMaterials materials, Transform unitsLookAtPoint,
-                           CustomizationSettingsHolder customizationSettings)
+                           CustomizationSettingsHolder customizationSettings, GameProgressStorage gameProgressStorage)
     {
+
         foreach (IslandInitializer island in _islands)
         {
-            island.Initialize(createUnit, materials, unitsLookAtPoint, customizationSettings);
+            CustomizationPreferences customizationPreferences = gameProgressStorage.GetCustomizationPreference(island.Paint);
+            island.Initialize(createUnit, materials, unitsLookAtPoint, customizationSettings, customizationPreferences.ColorSample);
         }
     }
 

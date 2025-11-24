@@ -7,16 +7,18 @@ public class PaintAmountReduceBoost : Boost
     private LevelObjectsHolder _levelDataHolder;
     private BuferIslandsHolder _buferIslands;
     private UnitMover _unitMover;
+    private GameProgressStorage _progressStorage;
 
     private int _bestNewColorIndex = 2;
 
     public PaintAmountReduceBoost(LevelObjectsHolder levelDataHolder, BuferIslandsHolder buferIslands,
-                                    BoostAmountProvider boostAmountProvider,
+                                    BoostAmountProvider boostAmountProvider, GameProgressStorage progressStorage,
                                     UnitMover unitMover) : base(boostAmountProvider)
     {
         _levelDataHolder = levelDataHolder;
         _buferIslands = buferIslands;
         _unitMover = unitMover;
+        _progressStorage = progressStorage;
     }
     public override BoostType Type => BoostType.ReducePaints;
 
@@ -41,7 +43,8 @@ public class PaintAmountReduceBoost : Boost
 
             if (island.Paint == oldPaint)
             {
-                island.SetPaint(newPaint);
+                CustomizationPreferences preference = _progressStorage.GetCustomizationPreference(island.Paint);
+                island.SetPaint(island.Paint, preference.ColorSample);
             }
 
             SwapUnitsPaint(island, oldPaint, newPaint);

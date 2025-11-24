@@ -1,17 +1,21 @@
 using System;
 using System.Collections.Generic;
+using UI.TabSystem;
+using UnityEngine;
 
 public class UnitCustomizator
 {
     private List<UnitSelectButton> _unitSelectButtons;
     private List<HatSelectButton> _hatSelectButtons;
     private List<FaceSelectButton> _faceSelectButtons;
+    private List<ColorSelectButton> _colorSelectButtons;
     private UnitCustomizationView _unitCustomizationView;
     private GameProgressStorage _progressStorage;
 
     private UnitSelectButton _currentUnitButton;
     private FaceSelectButton _currentFaceButton;
     private HatSelectButton _currentHatButton;
+    private ColorSelectButton _currentColorButton;
 
     private Paint _currentPaint;
 
@@ -23,17 +27,20 @@ public class UnitCustomizator
 
     public UnitCustomizator(UnitCustomizationView unitCustomizationView, GameProgressStorage progressStorage,
                             List<UnitSelectButton> unitSelectButtons, List<HatSelectButton> hatSelectButtons,
-                            List<FaceSelectButton> faceSelectButtons)
+                            List<FaceSelectButton> faceSelectButtons, List<ColorSelectButton> colorSelectButtons)
     {
         _unitCustomizationView = unitCustomizationView;
         _progressStorage = progressStorage;
         _unitSelectButtons = unitSelectButtons;
         _faceSelectButtons = faceSelectButtons;
         _hatSelectButtons = hatSelectButtons;
+        _colorSelectButtons = colorSelectButtons;
 
         foreach (UnitSelectButton unitSelectButton in _unitSelectButtons)
         {
             unitSelectButton.ButtonClicked += ChangeCurrentPaint;
+            CustomizationPreferences preferences = _progressStorage.GetCustomizationPreference(unitSelectButton.Paint);
+            unitSelectButton.SetColor(preferences.ColorSample);
         }
 
         foreach (FaceSelectButton faceSelectButton in _faceSelectButtons)
@@ -44,6 +51,11 @@ public class UnitCustomizator
         foreach (HatSelectButton hatSelectButton in _hatSelectButtons)
         {
             hatSelectButton.ButtonClicked += ChangeCurrentHat;
+        }
+
+        foreach (ColorSelectButton colorSelectButton in _colorSelectButtons)
+        {
+            colorSelectButton.ButtonClicked += ChangeCurrentColor;
         }
 
         ChangeCurrentPaint(_unitSelectButtons[0]);
@@ -60,14 +72,55 @@ public class UnitCustomizator
         _currentUnitButton = button;
         _currentUnitButton.SetSelectdStyle();
 
-        _unitCustomizationView.SetPaint(_currentPaint);
-        CustomizationPreferences customizationPreferences = _progressStorage.GetCustomizationPreference(_currentPaint);
+        CustomizationPreferences preferences = _progressStorage.GetCustomizationPreference(_currentPaint);
+        _unitCustomizationView.SetColor(preferences.ColorSample);
 
-        FaceSelectButton faceSelectButton = _faceSelectButtons.Find(button => button.FaceId == customizationPreferences.FaceId);
+        FaceSelectButton faceSelectButton = _faceSelectButtons.Find(button => button.FaceId == preferences.FaceId);
         ApplyNewFace(faceSelectButton);
 
-        HatSelectButton hatSelectButton = _hatSelectButtons.Find(button => button.HatId == customizationPreferences.HatId);
-        AplyNewHat(hatSelectButton);
+        HatSelectButton hatSelectButton = _hatSelectButtons.Find(button => button.HatId == preferences.HatId);
+        ApplyNewHat(hatSelectButton);
+
+        foreach (ColorSelectButton colorButton in _colorSelectButtons)
+        {
+            if (colorButton.ColorSample == preferences.ColorSample)
+            {
+                colorButton.SetSelectedStyle();
+                colorButton.SetUnlockedStyle();
+            }
+            else
+            {
+                colorButton.SetNonSelectedStyle();
+                bool isColorSampleFree = IsColofSampleFree(colorButton.ColorSample);
+
+                if (isColorSampleFree)
+                {
+                    colorButton.SetUnlockedStyle();
+                }
+                else
+                {
+                    colorButton.SetLockedStyle();
+                }
+            }
+        }
+
+        ColorSelectButton colorSelectButton = _colorSelectButtons.Find(button => button.ColorSample == preferences.ColorSample);
+        ApplyNewColor(colorSelectButton);
+    }
+
+    private bool IsColofSampleFree(ColorSample colorSample)
+    {
+        foreach (Paint paint in (Paint[])Enum.GetValues(typeof(Paint)))
+        {
+            CustomizationPreferences preferences = _progressStorage.GetCustomizationPreference(paint);
+
+            if (preferences.ColorSample == colorSample)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private void ChangeCurrentFace(FaceSelectButton faceButton)
@@ -82,12 +135,36 @@ public class UnitCustomizator
 
     private void ChangeCurrentHat(HatSelectButton hatButton)
     {
-        AplyNewHat(hatButton);
+        ApplyNewHat(hatButton);
         hatButton.DeactivateUnusedMark();
         _progressStorage.ChangeCustomizationPreferenceHat(_currentPaint, hatButton.HatId);
         _progressStorage.MarkHatUsed(hatButton.HatId);
         _progressStorage.Save();
         HatUsed?.Invoke();
+    }
+
+    private void ChangeCurrentColor(ColorSelectButton colorButton)
+    {
+        ApplyNewColor(colorButton);
+        _progressStorage.ChangeCustomizationPreferenceColor(_currentPaint, colorButton.ColorSample);
+        _progressStorage.Save();
+    }
+
+    private void ApplyNewColor(ColorSelectButton colorButton)
+    {
+        if (_currentColorButton != null)
+        {
+            _currentColorButton.SetNonSelectedStyle();
+        }
+
+        if (_currentUnitButton != null)
+        {
+            _currentUnitButton.SetColor(colorButton.ColorSample);
+        }
+
+        _currentColorButton = colorButton;
+        _currentColorButton.SetSelectedStyle();
+        _unitCustomizationView.SetColor(colorButton.ColorSample);
     }
 
     private void ApplyNewFace(FaceSelectButton faceButton)
@@ -102,7 +179,7 @@ public class UnitCustomizator
         _unitCustomizationView.SetFace(faceButton.FaceId);
     }
 
-    private void AplyNewHat(HatSelectButton hatButton)
+    private void ApplyNewHat(HatSelectButton hatButton)
     {
         if (_currentHatButton != null)
         {

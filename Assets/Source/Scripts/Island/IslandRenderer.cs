@@ -12,11 +12,11 @@ public class IslandRenderer
         _paintMaterials = paintMaterials;
     }
 
-    public void SetPaint(Paint paint, IReadOnlyCollection<SpriteRenderer> points)
+    public void SetPaint(ColorSample colorSample, IReadOnlyCollection<SpriteRenderer> points)
     {
         foreach (PaintMaterialData materials in _paintMaterials.Materials)
         {
-            if (materials.Paint == paint)
+            if (materials.ColorSample == colorSample)
             {
                 _renderer.sharedMaterial = materials.IslandMaterial;
                 SetColor(materials.IslandPointColor, points);

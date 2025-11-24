@@ -133,6 +133,12 @@ public class GameProgressStorage
         CustomizationPreferenceChanged?.Invoke(paint);
     }
 
+    public void ChangeCustomizationPreferenceColor(Paint paint, ColorSample colorSample)
+    {
+        _progress.ChangeCustomizationPreferenceColor(paint, colorSample);
+        CustomizationPreferenceChanged?.Invoke(paint);
+    }
+
     public void ApplyRemoveAddBonus(bool autoSave = true)
     {
         _progress.ApplyRemoveAddBonus();

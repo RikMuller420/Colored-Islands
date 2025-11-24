@@ -27,19 +27,21 @@ public class Island : BaseIsland
         UnitAdded -= TryFinish;
     }
 
-    public void Initialize(List<IslandPoint> placementPoints, Paint paint, PaintMaterials paintMaterials)
+    public void Initialize(List<IslandPoint> placementPoints, Paint paint, ColorSample colorSample,
+                            PaintMaterials paintMaterials)
     {
         base.Initialize(placementPoints);
 
         _points = Points.Select(point => point.Point).ToList().AsReadOnly();
         _renderer = new IslandRenderer(MeshRenderer, paintMaterials);
-        SetPaint(paint);
+
+        SetPaint(paint, colorSample);
     }
 
-    public void SetPaint(Paint paint)
+    public void SetPaint(Paint paint, ColorSample colorSample)
     {
         Paint = paint;
-        _renderer.SetPaint(paint, _points);
+        _renderer.SetPaint(colorSample, _points);
     }
 
     public void TryFinish()

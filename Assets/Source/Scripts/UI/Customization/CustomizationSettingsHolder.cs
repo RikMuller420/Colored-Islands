@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -21,9 +22,9 @@ public class CustomizationSettingsHolder
         _faceSettings = faceSettings;
         _hatSettings = hatSettings;
 
-        foreach (PaintMaterialData paint in _paintMaterials.Materials)
+        foreach (Paint paint in Enum.GetValues(typeof(Paint)))
         {
-            _customizationSettings.Add(CreateSettings(paint.Paint));
+            _customizationSettings.Add(CreateSettings(paint));
         }
 
         _progressStorage.CustomizationPreferenceChanged += OnCustomizationPreferenceChanged;
@@ -42,16 +43,21 @@ public class CustomizationSettingsHolder
 
     private UnitCustomizationSettings CreateSettings(Paint paint)
     {
-        int faceId = _progressStorage.GetCustomizationPreference(paint).FaceId;
-        int hatId = _progressStorage.GetCustomizationPreference(paint).HatId;
+        CustomizationPreferences preference = _progressStorage.GetCustomizationPreference(paint);
+        int faceId = preference.FaceId;
+        int hatId = preference.HatId;
+        ColorSample colorSample = preference.ColorSample;
 
-        PaintMaterialData materialData = _paintMaterials.Materials.FirstOrDefault(material => material.Paint == paint);
+        PaintMaterialData materialData = _paintMaterials.Materials.FirstOrDefault(material => material.ColorSample == colorSample);
         Material unitMaterial = materialData.UnitMaterial;
         Material selectedUnitMaterial = materialData.SelectedUnitMaterial;
         UnitFaceData unitFaceData = _faceSettings.Faces.FirstOrDefault(face => face.Id == faceId);
 
+        Debug.Log(paint + "-> " + colorSample + ": " + materialData.UnitUiColor.r + " " + materialData.UnitUiColor.g + " " + materialData.UnitUiColor.b);
+
         PrepareUnitMaterial(unitMaterial, unitFaceData);
         PrepareUnitMaterial(selectedUnitMaterial, unitFaceData);
+
 
         bool isHatEquiped = hatId != _hatSettings.NoHatId;
         UnitHatData hatData = isHatEquiped ? _hatSettings.Hats.FirstOrDefault(hat => hat.Id == hatId) : null;
@@ -59,6 +65,7 @@ public class CustomizationSettingsHolder
         return new UnitCustomizationSettings
         (
             paint,
+            colorSample,
             unitMaterial,
             selectedUnitMaterial,
             hatData,

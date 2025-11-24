@@ -22,7 +22,8 @@ public class BoostInitializer : MonoBehaviour
     public ObjectivesFreezeBoost ObjectivesFreezeBoost { get; private set; }
 
     public void Initialize(UnitMover unitMover, ClickHandler gameClickHandler, SelectHandler selectHandler,
-                           LevelObjectsHolder levelDataHolder, BoostAmountProvider boostAmountProvider)
+                           LevelObjectsHolder levelDataHolder, BoostAmountProvider boostAmountProvider,
+                           GameProgressStorage progressStorage)
     {
         var islandInstantFinisher = new IslandFinishBehaviour(levelDataHolder, _buferIslands, unitMover, _paintedIslands);
 
@@ -31,7 +32,7 @@ public class BoostInitializer : MonoBehaviour
         var bufferIslandBoost = new BufferIslandBoost(_buferIslands, boostAmountProvider);
         ObjectivesFreezeBoost = new ObjectivesFreezeBoost(_levelProgressTracker, unitMover, _levelLoader, boostAmountProvider);
         var paintAmountReduceBoost = new PaintAmountReduceBoost(levelDataHolder, _buferIslands, boostAmountProvider,
-                                                                unitMover);
+                                                                progressStorage, unitMover);
 
         IEnumerable<Boost> boosts = new List<Boost>()
         {

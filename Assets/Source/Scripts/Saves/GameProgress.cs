@@ -117,7 +117,7 @@ public class GameProgress
         CustomizationPreferences preference = GetCustomizationPreference(paint);
         
         int hatId = preference.HatId;
-        _customizationPreferences[paint] = new CustomizationPreferences(faceId, hatId);
+        _customizationPreferences[paint] = new CustomizationPreferences(faceId, hatId, preference.ColorSample);
 
     }
 
@@ -126,7 +126,16 @@ public class GameProgress
         CustomizationPreferences preference = GetCustomizationPreference(paint);
 
         int faceId = preference.FaceId;
-        _customizationPreferences[paint] = new CustomizationPreferences(faceId, hatId);
+        _customizationPreferences[paint] = new CustomizationPreferences(faceId, hatId, preference.ColorSample);
+    }
+
+    public void ChangeCustomizationPreferenceColor(Paint paint, ColorSample colorSample)
+    {
+        CustomizationPreferences preference = GetCustomizationPreference(paint);
+
+        int hatId = preference.HatId;
+        int faceId = preference.FaceId;
+        _customizationPreferences[paint] = new CustomizationPreferences(faceId, hatId, colorSample);
     }
 
     public void AddFace(int faceId, bool isAviable, bool wasUsed)
@@ -265,7 +274,8 @@ public class GameProgress
 
         foreach (Paint paint in Enum.GetValues(typeof(Paint)))
         {
-            _customizationPreferences.Add(paint, new CustomizationPreferences((int)paint + 1, noHatId));
+            int index = (int)paint;
+            _customizationPreferences.Add(paint, new CustomizationPreferences(index + 1, noHatId, index));
         }
     }
 }

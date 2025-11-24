@@ -3,7 +3,7 @@ using UnityEngine;
 [System.Serializable]
 public struct PaintMaterialData
 {
-    [SerializeField] private Paint _paint;
+    [SerializeField] private ColorSample _colorSample;
     [SerializeField] private Material _islandMaterial;
     [SerializeField] private Material _unitMaterial;
     [SerializeField] private Material _selectedUnitMaterial;
@@ -12,8 +12,9 @@ public struct PaintMaterialData
     [SerializeField] private Color _islandPointColor;
     [SerializeField] private Color _unitUiColor;
     [SerializeField] private Color _unitUiHatColor;
+    [SerializeField] private string _localizationKey;
 
-    public Paint Paint => _paint;
+    public ColorSample ColorSample => _colorSample;
     public Material IslandMaterial => _islandMaterial;
     public Material UnitMaterial => _unitMaterial;
     public Material SelectedUnitMaterial => _selectedUnitMaterial;
@@ -22,4 +23,5 @@ public struct PaintMaterialData
     public Color IslandPointColor => _islandPointColor;
     public Color UnitUiColor => _unitUiColor;
     public Color UnitUiHatColor => _unitUiHatColor;
+    public string LocalizationKey => _localizationKey;
 }

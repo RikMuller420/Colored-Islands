@@ -12,27 +12,43 @@ public class CustomizationWindowInitializer : MonoBehaviour
 
     [SerializeField] private Transform _facesParent;
     [SerializeField] private FaceSelectButton _facePrefab;
+    [SerializeField] private Transform _colorButtonParent;
+    [SerializeField] private ColorSelectButton _colorButtonPrefab;
     [SerializeField] private Transform _hatParent;
     [SerializeField] private HatSelectButton _hatPrefab;
     [SerializeField] private UnitCustomizationView _unitCustomizationView;
     [SerializeField] private CustomizationWindowOpenerButton _customizationWindowOpenerButton;
-
 
     [SerializeField] private List<UnitSelectButton> _unitSelectButtons = new();
 
     public void Initialize(GameProgressStorage progressStorage, LevelProgressTracker levelProgressTracker)
     {
         _unitCustomizationView.Initialize(_paintMaterials, _unitsFaceSettings, _unitsHatSettings);
-        List<FaceSelectButton> faceSelectButtons = CreateFaceButtons(progressStorage);
+        List<ColorSelectButton> colorSelectButtons = CreateColorButtons(progressStorage);
         List<HatSelectButton> hatSelectButtons = CreateHatButtons(progressStorage);
+        List<FaceSelectButton> faceSelectButtons = CreateFaceButtons(progressStorage);
 
         UnitCustomizator unitCustomizator = new UnitCustomizator(_unitCustomizationView, progressStorage,
-                                                _unitSelectButtons, hatSelectButtons, faceSelectButtons);
+                                                _unitSelectButtons, hatSelectButtons, faceSelectButtons, colorSelectButtons);
 
         CustomizationButtonAviabiltyUpdater buttonAviabiltyUpdater = new CustomizationButtonAviabiltyUpdater(
                                                 levelProgressTracker, progressStorage, hatSelectButtons, faceSelectButtons);
 
         _customizationWindowOpenerButton.Initialize(unitCustomizator, buttonAviabiltyUpdater);
+    }
+
+    private List<ColorSelectButton> CreateColorButtons(GameProgressStorage progressStorage)
+    {
+        List<ColorSelectButton> colorSelectButtons = new List<ColorSelectButton>();
+
+        foreach (PaintMaterialData material in _paintMaterials.Materials)
+        {
+            ColorSelectButton colorButton = Instantiate(_colorButtonPrefab, _colorButtonParent);
+            colorButton.Initialize(material);
+            colorSelectButtons.Add(colorButton);
+        }
+
+        return colorSelectButtons;
     }
 
     private List<HatSelectButton> CreateHatButtons(GameProgressStorage progressStorage)

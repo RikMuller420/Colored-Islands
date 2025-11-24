@@ -15,6 +15,7 @@ public class LevelLoader : MonoBehaviour
     private LeanToken _currentLevelNumberToken;
     private Transform _unitsLookAtPoint;
     private CustomizationSettingsHolder _customizationSettings;
+    private GameProgressStorage _gameProgressStorage;
 
     private Level _currentLevel;
     private BuferIslandsHolder _buferIslands;
@@ -32,7 +33,7 @@ public class LevelLoader : MonoBehaviour
                             LevelObjectsHolder levelDataHolder, BuferIslandsHolder buferIslands,
                             UpgradesProvider upgradesProvider, LeanToken currentLevelNumberToken,
                             Transform unitsLookAtPoint, CustomizationSettingsHolder customizationSettings,
-                            GameObject mainMenuIslands)
+                            GameObject mainMenuIslands, GameProgressStorage gameProgressStorage)
     {
         _levelSettings = levelSettings;
         _unitsPool = unitsPool;
@@ -46,6 +47,7 @@ public class LevelLoader : MonoBehaviour
         _unitsLookAtPoint = unitsLookAtPoint;
         _customizationSettings = customizationSettings;
         _mainMenuIslands = mainMenuIslands;
+        _gameProgressStorage = gameProgressStorage;
 
         CurrentLevelData = _levelSettings.MainMenuSettings;
     }
@@ -74,7 +76,7 @@ public class LevelLoader : MonoBehaviour
         CurrentLevelData = _levelSettings.Levels.FirstOrDefault(level => level.Id == levelId);
 
         _currentLevel = Instantiate(CurrentLevelData.LevelPrefab);
-        _currentLevel.Initialize(_unitsPool.Get, _materials, _unitsLookAtPoint, _customizationSettings);
+        _currentLevel.Initialize(_unitsPool.Get, _materials, _unitsLookAtPoint, _customizationSettings, _gameProgressStorage);
 
         int extraIslandSize = (int)_upgradesProvider.UpgradeStageValue(UpgradeType.BuferIslandSize);
         int islandSize = CurrentLevelData.BuferIslandSize + extraIslandSize;

@@ -20,7 +20,7 @@ public class IslandInitializer : MonoBehaviour
     public List<IslandStartUnits> StartUnits => new List<IslandStartUnits>(_startUnits);
 
     public void Initialize(Func<Unit> createUnit, PaintMaterials paintMaterials, Transform unitsLookAtPoint,
-                          CustomizationSettingsHolder customizationSettings)
+                          CustomizationSettingsHolder customizationSettings, ColorSample colorSample)
     {
         FindRequireComponents();
         List<IslandPoint> placementPoints = new List<IslandPoint>();
@@ -30,7 +30,7 @@ public class IslandInitializer : MonoBehaviour
             placementPoints.Add(new IslandPoint(point));            
         }
 
-        _island.Initialize(placementPoints, Paint, paintMaterials);
+        _island.Initialize(placementPoints, Paint, colorSample, paintMaterials);
 
         foreach (IslandStartUnits startUnits in _startUnits)
         {

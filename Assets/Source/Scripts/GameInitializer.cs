@@ -128,12 +128,14 @@ public class GameInitializer : MonoBehaviour
                                                    _progressStorage, _inGameMenu, _finalScoreWindow, _menuTrainigSequence,
                                                    _levelSettings, _screenSizeChangeTracker, _mainCanvas);
 
+        _levelProgressTracker.Initialize(_progressStorage, levelDataHolder, unitMover, angryTracker, upgradesProvider);
+
         _nextLevelButton.Initialize(_levelLoader);
         _firstUnfinishedLevelButton.Initialize(_progressStorage, _levelLoader);
         _customizationWindowInitializer.Initialize(_progressStorage, _levelProgressTracker);
 
         _boostButtonInitializer.Initialize(unitMover, gameClickHandler, selectHandler, levelDataHolder,
-                                           boostAmountProvider);
+                                           boostAmountProvider, _progressStorage);
         _inGameShopInitializer.Initialize(upgradesProvider, boostAmountProvider, walletProvider);
         _boostBuyWindow.Initialize(boostAmountProvider, _boostSettings, walletProvider, rewardedAdProvider);
         _inAppPurchaseInitializer.Initialize(walletProvider, boostAmountProvider, removeAdsProvider, inAppPurchaseProvider,
@@ -142,13 +144,12 @@ public class GameInitializer : MonoBehaviour
 
         _walletView.Initialize(walletProvider);
 
-        _levelProgressTracker.Initialize(_progressStorage, levelDataHolder, unitMover, angryTracker, upgradesProvider);
         _finalScoreWindow.Initialize(_progressStorage, _levelProgressTracker, _levelLoader, _levelRewardSettings);
 
         _levelLoader.Initialize(_levelSettings, _unitsPool, _materials, _levelProgressTracker,
                                 _uiZoneActivator, levelDataHolder, _buferIslands, upgradesProvider,
                                 _currentLevelNumberToken, _unitsLookAtPoint, customizationSettingsHolder,
-                                _mainMenuIslands);
+                                _mainMenuIslands, _progressStorage);
         _buferIslands.Initialize(_levelSettings, unitMover);
         _backgroundMusicChanger.Initialize(_levelLoader);
         _deviceStyleChangeInitializer.Initialize();

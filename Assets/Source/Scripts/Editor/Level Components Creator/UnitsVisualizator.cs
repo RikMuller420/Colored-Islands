@@ -35,7 +35,8 @@ public class UnitsVisualizator
 
                     unit.transform.position = placePos;
                     unit.transform.SetParent(_visualizationHolder.transform);
-                    Material material = paintMaterials.Materials.FirstOrDefault(paint => paint.Paint == islandStartUnits.Paint).UnitMaterial;
+                    ColorSample colorSample = (ColorSample)(int)islandStartUnits.Paint;
+                    Material material = paintMaterials.Materials.FirstOrDefault(paint => paint.ColorSample == colorSample).UnitMaterial;
                     unit.SetMaterial(material);
                     unit.Activate();
 

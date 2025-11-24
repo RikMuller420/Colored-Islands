@@ -18,6 +18,8 @@ public class UnitRenderer : MonoBehaviour
     public void SetPaint(Paint paint)
     {
         _unitCustomizationSettings = _customizationSettings.GetCustomizationSettings(paint);
+
+        Debug.Log(paint + " -> " + _unitCustomizationSettings.UnitMaterial.color.r);
         _renderer.sharedMaterial = _unitCustomizationSettings.UnitMaterial;
         UpdateHat(_unitCustomizationSettings);
         _trail.startColor = _unitCustomizationSettings.TrailColor;
