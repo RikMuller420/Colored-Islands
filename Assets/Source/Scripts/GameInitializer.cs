@@ -52,6 +52,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private BoostButtonActivator _boostButtonActivator;
     [SerializeField] private UIOrientationChanger _uIOrientationChanger;
     [SerializeField] private MenuWindow _inGameMenu;
+    [SerializeField] MenuWindow _customizationMenu;
     [SerializeField] private MenuTrainigSequence _menuTrainigSequence;
     [SerializeField] private GameObject _mainMenuIslands;
     [SerializeField] private TrainingMenuUpdater _trainingMenuUpdater;
@@ -77,7 +78,6 @@ public class GameInitializer : MonoBehaviour
     private InAppPurchaseConsumeProvider _inAppConsumer;
     private GameProgressStorage _progressStorage;
     private TrainigSequenceLoader _trainigLoader;
-
     private void Start()
     {
         InitializeGame();
@@ -126,7 +126,7 @@ public class GameInitializer : MonoBehaviour
         _trainigLoader = new TrainigSequenceLoader(_levelLoader, levelDataHolder, _buferIslands, selectHandler, unitMover,
                                                    _camera, _boostButtonActivator, _levelProgressTracker, _uIOrientationChanger,
                                                    _progressStorage, _inGameMenu, _finalScoreWindow, _menuTrainigSequence,
-                                                   _levelSettings, _screenSizeChangeTracker, _mainCanvas);
+                                                   _levelSettings, _screenSizeChangeTracker, _mainCanvas, _customizationMenu);
 
         _levelProgressTracker.Initialize(_progressStorage, levelDataHolder, unitMover, angryTracker, upgradesProvider);
 

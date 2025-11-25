@@ -8,6 +8,8 @@ public abstract class TrainigSequence : MonoBehaviour
     [SerializeField] private RectTransform _pointer;
     [SerializeField] private Image _pointerImage;
 
+    protected LevelLoader LevelLoader { get; private set; }
+    protected MenuWindow CustomizationMenu { get; private set; }
     protected LevelObjectsHolder LevelObjectsHolder { get; private set; }
     protected BuferIslandsHolder BuferIslandsHolder { get; private set; }
     protected SelectHandler SelectHandler { get; private set; }
@@ -34,7 +36,8 @@ public abstract class TrainigSequence : MonoBehaviour
                            BoostButtonActivator boostButtonActivator, LevelProgressTracker levelProgressTracker,
                            UIOrientationChanger uIOrientationChanger, GameProgressStorage progressStorage,
                            MenuWindow inGameMenu, FinalScoreWindow finalScoreWindow, MenuTrainigSequence menuTrainigSequence,
-                           ScreenSizeChangeTracker screenSizeChangeTracker, Canvas canvas)
+                           ScreenSizeChangeTracker screenSizeChangeTracker, Canvas canvas, LevelLoader levelLoader,
+                           MenuWindow customizationMenu)
     {
         LevelObjectsHolder = levelObjectsHolder;
         BuferIslandsHolder = buferIslandsHolder;
@@ -50,6 +53,8 @@ public abstract class TrainigSequence : MonoBehaviour
         MenuTrainigSequence = menuTrainigSequence;
         ScreenSizeChangeTracker = screenSizeChangeTracker;
         Canvas = canvas;
+        LevelLoader = levelLoader;
+        CustomizationMenu = customizationMenu;
         _wait = new WaitForEndOfFrame();
     }
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -38,9 +39,25 @@ public class ClickHandler
 
         Ray ray = _camera.ScreenPointToRay(clickPosition);
 
+        if (IsPointerOverUI(clickPosition))
+        {
+            return;
+        }
+
         if (Physics.Raycast(ray, out RaycastHit hit, _currentClickBehaviour.MaxClickDistance, _currentClickBehaviour.LayerMask))
         {
             _currentClickBehaviour.HandleClick(hit);
         }
+    }
+
+    private bool IsPointerOverUI(Vector2 screenPosition)
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = screenPosition;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+
+        return results.Count > 0;
     }
 }

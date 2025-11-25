@@ -18,6 +18,7 @@ public class TrainigSequenceLoader
     private LevelSettings _levelSettings;
     private ScreenSizeChangeTracker _screenSizeChangeTracker;
     private Canvas _canvas;
+    private MenuWindow _customizationMenu;
 
     public TrainigSequenceLoader(LevelLoader levelLoader, LevelObjectsHolder levelObjectsHolder,
                                 BuferIslandsHolder buferIslandsHolder, SelectHandler selectHandler,
@@ -25,7 +26,7 @@ public class TrainigSequenceLoader
                                 LevelProgressTracker levelProgressTracker, UIOrientationChanger uIOrientationChanger,
                                 GameProgressStorage progressStorage, MenuWindow inGameMenu, FinalScoreWindow finalScoreWindow,
                                 MenuTrainigSequence menuTrainigSequence, LevelSettings levelSettings, 
-                                ScreenSizeChangeTracker screenSizeChangeTracker, Canvas canvas)
+                                ScreenSizeChangeTracker screenSizeChangeTracker, Canvas canvas, MenuWindow customizationMenu)
     {
         _levelLoader = levelLoader;
         _levelObjectsHolder = levelObjectsHolder;
@@ -43,6 +44,7 @@ public class TrainigSequenceLoader
         _levelSettings = levelSettings;
         _screenSizeChangeTracker = screenSizeChangeTracker;
         _canvas = canvas;
+        _customizationMenu = customizationMenu;
 
         _levelLoader.LevelChanged += OnLevelChanged;
     }
@@ -67,7 +69,7 @@ public class TrainigSequenceLoader
             trainigSequence.Initialize(_levelObjectsHolder, _buferIslandsHolder, _selectHandler, _unitMover, _mainCamera,
                                        _boostButtonActivator, _levelProgressTracker, _uIOrientationChanger, _progressStorage,
                                        _inGameMenu, _finalScoreWindow, _menuTrainigSequence, _screenSizeChangeTracker,
-                                       _canvas);
+                                       _canvas, _levelLoader, _customizationMenu);
             trainigSequence.StartTrainingNextFrame();
         }
     }

@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class TrainigSequenceLevel3 : TrainigSequence
 {
+    [SerializeField] private MenuWindow _customizationHint;
+    [SerializeField] private Button _openCustomizationButton;
+
     [SerializeField] private Island _islandForBoost;
     [SerializeField] private RectTransform _worldSpacePointer;
     [SerializeField] private Image _worldSpacePointerImage;
@@ -17,6 +20,7 @@ public class TrainigSequenceLevel3 : TrainigSequence
     private int _performedMoves = 0;
     private bool _isTrainingStarted = false;
     private RectTransform _buttonRectTransform;
+
 
     private void Awake()
     {
@@ -50,8 +54,20 @@ public class TrainigSequenceLevel3 : TrainigSequence
         _finishIslandBoostButton = BoostButtonActivator.GetBoostButton(BoostType.FinishIsland);
         _finishIslandBoostButton.TryBoostApplying += OnTryApplyingFinishIslandBoost;
         _buttonRectTransform = BoostButtonActivator.GetBoostButtonRectTransform(BoostType.FinishIsland);
+
+        if (ProgressStorage.LastAvailableLevelId <= LevelObjectsHolder.LevelSettings.Id)
+        {
+            _customizationHint.Open();
+            _openCustomizationButton.onClick.AddListener(OpenCustomizationMenu);
+        }
     }
 
+    private void OpenCustomizationMenu()
+    {
+        LevelLoader.LoadMainMenu();
+        CustomizationMenu.Open();
+    }
+        
     private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition(_buttonRectTransform);
 
     private void OnUnitsMoved(UnitsMoveInfo _)
