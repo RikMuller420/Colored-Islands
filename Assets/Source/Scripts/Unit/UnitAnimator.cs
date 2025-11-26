@@ -19,6 +19,16 @@ public class UnitAnimator : MonoBehaviour
         _walkAnimationHash = Animator.StringToHash(WalkBoolName);
     }
 
+    public void FreezeAnimation()
+    {
+        _animator.speed = 0;
+    }
+
+    public void UnfreezeAnimation()
+    {
+        _animator.speed = 1;
+    }
+
     public void Jump()
     {
         _animator.SetTrigger(JumpTriggerName);

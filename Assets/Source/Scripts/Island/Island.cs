@@ -60,14 +60,31 @@ public class Island : BaseIsland
         IslandFinished?.Invoke(this);
     }
 
-    private void Deactivate()
+    public void Deactivate()
     {
         enabled = false;
         GetComponent<Collider>().enabled = false;
 
         foreach (IslandPoint point in Points)
         {
-            point.OccupiedUnit.Deactivate();
+            if (point.IsFree == false)
+            {
+                point.OccupiedUnit.Deactivate();
+            }
+        }
+    }
+
+    public void Activate()
+    {
+        enabled = true;
+        GetComponent<Collider>().enabled = true;
+
+        foreach (IslandPoint point in Points)
+        {
+            if (point.IsFree == false)
+            {
+                point.OccupiedUnit.Activate();
+            }
         }
     }
 
