@@ -9,7 +9,7 @@ public class UnitCustomizationSettings
         Paint = paint;
         ColorSample = colorSample;
         UnitMaterial = unitMaterial;
-        SelectedUnitMaterial = selectedUnitMaterial;
+        SelectedUnitMaterial = new SelectedUnitMaterial(selectedUnitMaterial);
         HatData = hatData;
         HatMaterial = hatMaterial;
         SelectedHatMaterial = selectedHatMaterial;
@@ -19,7 +19,7 @@ public class UnitCustomizationSettings
     public Paint Paint { get; }
     public ColorSample ColorSample { get; }
     public Material UnitMaterial { get; }
-    public Material SelectedUnitMaterial { get; }
+    public SelectedUnitMaterial SelectedUnitMaterial { get; }
     public bool IsHatEquiped => HatData != null;
     public UnitHatData HatData { get; }
     public Material HatMaterial { get; }

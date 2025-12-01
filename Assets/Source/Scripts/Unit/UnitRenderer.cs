@@ -19,7 +19,6 @@ public class UnitRenderer : MonoBehaviour
     {
         _unitCustomizationSettings = _customizationSettings.GetCustomizationSettings(paint);
 
-        Debug.Log(paint + " -> " + _unitCustomizationSettings.UnitMaterial.color.r);
         _renderer.sharedMaterial = _unitCustomizationSettings.UnitMaterial;
         UpdateHat(_unitCustomizationSettings);
         _trail.startColor = _unitCustomizationSettings.TrailColor;
@@ -44,7 +43,8 @@ public class UnitRenderer : MonoBehaviour
 
     public void ActivateOutline()
     {
-        _renderer.sharedMaterial = _unitCustomizationSettings.SelectedUnitMaterial;
+        _renderer.sharedMaterial = _unitCustomizationSettings.SelectedUnitMaterial.Material;
+        _unitCustomizationSettings.SelectedUnitMaterial.StartSelectionAnimation();
 
         if (_hat != null)
         {
