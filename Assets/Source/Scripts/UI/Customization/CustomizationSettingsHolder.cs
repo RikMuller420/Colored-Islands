@@ -53,11 +53,8 @@ public class CustomizationSettingsHolder
         Material selectedUnitMaterial = materialData.SelectedUnitMaterial;
         UnitFaceData unitFaceData = _faceSettings.Faces.FirstOrDefault(face => face.Id == faceId);
 
-        Debug.Log(paint + "-> " + colorSample + ": " + materialData.UnitUiColor.r + " " + materialData.UnitUiColor.g + " " + materialData.UnitUiColor.b);
-
         PrepareUnitMaterial(unitMaterial, unitFaceData);
         PrepareUnitMaterial(selectedUnitMaterial, unitFaceData);
-
 
         bool isHatEquiped = hatId != _hatSettings.NoHatId;
         UnitHatData hatData = isHatEquiped ? _hatSettings.Hats.FirstOrDefault(hat => hat.Id == hatId) : null;
