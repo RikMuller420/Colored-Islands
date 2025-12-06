@@ -9,6 +9,7 @@ public class Level : MonoBehaviour
     [SerializeField] private CameraTargets _cameraTargetsHorizontal;
 
     [SerializeField] private MeshRenderer _levelBounds;
+    [SerializeField] private float _unitScale = 2f;
     [SerializeField] private List<IslandInitializer> _islands = new List<IslandInitializer>();
     [SerializeField] private List<Ice> _ices = new List<Ice>();
 
@@ -26,7 +27,8 @@ public class Level : MonoBehaviour
         foreach (IslandInitializer island in _islands)
         {
             CustomizationPreferences customizationPreferences = gameProgressStorage.GetCustomizationPreference(island.Paint);
-            island.Initialize(createUnit, materials, unitsLookAtPoint, customizationSettings, customizationPreferences.ColorSample);
+            island.Initialize(createUnit, materials, unitsLookAtPoint, customizationSettings,
+                              customizationPreferences.ColorSample, _unitScale);
         }
 
         foreach (Ice ice in _ices)

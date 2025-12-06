@@ -9,7 +9,7 @@ public class TrainingMenuUpdater : MonoBehaviour
 
     private GameProgressStorage _progressStorage;
     private float _lockedCustomizationBottomOffset = 150f;
-    private float _defaultCustomizationBottomOffset =120;
+    private float _defaultCustomizationBottomOffset = 0;
 
     public void Initialize(GameProgressStorage progressStorage)
     {

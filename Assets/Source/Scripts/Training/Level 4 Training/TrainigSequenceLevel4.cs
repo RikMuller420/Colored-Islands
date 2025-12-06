@@ -19,6 +19,7 @@ public class TrainigSequenceLevel4 : TrainigSequence
     private bool _isTrainingDone = false;
     private List<BaseIsland> _finishedIslands = new();
     private RectTransform _buttonRectTransform;
+    private bool _isHintHided = false;
 
     private void OnDestroy()
     {
@@ -27,7 +28,7 @@ public class TrainigSequenceLevel4 : TrainigSequence
         InGameMenu.MenuClosed -= OnMenuClosed;
         _freezeObjectivesBoostButton.TryBoostApplying -= OnTryApplyingBoost;
         LevelProgressTracker.AngryChanged -= OnAngryValueChanged;
-        LevelProgressTracker.FirstMoveDone -= OnFirstMoveDone;
+        LevelProgressTracker.FirstMoveDone -= OnUnitSelected;
         LevelProgressTracker.IslandFinished -= OnIslandFinished;
 
         ResetLevelState();
@@ -50,7 +51,7 @@ public class TrainigSequenceLevel4 : TrainigSequence
         _buttonRectTransform = BoostButtonActivator.GetBoostButtonRectTransform(BoostType.FreezeObjectives);
 
         LevelProgressTracker.AngryChanged += OnAngryValueChanged;
-        LevelProgressTracker.FirstMoveDone += OnFirstMoveDone;
+        SelectHandler.UnitsSelected += OnUnitSelected;
         LevelProgressTracker.IslandFinished += OnIslandFinished;
 
         StartCoroutine(OpenAngyBarHintInDelay());
@@ -63,9 +64,15 @@ public class TrainigSequenceLevel4 : TrainigSequence
         _finishedIslands.Add(island);
     }
 
-    private void OnFirstMoveDone()
+    private void OnUnitSelected()
     {
+        if (_isHintHided)
+        {
+            return;
+        }
+
         DOTween.Sequence().Append(_angyBarBubble.DOFade(0f, _bubbleFadeDuration));
+        _isHintHided = true;
     }
 
     private void OnAngryValueChanged(float value)

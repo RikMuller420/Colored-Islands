@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Unit : PoolableObject
@@ -32,6 +31,11 @@ public class Unit : PoolableObject
             _lookAtRotator = new UnitLookAtRotator(_body);
             _isInitialized = true;
         }
+    }
+
+    public void SetScale(float scale)
+    {
+        _meshTransform.localScale = Vector3.one * scale;
     }
 
     public void SetIsland(BaseIsland island)

@@ -12,6 +12,11 @@ public class Ice : MonoBehaviour
     private int _movesCount = 0;
     private UnitMover _unitMover;
 
+    private void OnDestroy()
+    {
+        _unitMover.UnitsMoved -= OnUnitsMoved;
+    }
+
     public void Initialize(UnitMover unitMover, Transform cameraTransform)
     {
         _unitMover = unitMover;
