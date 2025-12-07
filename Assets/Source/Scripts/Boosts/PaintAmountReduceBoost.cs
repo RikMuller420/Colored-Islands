@@ -44,7 +44,7 @@ public class PaintAmountReduceBoost : Boost
             if (island.Paint == oldPaint)
             {
                 CustomizationPreferences preference = _progressStorage.GetCustomizationPreference(newPaint);
-                island.SetPaint(island.Paint, preference.ColorSample);
+                island.SetPaint(newPaint, preference.ColorSample);
             }
 
             SwapUnitsPaint(island, oldPaint, newPaint);

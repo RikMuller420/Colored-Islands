@@ -4,7 +4,7 @@ using System.Linq;
 
 public class GameProgressStorage
 {
-    private const string SaveSignatureKey = "TestVersion2";
+    private const string SaveSignatureKey = "TestVersion3";
 
     private LevelSettings _levelSettings;
     private UnitsFaceSettings _unitsFaceSettings;
