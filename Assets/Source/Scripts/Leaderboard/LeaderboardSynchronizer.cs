@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ public class LeaderboardSynchronizer : MonoBehaviour
     private LeaderboardProvider _leaderboardProvider;
     private LeaderboardSettings _leaderboardSettings;
     private LeaderboardScoreCalculator _scoreCalculator;
+
+    public event Action<Leaderboard> PlayerScoreChanged;
 
     public void Initialize(LeaderboardProvider leaderboardProvider, LeaderboardSettings leaderboardSettings,
                             LeaderboardScoreCalculator scoreCalculator)
@@ -48,6 +51,7 @@ public class LeaderboardSynchronizer : MonoBehaviour
         if (score != leaderboardData.CurrentPlayerScore)
         {
             _leaderboardProvider.SaveScore(leaderboardData.Key, score);
+            PlayerScoreChanged?.Invoke(leaderboardData);
         }
     }
 }
