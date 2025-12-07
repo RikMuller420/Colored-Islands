@@ -3760,10 +3760,10 @@ RectTransform:
   - {fileID: 497530552}
   m_Father: {fileID: 1532003329}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.22}
-  m_AnchorMax: {x: 1, y: 0.22}
+  m_AnchorMin: {x: 0.5, y: 0.22}
+  m_AnchorMax: {x: 0.5, y: 0.22}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 800, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &192661950
 CanvasGroup:
@@ -20035,13 +20035,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Levels Window
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 199823094570062222, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7282711344728302931, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1744049524}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7365609067511930156, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 981464261}
     - targetCorrespondingSourceObject: {fileID: 5931232364832902595, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
       insertIndex: 1
       addedObject: {fileID: 779095666}
@@ -20056,17 +20060,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7282711344728302931, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
   m_PrefabInstance: {fileID: 779095661}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &779095664 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 199823094570062222, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
-  m_PrefabInstance: {fileID: 779095661}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9499177f222464a4594c885ed9491be5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &779095665 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5931232364832902595, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
@@ -22040,7 +22033,7 @@ MonoBehaviour:
   - {fileID: 1411296884}
   - {fileID: 7622204417380170269}
   - {fileID: 159712521}
-  - {fileID: 779095664}
+  - {fileID: 981464261}
   - {fileID: 1996121880}
   - {fileID: 653720335}
   - {fileID: 1981337440}
@@ -24528,6 +24521,35 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1158526623684140210, guid: 625c6458bc81955478e1e09c38aa690d, type: 3}
   m_PrefabInstance: {fileID: 9052846374482463098}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &981464255 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7365609067511930156, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
+  m_PrefabInstance: {fileID: 779095661}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &981464259 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 6481376344471399356, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
+  m_PrefabInstance: {fileID: 779095661}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &981464261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981464255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45d0bcf001fb1b54cbf7607cc44b3e3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isOpened: 0
+  _canvasGroup: {fileID: 981464259}
+  _openFadeDuration: 0.2
+  _closeFadeDuration: 0.2
+  _closeButton: {fileID: 1247438620}
+  _menuDimmer: {fileID: 1722906427}
+  _tabSwitcher: {fileID: 2031490727}
 --- !u!1 &984011398
 GameObject:
   m_ObjectHideFlags: 0
@@ -30127,6 +30149,17 @@ MonoBehaviour:
   - Language: Turkish
     Text: "Sat\u0131n almak"
     Object: {fileID: 0}
+--- !u!114 &1247438620 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2716597401908191586, guid: 475d007489a79f6469deb4f0ae0dcaea, type: 3}
+  m_PrefabInstance: {fileID: 779095661}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1252674482
 GameObject:
   m_ObjectHideFlags: 0
@@ -33600,6 +33633,7 @@ MonoBehaviour:
   _collDownProvider: {fileID: 1373261430}
   _islandFinishParticlePool: {fileID: 1610484479}
   _mainCanvas: {fileID: 894807440}
+  _levelsWindow: {fileID: 981464261}
   _leaderboardTabs:
   - {fileID: 9052846374482463100}
   - {fileID: 756928078}
@@ -41186,7 +41220,7 @@ PrefabInstance:
     - target: {fileID: 6757913975765307028, guid: 625c6458bc81955478e1e09c38aa690d, type: 3}
       propertyPath: _parentWindow
       value: 
-      objectReference: {fileID: 779095664}
+      objectReference: {fileID: 981464261}
     - target: {fileID: 6757913975765307028, guid: 625c6458bc81955478e1e09c38aa690d, type: 3}
       propertyPath: _tabs.Array.size
       value: 3
@@ -46929,7 +46963,7 @@ PrefabInstance:
     - target: {fileID: 8074090513856707910, guid: a18f0a46a240ac643a551dd5a2f11ddc, type: 3}
       propertyPath: _window
       value: 
-      objectReference: {fileID: 779095664}
+      objectReference: {fileID: 981464261}
     - target: {fileID: 8496533824127109684, guid: a18f0a46a240ac643a551dd5a2f11ddc, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -50072,6 +50106,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2028797405}
   m_CullTransparentMesh: 1
+--- !u!114 &2031490727 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6757913975765307028, guid: 625c6458bc81955478e1e09c38aa690d, type: 3}
+  m_PrefabInstance: {fileID: 1744049523}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8a171d1d7b14a24bb6c5a1736698644, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2035992726 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5633653005446823467, guid: 629489266f9fc3643b31e330c0d76bbf, type: 3}

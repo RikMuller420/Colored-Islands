@@ -70,6 +70,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private FreeStuffCollDownProvider _collDownProvider;
     [SerializeField] private IslandFinishParticlePool _islandFinishParticlePool;
     [SerializeField] private Canvas _mainCanvas;
+    [SerializeField] private LevelsWindow _levelsWindow;
     [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
     [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
     [SerializeField] private List<LoginButton> _loginButtons;
@@ -168,6 +169,7 @@ public class GameInitializer : MonoBehaviour
         _addMultipliedRewardWindow.Initialize(_hatSettings, upgradesProvider);
         _leaderboardSynchronizer.Initialize(leaderboardProvider, _leaderboardSettings, leaderboardScoreCalculator);
         _cameraPositionChanger.Initialize(_levelLoader, levelDataHolder, _buferIslands, _uIOrientationChanger, _screenSizeChangeTracker);
+        _levelsWindow.Initialize(_progressStorage);
 
         foreach (LeaderboardTab leaderboardTab in _leaderboardTabs)
         {
