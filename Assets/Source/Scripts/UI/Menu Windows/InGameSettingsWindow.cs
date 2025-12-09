@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InGameSettingsWindow : MenuWindow
 {
+    [SerializeField] private LevelSettings _levelSettings;
     [SerializeField] private LevelLoader _levelLoader;
     [SerializeField] private LeanToken _movesToken;
     [SerializeField] private LeanToken _minutesToken;
@@ -23,9 +24,14 @@ public class InGameSettingsWindow : MenuWindow
 
     private void OnLevelChanged()
     {
-        _movesToken.SetValue(_levelLoader.CurrentLevelData.ExtraStarMoveLimit);
+        if (_levelLoader.CurrentLevelData.Id == _levelSettings.MainMenuSettings.Id)
+        {
+            return;
+        }
 
-        TimeSpan time = TimeSpan.FromSeconds(_levelLoader.CurrentLevelData.ExtraStarTimeLimit);
+        _movesToken.SetValue(_levelLoader.ExtraStarMoveCount);
+
+        TimeSpan time = TimeSpan.FromSeconds(_levelLoader.ExtraScoreTime);
         string timeString = $"{(int)time.TotalMinutes}:{time.Seconds:D2}";
         _minutesToken.SetValue(timeString);
     }

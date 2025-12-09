@@ -38,7 +38,7 @@ public class AngryTracker
             instabilityStep += CalculateIslandInstability(island);
         }
 
-        instabilityStep *= _levelLoader.CurrentLevelData.AngryBarSpeed * _balancer.Value * _upgradeMultiplier * _angrySpeed;
+        instabilityStep *= _levelLoader.AngryBarSpeed * _balancer.Value * _upgradeMultiplier * _angrySpeed;
         AddAngry(instabilityStep * Time.deltaTime);
     }
 

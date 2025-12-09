@@ -12,6 +12,11 @@ public class LevelObjectsHolder
     public MeshRenderer LevelBounds => _level?.LevelBounds;
     public LevelSettingsData LevelSettings { get; private set; }
 
+    public int BuferIslandSize => _level.BuferIslandSize;
+    public int ExtraStarMoveCount => _level.ExtraStarMoveCount;
+    public float ExtraScoreTime => _level.ExtraScoreTime;
+    public float AngryBarSpeed => _level.AngryBarSpeed;
+
     public void SetLevelData(Level level, LevelSettingsData levelData)
     {
         _level = level;

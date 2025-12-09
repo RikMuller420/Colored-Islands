@@ -116,7 +116,7 @@ public class TrainigSequenceLevel5 : TrainigSequence
     {
         if (ProgressStorage.IsTrainingFinished)
         {
-            //return;
+            return;
         }
 
         _finishTrainingPanel.blocksRaycasts = true;

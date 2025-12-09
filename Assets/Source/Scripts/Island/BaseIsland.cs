@@ -86,7 +86,14 @@ public class BaseIsland : MonoBehaviour, ISelectable
 
     protected virtual void OnValidate()
     {
-        _meshRenderer = GetComponent<MeshRenderer>();
-        _collider = GetComponent<Collider>();
+        if (_meshRenderer == null)
+        {
+            _meshRenderer = GetComponent<MeshRenderer>();
+        }
+
+        if (_collider == null)
+        {
+            _collider = GetComponent<Collider>();
+        }
     }
 }

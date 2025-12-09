@@ -290,6 +290,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6c1d101926edbb459558d53c4697e50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _buferIslandSize: 3
+  _extraStarMoveCount: 17
+  _extraScoreTime: 75
+  _angryBarSpeed: 2
   _cameraTargetsVertical:
     _lookAtPoint: {fileID: 9030291535708278055}
     _followPoint: {fileID: 5977243054522495855}
@@ -297,11 +301,13 @@ MonoBehaviour:
     _lookAtPoint: {fileID: 4255781654197988952}
     _followPoint: {fileID: 79198247993514678}
   _levelBounds: {fileID: 358378267689586271}
+  _unitScale: 2
   _islands:
   - {fileID: 4455706538471322049}
   - {fileID: 8489028571904133936}
   - {fileID: 7452445651354375592}
   - {fileID: 2051929629591350867}
+  _ices: []
 --- !u!114 &7651826150099066939
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -28,7 +28,7 @@ public class ObjectivesAnimator : MonoBehaviour
     public void ShowMoveObjectiveAnimation(LevelProgressTracker progressTracker, out float animationDuration)
     {
         animationDuration = _movesObjective.AnimationDuration;
-        string moves = progressTracker.LevelData.ExtraStarMoveLimit.ToString();
+        string moves = progressTracker.ExtraStarMoveCount.ToString();
         _movesObjective.ShowAppearAnimation(moves, progressTracker.IsMoveTaskDone);
     }
 

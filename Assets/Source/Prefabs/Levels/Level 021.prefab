@@ -59,7 +59,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -1}
-  m_LocalScale: {x: 5.7, y: 0.5, z: 10}
+  m_LocalScale: {x: 6.7, y: 0.5, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7355374557766723068}
@@ -237,7 +237,7 @@ Transform:
   m_GameObject: {fileID: 8040997883039766275}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -263,6 +263,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6c1d101926edbb459558d53c4697e50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _buferIslandSize: 3
+  _extraStarMoveCount: 23
+  _extraScoreTime: 130
+  _angryBarSpeed: 1
   _cameraTargetsVertical:
     _lookAtPoint: {fileID: 972969279678043636}
     _followPoint: {fileID: 2963331352123511432}
@@ -270,6 +274,7 @@ MonoBehaviour:
     _lookAtPoint: {fileID: 2363758654624078523}
     _followPoint: {fileID: 5324426346278758472}
   _levelBounds: {fileID: 3433156200193719237}
+  _unitScale: 2
   _islands:
   - {fileID: 3668938614552633828}
   - {fileID: 7193591778502752878}
@@ -277,6 +282,7 @@ MonoBehaviour:
   - {fileID: 4938572158805249977}
   - {fileID: 7610694912650757412}
   - {fileID: 5505406165929624205}
+  _ices: []
 --- !u!1 &8352837828596776866
 GameObject:
   m_ObjectHideFlags: 0
@@ -1989,6 +1995,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 4da7885fcb7b8ef4ab563d02da9ce836, type: 2}
+    - target: {fileID: 2344348832991177704, guid: 3b900759522eedf42b4eaacc5bc802d2, type: 3}
+      propertyPath: m_SelectedEditorRenderState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2442932336465182551, guid: 3b900759522eedf42b4eaacc5bc802d2, type: 3}
       propertyPath: m_Color.b
       value: 0.3372549

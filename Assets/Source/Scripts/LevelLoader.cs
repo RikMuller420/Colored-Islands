@@ -29,6 +29,9 @@ public class LevelLoader : MonoBehaviour
     public event Action LevelChanged;
 
     public LevelSettingsData CurrentLevelData { get; private set; }
+    public int ExtraStarMoveCount => _currentLevel.ExtraStarMoveCount;
+    public float ExtraScoreTime => _currentLevel.ExtraScoreTime;
+    public float AngryBarSpeed => _currentLevel.AngryBarSpeed;
 
     public void Initialize(LevelSettings levelSettings, UnitsPool unitsPool, PaintMaterials materials,
                             LevelProgressTracker levelProgressTracker, UIZoneSwitcher uiZoneActivator,
@@ -86,7 +89,7 @@ public class LevelLoader : MonoBehaviour
                                  _unitMover, _cameraTransform);
 
         int extraIslandSize = (int)_upgradesProvider.UpgradeStageValue(UpgradeType.BuferIslandSize);
-        int islandSize = CurrentLevelData.BuferIslandSize + extraIslandSize;
+        int islandSize = _currentLevel.BuferIslandSize + extraIslandSize;
         _buferIslands.LoadIsland(islandSize);
 
         _levelDataHolder.SetLevelData(_currentLevel, CurrentLevelData);

@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
+    [SerializeField] private int _buferIslandSize = 3;
+    [SerializeField] private int _extraStarMoveCount = 20;
+    [SerializeField] private float _extraScoreTime = 60;
+    [SerializeField] private float _angryBarSpeed = 1;
+
     [SerializeField] private CameraTargets _cameraTargetsVertical;
     [SerializeField] private CameraTargets _cameraTargetsHorizontal;
 
@@ -12,6 +17,11 @@ public class Level : MonoBehaviour
     [SerializeField] private float _unitScale = 2f;
     [SerializeField] private List<IslandInitializer> _islands = new List<IslandInitializer>();
     [SerializeField] private List<Ice> _ices = new List<Ice>();
+
+    public int BuferIslandSize => _buferIslandSize;
+    public int ExtraStarMoveCount => _extraStarMoveCount;
+    public float ExtraScoreTime => _extraScoreTime;
+    public float AngryBarSpeed => _angryBarSpeed;
 
     public CameraTargets CameraTargetsVertical => _cameraTargetsVertical;
     public CameraTargets CameraTargetsHorizontal => _cameraTargetsHorizontal;

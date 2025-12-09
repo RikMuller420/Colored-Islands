@@ -24,11 +24,13 @@ public class LevelProgressTracker : MonoBehaviour
 
     public bool IsLevelFinished { get; private set; }
     public bool IsAngryTaskDone => _angryTracker.AngryValue < 1f;
-    public bool IsMoveTaskDone  => _levelMoves <= LevelData.ExtraStarMoveLimit;
+    public bool IsMoveTaskDone  => _levelMoves <= _levelDataHolder.ExtraStarMoveCount;
     public int ReachedGold { get; private set; }
     public int ReachedScore { get; private set; }
     public float AngryValue => _angryTracker.AngryValue;
     public LevelSettingsData LevelData => _levelDataHolder.LevelSettings;
+    public int ExtraStarMoveCount => _levelDataHolder.ExtraStarMoveCount;
+
 
     private void OnEnable()
     {
