@@ -20,8 +20,10 @@ public class LevelRewardSaver
 
         if (reward.RouletteSpinAmount > 0)
         {
-            int newSpinAmount = _progressStorage.AviableSpinCount + reward.RouletteSpinAmount * multiplier;
+            int spinCount = reward.RouletteSpinAmount * multiplier;
+            int newSpinAmount = _progressStorage.AviableSpinCount + spinCount;
             _progressStorage.SetSpinCount(newSpinAmount);
+            MetricSaver.GetRouleteSpin(spinCount);
         }
 
         if (reward.BoostAmount > 0)

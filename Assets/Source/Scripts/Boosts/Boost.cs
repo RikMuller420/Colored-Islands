@@ -1,4 +1,5 @@
 using System;
+using GameAnalyticsSDK;
 
 [Serializable]
 public abstract class Boost 
@@ -20,5 +21,6 @@ public abstract class Boost
     {
         BoostApplyed?.Invoke(this);
         _boostAmountProvider.SpendBoost(boostType);
+        MetricSaver.SpentBoost(boostType);
     }
 }

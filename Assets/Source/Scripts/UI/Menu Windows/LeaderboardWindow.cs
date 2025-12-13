@@ -29,4 +29,15 @@ public class LeaderboardWindow : MenuWindow
             _leaderboardTabs.UpdateActiveTab();
         }
     }
+
+    public override void Open()
+    {
+        if (IsOpened)
+        {
+            return;
+        }
+
+        base.Open();
+        MetricSaver.OpenLeaderboardWindow();
+    }
 }

@@ -96,6 +96,7 @@ public class LevelLoader : MonoBehaviour
         _levelProgressTracker.StartTracking();
 
         LevelChanged?.Invoke();
+        MetricSaver.StartLevel();
     }
 
     public void ReloadLastLevel()

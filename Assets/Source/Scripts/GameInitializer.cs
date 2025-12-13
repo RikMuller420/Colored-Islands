@@ -52,7 +52,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private BoostButtonActivator _boostButtonActivator;
     [SerializeField] private UIOrientationChanger _uIOrientationChanger;
     [SerializeField] private MenuWindow _inGameMenu;
-    [SerializeField] MenuWindow _customizationMenu;
+    [SerializeField] private CustomizationWindow _customizationMenu;
     [SerializeField] private MenuTrainigSequence _menuTrainigSequence;
     [SerializeField] private GameObject _mainMenuIslands;
     [SerializeField] private TrainingMenuUpdater _trainingMenuUpdater;
@@ -79,6 +79,9 @@ public class GameInitializer : MonoBehaviour
     private InAppPurchaseConsumeProvider _inAppConsumer;
     private GameProgressStorage _progressStorage;
     private TrainigSequenceLoader _trainigLoader;
+    private MetricProvider _metricProvider;
+    private MetricSaver _metricSaver;
+
     private void Start()
     {
         InitializeGame();
@@ -107,6 +110,8 @@ public class GameInitializer : MonoBehaviour
         var defaultClickHandler = new DefaultClickHandler(selectHandler, _allIslandsAndUnitsLayer);
         var gameClickHandler = new ClickHandler(_inputHandler, _camera, defaultClickHandler);
         _progressStorage = new GameProgressStorage(_levelSettings, _faceSettings, _hatSettings, _levelRewardSettings, saveProvider, _gameProgressSaver);
+        _metricProvider = new MetricProvider(_progressStorage);
+        _metricSaver = new MetricSaver(_levelProgressTracker, _progressStorage);
         var leaderboardScoreCalculator = new LeaderboardScoreCalculator(_progressStorage);
 
         var upgradesProvider = new UpgradesProvider(_progressStorage, _upgradeSettings);

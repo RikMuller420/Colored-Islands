@@ -17,6 +17,8 @@ public class NewLeaderPositionView : MonoBehaviour
     [SerializeField] private LevelLoader _levelLoader;
 
     private Dictionary<LeaderboardType, int> _playerRanks = new ();
+    private Dictionary<LeaderboardType, int> _showedPlayerRanks = new();
+
     private DateTime _lastShowTime = DateTime.Now;
 
     private int _showCoolDownSeconds = 60;
@@ -62,10 +64,20 @@ public class NewLeaderPositionView : MonoBehaviour
             return;
         }
 
-
         LeaderboardType leaderboardType = _playerRanks.Keys.First();
+        int newRank = _playerRanks[leaderboardType];
+
+        if (_showedPlayerRanks.ContainsKey(leaderboardType) &&
+            _showedPlayerRanks[leaderboardType] == newRank)
+        {
+            _playerRanks.Remove(leaderboardType);
+            TryShowNewRank();
+
+            return;
+        }
+
         NewLeaderPositionData textData = _textDatas.FirstOrDefault(data => data.Type == leaderboardType);
-        textData.Token.SetValue(_playerRanks[leaderboardType]);
+        textData.Token.SetValue(newRank);
         string fullText = LeanLocalization.GetTranslationText(textData.LeanTextKey);
         _text.text = "";
         _text.DOText(fullText, _typeTextDuration).SetEase(Ease.Linear);
@@ -79,5 +91,16 @@ public class NewLeaderPositionView : MonoBehaviour
         });
 
         _lastShowTime = DateTime.Now;
+
+        if (_showedPlayerRanks.ContainsKey(leaderboardType))
+        {
+            _showedPlayerRanks[leaderboardType] = newRank;
+        }
+        else
+        {
+            _showedPlayerRanks.Add(leaderboardType, newRank);
+        }
+
+        _playerRanks.Remove(leaderboardType);
     }
 }

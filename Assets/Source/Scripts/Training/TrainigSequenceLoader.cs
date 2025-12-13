@@ -18,7 +18,7 @@ public class TrainigSequenceLoader
     private LevelSettings _levelSettings;
     private ScreenSizeChangeTracker _screenSizeChangeTracker;
     private Canvas _canvas;
-    private MenuWindow _customizationMenu;
+    private CustomizationWindow _customizationMenu;
 
     public TrainigSequenceLoader(LevelLoader levelLoader, LevelObjectsHolder levelObjectsHolder,
                                 BuferIslandsHolder buferIslandsHolder, SelectHandler selectHandler,
@@ -26,7 +26,7 @@ public class TrainigSequenceLoader
                                 LevelProgressTracker levelProgressTracker, UIOrientationChanger uIOrientationChanger,
                                 GameProgressStorage progressStorage, MenuWindow inGameMenu, FinalScoreWindow finalScoreWindow,
                                 MenuTrainigSequence menuTrainigSequence, LevelSettings levelSettings, 
-                                ScreenSizeChangeTracker screenSizeChangeTracker, Canvas canvas, MenuWindow customizationMenu)
+                                ScreenSizeChangeTracker screenSizeChangeTracker, Canvas canvas, CustomizationWindow customizationMenu)
     {
         _levelLoader = levelLoader;
         _levelObjectsHolder = levelObjectsHolder;

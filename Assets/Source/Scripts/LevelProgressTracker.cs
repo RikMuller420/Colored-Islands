@@ -58,6 +58,7 @@ public class LevelProgressTracker : MonoBehaviour
                 {
                     AngryTaskFailed?.Invoke();
                     _isAngryTracking = false;
+                    MetricSaver.TrackAngryBarFailed();
                 }      
             }
         }
@@ -164,6 +165,8 @@ public class LevelProgressTracker : MonoBehaviour
         StopTracking();
         CalculateRewardsAmount();
         LevelFinished?.Invoke();
+
+        MetricSaver.FinishLevel();
     }
 
     //Under TEST UI only

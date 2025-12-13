@@ -81,6 +81,7 @@ public class UpgradeOfferLine : MonoBehaviour
     {
         _walletProvider.SpendGold(_goldPrice);
         _upgradesProvider.AddUpgradeStage(_upgradeType);
+        MetricSaver.BuyUpgrade(_upgradeType);
     }
 
     private void UpdatePrice()

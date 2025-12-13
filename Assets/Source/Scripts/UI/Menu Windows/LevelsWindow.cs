@@ -22,7 +22,13 @@ public class LevelsWindow : MenuWindow
 
         base.Open();
 
-        int tabIndex = _progressStorage.LastAvailableLevelId / _levelPerTab;
+        int tabIndex = (_progressStorage.LastAvailableLevelId - 1) / _levelPerTab;
+
+        if (tabIndex < 0)
+        {
+            tabIndex = 0;
+        }
+
         _tabSwitcher.ActivateTab(tabIndex);
     }
 }

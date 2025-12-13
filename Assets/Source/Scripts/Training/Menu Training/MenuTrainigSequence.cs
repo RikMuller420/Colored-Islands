@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using Lean.Localization;
 using TMPro;
@@ -13,7 +12,7 @@ public class MenuTrainigSequence : MonoBehaviour
 
     [SerializeField] private LevelLoader _levelLoader;
     [SerializeField] private Image _fullDimImage;
-    [SerializeField] private MenuWindow _customizationWindow;
+    [SerializeField] private CustomizationWindow _customizationWindow;
     [SerializeField] private MenuWindow _shopWindow;
 
     [SerializeField] private CanvasGroup _trainingHintGroup;

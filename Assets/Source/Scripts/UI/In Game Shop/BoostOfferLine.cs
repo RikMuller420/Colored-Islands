@@ -68,5 +68,6 @@ public class BoostOfferLine : MonoBehaviour
     {
         _walletProvider.SpendGold(_goldPrice);
         _boostAmountProvider.AddBoost(_boostType);
+        MetricSaver.BuyBoost(_boostType);
     }
 }

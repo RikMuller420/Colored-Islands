@@ -55,11 +55,13 @@ public class LevelRewardWindow : MenuWindow
     {
         _levelRewardSaver.AddReward(_currentReward);
         Close();
+        MetricSaver.ReceiveStandartLevelReward();
     }
 
     private void TryReceiveRewardWithAdd()
     {
         _rewardedAdProvider.ShowAdvReward(RewardedAddId, ReceiveRewardWithAdd);
+        MetricSaver.ReceiveMultiplayedLevelRewardWithAdd();
     }
 
     private void ReceiveRewardWithAdd()

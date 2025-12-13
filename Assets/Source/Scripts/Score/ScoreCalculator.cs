@@ -38,6 +38,10 @@ public class ScoreCalculator
             {
                 score += (int)(_levelDataHolder.ExtraStarMoveCount - levelMoves) * _scorePerSavedMove;
             }
+            else
+            {
+                MetricSaver.TrackMoveLimitFailed();
+            }
         }
 
         return score;

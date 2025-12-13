@@ -79,11 +79,13 @@ public class BoostBuyConfirmationWindow : MenuWindow
         _walletProvider.SpendGold(_currentBoostPrice);
         _boostAmountProvider.AddBoost(_currentBoostType);
         Close();
+        MetricSaver.BuyBoost(_currentBoostType);
     }
 
     private void BuyBoostWithAdd()
     {
         _rewardedAdProvider.ShowAdvReward(RewardVideoId, AddBoost);
+        MetricSaver.ShowGetFreeBoostAdd(_currentBoostType);
     }
 
     private void AddBoost()

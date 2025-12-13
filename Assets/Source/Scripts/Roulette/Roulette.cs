@@ -59,6 +59,7 @@ public class Roulette : MonoBehaviour
 
         int newSpinCount = _progressStorage.AviableSpinCount - 1;
         _progressStorage.SetSpinCount(newSpinCount);
+        MetricSaver.SpinRoulete();
     }
 
     private void OnSpinFinished(Slot winnedSlot)

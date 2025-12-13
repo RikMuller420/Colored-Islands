@@ -48,6 +48,7 @@ public class InAppByAddViewOffer : MonoBehaviour
     private void TryBuy()
     {
         _rewardedAdProvider.ShowAdvReward(_inAppType.ToString(), AddEarnProgress);
+        MetricSaver.GetInAppViaWathAdd(_inAppType);
     }
 
     private void AddEarnProgress()
