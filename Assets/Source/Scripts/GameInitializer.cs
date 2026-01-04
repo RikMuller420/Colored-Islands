@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class GameInitializer : MonoBehaviour
 {
-    [SerializeField] private TestUI _testUI;
-
     [Header("Settings")]
     [SerializeField] private LevelSettings _levelSettings;
     [SerializeField] private PaintMaterials _materials;
@@ -196,7 +194,6 @@ public class GameInitializer : MonoBehaviour
             levelTabInitializer.InitializeButtons(_progressStorage, _levelLoader);
         }
 
-        _testUI.Initialize(_progressStorage, walletProvider);
         _inAppConsumer = new InAppPurchaseConsumeProvider();
     }
 }
