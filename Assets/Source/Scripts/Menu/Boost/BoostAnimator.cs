@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,17 +5,17 @@ public class BoostAnimator
 {
     private Dictionary<Boost, BoostButton> _boostsButtons;
     private BoostButton _islandFinishBoostButton;
-    private IslandFinishBehaviour _islandFinishBehaviour;
+    private IIslandFinishEvent _islandFinishEvent;
 
     private GameObject _finishIslandEffect;
     private GameObject _reduceColorEffect;
     private Vector3 _effectOffset = new Vector3(0, 1f, 0f);
 
-    public BoostAnimator(Dictionary<Boost, BoostButton> boostsButtons, IslandFinishBehaviour islandFinishBehaviour,
+    public BoostAnimator(Dictionary<Boost, BoostButton> boostsButtons, IIslandFinishEvent islandFinishEvent,
                          GameObject finishIslandEffect, GameObject reduceColorEffect)
     {
         _boostsButtons = boostsButtons;
-        _islandFinishBehaviour = islandFinishBehaviour;
+        _islandFinishEvent = islandFinishEvent;
         _finishIslandEffect = finishIslandEffect;
         _reduceColorEffect = reduceColorEffect;
 
@@ -36,7 +35,7 @@ public class BoostAnimator
             }
         }
 
-        _islandFinishBehaviour.IslandFinished += OnIslandAutoFinished;
+        _islandFinishEvent.IslandFinished += OnIslandAutoFinished;
     }
 
     private void OnIslandAutoFinished(Island island)

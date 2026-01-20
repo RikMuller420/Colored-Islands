@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class CameraPositionChanger : MonoBehaviour
 {
+    [SerializeField] private LevelSettings _levelSettings;
+
+    [SerializeField] private LevelChangeEventTracker _levelChangeEventTracker;
+    [SerializeField] private BuferIslandsHolder _buferIslands;
+    [SerializeField] private UIOrientationChanger _uIOrientationChanger;
+    [SerializeField] private ScreenSizeChangeTracker _screenSizeChangeTracker;
+
     [SerializeField] private Transform _cameraFollowTarget;
     [SerializeField] private Transform _cameraLookAtTarget;
     [SerializeField] private Camera _mainCamera;
@@ -14,12 +21,9 @@ public class CameraPositionChanger : MonoBehaviour
     private float _minVerticalAspectRatio = 0.8f;
     private float _maxHorizontalAspectRatio = 1.3f;
 
-    private LevelLoader _levelLoader;
-    private LevelObjectsHolder _levelObjectsHolder;
+    private ILevelData _currentLevelData;
 
     private CameraFoVChanger _cameraFoVChanger;
-    private ScreenSizeChangeTracker _screenSizeChangeTracker;
-    private UIOrientationChanger _uIOrientationChanger;
     private float _refreshRate = 0.1f;
     private float _foVUpdateDelay = 0.2f;
     private Coroutine _updateFoVInDelayCorutine;
@@ -31,44 +35,42 @@ public class CameraPositionChanger : MonoBehaviour
 
     private void OnEnable()
     {
-        _levelLoader.LevelChanged += UpdateCameraPosition;
+        _levelChangeEventTracker.LevelChanged += UpdateCameraPosition;
         _screenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
-        UpdateCameraPosition();
     }
 
     private void OnDisable()
     {
-        _levelLoader.LevelChanged -= UpdateCameraPosition;
+        _levelChangeEventTracker.LevelChanged -= UpdateCameraPosition;
         _screenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
     }
 
-    public void Initialize(LevelLoader levelLoader, LevelObjectsHolder levelObjectsHolder,
-                        BuferIslandsHolder buferIslandsHolder, UIOrientationChanger uIOrientationChanger,
-                        ScreenSizeChangeTracker screenSizeChangeTracker)
+    public void Initialize(ILevelData currentLevelData)
     {
-        _levelLoader = levelLoader;
-        _levelObjectsHolder = levelObjectsHolder;
-        _screenSizeChangeTracker = screenSizeChangeTracker;
-        _uIOrientationChanger = uIOrientationChanger;
-        _cameraFoVChanger = new CameraFoVChanger(_levelObjectsHolder, buferIslandsHolder,
-                                                uIOrientationChanger, _mainCamera, _virtualCamera);
+        _currentLevelData = currentLevelData;
+        _cameraFoVChanger = new CameraFoVChanger(_currentLevelData, _buferIslands,
+                                                _uIOrientationChanger, _mainCamera, _virtualCamera);
         _waitUpdatePosition = new WaitForSeconds(_refreshRate);
         _waitFoVUpdate = new WaitForSeconds(_foVUpdateDelay);
+        UpdateCameraPosition();
+
         enabled = true;
     }
 
     private void OnScreenSizeChanged(Vector2 vector) => UpdateCameraPosition();
 
-    private void UpdateCameraPosition()
+    private void UpdateCameraPosition() => UpdateCameraPosition(_currentLevelData);
+
+    private void UpdateCameraPosition(ILevelData levelData)
     {
-        if (_levelLoader.CurrentLevelData.Id <= 0)
+        if (levelData.LevelId == _levelSettings.MainMenuSettings.Id)
         {
             SetMenuCameraPosition();
 
             return;
         }
 
-        if (_levelObjectsHolder.VerticalCameraTargets == null || _levelObjectsHolder.HorizontalCameraTargets == null)
+        if (levelData.VerticalCameraTargets == null || levelData.HorizontalCameraTargets == null)
         {
             return;
         }
@@ -80,13 +82,13 @@ public class CameraPositionChanger : MonoBehaviour
 
         if (aspectRatio <= _minVerticalAspectRatio)
         {
-            lookAtPosition = _levelObjectsHolder.VerticalCameraTargets.LookAtPoint.position;
-            followTargetPosition = _levelObjectsHolder.VerticalCameraTargets.FollowPoint.position;
+            lookAtPosition = levelData.VerticalCameraTargets.LookAtPoint.position;
+            followTargetPosition = levelData.VerticalCameraTargets.FollowPoint.position;
         }
         else if (aspectRatio >= _maxHorizontalAspectRatio)
         {
-            lookAtPosition = _levelObjectsHolder.HorizontalCameraTargets.LookAtPoint.position;
-            followTargetPosition = _levelObjectsHolder.HorizontalCameraTargets.FollowPoint.position;
+            lookAtPosition = levelData.HorizontalCameraTargets.LookAtPoint.position;
+            followTargetPosition = levelData.HorizontalCameraTargets.FollowPoint.position;
         }
         else
         {
@@ -94,15 +96,15 @@ public class CameraPositionChanger : MonoBehaviour
 
             lookAtPosition = Vector3.Lerp
             (
-                _levelObjectsHolder.VerticalCameraTargets.LookAtPoint.position,
-                _levelObjectsHolder.HorizontalCameraTargets.LookAtPoint.position,
+                levelData.VerticalCameraTargets.LookAtPoint.position,
+                levelData.HorizontalCameraTargets.LookAtPoint.position,
                 scale
             );
 
             followTargetPosition = Vector3.Lerp
             (
-                _levelObjectsHolder.VerticalCameraTargets.FollowPoint.position,
-                _levelObjectsHolder.HorizontalCameraTargets.FollowPoint.position,
+                levelData.VerticalCameraTargets.FollowPoint.position,
+                levelData.HorizontalCameraTargets.FollowPoint.position,
                 scale
             );
         }

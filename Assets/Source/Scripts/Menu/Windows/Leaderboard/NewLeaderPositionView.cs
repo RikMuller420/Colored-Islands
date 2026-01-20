@@ -14,7 +14,7 @@ public class NewLeaderPositionView : MonoBehaviour
 
     [SerializeField] private LeaderboardSynchronizer _leaderboardSynchronizer;
     [SerializeField] private LeaderboardSettings _leaderboardSettings;
-    [SerializeField] private LevelLoader _levelLoader;
+    [SerializeField] private LevelChangeEventTracker _levelChangeEventTracker;
 
     private Dictionary<LeaderboardType, int> _playerRanks = new ();
     private Dictionary<LeaderboardType, int> _showedPlayerRanks = new();
@@ -30,13 +30,13 @@ public class NewLeaderPositionView : MonoBehaviour
     private void OnEnable()
     {
         _leaderboardSynchronizer.PlayerScoreChanged += OnPlayerScoreChanged;
-        _levelLoader.LevelChanged += TryShowNewRank;
+        _levelChangeEventTracker.LevelChanged += TryShowNewRank;
     }
 
     private void OnDisable()
     {
         _leaderboardSynchronizer.PlayerScoreChanged -= OnPlayerScoreChanged;
-        _levelLoader.LevelChanged += TryShowNewRank;
+        _levelChangeEventTracker.LevelChanged += TryShowNewRank;
     }
 
     private void OnPlayerScoreChanged(Leaderboard leaderboard)
@@ -53,11 +53,11 @@ public class NewLeaderPositionView : MonoBehaviour
         }
     }
 
-    private void TryShowNewRank()
+    private void TryShowNewRank(ILevelData levelData)
     {
         float secondsFromLastShow = (float)DateTime.Now.Subtract(_lastShowTime).TotalSeconds;
 
-        if (_levelLoader.CurrentLevelData.Id < _startShowLevelId ||
+        if (levelData.LevelId < _startShowLevelId ||
             secondsFromLastShow < _showCoolDownSeconds ||
             _playerRanks.Count == 0)
         {
@@ -71,7 +71,7 @@ public class NewLeaderPositionView : MonoBehaviour
             _showedPlayerRanks[leaderboardType] == newRank)
         {
             _playerRanks.Remove(leaderboardType);
-            TryShowNewRank();
+            TryShowNewRank(levelData);
 
             return;
         }

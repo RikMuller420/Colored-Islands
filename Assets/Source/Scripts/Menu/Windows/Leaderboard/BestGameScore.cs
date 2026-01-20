@@ -2,12 +2,12 @@ using System.Linq;
 
 public class BestGameScore : GameScoreCalcualtor
 {
-    public BestGameScore(GameProgressStorage progressStorage) : base(progressStorage) { }
+    public BestGameScore(IPlayerData playerData) : base(playerData) { }
     public override int Score => CalculateScore();
 
     private int CalculateScore()
     {
-        return ProgressStorage.Levels
+        return PlayerData.Levels
                 .Where(level => level.IsDone)
                 .Sum(level => level.BestScore);
     }

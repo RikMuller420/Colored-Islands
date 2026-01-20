@@ -3,39 +3,41 @@ using UnityEngine;
 
 public class BackgroundMusicChanger : MonoBehaviour
 {
+    [SerializeField] private LevelSettings _levelSettings;
+
     [SerializeField] private AudioSource _menuMusic;
     [SerializeField] private AudioSource _gameplayMusic;
 
-    private LevelLoader _levelLoader;
+    private LevelChangeEventTracker _levelChangeEventTracker;
 
     private float _fadeDuration = 3f;
     private Coroutine _fadeCoroutine;
 
     private void OnEnable()
     {
-        _levelLoader.LevelChanged += OnLevelChanged;
+        _levelChangeEventTracker.LevelChanged += OnLevelChanged;
     }
 
     private void OnDisable()
     {
-        _levelLoader.LevelChanged -= OnLevelChanged;
+        _levelChangeEventTracker.LevelChanged -= OnLevelChanged;
     }
 
-    public void Initialize(LevelLoader levelLoader)
+    public void Initialize(LevelChangeEventTracker levelChangeEventTracker)
     {
-        _levelLoader = levelLoader;
+        _levelChangeEventTracker = levelChangeEventTracker;
         enabled = true;
     }
 
-    private void OnLevelChanged()
+    private void OnLevelChanged(ILevelData levelData)
     {
-        if (_levelLoader.CurrentLevelData.Id > 0)
+        if (levelData.LevelId == _levelSettings.MainMenuSettings.Id)
         {
-            PlayGameplayMusic();
+            PlayMenuMusic();   
         }
         else
         {
-            PlayMenuMusic();
+            PlayGameplayMusic();
         }
     }
 

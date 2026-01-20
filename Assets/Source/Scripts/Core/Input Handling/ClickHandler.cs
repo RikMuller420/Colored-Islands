@@ -5,26 +5,36 @@ using UnityEngine.EventSystems;
 public class ClickHandler
 {
     private Camera _camera;
+    private DefaultClickHandler _defaultClickBehaviour;
 
     private ClickBehaviour _currentClickBehaviour;
-    private ClickBehaviour _defaultClickBehaviour;
 
-    public ClickHandler(InputHandler inputHandler, Camera camera, ClickBehaviour defaultClickHBehaviour)
+    public ClickHandler(UnitMover unitMover, InputHandler inputHandler,
+                        Camera camera, LayerMask allIslandsAndUnitsLayer,
+                        out IUnitsSelectedEvent unitsSelectedEvent)
     {
         _camera = camera;
-        _defaultClickBehaviour = defaultClickHBehaviour;
 
-        ResetClickHandler();
+        _defaultClickBehaviour = new DefaultClickHandler(unitMover, allIslandsAndUnitsLayer);
+
+        SetDeafultClickHandler();
         inputHandler.Clicked += OnClick;
+
+        unitsSelectedEvent = _defaultClickBehaviour;
     }
 
-    public void ResetClickHandler()
+    public void SetDeafultClickHandler()
     {
-        _currentClickBehaviour = _defaultClickBehaviour;
+        SetClickBehaviour(_defaultClickBehaviour);
     }
 
     public void SetClickBehaviour(ClickBehaviour clickBehaviour)
     {
+        if (_currentClickBehaviour != null)
+        {
+            _currentClickBehaviour.ResetBehaviour();
+        }
+
         _currentClickBehaviour = clickBehaviour;
     }
 

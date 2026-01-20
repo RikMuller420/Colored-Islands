@@ -3,21 +3,21 @@ using UnityEngine;
 
 public class LevelNumberView : MonoBehaviour
 {
-    [SerializeField] private LevelLoader _levelLoader;
+    [SerializeField] private LevelChangeEventTracker _levelChangeEventTracker;
     [SerializeField] private TextMeshProUGUI _numberText;
 
     private void OnEnable()
     {
-        _levelLoader.LevelChanged += OnLevelChanged;   
+        _levelChangeEventTracker.LevelChanged += OnLevelChanged;   
     }
 
     private void OnDisable()
     {
-        _levelLoader.LevelChanged -= OnLevelChanged;
+        _levelChangeEventTracker.LevelChanged -= OnLevelChanged;
     }
 
-    private void OnLevelChanged()
+    private void OnLevelChanged(ILevelData levelData)
     {
-        _numberText.text = $"{_levelLoader.CurrentLevelData.Id:D3}";
+        _numberText.text = $"{levelData.LevelId:D3}";
     }
 }

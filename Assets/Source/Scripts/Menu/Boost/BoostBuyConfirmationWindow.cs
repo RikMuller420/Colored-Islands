@@ -8,6 +8,8 @@ public class BoostBuyConfirmationWindow : MenuWindow
 {
     private const string RewardVideoId = "boost";
 
+    [SerializeField] private BoostSettings _boostSettings;
+
     [SerializeField] private TextMeshProUGUI _priceText;
     [SerializeField] private Button _buyWithGoldButton;
     [SerializeField] private Button _buyWithAddButton;
@@ -16,7 +18,6 @@ public class BoostBuyConfirmationWindow : MenuWindow
 
     private BoostAmountProvider _boostAmountProvider;
     private WalletProvider _walletProvider;
-    private BoostSettings _boostSettings;
     private RewardedAdProvider _rewardedAdProvider;
 
     private BoostType _currentBoostType;
@@ -39,11 +40,10 @@ public class BoostBuyConfirmationWindow : MenuWindow
         _buyWithAddButton.onClick.RemoveListener(BuyBoostWithAdd);
     }
 
-    public void Initialize(BoostAmountProvider boostAmountProvider, BoostSettings boostSettings,
+    public void Initialize(BoostAmountProvider boostAmountProvider,
                            WalletProvider walletProvider, RewardedAdProvider rewardedAdProvider)
     {
         _boostAmountProvider = boostAmountProvider;
-        _boostSettings = boostSettings;
         _walletProvider = walletProvider;
         _rewardedAdProvider = rewardedAdProvider;
     }

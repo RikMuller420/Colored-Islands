@@ -1,11 +1,11 @@
 public class LevelRewardSaver
 {
-    private GameProgressStorage _progressStorage;
+    private PlayerDataProvider _playerData;
     private UpgradesProvider _upgradesProvider;
 
-    public LevelRewardSaver(GameProgressStorage progressStorage, UpgradesProvider upgradesProvider)
+    public LevelRewardSaver(PlayerDataProvider playerData, UpgradesProvider upgradesProvider)
     {
-        _progressStorage = progressStorage;
+        _playerData = playerData;
         _upgradesProvider = upgradesProvider;
     }
 
@@ -14,25 +14,25 @@ public class LevelRewardSaver
         if (reward.GoldAmount > 0)
         {
             int goldReward = _upgradesProvider.CalculateUpgradedGoldAmount(reward.GoldAmount);
-            int newGoldAmount = _progressStorage.GoldAmount + goldReward;
-            _progressStorage.SetGoldAmount(newGoldAmount);
+            int newGoldAmount = _playerData.GoldAmount + goldReward;
+            _playerData.SetGoldAmount(newGoldAmount);
         }
 
         if (reward.RouletteSpinAmount > 0)
         {
             int spinCount = reward.RouletteSpinAmount * multiplier;
-            int newSpinAmount = _progressStorage.AviableSpinCount + spinCount;
-            _progressStorage.SetSpinCount(newSpinAmount);
+            int newSpinAmount = _playerData.AviableSpinCount + spinCount;
+            _playerData.SetSpinCount(newSpinAmount);
             MetricSaver.GetRouleteSpin(spinCount);
         }
 
         if (reward.BoostAmount > 0)
         {
-            int boostAmount = _progressStorage.GetBoostAmount(reward.BoostType) + reward.BoostAmount * multiplier;
-            _progressStorage.SetBoostAmount(reward.BoostType, boostAmount);
+            int boostAmount = _playerData.GetBoostAmount(reward.BoostType) + reward.BoostAmount * multiplier;
+            _playerData.SetBoostAmount(reward.BoostType, boostAmount);
         }
 
-        _progressStorage.MarkLevelRewardReceived(reward.LevelId);
-        _progressStorage.Save();
+        _playerData.MarkLevelRewardReceived(reward.LevelId);
+        _playerData.Save();
     }
 }

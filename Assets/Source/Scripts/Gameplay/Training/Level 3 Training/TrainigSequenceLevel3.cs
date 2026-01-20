@@ -31,7 +31,7 @@ public class TrainigSequenceLevel3 : TrainigSequence
     {
         InGameMenu.MenuOpened -= OnMenuOpened;
         InGameMenu.MenuClosed -= OnMenuClosed;
-        UnitMover.UnitsMoved -= OnUnitsMoved;
+        UnitMovedEvent.UnitsMoved -= OnUnitsMoved;
         ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
 
         _islandForBoost.IslandFinished -= OnIslandForBoostFinished;
@@ -44,7 +44,7 @@ public class TrainigSequenceLevel3 : TrainigSequence
         BoostButtonActivator.DeactivateAllButtons();
         InGameMenu.MenuOpened += OnMenuOpened;
         InGameMenu.MenuClosed += OnMenuClosed;
-        UnitMover.UnitsMoved += OnUnitsMoved;
+        UnitMovedEvent.UnitsMoved += OnUnitsMoved;
         ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
         _islandForBoost.IslandFinished += OnIslandForBoostFinished;
 
@@ -55,7 +55,7 @@ public class TrainigSequenceLevel3 : TrainigSequence
         _finishIslandBoostButton.TryBoostApplying += OnTryApplyingFinishIslandBoost;
         _buttonRectTransform = BoostButtonActivator.GetBoostButtonRectTransform(BoostType.FinishIsland);
 
-        if (ProgressStorage.LastAvailableLevelId <= LevelObjectsHolder.LevelSettings.Id)
+        if (PlayerData.LastAvailableLevelId <= CurrentLevelData.LevelId)
         {
             _customizationHint.Open();
             _openCustomizationButton.onClick.AddListener(OpenCustomizationMenu);

@@ -1,6 +1,6 @@
 public class TotalGameScore : GameScoreCalcualtor
 {
-    public TotalGameScore(GameProgressStorage progressStorage) : base(progressStorage) { }
+    public TotalGameScore(IPlayerData playerData) : base(playerData) { }
 
-    public override int Score => ProgressStorage.ScoreAmount;
+    public override int Score => PlayerData.ScoreAmount;
 }

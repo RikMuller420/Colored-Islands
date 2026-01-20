@@ -4,18 +4,18 @@ using System.Linq;
 
 public class BoostAmountProvider
 {
-    private GameProgressStorage _gameProgressStorage;
+    private PlayerDataProvider _playerData;
 
     public event Action<BoostType> BoostsAmountChanged;
     public event Action<BoostType> BoostApplyed;
 
-    public BoostAmountProvider(GameProgressStorage gameProgressStorage)
+    public BoostAmountProvider(PlayerDataProvider playerData)
     {
-        _gameProgressStorage = gameProgressStorage;
-        _gameProgressStorage.BoostsAmountChanged += OnBoostsAmountInSavedProgressChanged;
+        _playerData = playerData;
+        _playerData.BoostsAmountChanged += OnBoostsAmountInSavedProgressChanged;
     }
 
-    public int BoostAmount(BoostType boostType) => _gameProgressStorage.GetBoostAmount(boostType);
+    public int BoostAmount(BoostType boostType) => _playerData.GetBoostAmount(boostType);
 
     public void SpendBoost(BoostType boostType)
     {
@@ -27,7 +27,8 @@ public class BoostAmountProvider
         }
 
         boostAmount--;
-        _gameProgressStorage.SetBoostAmount(boostType, boostAmount);
+        _playerData.SetBoostAmount(boostType, boostAmount);
+        _playerData.Save();
         BoostApplyed?.Invoke(boostType);
     }
 
@@ -35,7 +36,8 @@ public class BoostAmountProvider
     {
         int boostAmount = BoostAmount(boostType);
         boostAmount++;
-        _gameProgressStorage.SetBoostAmount(boostType, boostAmount);
+        _playerData.SetBoostAmount(boostType, boostAmount);
+        _playerData.Save();
     }
 
     public void AddBoostBundle(int amount)
@@ -47,7 +49,8 @@ public class BoostAmountProvider
         {
             int boostAmount = BoostAmount(boostType);
             boostAmount += amount;
-            _gameProgressStorage.SetBoostAmount(boostType, boostAmount);
+            _playerData.SetBoostAmount(boostType, boostAmount);
+            _playerData.Save();
         }
     }
 

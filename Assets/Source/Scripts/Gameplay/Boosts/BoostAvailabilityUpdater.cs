@@ -2,17 +2,17 @@ using System.Collections.Generic;
 
 public class BoostAvailabilityUpdater
 {
-    private LevelLoader _levelLoader;
+    private LevelChangeEventTracker _levelChangeEventTracker;
     
     private Dictionary<Boost, BoostButton> _boostsButtons;
 
     public BoostAvailabilityUpdater(Dictionary<Boost, BoostButton> boostsButtons,
-                                    LevelLoader levelLoader)
+                                    LevelChangeEventTracker levelChangeEventTracker)
     {
         _boostsButtons = boostsButtons;
-        _levelLoader = levelLoader;
+        _levelChangeEventTracker = levelChangeEventTracker;
 
-        _levelLoader.LevelChanged += OnLevelChanged;
+        _levelChangeEventTracker.LevelChanged += OnLevelChanged;
 
         foreach (var boostButton in _boostsButtons)
         {
@@ -25,7 +25,7 @@ public class BoostAvailabilityUpdater
         _boostsButtons[boost].DisableInteractable();
     }
 
-    private void OnLevelChanged()
+    private void OnLevelChanged(ILevelData _)
     {
         EnableInteractibleInButtons();
     }

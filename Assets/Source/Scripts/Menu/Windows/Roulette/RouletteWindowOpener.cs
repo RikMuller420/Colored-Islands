@@ -9,7 +9,7 @@ public class RouletteWindowOpener : MonoBehaviour
     [SerializeField] private RouletteWindow _window;
     [SerializeField] private CanvasGroup _canvasGroup;
 
-    private GameProgressStorage _progressStorage;
+    private IPlayerData _playerData;
     private float _fadeDuration = 1f;
     private bool _isAvailable = false;
 
@@ -23,16 +23,16 @@ public class RouletteWindowOpener : MonoBehaviour
         _button.onClick.RemoveListener(OpenWindow);
     }
 
-    public void Initialize(GameProgressStorage progressStorage)
+    public void Initialize(IPlayerData playerData)
     {
-        _progressStorage = progressStorage;
-        _progressStorage.SpinCountChanged += UpdateButtonAviability;
+        _playerData = playerData;
+        _playerData.SpinCountChanged += UpdateButtonAviability;
         UpdateButtonAviability();
     }
 
     private void UpdateButtonAviability()
     {
-        bool isAvailable = _progressStorage.AviableSpinCount > 0;
+        bool isAvailable = _playerData.AviableSpinCount > 0;
 
         if (isAvailable == _isAvailable)
         {

@@ -1147,7 +1147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 0
+  _unitSlot: 0
   _island: {fileID: 9217081225634709690}
   _rootOfPoints: {fileID: 7857763764351213855}
   _points:
@@ -1159,8 +1159,10 @@ MonoBehaviour:
   - {fileID: 8481715715381589293}
   _startUnits:
   - _paint: 0
+    _slot: 0
     _amount: 1
   - _paint: 1
+    _slot: 1
     _amount: 5
 --- !u!212 &8279862866512163038 stripped
 SpriteRenderer:
@@ -1492,7 +1494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 3
+  _unitSlot: 3
   _island: {fileID: 3204428293766587274}
   _rootOfPoints: {fileID: 8607992614775841884}
   _points:
@@ -1510,8 +1512,10 @@ MonoBehaviour:
   - {fileID: 8824450982635146182}
   _startUnits:
   - _paint: 0
+    _slot: 0
     _amount: 2
   - _paint: 1
+    _slot: 1
     _amount: 10
 --- !u!212 &6985481504047167826 stripped
 SpriteRenderer:
@@ -1751,7 +1755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 0
+  _unitSlot: 0
   _island: {fileID: 2677177447039975979}
   _rootOfPoints: {fileID: 5713766617324974297}
   _points:
@@ -1763,8 +1767,10 @@ MonoBehaviour:
   - {fileID: 6337155614105281771}
   _startUnits:
   - _paint: 0
+    _slot: 0
     _amount: 1
   - _paint: 1
+    _slot: 1
     _amount: 5
 --- !u!212 &5809917973343985944 stripped
 SpriteRenderer:
@@ -2330,7 +2336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 1
+  _unitSlot: 1
   _island: {fileID: 5743541047205398792}
   _rootOfPoints: {fileID: 8968801167102769082}
   _points:
@@ -2365,10 +2371,13 @@ MonoBehaviour:
   - {fileID: 11602696086009461}
   _startUnits:
   - _paint: 3
+    _slot: 3
     _amount: 18
   - _paint: 0
+    _slot: 0
     _amount: 6
   - _paint: 1
+    _slot: 1
     _amount: 5
 --- !u!212 &4134240744412471346 stripped
 SpriteRenderer:
@@ -2592,11 +2601,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5611180440544506522, guid: 747848c04aabeb8438e1046c547b7750, type: 3}
       propertyPath: m_text
-      value: "\u041D\u0430\u0441\u0442\u0440\u043E\u0438\u0442\u044C"
+      value: Fine
       objectReference: {fileID: 0}
     - target: {fileID: 5611180440544506522, guid: 747848c04aabeb8438e1046c547b7750, type: 3}
       propertyPath: m_fontSize
-      value: 36.75
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 5611180440544506522, guid: 747848c04aabeb8438e1046c547b7750, type: 3}
       propertyPath: m_fontAsset
@@ -2773,7 +2782,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5611180440544506522, guid: 747848c04aabeb8438e1046c547b7750, type: 3}
       propertyPath: m_text
-      value: "\u0425\u043E\u0440\u043E\u0448\u043E"
+      value: Fine
       objectReference: {fileID: 0}
     - target: {fileID: 5611180440544506522, guid: 747848c04aabeb8438e1046c547b7750, type: 3}
       propertyPath: m_fontSize
@@ -3407,7 +3416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 0
+  _unitSlot: 0
   _island: {fileID: 6751154896725898369}
   _rootOfPoints: {fileID: 4011638048316019345}
   _points: []
@@ -3722,7 +3731,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 3
+  _unitSlot: 3
   _island: {fileID: 6138565202915266333}
   _rootOfPoints: {fileID: 1387671724975700181}
   _points:
@@ -3734,8 +3743,10 @@ MonoBehaviour:
   - {fileID: 4709954211218870386}
   _startUnits:
   - _paint: 0
+    _slot: 0
     _amount: 2
   - _paint: 1
+    _slot: 1
     _amount: 4
 --- !u!4 &3848769232110493891 stripped
 Transform:

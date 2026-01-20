@@ -12,4 +12,5 @@ public abstract class ClickBehaviour
     }
 
     public abstract void HandleClick(RaycastHit hit);
+    public abstract void ResetBehaviour();
 }

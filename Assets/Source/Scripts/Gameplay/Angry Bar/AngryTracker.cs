@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class AngryTracker
 {
-    private LevelObjectsHolder _levelDataHolder;
-    private LevelLoader _levelLoader;
+    private ILevelData _currentLevelData;
     private AngryTrackerBalancer _balancer;
-    private UpgradesProvider _upgradesProvider;
+    private IUpgradesData _upgradesData;
 
     private float _angryValue = 0f;
 
@@ -17,28 +16,27 @@ public class AngryTracker
 
     public float AngryValue => _angryValue / _angryLimit;
 
-    public AngryTracker(LevelObjectsHolder levelDataHolder, LevelLoader levelLoader, LevelProgressTracker progressTracker,
-                        UpgradesProvider upgradesProvider)
+    public AngryTracker(ILevelData currentLevelData, LevelProgressTracker progressTracker,
+                        IUpgradesData upgradesData, LevelChangeEventTracker levelChangeEventTracker)
     {
-        _levelDataHolder = levelDataHolder;
-        _levelLoader = levelLoader;
-        _upgradesProvider = upgradesProvider;
-        _balancer = new AngryTrackerBalancer(progressTracker, levelLoader);
+        _currentLevelData = currentLevelData;
+        _upgradesData = upgradesData;
+        _balancer = new AngryTrackerBalancer(progressTracker, levelChangeEventTracker);
         UpdateUpgradeMultiplier(UpgradeType.SlowDownAngryBar);
 
-        _upgradesProvider.Upgraded += UpdateUpgradeMultiplier;
+        _upgradesData.Upgraded += UpdateUpgradeMultiplier;
     }
 
     public void AddAngryTick()
     {
         float instabilityStep = 0f;
 
-        foreach (Island island in _levelDataHolder.Islands)
+        foreach (Island island in _currentLevelData.Islands)
         {
             instabilityStep += CalculateIslandInstability(island);
         }
 
-        instabilityStep *= _levelLoader.AngryBarSpeed * _balancer.Value * _upgradeMultiplier * _angrySpeed;
+        instabilityStep *= _currentLevelData.AngryBarSpeed * _balancer.Value * _upgradeMultiplier * _angrySpeed;
         AddAngry(instabilityStep * Time.deltaTime);
     }
 
@@ -49,7 +47,7 @@ public class AngryTracker
             return;
         }
 
-        if (unitsMoveInfo.UnitsPaint != endIsland.Paint)
+        if (unitsMoveInfo.UnitsSlot != endIsland.RequredUnitSlot)
         {
             float angry = _angryByUnitMove * unitsMoveInfo.Units.Count * _angrySpeed;
             AddAngry(angry);
@@ -82,7 +80,7 @@ public class AngryTracker
     {
         if (upgradeType == UpgradeType.SlowDownAngryBar)
         {
-            _upgradeMultiplier = _upgradesProvider.UpgradeStageValue(UpgradeType.SlowDownAngryBar);
+            _upgradeMultiplier = _upgradesData.UpgradeStageValue(UpgradeType.SlowDownAngryBar);
         }
     }
 }

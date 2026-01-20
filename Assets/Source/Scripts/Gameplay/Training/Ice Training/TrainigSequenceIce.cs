@@ -13,7 +13,7 @@ public class TrainigSequenceIce : TrainigSequence
     {
         _iceHint.DOFade(1f, _appearTime);
         _iceHint.transform.LookAt(MainCamera.transform);
-        UnitMover.UnitsMoved += OnUnitsMoved;
+        UnitMovedEvent.UnitsMoved += OnUnitsMoved;
     }
 
     private void OnUnitsMoved(UnitsMoveInfo _)

@@ -5,23 +5,23 @@ using System.Linq;
 public class CustomizationButtonAviabiltyUpdater
 {
     private LevelProgressTracker _levelProgressTracker;
-    private GameProgressStorage _progressStorage;
+    private IPlayerData _playerData;
     private List<HatSelectButton> _hatSelectButtons;
     private List<FaceSelectButton> _faceSelectButtons;
 
     public event Action HatButtonUnlocked;
     public event Action FaceButtonUnlocked;
 
-    public CustomizationButtonAviabiltyUpdater(LevelProgressTracker levelProgressTracker, GameProgressStorage gameProgressStorage,
+    public CustomizationButtonAviabiltyUpdater(LevelProgressTracker levelProgressTracker, IPlayerData playerData,
                                 List<HatSelectButton> hatSelectButtons, List<FaceSelectButton> faceSelectButtons)
     {
         _levelProgressTracker = levelProgressTracker;
-        _progressStorage = gameProgressStorage;
+        _playerData = playerData;
         _hatSelectButtons = hatSelectButtons;
         _faceSelectButtons = faceSelectButtons;
 
         _levelProgressTracker.LevelFinished += UpdateHatAviability;
-        _progressStorage.FaceUnlocked += UpdateFaceAviability;
+        _playerData.FaceUnlocked += UpdateFaceAviability;
     }
 
     private void UpdateFaceAviability(int faceId)
@@ -32,15 +32,15 @@ public class CustomizationButtonAviabiltyUpdater
         FaceButtonUnlocked?.Invoke();
     }
 
-    private void UpdateHatAviability()
+    private void UpdateHatAviability(ILevelData _)
     {
         foreach (HatSelectButton hatButton in _hatSelectButtons)
         {
-            if (hatButton.RequredLevel < _progressStorage.LastAvailableLevelId)
+            if (hatButton.RequredLevel < _playerData.LastAvailableLevelId)
             {
                 hatButton.SetUnlockedStyle();
 
-                if (_progressStorage.WasHatUsed(hatButton.HatId) == false)
+                if (_playerData.WasHatUsed(hatButton.HatId) == false)
                 {
                     hatButton.ActivateUnusedMark();
                 }

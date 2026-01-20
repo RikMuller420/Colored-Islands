@@ -7,21 +7,22 @@ public class TrainingMenuUpdater : MonoBehaviour
     [SerializeField] private List<GameObject> _unlockedPanels;
     [SerializeField] private RectTransform _customizationScrollView;
 
-    private GameProgressStorage _progressStorage;
+    private IPlayerData _playerData;
+
     private float _lockedCustomizationBottomOffset = 150f;
     private float _defaultCustomizationBottomOffset = 0;
 
-    public void Initialize(GameProgressStorage progressStorage)
+    public void Initilize(IPlayerData playerData)
     {
-        _progressStorage = progressStorage;
+        _playerData = playerData;
 
-        _progressStorage.TrainingFinished += UpdateMenuAvaliability;
+        _playerData.TrainingFinished += UpdateMenuAvaliability;
         UpdateMenuAvaliability();
     }
 
     private void UpdateMenuAvaliability()
     {
-        if (_progressStorage.IsTrainingFinished)
+        if (_playerData.IsTrainingFinished)
         {
             ApplyOffsetToCustomizationScrollView(_defaultCustomizationBottomOffset);
         }
@@ -32,12 +33,12 @@ public class TrainingMenuUpdater : MonoBehaviour
 
         foreach (GameObject panel in _trainingDummyPanels)
         {
-            panel.SetActive(_progressStorage.IsTrainingFinished == false);
+            panel.SetActive(_playerData.IsTrainingFinished == false);
         }
 
         foreach (GameObject panel in _unlockedPanels)
         {
-            panel.SetActive(_progressStorage.IsTrainingFinished);
+            panel.SetActive(_playerData.IsTrainingFinished);
         }
     }
 

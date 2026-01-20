@@ -27,11 +27,11 @@ public class IslandSettingsInGUILayout
         EditorGUILayout.LabelField(initializer.gameObject.name, EditorStyles.boldLabel, GUILayout.Width(100));
         EditorGUILayout.BeginVertical();
 
-        Paint newPaint = (Paint)EditorGUILayout.EnumPopup(initializer.Paint);
+        UnitSlotType newSlot = (UnitSlotType)EditorGUILayout.EnumPopup(initializer.UnitSlot);
 
-        if (newPaint != initializer.Paint)
+        if (newSlot != initializer.UnitSlot)
         {
-            ApplyPaintToIsland(newPaint, initializer, paintMaterials);
+            ApplyPaintToIsland(newSlot, initializer, paintMaterials);
             EditorUtility.SetDirty(initializer.gameObject);
         }
 
@@ -56,7 +56,7 @@ public class IslandSettingsInGUILayout
                 initializer.FillPoints(newRootOfPoints);
             }
 
-            ApplyPaintToIsland(newPaint, initializer, paintMaterials);
+            ApplyPaintToIsland(newSlot, initializer, paintMaterials);
             initializer.gameObject.layer = IslandLayerIndex;
             EditorUtility.SetDirty(initializer.gameObject);
         }
@@ -67,16 +67,16 @@ public class IslandSettingsInGUILayout
         EditorGUILayout.EndVertical();
     }
 
-    private void ApplyPaintToIsland(Paint paint, IslandInitializer initializer, PaintMaterials paintMaterials)
+    private void ApplyPaintToIsland(UnitSlotType slot, IslandInitializer initializer, PaintMaterials paintMaterials)
     {
-        initializer.SetPaint(paint);
+        initializer.SetRequredUnitSlot(slot);
         MeshRenderer meshRenderer = initializer.GetComponent<MeshRenderer>();
         IslandRenderer islandRenderer = new IslandRenderer(meshRenderer, paintMaterials);
-        ColorSample colorSample = GetDefaultColorSample(paint);
+        ColorSample colorSample = GetDefaultColorSample(slot);
         islandRenderer.SetPaint(colorSample, initializer.Points);
 
         Undo.RegisterCreatedObjectUndo(meshRenderer, "Change material");
     }
 
-    private ColorSample GetDefaultColorSample(Paint paint) => (ColorSample)(int)paint;
+    private ColorSample GetDefaultColorSample(UnitSlotType slot) => (ColorSample)(int)slot;
 }

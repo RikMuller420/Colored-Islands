@@ -10,7 +10,7 @@ public class LevelEndSoundPlayer
         _progressTracker.LevelFinished += PlayWinSound;
     }
 
-    private void PlayWinSound()
+    private void PlayWinSound(ILevelData _)
     {
         _gameplaySoundPlayer.PlaySound(GameplaySoundType.WinSound);
     }

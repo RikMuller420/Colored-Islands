@@ -4,56 +4,56 @@ using System.Linq;
 
 public class PaintAmountReduceBoost : Boost
 {
-    private LevelObjectsHolder _levelDataHolder;
+    private ILevelData _currentLevelData;
     private BuferIslandsHolder _buferIslands;
     private UnitMover _unitMover;
-    private GameProgressStorage _progressStorage;
+    private IPlayerData _playerData;
 
     private int _bestNewColorIndex = 2;
 
-    public PaintAmountReduceBoost(LevelObjectsHolder levelDataHolder, BuferIslandsHolder buferIslands,
-                                    BoostAmountProvider boostAmountProvider, GameProgressStorage progressStorage,
+    public PaintAmountReduceBoost(ILevelData currentLevelData, BuferIslandsHolder buferIslands,
+                                    BoostAmountProvider boostAmountProvider, IPlayerData playerData,
                                     UnitMover unitMover) : base(boostAmountProvider)
     {
-        _levelDataHolder = levelDataHolder;
+        _currentLevelData = currentLevelData;
         _buferIslands = buferIslands;
         _unitMover = unitMover;
-        _progressStorage = progressStorage;
+        _playerData = playerData;
     }
     public override BoostType Type => BoostType.ReducePaints;
 
     public override void TryApplyBoost()
     {
-        ReadOnlyCollection<Paint> paints = SortedPaints();
+        ReadOnlyCollection<UnitSlotType> unitSlots = CalculateSortedUnitSlotsAmounts();
 
-        Paint oldPaint = paints[0];
-        Paint newPaint = paints[paints.Count - 1];
+        UnitSlotType oldUnitSlot = unitSlots[0];
+        UnitSlotType newUnitSlot = unitSlots[unitSlots.Count - 1];
 
-        if (paints.Count > _bestNewColorIndex)
+        if (unitSlots.Count > _bestNewColorIndex)
         {
-            newPaint = paints[paints.Count - _bestNewColorIndex];
+            newUnitSlot = unitSlots[unitSlots.Count - _bestNewColorIndex];
         }
 
-        foreach (Island island in _levelDataHolder.Islands)
+        foreach (Island island in _currentLevelData.Islands)
         {
             if (island.IsDone)
             {
                 continue;
             }
 
-            if (island.Paint == oldPaint)
+            if (island.RequredUnitSlot == oldUnitSlot)
             {
-                CustomizationPreferences preference = _progressStorage.GetCustomizationPreference(newPaint);
-                island.SetPaint(newPaint, preference.ColorSample);
+                CustomizationPreferences preference = _playerData.GetCustomizationPreference(newUnitSlot);
+                island.SetRequredUnitSlot(newUnitSlot, preference.ColorSample);
             }
 
-            SwapUnitsPaint(island, oldPaint, newPaint);
+            SwapUnitsPaint(island, oldUnitSlot, newUnitSlot);
             island.TryFinish();
         }
 
-        SwapUnitsPaint(_buferIslands.CurrentIsland, oldPaint, newPaint);
+        SwapUnitsPaint(_buferIslands.CurrentIsland, oldUnitSlot, newUnitSlot);
 
-        foreach (Island island in _levelDataHolder.Islands)
+        foreach (Island island in _currentLevelData.Islands)
         {
             _unitMover.OptimizeUnitsPosition(island);
         }
@@ -61,58 +61,58 @@ public class PaintAmountReduceBoost : Boost
         SpendBoost(Type);
     }
 
-    private void SwapUnitsPaint(BaseIsland island, Paint oldPaint, Paint newPaint)
+    private void SwapUnitsPaint(BaseIsland island, UnitSlotType oldUnitSlot, UnitSlotType newUnitSlot)
     {
         foreach (IslandPoint point in island.Points)
         {
-            if (point.IsFree == false && point.OccupiedUnit.Paint == oldPaint)
+            if (point.IsFree == false && point.OccupiedUnit.Slot == oldUnitSlot)
             {
-                point.OccupiedUnit.SetPaint(newPaint);
+                point.OccupiedUnit.SetUnitSlot(newUnitSlot);
             }
         }
     }
 
-    private ReadOnlyCollection<Paint> SortedPaints()
+    private ReadOnlyCollection<UnitSlotType> CalculateSortedUnitSlotsAmounts()
     {
-        Dictionary<Paint, int> paintsAmouts = new Dictionary<Paint, int>();
+        Dictionary<UnitSlotType, int> unitSlotAmouts = new Dictionary<UnitSlotType, int>();
 
-        foreach (Island island in _levelDataHolder.Islands)
+        foreach (Island island in _currentLevelData.Islands)
         {
             if (island.IsDone == false)
             {
-                AddPaintAmount(paintsAmouts, island);
+                AddUnitSlotAmount(unitSlotAmouts, island);
             }
         }
 
-        AddPaintAmount(paintsAmouts, _buferIslands.CurrentIsland);
+        AddUnitSlotAmount(unitSlotAmouts, _buferIslands.CurrentIsland);
 
-        return paintsAmouts
-                .OrderBy(paintAmout => paintAmout.Value)
-                .Select(paintAmout => paintAmout.Key)
+        return unitSlotAmouts
+                .OrderBy(unitSlotAmout => unitSlotAmout.Value)
+                .Select(unitSlotAmout => unitSlotAmout.Key)
                 .ToList()
                 .AsReadOnly();
     }
 
-    private void AddPaintAmount(Dictionary<Paint, int> paintsAmouts, BaseIsland island)
+    private void AddUnitSlotAmount(Dictionary<UnitSlotType, int> unitSlotsAmouts, BaseIsland island)
     {
         foreach (IslandPoint point in island.Points)
         {
             if (point.IsFree == false)
             {
-                AddPaintAmount(paintsAmouts, point.OccupiedUnit.Paint);
+                AddUnitSlotAmount(unitSlotsAmouts, point.OccupiedUnit.Slot);
             }
         }
     }
 
-    private void AddPaintAmount(Dictionary<Paint, int> paintsAmouts, Paint paint)
+    private void AddUnitSlotAmount(Dictionary<UnitSlotType, int> unitSlotsAmouts, UnitSlotType unitSlot)
     {
-        if (paintsAmouts.ContainsKey(paint))
+        if (unitSlotsAmouts.ContainsKey(unitSlot))
         {
-            paintsAmouts[paint]++;
+            unitSlotsAmouts[unitSlot]++;
         }
         else
         {
-            paintsAmouts.Add(paint, 1);
+            unitSlotsAmouts.Add(unitSlot, 1);
         }
     }
 }

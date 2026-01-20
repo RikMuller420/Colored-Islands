@@ -10,15 +10,15 @@ public abstract class TrainigSequence : MonoBehaviour
 
     protected LevelLoader LevelLoader { get; private set; }
     protected CustomizationWindow CustomizationMenu { get; private set; }
-    protected LevelObjectsHolder LevelObjectsHolder { get; private set; }
+    protected ILevelData CurrentLevelData { get; private set; }
     protected BuferIslandsHolder BuferIslandsHolder { get; private set; }
-    protected SelectHandler SelectHandler { get; private set; }
-    protected UnitMover UnitMover { get; private set; }
+    protected IUnitsSelectedEvent UnitsSelectedEvent { get; private set; }
+    protected IUnitMovedEvent UnitMovedEvent { get; private set; }
     protected Camera MainCamera { get; private set; }
     protected BoostButtonActivator BoostButtonActivator { get; private set; }
     protected LevelProgressTracker LevelProgressTracker { get; private set; }
     protected UIOrientationChanger UIOrientationChanger { get; private set; }
-    protected GameProgressStorage ProgressStorage { get; private set; }
+    protected PlayerDataProvider PlayerData { get; private set; }
     protected MenuWindow InGameMenu { get; private set; }
     protected FinalScoreWindow FinalScoreWindow { get; private set; }
     protected MenuTrainigSequence MenuTrainigSequence { get; private set; }
@@ -31,23 +31,23 @@ public abstract class TrainigSequence : MonoBehaviour
     private WaitForEndOfFrame _wait;
 
 
-    public void Initialize(LevelObjectsHolder levelObjectsHolder, BuferIslandsHolder buferIslandsHolder,
-                           SelectHandler selectHandler, UnitMover unitMover, Camera mainCamera,
+    public void Initialize(ILevelData currentLevelData, BuferIslandsHolder buferIslandsHolder,
+                           IUnitsSelectedEvent unitsSelectedEvent, IUnitMovedEvent unitMovedEvent, Camera mainCamera,
                            BoostButtonActivator boostButtonActivator, LevelProgressTracker levelProgressTracker,
-                           UIOrientationChanger uIOrientationChanger, GameProgressStorage progressStorage,
+                           UIOrientationChanger uIOrientationChanger, PlayerDataProvider playerData,
                            MenuWindow inGameMenu, FinalScoreWindow finalScoreWindow, MenuTrainigSequence menuTrainigSequence,
                            ScreenSizeChangeTracker screenSizeChangeTracker, Canvas canvas, LevelLoader levelLoader,
                            CustomizationWindow customizationMenu)
     {
-        LevelObjectsHolder = levelObjectsHolder;
+        CurrentLevelData = currentLevelData;
         BuferIslandsHolder = buferIslandsHolder;
-        SelectHandler = selectHandler;
-        UnitMover = unitMover;
+        UnitsSelectedEvent = unitsSelectedEvent;
+        UnitMovedEvent = unitMovedEvent;
         MainCamera = mainCamera;
         BoostButtonActivator = boostButtonActivator;
         LevelProgressTracker = levelProgressTracker;
         UIOrientationChanger = uIOrientationChanger;
-        ProgressStorage = progressStorage;
+        PlayerData = playerData;
         InGameMenu = inGameMenu;
         FinalScoreWindow = finalScoreWindow;
         MenuTrainigSequence = menuTrainigSequence;
@@ -85,7 +85,7 @@ public abstract class TrainigSequence : MonoBehaviour
 
     protected void ActivateAllColliders()
     {
-        foreach (Island island in LevelObjectsHolder.Islands)
+        foreach (Island island in CurrentLevelData.Islands)
         {
             ActivateColliders(island);
         }
@@ -95,7 +95,7 @@ public abstract class TrainigSequence : MonoBehaviour
 
     protected void DeactivateColliders()
     {
-        foreach (Island island in LevelObjectsHolder.Islands)
+        foreach (Island island in CurrentLevelData.Islands)
         {
             DeactivateColliders(island);
         }
@@ -120,9 +120,10 @@ public abstract class TrainigSequence : MonoBehaviour
 
     protected void AddBost(BoostType boostType)
     {
-        int boostAmount = ProgressStorage.GetBoostAmount(boostType);
+        int boostAmount = PlayerData.GetBoostAmount(boostType);
         boostAmount++;
-        ProgressStorage.SetBoostAmount(boostType, boostAmount);
+        PlayerData.SetBoostAmount(boostType, boostAmount);
+        PlayerData.Save();
     }
 
     protected void UpdatePointerPosition(RectTransform buttonRectTransform)

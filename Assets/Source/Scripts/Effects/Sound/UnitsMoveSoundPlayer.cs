@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class UnitsMoveSoundPlayer : MonoBehaviour
 {
-    private UnitMover _unitMover;
+    private IUnitMovedEvent _unitMover;
     private AudioSource _moveSound;
 
     private WaitForSeconds _wait;
@@ -14,7 +14,7 @@ public class UnitsMoveSoundPlayer : MonoBehaviour
         _wait = new WaitForSeconds(_delay);
     }
 
-    public void Initialize(UnitMover unitMover, AudioSource moveSound)
+    public void Initialize(IUnitMovedEvent unitMover, AudioSource moveSound)
     {
         _unitMover = unitMover;
         _moveSound = moveSound;

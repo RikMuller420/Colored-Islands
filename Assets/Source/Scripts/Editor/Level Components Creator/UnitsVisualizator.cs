@@ -35,7 +35,7 @@ public class UnitsVisualizator
 
                     unit.transform.position = placePos;
                     unit.transform.SetParent(_visualizationHolder.transform);
-                    ColorSample colorSample = (ColorSample)(int)islandStartUnits.Paint;
+                    ColorSample colorSample = (ColorSample)(int)islandStartUnits.Slot;
                     Material material = paintMaterials.Materials.FirstOrDefault(paint => paint.ColorSample == colorSample).UnitMaterial;
                     unit.SetMaterial(material);
                     unit.Activate();

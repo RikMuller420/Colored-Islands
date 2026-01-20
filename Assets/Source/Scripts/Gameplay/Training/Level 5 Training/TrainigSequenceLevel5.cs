@@ -28,7 +28,7 @@ public class TrainigSequenceLevel5 : TrainigSequence
         ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
         InGameMenu.MenuOpened -= OnMenuOpened;
         InGameMenu.MenuClosed -= OnMenuClosed;
-        UnitMover.UnitsMoved -= OnUnitsMoved;
+        UnitMovedEvent.UnitsMoved -= OnUnitsMoved;
         _reducePaintsBoostButton.TryBoostApplying -= OnTryApplyingReducePaintsBoost;
         FinalScoreWindow.ScoreShowed -= OnFinalScoreShowed;
         ResetLevelState();
@@ -40,7 +40,7 @@ public class TrainigSequenceLevel5 : TrainigSequence
         ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
         InGameMenu.MenuOpened += OnMenuOpened;
         InGameMenu.MenuClosed += OnMenuClosed;
-        UnitMover.UnitsMoved += OnUnitsMoved;
+        UnitMovedEvent.UnitsMoved += OnUnitsMoved;
 
         BoostButtonActivator.ActivateButtonImmediate(BoostType.GrowBuferIsland);
         BoostButtonActivator.ActivateButtonImmediate(BoostType.FinishIsland);
@@ -114,7 +114,7 @@ public class TrainigSequenceLevel5 : TrainigSequence
 
     private void OnFinalScoreShowed()
     {
-        if (ProgressStorage.IsTrainingFinished)
+        if (PlayerData.IsTrainingFinished)
         {
             return;
         }
@@ -128,10 +128,10 @@ public class TrainigSequenceLevel5 : TrainigSequence
         AddBost(BoostType.FinishIsland);
         AddBost(BoostType.FreezeObjectives);
         AddBost(BoostType.ReducePaints);
-        ProgressStorage.SetSpinCount(ProgressStorage.AviableSpinCount + 1);
+        PlayerData.SetSpinCount(PlayerData.AviableSpinCount + 1);
 
-        ProgressStorage.SetTrainingFinished(true);
-        ProgressStorage.Save();
+        PlayerData.SetTrainingFinished();
+        PlayerData.Save();
     }
 
     private void GoToMenuTraining()

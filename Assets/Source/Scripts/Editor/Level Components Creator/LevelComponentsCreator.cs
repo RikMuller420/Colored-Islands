@@ -57,7 +57,7 @@ public class LevelComponentsCreator : EditorWindow
         }
 
         _islandSettingsInGUILayout.PrintIslandsSettings(_islands, _paintMaterials);
-        Dictionary<Paint, int> unitsAmounts = _unitsSummaryInGUILayout.CreateUnitsSummary(_islands);
+        Dictionary<UnitSlotType, int> unitsAmounts = _unitsSummaryInGUILayout.CreateUnitsSummary(_islands);
 
         if (GUILayout.Button("Distribute Units"))
         {

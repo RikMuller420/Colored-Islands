@@ -6,17 +6,17 @@ public class LeaderboardTab : TabContent
     [SerializeField] private LeaderboardType _type;
     [SerializeField] private LeaderboardView _view;
 
-    private LeaderboardProvider _leaderboardProvider;
+    private ILeaderboardReader _leaderboardReader;
     private string _leaderboarKey;
     private float _refreshCooldownSeconds = 20f;
     private DateTime _lastRefreshTime = DateTime.MinValue;
 
-    public void Initialize(LeaderboardProvider leaderboardProvider, LeaderboardSettings leaderboardSettings)
+    public void Initialize(ILeaderboardReader leaderboardReader, LeaderboardSettings leaderboardSettings)
     {
-        _leaderboardProvider = leaderboardProvider;
+        _leaderboardReader = leaderboardReader;
         _leaderboarKey = leaderboardSettings.LeaderboardKey(_type);
 
-        _leaderboardProvider.LeaderboardReceived += OnLeaderboardReceived;
+        _leaderboardReader.LeaderboardReceived += OnLeaderboardReceived;
     }
 
     public override void Activate()
@@ -25,7 +25,7 @@ public class LeaderboardTab : TabContent
 
         if ((DateTime.Now - _lastRefreshTime).Seconds > _refreshCooldownSeconds)
         {
-            _leaderboardProvider.GetLeaderboard(_leaderboarKey);
+            _leaderboardReader.GetLeaderboard(_leaderboarKey);
             _lastRefreshTime = DateTime.Now;
         }
     }

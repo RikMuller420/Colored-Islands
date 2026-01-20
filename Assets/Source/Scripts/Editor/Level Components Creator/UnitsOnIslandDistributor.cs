@@ -5,13 +5,13 @@ using UnityEditor;
 public class UnitsOnIslandDistributor
 {
     public void DistributeUnits(IReadOnlyCollection<IslandInitializer> islands, 
-                                           Dictionary<Paint, int> colorsUnitsAmount, UnitsVisualizator unitsVisualizator,
+                                           Dictionary<UnitSlotType, int> unitsAmount, UnitsVisualizator unitsVisualizator,
                                            Unit unitPrefab, PaintMaterials paintMaterials)
     {
         Dictionary<IslandInitializer, List<IslandStartUnits>> islandsUnits = new Dictionary<IslandInitializer, List<IslandStartUnits>>();
 
-        AddFirstUnitToIslandsDictionary(islands, colorsUnitsAmount, islandsUnits);
-        AddLackingUnitsToIslandsDictionary(islands, colorsUnitsAmount, islandsUnits);
+        AddFirstUnitToIslandsDictionary(islands, unitsAmount, islandsUnits);
+        AddLackingUnitsToIslandsDictionary(islands, unitsAmount, islandsUnits);
 
         foreach (var islandUnits in islandsUnits)
         {
@@ -26,60 +26,60 @@ public class UnitsOnIslandDistributor
     }
 
     private void AddFirstUnitToIslandsDictionary(IReadOnlyCollection<IslandInitializer> islands,
-                                            Dictionary<Paint, int> colorsUnitsAmount,
+                                            Dictionary<UnitSlotType, int> unitSlotsAmount,
                                             Dictionary<IslandInitializer, List<IslandStartUnits>> islandsUnits)
     {
         foreach (IslandInitializer initializer in islands)
         {
-            List<Paint> validPaints = colorsUnitsAmount.Keys
-                                        .Where(paint => paint != initializer.Paint)
+            List<UnitSlotType> validPaints = unitSlotsAmount.Keys
+                                        .Where(unitSlotAmount => unitSlotAmount != initializer.UnitSlot)
                                         .ToList();
 
-            Paint paint = validPaints[UnityEngine.Random.Range(0, validPaints.Count)];
+            UnitSlotType slot = validPaints[UnityEngine.Random.Range(0, validPaints.Count)];
 
             List<IslandStartUnits> startUnits = new List<IslandStartUnits>()
             {
-                new IslandStartUnits(paint)
+                new IslandStartUnits(slot)
             };
 
             islandsUnits.Add(initializer, startUnits);
-            colorsUnitsAmount[paint] -= 1;
+            unitSlotsAmount[slot] -= 1;
 
-            if (colorsUnitsAmount[paint] == 0)
+            if (unitSlotsAmount[slot] == 0)
             {
-                colorsUnitsAmount.Remove(paint);
+                unitSlotsAmount.Remove(slot);
             }
         }
     }
 
     private void AddLackingUnitsToIslandsDictionary(IReadOnlyCollection<IslandInitializer> islands,
-                                                Dictionary<Paint, int> colorsUnitsAmount,
+                                                Dictionary<UnitSlotType, int> unitSlotsAmount,
                                                 Dictionary<IslandInitializer, List<IslandStartUnits>> islandsUnits)
     {
         foreach (IslandInitializer initializer in islands)
         {
             for (int i = 0; i < initializer.PointsCount - 1; i++)
             {
-                Paint paint = colorsUnitsAmount.Keys.ToList()[UnityEngine.Random.Range(0, colorsUnitsAmount.Count)];
+                UnitSlotType slot = unitSlotsAmount.Keys.ToList()[UnityEngine.Random.Range(0, unitSlotsAmount.Count)];
                 List<IslandStartUnits> islandStartUnits = islandsUnits[initializer];
-                IslandStartUnits startUnit = islandStartUnits.FirstOrDefault(unit => unit.Paint == paint);
+                IslandStartUnits startUnit = islandStartUnits.FirstOrDefault(unit => unit.Slot == slot);
 
                 if (startUnit != null)
                 {
-                    IslandStartUnits newStartUnits = new IslandStartUnits(paint, startUnit.Amout + 1);
+                    IslandStartUnits newStartUnits = new IslandStartUnits(slot, startUnit.Amout + 1);
                     islandStartUnits.Remove(startUnit);
                     islandStartUnits.Add(newStartUnits);
                 }
                 else
                 {
-                    islandStartUnits.Add(new IslandStartUnits(paint));
+                    islandStartUnits.Add(new IslandStartUnits(slot));
                 }
 
-                colorsUnitsAmount[paint] -= 1;
+                unitSlotsAmount[slot] -= 1;
 
-                if (colorsUnitsAmount[paint] == 0)
+                if (unitSlotsAmount[slot] == 0)
                 {
-                    colorsUnitsAmount.Remove(paint);
+                    unitSlotsAmount.Remove(slot);
                 }
             }
         }

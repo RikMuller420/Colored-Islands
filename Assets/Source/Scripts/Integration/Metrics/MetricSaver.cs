@@ -13,21 +13,21 @@ public class MetricSaver
     private const string UpgradeCurrency = "Upgrade";
     private const string SpinCurrency = "Spin";
 
-    private LevelProgressTracker _progressTracker { get; }
-    private GameProgressStorage _progressStorage { get; }
+    private ILevelData _levelData { get; }
+    private IPlayerData _playerData { get; }
 
     public static MetricSaver Instance { get; private set; }
 
-    public MetricSaver(LevelProgressTracker progressTracker, GameProgressStorage progressStorage)
+    public MetricSaver(ILevelData currentLevelData, IPlayerData playerData)
     {
-        _progressTracker = progressTracker;
-        _progressStorage = progressStorage;
+        _levelData = currentLevelData;
+        _playerData = playerData;
         Instance = this;
     }
 
     public static void SpentBoost(BoostType type)
     {
-        int levelId = Instance._progressTracker.LevelData.Id;
+        int levelId = Instance._levelData.LevelId ;
 
         GameAnalytics.NewResourceEvent(GAResourceFlowType.Sink, BoostCurrency, 1, type.ToString(), levelId.ToString());
     }
@@ -49,12 +49,12 @@ public class MetricSaver
     {
         GameAnalytics.StopTimer(CustomizationWindowKey);
 
-        IEnumerable<Paint> slimeTypes = Enum.GetValues(typeof(Paint)).Cast<Paint>();
+        IEnumerable<UnitSlotType> slotCollection = Enum.GetValues(typeof(UnitSlotType)).Cast<UnitSlotType>();
         Dictionary<string, object> slimeSlots = new Dictionary<string, object>();
 
-        foreach (Paint paint in slimeTypes)
+        foreach (UnitSlotType slot in slotCollection)
         {
-            CustomizationPreferences slimePreference = Instance._progressStorage.GetCustomizationPreference(paint);
+            CustomizationPreferences slimePreference = Instance._playerData.GetCustomizationPreference(slot);
 
             SlimeSlot slimeSlot = new SlimeSlot()
             {
@@ -63,7 +63,7 @@ public class MetricSaver
                 HatId = slimePreference.HatId.ToString()
             };
 
-            slimeSlots.Add(((int)paint).ToString(), slimeSlot);
+            slimeSlots.Add(((int)slot).ToString(), slimeSlot);
         }
 
         GameAnalytics.NewDesignEvent("avatar:preferences:snapshot", slimeSlots.Count, slimeSlots);
@@ -71,12 +71,12 @@ public class MetricSaver
 
     public static void StartLevel()
     {
-        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, Instance._progressTracker.LevelData.Id.ToString());
+        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, Instance._levelData.LevelId.ToString());
     }
 
     public static void FinishLevel()
     {
-        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Instance._progressTracker.LevelData.Id.ToString());
+        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Instance._levelData.LevelId.ToString());
     }
 
     public static void GetRouleteSpin(int spinCount)
@@ -101,12 +101,12 @@ public class MetricSaver
 
     public static void TrackAngryBarFailed()
     {
-        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "Angry Bar " + Instance._progressTracker.LevelData.Id);
+        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "Angry Bar " + Instance._levelData.LevelId);
     }
 
     public static void TrackMoveLimitFailed()
     {
-        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "Move Limit " + Instance._progressTracker.LevelData.Id);
+        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "Move Limit " + Instance._levelData.LevelId);
     }
 
     public static void GetInAppViaWathAdd(InAppType inAppType)

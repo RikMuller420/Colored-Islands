@@ -19,16 +19,16 @@ public class CameraFoVChanger
     private float _horizontalOrientationPadding = 0;
 
     private float _minCornerDistance = 0.01f;
-    private LevelObjectsHolder _levelObjectsHolder;
+    private ILevelData _currentLevelData;
     private BuferIslandsHolder _buferIslandsHolder;
     private UIOrientationChanger _uIOrientationChanger;
     private List<MeshRenderer> _objectsToFitInCamera = new List<MeshRenderer>();
 
-    public CameraFoVChanger(LevelObjectsHolder levelObjectsHolder, BuferIslandsHolder buferIslandsHolder,
+    public CameraFoVChanger(ILevelData currentLevelData, BuferIslandsHolder buferIslandsHolder,
                             UIOrientationChanger uIOrientationChanger, Camera mainCamera,
                             CinemachineVirtualCamera virtualCamera)
     {
-        _levelObjectsHolder = levelObjectsHolder;
+        _currentLevelData = currentLevelData;
         _buferIslandsHolder = buferIslandsHolder;
         _uIOrientationChanger = uIOrientationChanger;
         _mainCamera = mainCamera;
@@ -72,9 +72,9 @@ public class CameraFoVChanger
     {
         _objectsToFitInCamera.Clear();
 
-        if (_levelObjectsHolder.LevelBounds != null)
+        if (_currentLevelData.LevelBounds != null)
         {
-            _objectsToFitInCamera.Add(_levelObjectsHolder.LevelBounds);        
+            _objectsToFitInCamera.Add(_currentLevelData.LevelBounds);        
         }
     }
 

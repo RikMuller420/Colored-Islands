@@ -10,7 +10,7 @@ public class RestartLevelButton : MonoBehaviour
     [SerializeField] private Button _button;
     [SerializeField] private ConfirmationMenuWindow _confirmationWindow;
     [SerializeField] private LevelLoader _levelLoader;
-    [SerializeField] private bool _confirmationRequired = false;
+    [SerializeField] private bool _isConfirmationRequired = false;
 
     private void OnEnable()
     {
@@ -24,7 +24,7 @@ public class RestartLevelButton : MonoBehaviour
 
     private void LoadMainMenu()
     {
-        if (_confirmationRequired)
+        if (_isConfirmationRequired)
         {
             string confirmationMessage = LeanLocalization.GetTranslationText(SureQuestionStart) +
                                             LeanLocalization.GetTranslationText(SureQuestionEnd);

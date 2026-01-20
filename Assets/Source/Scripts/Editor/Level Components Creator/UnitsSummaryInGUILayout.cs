@@ -7,33 +7,33 @@ public class UnitsSummaryInGUILayout
 {
     private int _spacingOffset = 5;
 
-    public Dictionary<Paint, int> CreateUnitsSummary(IReadOnlyCollection<IslandInitializer> islands)
+    public Dictionary<UnitSlotType, int> CreateUnitsSummary(IReadOnlyCollection<IslandInitializer> islands)
     {
         EditorGUILayout.Space(_spacingOffset);
         GUILayout.Label("Units Summary:", EditorStyles.boldLabel);
 
-        int maxColorCount = Enum.GetValues(typeof(Paint)).Length;
-        Dictionary<Paint, int> requireUnitsAmount = new Dictionary<Paint, int>();
+        int maxSlotCount = Enum.GetValues(typeof(UnitSlotType)).Length;
+        Dictionary<UnitSlotType, int> requireUnitSlotsAmount = new Dictionary<UnitSlotType, int>();
 
         foreach (IslandInitializer island in islands)
         {
-            if (requireUnitsAmount.ContainsKey(island.Paint))
+            if (requireUnitSlotsAmount.ContainsKey(island.UnitSlot))
             {
-                requireUnitsAmount[island.Paint] += island.PointsCount;
+                requireUnitSlotsAmount[island.UnitSlot] += island.PointsCount;
             }
             else
             {
-                requireUnitsAmount.Add(island.Paint, island.PointsCount);
+                requireUnitSlotsAmount.Add(island.UnitSlot, island.PointsCount);
             }
         }
 
-        foreach (KeyValuePair<Paint, int> colorUnitsAmount in requireUnitsAmount)
+        foreach (KeyValuePair<UnitSlotType, int> unitSlotsAmount in requireUnitSlotsAmount)
         {
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField($"Color: {colorUnitsAmount.Key} - {colorUnitsAmount.Value}", GUILayout.Width(300));
+            EditorGUILayout.LabelField($"Color: {unitSlotsAmount.Key} - {unitSlotsAmount.Value}", GUILayout.Width(300));
             EditorGUILayout.EndHorizontal();
         }
 
-        return requireUnitsAmount;
+        return requireUnitSlotsAmount;
     }
 }

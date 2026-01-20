@@ -10,12 +10,12 @@ public class InAppsProvider
     private InAppConfirmedWindow _inAppConfirmedWindow;
     private InAppPurchaseProvider _inAppPurchaseProvider;
     private InAppByAddViewProvider _inAppByAddViewProvider;
-    private GameProgressStorage _progressStorage;
+    private PlayerDataProvider _playerData;
 
     public InAppsProvider(IEnumerable<InAppSettingsData> inAppPurchases, WalletProvider walletProvider,
                           BoostAmountProvider boostProvider, RemoveAdsProvider removeAdsProvider,
                           InAppConfirmedWindow inAppConfirmedWindow, InAppPurchaseProvider inAppPurchaseProvider,
-                          InAppByAddViewProvider inAppByAddViewProvider, GameProgressStorage progressStorage)
+                          InAppByAddViewProvider inAppByAddViewProvider, PlayerDataProvider playerData)
     {
         _inAppPurchases = inAppPurchases;
         _walletProvider = walletProvider;
@@ -24,7 +24,7 @@ public class InAppsProvider
         _inAppConfirmedWindow = inAppConfirmedWindow;
         _inAppPurchaseProvider = inAppPurchaseProvider;
         _inAppByAddViewProvider = inAppByAddViewProvider;
-        _progressStorage = progressStorage;
+        _playerData = playerData;
 
         _inAppPurchaseProvider.SuccessPurchased += OnPurchaseSuccess;
         _inAppByAddViewProvider.InAppProgressFinished += OnPurchaseSuccess;
@@ -53,7 +53,7 @@ public class InAppsProvider
             AddBonus(bonus);
         }
 
-        _progressStorage.Save();
+        _playerData.Save();
     }
 
     private void AddBonus(InAppBonus bonus)
@@ -72,5 +72,7 @@ public class InAppsProvider
                 _removeAdsProvider.RemoveAds();
                 break;
         }
+
+        _playerData.Save();
     }
 }

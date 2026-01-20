@@ -8,25 +8,23 @@ public class LanguageChanger : MonoBehaviour
     private const Language FirstLanguage = Language.Russian;
     private const Language NonFirstLanguage = Language.English;
 
+    [SerializeField] private LocalizationSettings _localizationSettings;
+    [SerializeField] private PlayerDataProvider _playerData;
     [SerializeField] private SliderButton _sliderButton;
 
-    private LocalizationSettings _localizationSettings;
-    private GameProgressStorage _gameProgressStorage;
     private ReadOnlyCollection<string> _languages;
 
-    public void Initialize(LocalizationSettings localizationSettings, GameProgressStorage gameProgressStorage,
-                           LocalizationProvider localizationProvider)
+    public void Initialize()
     {
-        _localizationSettings = localizationSettings;
-        _gameProgressStorage = gameProgressStorage;
+        var localizationProvider = new LocalizationProvider();
         _languages = _localizationSettings.Languages.Select(language => language.Name).ToList().AsReadOnly();
         int languageIndex = 0;
 
-        if (_gameProgressStorage.IsLanguageSaved)
+        if (_playerData.IsLanguageSaved)
         {
             languageIndex = _localizationSettings.Languages
                                             .Select((language, index) => new { language.Language, Index = index })
-                                            .Where(language => language.Language == _gameProgressStorage.Language)
+                                            .Where(language => language.Language == _playerData.Language)
                                             .Select(language => language.Index)
                                             .FirstOrDefault();
         }
@@ -37,8 +35,8 @@ public class LanguageChanger : MonoBehaviour
                                             .Where(language => language.Key == localizationProvider.GetLanguageKey())
                                             .Select(language => language.Index)
                                             .FirstOrDefault();
-            _gameProgressStorage.SetLanguage(_localizationSettings.Languages[languageIndex].Language);
-            _gameProgressStorage.Save();
+            _playerData.SetLanguage(_localizationSettings.Languages[languageIndex].Language);
+            _playerData.Save();
         }
 
         _sliderButton.Initialize(_languages, languageIndex);
@@ -71,7 +69,7 @@ public class LanguageChanger : MonoBehaviour
     {
         Language language = _localizationSettings.Languages[value].Language;
         LeanLocalization.SetCurrentLanguageAll(language.ToString());
-        _gameProgressStorage.SetLanguage(language);
-        _gameProgressStorage.Save();
+        _playerData.SetLanguage(language);
+        _playerData.Save();
     }
 }

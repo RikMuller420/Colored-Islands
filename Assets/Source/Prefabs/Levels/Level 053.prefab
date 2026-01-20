@@ -575,7 +575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 0
+  _unitSlot: 0
   _island: {fileID: 1904763234923510001}
   _rootOfPoints: {fileID: 1188118141150873632}
   _points:
@@ -589,10 +589,13 @@ MonoBehaviour:
   - {fileID: 2588532771183673066}
   _startUnits:
   - _paint: 1
+    _slot: 1
     _amount: 1
   - _paint: 4
+    _slot: 4
     _amount: 4
   - _paint: 0
+    _slot: 0
     _amount: 3
 --- !u!212 &9124245224493656402 stripped
 SpriteRenderer:
@@ -766,7 +769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 0
+  _unitSlot: 0
   _island: {fileID: 9193805501708680059}
   _rootOfPoints: {fileID: 1330213627755135743}
   _points:
@@ -777,10 +780,13 @@ MonoBehaviour:
   - {fileID: 3765469676923976908}
   _startUnits:
   - _paint: 1
+    _slot: 1
     _amount: 1
   - _paint: 4
+    _slot: 4
     _amount: 3
   - _paint: 0
+    _slot: 0
     _amount: 1
 --- !u!4 &1330213627755135743 stripped
 Transform:
@@ -979,7 +985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 2
+  _unitSlot: 2
   _island: {fileID: 1764433022890157276}
   _rootOfPoints: {fileID: 7573249420982581813}
   _points:
@@ -988,6 +994,7 @@ MonoBehaviour:
   - {fileID: 7266639729555671404}
   _startUnits:
   - _paint: 0
+    _slot: 0
     _amount: 3
 --- !u!4 &1625016400086858869 stripped
 Transform:
@@ -1197,7 +1204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 1
+  _unitSlot: 1
   _island: {fileID: 8997878483216663146}
   _rootOfPoints: {fileID: 4291936054579665022}
   _points:
@@ -1206,8 +1213,10 @@ MonoBehaviour:
   - {fileID: 3914148653200632615}
   _startUnits:
   - _paint: 4
+    _slot: 4
     _amount: 2
   - _paint: 0
+    _slot: 0
     _amount: 1
 --- !u!64 &7594802517821892194 stripped
 MeshCollider:
@@ -1524,7 +1533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 4
+  _unitSlot: 4
   _island: {fileID: 3535129131796582600}
   _rootOfPoints: {fileID: 7266199592025145613}
   _points:
@@ -1544,12 +1553,16 @@ MonoBehaviour:
   - {fileID: 6843949542037076985}
   _startUnits:
   - _paint: 1
+    _slot: 1
     _amount: 1
   - _paint: 2
+    _slot: 2
     _amount: 3
   - _paint: 0
+    _slot: 0
     _amount: 5
   - _paint: 4
+    _slot: 4
     _amount: 5
 --- !u!212 &3754995166371283271 stripped
 SpriteRenderer:

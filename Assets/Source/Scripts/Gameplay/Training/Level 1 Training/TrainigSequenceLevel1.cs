@@ -11,8 +11,8 @@ public class TrainigSequenceLevel1 : TrainigSequence
 
     private void OnDestroy()
     {
-        SelectHandler.UnitsSelected -= OnUnitsSelected;
-        UnitMover.UnitsMoved -= OnUnitsMoved;
+        UnitsSelectedEvent.UnitsSelected -= OnUnitsSelected;
+        UnitMovedEvent.UnitsMoved -= OnUnitsMoved;
         ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
         ResetLevelState();
     }
@@ -21,8 +21,8 @@ public class TrainigSequenceLevel1 : TrainigSequence
     {
         _currentMoveIndex = 0;
         BoostButtonActivator.DeactivateAllButtons();
-        SelectHandler.UnitsSelected += OnUnitsSelected;
-        UnitMover.UnitsMoved += OnUnitsMoved;
+        UnitsSelectedEvent.UnitsSelected += OnUnitsSelected;
+        UnitMovedEvent.UnitsMoved += OnUnitsMoved;
         ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
 
         _currentTrainingMove = _trainingMoves[_currentMoveIndex];
@@ -56,7 +56,7 @@ public class TrainigSequenceLevel1 : TrainigSequence
         switch (_currentTrainingMove.Type)
         {
             case Level1TrainingMoveType.SelectUnits:
-                ActivateUnitsColliders(targetIsland, _currentTrainingMove.UnitsPaint);
+                ActivateUnitsColliders(targetIsland, _currentTrainingMove.UnitsSlot);
                 break;
 
             case Level1TrainingMoveType.MoveUnits:
@@ -97,11 +97,11 @@ public class TrainigSequenceLevel1 : TrainigSequence
         }
     }
 
-    private void ActivateUnitsColliders(BaseIsland island, Paint unitsPaint)
+    private void ActivateUnitsColliders(BaseIsland island, UnitSlotType unitsSlot)
     {
         foreach (IslandPoint islandPoint in island.Points)
         {
-            if (islandPoint.IsFree == false && islandPoint.OccupiedUnit.Paint == unitsPaint)
+            if (islandPoint.IsFree == false && islandPoint.OccupiedUnit.Slot == unitsSlot)
             {
                 islandPoint.OccupiedUnit.Collider.enabled = true;
             }

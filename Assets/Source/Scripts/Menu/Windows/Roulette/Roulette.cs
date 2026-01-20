@@ -15,7 +15,7 @@ public class Roulette : MonoBehaviour
     private float _rewerdWindowDelay = 0.6f;
     private WaitForSeconds _wait;
 
-    private GameProgressStorage _progressStorage;
+    private PlayerDataProvider _playerDataProvider;
 
     private void Awake()
     {
@@ -36,9 +36,9 @@ public class Roulette : MonoBehaviour
         _rouletteRewardWindow.MenuClosed -= OnRewardReceived;
     }
 
-    public void Initialize(GameProgressStorage progressStorage)
+    public void Initialize(PlayerDataProvider playerDataProvider)
     {
-        _progressStorage = progressStorage;
+        _playerDataProvider = playerDataProvider;
     }
 
     public void PrepareRoulette()
@@ -57,8 +57,9 @@ public class Roulette : MonoBehaviour
         _spinButton.interactable = false;
         _spinButtonAnimator.SetBool(SpinButtonEnableBool, false);
 
-        int newSpinCount = _progressStorage.AviableSpinCount - 1;
-        _progressStorage.SetSpinCount(newSpinCount);
+        int newSpinCount = _playerDataProvider.AviableSpinCount - 1;
+        _playerDataProvider.SetSpinCount(newSpinCount);
+        _playerDataProvider.Save();
         MetricSaver.SpinRoulete();
     }
 

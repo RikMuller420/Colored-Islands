@@ -472,42 +472,42 @@ MonoBehaviour:
   - _type: 0
     _island: {fileID: 1524194933247786383}
     _isUseBufferIsland: 0
-    _unitsPaint: 1
+    _unitsSlot: 0
     _pointerPosition: {fileID: 2543472154478434432}
   - _type: 1
     _island: {fileID: 0}
     _isUseBufferIsland: 1
-    _unitsPaint: 1
+    _unitsSlot: 0
     _pointerPosition: {fileID: 5175253956813647535}
   - _type: 0
     _island: {fileID: 2449216836394560154}
     _isUseBufferIsland: 0
-    _unitsPaint: 2
+    _unitsSlot: 0
     _pointerPosition: {fileID: 7048654704311929127}
   - _type: 1
     _island: {fileID: 1524194933247786383}
     _isUseBufferIsland: 0
-    _unitsPaint: 2
+    _unitsSlot: 0
     _pointerPosition: {fileID: 1079603995012893140}
   - _type: 0
     _island: {fileID: 302227330698443215}
     _isUseBufferIsland: 0
-    _unitsPaint: 0
+    _unitsSlot: 0
     _pointerPosition: {fileID: 7105882424154727377}
   - _type: 1
     _island: {fileID: 2449216836394560154}
     _isUseBufferIsland: 0
-    _unitsPaint: 1
+    _unitsSlot: 0
     _pointerPosition: {fileID: 6723072872288282363}
   - _type: 0
     _island: {fileID: 2449216836394560154}
     _isUseBufferIsland: 1
-    _unitsPaint: 1
+    _unitsSlot: 0
     _pointerPosition: {fileID: 8482366578440534770}
   - _type: 1
     _island: {fileID: 302227330698443215}
     _isUseBufferIsland: 0
-    _unitsPaint: 1
+    _unitsSlot: 0
     _pointerPosition: {fileID: 226889065204754587}
 --- !u!1 &7389544924555290474
 GameObject:
@@ -762,10 +762,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5124075808343357766, guid: 8ce625b084abf3840ba168bbbeeaf313, type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5124075808343357766, guid: 8ce625b084abf3840ba168bbbeeaf313, type: 3}
       propertyPath: m_VersionIndex
       value: 1875
       objectReference: {fileID: 0}
@@ -929,7 +925,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 1
+  _unitSlot: 1
   _island: {fileID: 302227330698443215}
   _rootOfPoints: {fileID: 6182643959737199079}
   _points:
@@ -945,8 +941,10 @@ MonoBehaviour:
   - {fileID: 8031971577579554096}
   _startUnits:
   - _paint: 1
+    _slot: 1
     _amount: 7
   - _paint: 0
+    _slot: 0
     _amount: 3
 --- !u!4 &6706648419041877728 stripped
 Transform:
@@ -1093,10 +1091,6 @@ PrefabInstance:
     - target: {fileID: 4663968635295421991, guid: 8ce625b084abf3840ba168bbbeeaf313, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5124075808343357766, guid: 8ce625b084abf3840ba168bbbeeaf313, type: 3}
-      propertyPath: m_Mesh
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5124075808343357766, guid: 8ce625b084abf3840ba168bbbeeaf313, type: 3}
       propertyPath: m_VersionIndex
@@ -1262,7 +1256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 2
+  _unitSlot: 2
   _island: {fileID: 1524194933247786383}
   _rootOfPoints: {fileID: 6140999184401646083}
   _points:
@@ -1278,8 +1272,10 @@ MonoBehaviour:
   - {fileID: 8035358847151976148}
   _startUnits:
   - _paint: 2
+    _slot: 2
     _amount: 7
   - _paint: 1
+    _slot: 1
     _amount: 3
 --- !u!4 &6766327350801855748 stripped
 Transform:
@@ -1582,10 +1578,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5124075808343357766, guid: 8ce625b084abf3840ba168bbbeeaf313, type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5124075808343357766, guid: 8ce625b084abf3840ba168bbbeeaf313, type: 3}
       propertyPath: m_VersionIndex
       value: 1875
       objectReference: {fileID: 0}
@@ -1774,7 +1766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 0
+  _unitSlot: 0
   _island: {fileID: 2449216836394560154}
   _rootOfPoints: {fileID: 8521433748189935532}
   _points:
@@ -1790,8 +1782,10 @@ MonoBehaviour:
   - {fileID: 5546276042686241659}
   _startUnits:
   - _paint: 0
+    _slot: 0
     _amount: 7
   - _paint: 2
+    _slot: 2
     _amount: 3
 --- !u!4 &9123679321781059755 stripped
 Transform:

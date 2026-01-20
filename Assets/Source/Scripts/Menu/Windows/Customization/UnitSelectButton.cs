@@ -4,11 +4,10 @@ using Lean.Localization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class UnitSelectButton : MonoBehaviour
 {
-    [SerializeField] private Paint _paint;
+    [SerializeField] private UnitSlotType _slot;
     [SerializeField] private Button _button;
     [SerializeField] private Image _background;
     [SerializeField] private TextMeshProUGUI _text;
@@ -20,7 +19,7 @@ public class UnitSelectButton : MonoBehaviour
 
     public event Action<UnitSelectButton> ButtonClicked;
 
-    public Paint Paint => _paint;
+    public UnitSlotType Slot => _slot;
 
     private void OnEnable()
     {

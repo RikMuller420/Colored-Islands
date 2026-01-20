@@ -2,21 +2,22 @@ using System;
 
 public class RemoveAdsProvider
 {
-    private GameProgressStorage _gameProgressStorage;
+    private PlayerDataProvider _playerData;
 
     public event Action RemoveAdsStateChanged;
 
-    public RemoveAdsProvider(GameProgressStorage gameProgressStorage)
+    public RemoveAdsProvider(PlayerDataProvider playerData)
     {
-        _gameProgressStorage = gameProgressStorage;
-        gameProgressStorage.RemoveAdsStateChanged += OnRemoveAdsStateChanged;
+        _playerData = playerData;
+        playerData.RemoveAdsStateChanged += OnRemoveAdsStateChanged;
     }
 
-    public bool IsAdsRemoved => _gameProgressStorage.IsAdsRemoved;
+    public bool IsAdsRemoved => _playerData.IsAdsRemoved;
 
     public void RemoveAds()
     {
-        _gameProgressStorage.ApplyRemoveAddBonus();
+        _playerData.ApplyRemoveAddBonus();
+        _playerData.Save();
     }
 
     private void OnRemoveAdsStateChanged()

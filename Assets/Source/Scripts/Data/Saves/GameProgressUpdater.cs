@@ -1,54 +1,52 @@
 using System.Linq;
-using UnityEngine;
-using static YG.InfoYG;
 
 public class GameProgressUpdater
 {
     private LevelProgressTracker _progressTracker;
-    private GameProgressStorage _progressStorage;
+    private PlayerDataProvider _playerData;
     private LeaderboardProvider _leaderboardProvider;
     private LeaderboardSettings _leaderboardSettings;
-    private LeaderboardScoreCalculator _scoreCalculator;
+    private PlayerScoreCalculator _playerScoreCalculator;
 
-    public GameProgressUpdater(LevelProgressTracker progressTracker, GameProgressStorage progressStorage,
-                               LeaderboardProvider leaderboardProvider, LeaderboardSettings leaderboardSettings,
-                               LeaderboardScoreCalculator scoreCalculator)
+    public GameProgressUpdater(LevelProgressTracker progressTracker, PlayerDataProvider playerData,
+                               LeaderboardProvider leaderboardProvider, LeaderboardSettings leaderboardSettings)
     {
+
         _progressTracker = progressTracker;
-        _progressStorage = progressStorage;
+        _playerData = playerData;
         _leaderboardProvider = leaderboardProvider;
         _leaderboardSettings = leaderboardSettings;
-        _scoreCalculator = scoreCalculator;
 
+        _playerScoreCalculator = new PlayerScoreCalculator(playerData);
         _progressTracker.LevelFinished += UpdateSavedProgress;
     }
 
-    private void UpdateSavedProgress()
+    private void UpdateSavedProgress(ILevelData levelData)
     {
-        LevelProgress savedLevel = _progressStorage.Levels
-                                .FirstOrDefault(level => level.Id == _progressTracker.LevelData.Id);
+        LevelProgress savedLevel = _playerData.Levels
+                                .FirstOrDefault(level => level.Id == levelData.LevelId);
 
-        bool isLevelFinished = _progressTracker.IsLevelFinished || savedLevel.IsDone;
-        bool isAngryTaskDone = _progressTracker.IsAngryTaskDone || savedLevel.IsAngryTaskDone;
-        bool isMoveTaskDone = _progressTracker.IsMoveTaskDone || savedLevel.IsMoveTaskDone;
+        bool isAngryTaskDone = _progressTracker.IsAngryTaskDone || savedLevel.IsAngryStarEarned;
+        bool isMoveTaskDone = _progressTracker.IsMoveTaskDone || savedLevel.IsMovesStarEarned;
 
-        int newGoldAmount = _progressStorage.GoldAmount + _progressTracker.ReachedGold;
-        int newScoreAmount = _progressStorage.ScoreAmount + _progressTracker.ReachedScore;
+        int newGoldAmount = _playerData.GoldAmount + _progressTracker.ReachedGold;
+        int newScoreAmount = _playerData.ScoreAmount + _progressTracker.ReachedScore;
         bool isNewTopScore = _progressTracker.ReachedScore > savedLevel.BestScore;
         int levelScore = isNewTopScore ? _progressTracker.ReachedScore : savedLevel.BestScore;
-        LevelProgress updatedProgress = new LevelProgress(savedLevel.Id, isLevelFinished,
+        LevelProgress updatedProgress = new LevelProgress(savedLevel.Id, true,
                                                           isMoveTaskDone, isAngryTaskDone, levelScore);
 
-        _progressStorage.SetGoldAmount(newGoldAmount, false);
-        _progressStorage.SetScoreAmount(newScoreAmount, false);
-        _progressStorage.UpdateLevelProgress(updatedProgress, true);
+        _playerData.SetGoldAmount(newGoldAmount);
+        _playerData.SetScoreAmount(newScoreAmount);
+        _playerData.UpdateLevelProgress(updatedProgress);
+        _playerData.Save();
 
-        int totalScore = _scoreCalculator.GetScore(LeaderboardType.TotalGameScore);
+        int totalScore = _playerScoreCalculator.GetScore(LeaderboardType.TotalGameScore);
         _leaderboardProvider.SaveScore(_leaderboardSettings.LeaderboardKey(LeaderboardType.TotalGameScore), totalScore);
 
         if (isNewTopScore)
         {
-            int topResultScore = _scoreCalculator.GetScore(LeaderboardType.BestGameScore);
+            int topResultScore = _playerScoreCalculator.GetScore(LeaderboardType.BestGameScore);
             _leaderboardProvider.SaveScore(_leaderboardSettings.LeaderboardKey(LeaderboardType.BestGameScore), topResultScore);
         }
     }

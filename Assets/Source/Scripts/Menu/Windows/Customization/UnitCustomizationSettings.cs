@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class UnitCustomizationSettings
 {
-    public UnitCustomizationSettings(Paint paint, ColorSample colorSample, Material unitMaterial, Material selectedUnitMaterial,
+    public UnitCustomizationSettings(UnitSlotType slot, ColorSample colorSample, Material unitMaterial, Material selectedUnitMaterial,
                                     UnitHatData hatData, Material hatMaterial, Material selectedHatMaterial,
                                     Color trailColor)
     {
-        Paint = paint;
+        Slot = slot;
         ColorSample = colorSample;
         UnitMaterial = unitMaterial;
         SelectedUnitMaterial = new SelectedUnitMaterial(selectedUnitMaterial);
@@ -16,7 +16,7 @@ public class UnitCustomizationSettings
         TrailColor = trailColor;
     }
 
-    public Paint Paint { get; }
+    public UnitSlotType Slot { get; }
     public ColorSample ColorSample { get; }
     public Material UnitMaterial { get; }
     public SelectedUnitMaterial SelectedUnitMaterial { get; }

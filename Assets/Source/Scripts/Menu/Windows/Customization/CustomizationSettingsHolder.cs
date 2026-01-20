@@ -8,42 +8,42 @@ public class CustomizationSettingsHolder
     private const string UnitFaceTextureName = "_OverlayTex";
 
     private PaintMaterials _paintMaterials;
-    private GameProgressStorage _progressStorage;
+    private IPlayerData _playerData;
     private UnitsFaceSettings _faceSettings;
     private UnitsHatSettings _hatSettings;
 
     private List<UnitCustomizationSettings> _customizationSettings = new();
 
-    public CustomizationSettingsHolder(PaintMaterials paintMaterials, GameProgressStorage progressStorage,
+    public CustomizationSettingsHolder(PaintMaterials paintMaterials, IPlayerData playerData,
                                     UnitsFaceSettings faceSettings, UnitsHatSettings hatSettings)
     {
         _paintMaterials = paintMaterials;
-        _progressStorage = progressStorage;
+        _playerData = playerData;
         _faceSettings = faceSettings;
         _hatSettings = hatSettings;
 
-        foreach (Paint paint in Enum.GetValues(typeof(Paint)))
+        foreach (UnitSlotType slot in Enum.GetValues(typeof(UnitSlotType)))
         {
-            _customizationSettings.Add(CreateSettings(paint));
+            _customizationSettings.Add(CreateSettings(slot));
         }
 
-        _progressStorage.CustomizationPreferenceChanged += OnCustomizationPreferenceChanged;
+        _playerData.CustomizationPreferenceChanged += OnCustomizationPreferenceChanged;
     }
 
-    public UnitCustomizationSettings GetCustomizationSettings(Paint paint)
+    public UnitCustomizationSettings GetCustomizationSettings(UnitSlotType slot)
     {
-        return _customizationSettings.FirstOrDefault(settings => settings.Paint == paint);
+        return _customizationSettings.FirstOrDefault(settings => settings.Slot == slot);
     }
 
-    private void OnCustomizationPreferenceChanged(Paint paint)
+    private void OnCustomizationPreferenceChanged(UnitSlotType slot)
     {
-        int settingsIndex = _customizationSettings.FindIndex(settings => settings.Paint == paint);
-        _customizationSettings[settingsIndex] = CreateSettings(paint);
+        int settingsIndex = _customizationSettings.FindIndex(settings => settings.Slot == slot);
+        _customizationSettings[settingsIndex] = CreateSettings(slot);
     }
 
-    private UnitCustomizationSettings CreateSettings(Paint paint)
+    private UnitCustomizationSettings CreateSettings(UnitSlotType slot)
     {
-        CustomizationPreferences preference = _progressStorage.GetCustomizationPreference(paint);
+        CustomizationPreferences preference = _playerData.GetCustomizationPreference(slot);
         int faceId = preference.FaceId;
         int hatId = preference.HatId;
         ColorSample colorSample = preference.ColorSample;
@@ -61,7 +61,7 @@ public class CustomizationSettingsHolder
 
         return new UnitCustomizationSettings
         (
-            paint,
+            slot,
             colorSample,
             unitMaterial,
             selectedUnitMaterial,

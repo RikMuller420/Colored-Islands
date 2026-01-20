@@ -51,7 +51,7 @@ public class TrainigSequenceLevel4 : TrainigSequence
         _buttonRectTransform = BoostButtonActivator.GetBoostButtonRectTransform(BoostType.FreezeObjectives);
 
         LevelProgressTracker.AngryChanged += OnAngryValueChanged;
-        SelectHandler.UnitsSelected += OnUnitSelected;
+        UnitsSelectedEvent.UnitsSelected += OnUnitSelected;
         LevelProgressTracker.IslandFinished += OnIslandFinished;
 
         StartCoroutine(OpenAngyBarHintInDelay());

@@ -5,17 +5,17 @@ public class AviableSpinCountView : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _text;
 
-    private GameProgressStorage _progressStorage;
+    private IPlayerData _playerData;
 
-    public void Initialize(GameProgressStorage progressStorage)
+    public void Initialize(IPlayerData playerData)
     {
-        _progressStorage = progressStorage;
-        _progressStorage.SpinCountChanged += UpdateViewText;
+        _playerData = playerData;
+        _playerData.SpinCountChanged += UpdateViewText;
         UpdateViewText();
     }
 
     private void UpdateViewText()
     {
-        _text.text = _progressStorage.AviableSpinCount.ToString();
+        _text.text = _playerData.AviableSpinCount.ToString();
     }
 }

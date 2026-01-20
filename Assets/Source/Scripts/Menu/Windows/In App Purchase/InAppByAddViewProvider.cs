@@ -3,26 +3,26 @@ using System.Linq;
 
 public class InAppByAddViewProvider
 {
-    private GameProgressStorage _gameProgressStorage;
+    private PlayerDataProvider _playerData;
     private InAppSettings _inAppSettings;
 
     public event Action<InAppType> ProgressChanged;
     public event Action<string> InAppProgressFinished;
 
-    public InAppByAddViewProvider(GameProgressStorage gameProgressStorage, InAppSettings inAppSettings)
+    public InAppByAddViewProvider(PlayerDataProvider playerData, InAppSettings inAppSettings)
     {
-        _gameProgressStorage = gameProgressStorage;
+        _playerData = playerData;
         _inAppSettings = inAppSettings;
     }
 
-    public int EarnedInAppWithAddProgress(InAppType inAppType) => _gameProgressStorage.GetEarnedInAppWithAddProgress(inAppType);
+    public int EarnedInAppWithAddProgress(InAppType inAppType) => _playerData.GetEarnedInAppWithAddProgress(inAppType);
 
     public void AddUpgradeStage(InAppType inAppType)
     {
         int upgradeStage = EarnedInAppWithAddProgress(inAppType);
         upgradeStage++;
-        _gameProgressStorage.SetEarnInAppWithAddProgress(inAppType, upgradeStage);
-        _gameProgressStorage.Save();
+        _playerData.SetEarnInAppWithAddProgress(inAppType, upgradeStage);
+        _playerData.Save();
         ProgressChanged?.Invoke(inAppType);
 
         InAppSettingsData inAppSettings = _inAppSettings.InApps.FirstOrDefault(inApp => inApp.Type == inAppType);

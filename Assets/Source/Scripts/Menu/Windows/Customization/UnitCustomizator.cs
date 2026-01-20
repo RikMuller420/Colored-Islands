@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UI.TabSystem;
-using UnityEngine;
 
 public class UnitCustomizator
 {
@@ -10,14 +8,14 @@ public class UnitCustomizator
     private List<FaceSelectButton> _faceSelectButtons;
     private List<ColorSelectButton> _colorSelectButtons;
     private UnitCustomizationView _unitCustomizationView;
-    private GameProgressStorage _progressStorage;
+    private PlayerDataProvider _playerData;
 
     private UnitSelectButton _currentUnitButton;
     private FaceSelectButton _currentFaceButton;
     private HatSelectButton _currentHatButton;
     private ColorSelectButton _currentColorButton;
 
-    private Paint _currentPaint;
+    private UnitSlotType _currentSlot;
 
     public IEnumerable<FaceSelectButton> FaceSelectButtons => _faceSelectButtons;
     public IEnumerable<HatSelectButton> HatSelectButtons => _hatSelectButtons;
@@ -25,12 +23,12 @@ public class UnitCustomizator
     public event Action FaceUsed;
     public event Action HatUsed;
 
-    public UnitCustomizator(UnitCustomizationView unitCustomizationView, GameProgressStorage progressStorage,
+    public UnitCustomizator(UnitCustomizationView unitCustomizationView, PlayerDataProvider playerData,
                             List<UnitSelectButton> unitSelectButtons, List<HatSelectButton> hatSelectButtons,
                             List<FaceSelectButton> faceSelectButtons, List<ColorSelectButton> colorSelectButtons)
     {
         _unitCustomizationView = unitCustomizationView;
-        _progressStorage = progressStorage;
+        _playerData = playerData;
         _unitSelectButtons = unitSelectButtons;
         _faceSelectButtons = faceSelectButtons;
         _hatSelectButtons = hatSelectButtons;
@@ -39,7 +37,7 @@ public class UnitCustomizator
         foreach (UnitSelectButton unitSelectButton in _unitSelectButtons)
         {
             unitSelectButton.ButtonClicked += ChangeCurrentPaint;
-            CustomizationPreferences preferences = _progressStorage.GetCustomizationPreference(unitSelectButton.Paint);
+            CustomizationPreferences preferences = _playerData.GetCustomizationPreference(unitSelectButton.Slot);
             unitSelectButton.SetColor(preferences.ColorSample);
         }
 
@@ -68,11 +66,11 @@ public class UnitCustomizator
             _currentUnitButton.SetNonSelectedStyle();
         }
 
-        _currentPaint = button.Paint;
+        _currentSlot = button.Slot;
         _currentUnitButton = button;
         _currentUnitButton.SetSelectdStyle();
 
-        CustomizationPreferences preferences = _progressStorage.GetCustomizationPreference(_currentPaint);
+        CustomizationPreferences preferences = _playerData.GetCustomizationPreference(_currentSlot);
         _unitCustomizationView.SetColor(preferences.ColorSample);
 
         FaceSelectButton faceSelectButton = _faceSelectButtons.Find(button => button.FaceId == preferences.FaceId);
@@ -110,9 +108,9 @@ public class UnitCustomizator
 
     private bool IsColofSampleFree(ColorSample colorSample)
     {
-        foreach (Paint paint in (Paint[])Enum.GetValues(typeof(Paint)))
+        foreach (UnitSlotType slot in (UnitSlotType[])Enum.GetValues(typeof(UnitSlotType)))
         {
-            CustomizationPreferences preferences = _progressStorage.GetCustomizationPreference(paint);
+            CustomizationPreferences preferences = _playerData.GetCustomizationPreference(slot);
 
             if (preferences.ColorSample == colorSample)
             {
@@ -127,9 +125,9 @@ public class UnitCustomizator
     {
         ApplyNewFace(faceButton);
         faceButton.DeactivateUnusedMark();
-        _progressStorage.ChangeCustomizationPreferenceFace(_currentPaint, faceButton.FaceId);
-        _progressStorage.MarkFaceUsed(faceButton.FaceId);
-        _progressStorage.Save();
+        _playerData.ChangeCustomizationPreferenceFace(_currentSlot, faceButton.FaceId);
+        _playerData.MarkFaceUsed(faceButton.FaceId);
+        _playerData.Save();
         FaceUsed?.Invoke();
     }
 
@@ -137,17 +135,17 @@ public class UnitCustomizator
     {
         ApplyNewHat(hatButton);
         hatButton.DeactivateUnusedMark();
-        _progressStorage.ChangeCustomizationPreferenceHat(_currentPaint, hatButton.HatId);
-        _progressStorage.MarkHatUsed(hatButton.HatId);
-        _progressStorage.Save();
+        _playerData.ChangeCustomizationPreferenceHat(_currentSlot, hatButton.HatId);
+        _playerData.MarkHatUsed(hatButton.HatId);
+        _playerData.Save();
         HatUsed?.Invoke();
     }
 
     private void ChangeCurrentColor(ColorSelectButton colorButton)
     {
         ApplyNewColor(colorButton);
-        _progressStorage.ChangeCustomizationPreferenceColor(_currentPaint, colorButton.ColorSample);
-        _progressStorage.Save();
+        _playerData.ChangeCustomizationPreferenceColor(_currentSlot, colorButton.ColorSample);
+        _playerData.Save();
     }
 
     private void ApplyNewColor(ColorSelectButton colorButton)

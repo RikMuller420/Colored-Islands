@@ -1,10 +1,10 @@
 public abstract class GameScoreCalcualtor
 {
-    protected GameProgressStorage ProgressStorage;
+    protected IPlayerData PlayerData;
 
-    public GameScoreCalcualtor(GameProgressStorage progressStorage)
+    public GameScoreCalcualtor(IPlayerData playerData)
     {
-        ProgressStorage = progressStorage;
+        PlayerData = playerData;
     }
 
     public abstract int Score { get; }

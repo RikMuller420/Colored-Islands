@@ -1,25 +1,25 @@
 using System;
 
-public class ObjectivesFreezeBoost : Boost
+public class ObjectivesFreezeBoost : Boost, IBoostStopApplyedEvent
 {
     private LevelProgressTracker _levelProgressTracker;
-    private LevelLoader _levelLoader;
+    private LevelChangeEventTracker _levelChangeEventTracker;
 
     private int _usedMoves = 0;
     private int _maxMoves = 7;
     private bool _isBoostApplying = false;
 
-    public event Action BoostStopApplyed;
+    public event Action StopApplyed;
 
     public ObjectivesFreezeBoost(LevelProgressTracker levelProgressTracker, UnitMover unitMover,
-                                LevelLoader levelLoader, BoostAmountProvider boostAmountProvider) :
+                                LevelChangeEventTracker levelChangeEventTracker, BoostAmountProvider boostAmountProvider) :
                                 base(boostAmountProvider)       
     {
         _levelProgressTracker = levelProgressTracker;
-        _levelLoader = levelLoader;
+        _levelChangeEventTracker = levelChangeEventTracker;
 
         unitMover.UnitsMoved += OnUnitMoved;
-        levelLoader.LevelChanged += OnLevelChanged;
+        levelChangeEventTracker.LevelChanged += OnLevelChanged;
     }
 
     public override BoostType Type => BoostType.FreezeObjectives;
@@ -48,7 +48,7 @@ public class ObjectivesFreezeBoost : Boost
         }
     }
 
-    private void OnLevelChanged()
+    private void OnLevelChanged(ILevelData _)
     {
         StopBoostApplying();
     }
@@ -58,7 +58,7 @@ public class ObjectivesFreezeBoost : Boost
         if (_isBoostApplying)
         {
             _isBoostApplying = false;
-            BoostStopApplyed?.Invoke();
+            StopApplyed?.Invoke();
         }
     }
 }

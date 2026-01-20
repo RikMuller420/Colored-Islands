@@ -29,17 +29,17 @@ public class RouletteWheel : MonoBehaviour
     };
     private Quaternion _whellStartLocalRotation;
 
-    private GameProgressStorage _progressStorage;
+    private IPlayerData _playerData;
     private UpgradesProvider _upgradesProvider;
 
     public event System.Action SpinStarted;
     public event System.Action<Slot> SpinFinished;
 
 
-    public void Initialize(GameProgressStorage progressStorage, UnitsFaceSettings faceSettings,
+    public void Initialize(IPlayerData playerData, UnitsFaceSettings faceSettings,
                            UpgradesProvider upgradesProvider)
     {
-        _progressStorage = progressStorage;
+        _playerData = playerData;
         _upgradesProvider = upgradesProvider;
         _slotRotation = _fullWheelRotation / _slots.Count;
         _whellStartLocalRotation = _wheel.localRotation;
@@ -102,7 +102,7 @@ public class RouletteWheel : MonoBehaviour
     {
         _wheel.localRotation = _whellStartLocalRotation;
 
-        bool isRemoveAdsSlotAviable = _progressStorage.IsAdsRemoved == false;
+        bool isRemoveAdsSlotAviable = _playerData.IsAdsRemoved == false;
         List<int> faceIds = AviableFaceIds();
         List<Slot> unusedSlots = new List<Slot>(_slots);
 
@@ -131,7 +131,7 @@ public class RouletteWheel : MonoBehaviour
 
     private List<int> AviableFaceIds()
     {
-        List<int> lockedFaceIds = _progressStorage.FaceAvailabilities
+        List<int> lockedFaceIds = _playerData.FaceAvailabilities
                                                 .Where(face => !face.IsAviable)
                                                 .Select(face => face.FaceId)
                                                 .ToList();

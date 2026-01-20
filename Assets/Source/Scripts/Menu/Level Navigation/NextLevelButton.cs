@@ -3,10 +3,10 @@ using UnityEngine.UI;
 
 public class NextLevelButton : MonoBehaviour
 {
+    [SerializeField] private LevelLoader _levelLoader;
     [SerializeField] private Button _button;
 
     private int _nextLevelId = 1;
-    private LevelLoader _levelLoader;
 
     private void OnEnable()
     {
@@ -16,12 +16,6 @@ public class NextLevelButton : MonoBehaviour
     private void OnDisable()
     {
         _button.onClick.RemoveListener(LoadNextLevel);
-    }
-
-    public void Initialize(LevelLoader levelLoader)
-    {
-        _levelLoader = levelLoader;
-        enabled = true;
     }
 
     public void SetNextLevelId(int id)

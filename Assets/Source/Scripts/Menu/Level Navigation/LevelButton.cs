@@ -17,7 +17,7 @@ public class LevelButton : MonoBehaviour
 
     private int _levelId;
     private bool _isLevelAviable;
-    private GameProgressStorage _progressStorage;
+    private IPlayerData _playerData;
     private LevelLoader _levelLoader;
 
     private void OnEnable()
@@ -30,10 +30,10 @@ public class LevelButton : MonoBehaviour
         _button.onClick.RemoveListener(LoadLevel);
     }
 
-    public void Initialize(int levelId, GameProgressStorage progressStorage, LevelLoader levelLoader)
+    public void Initialize(int levelId, IPlayerData playerData, LevelLoader levelLoader)
     {
         _levelId = levelId;
-        _progressStorage = progressStorage;
+        _playerData = playerData;
         _levelLoader = levelLoader;
 
         _levelNumberText.text = levelId.ToString();
@@ -44,12 +44,12 @@ public class LevelButton : MonoBehaviour
             UpdateStarSprites();
         }
 
-        _progressStorage.LevelProgressChanged += OnLevelProgressChanged;
+        _playerData.LevelProgressChanged += OnLevelProgressChanged;
     }
 
     private void UpdateButtonAviability()
     {
-        _isLevelAviable = _levelId <= _progressStorage.LastAvailableLevelId;
+        _isLevelAviable = _levelId <= _playerData.LastAvailableLevelId;
         _starsHolder.SetActive(_isLevelAviable);
         _button.interactable = _isLevelAviable;
         _lockIcon.SetActive(!_isLevelAviable);
@@ -57,7 +57,7 @@ public class LevelButton : MonoBehaviour
 
     private void UpdateStarSprites()
     {
-        LevelProgress levelProgress = _progressStorage.Levels.FirstOrDefault(level => level.Id == _levelId);
+        LevelProgress levelProgress = _playerData.Levels.FirstOrDefault(level => level.Id == _levelId);
         int starsCount = levelProgress.GetStarsCount();
 
         for (int i = 0; i < starsCount; i++)

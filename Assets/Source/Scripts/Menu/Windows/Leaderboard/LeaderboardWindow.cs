@@ -1,32 +1,42 @@
+using System.Collections.Generic;
 using UI.TabSystem;
 using UnityEngine;
 
 public class LeaderboardWindow : MenuWindow
 {
-    [SerializeField] private TabSwitcher _leaderboardTabs;
+    [SerializeField] private LeaderboardSettings _leaderboardSettings;
+
+    [SerializeField] private TabSwitcher _tabSwitcher;
     [SerializeField] private GameObject _loginHintBacground;
     [SerializeField] private GameObject _loginHintContent;
 
-    private AuthorizationProvider _authorizationProvider;
+    [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
 
-    public void Initialize(AuthorizationProvider authorizationProvider)
+    private IAuthorizationData _authorizationData;
+
+    public void Initialize(ILeaderboardReader leaderboardReader, IAuthorizationData authorizationData)
     {
-        _authorizationProvider = authorizationProvider;
+        _authorizationData = authorizationData;
 
-        _authorizationProvider.AuthorizationStatusChanged += OnAuthorizationStatusChanged;
+        foreach (LeaderboardTab leaderboardTab in _leaderboardTabs)
+        {
+            leaderboardTab.Initialize(leaderboardReader, _leaderboardSettings);
+        }
+
+        _authorizationData.AuthorizationStatusChanged += OnAuthorizationStatusChanged;
         OnAuthorizationStatusChanged();
     }
 
     private void OnAuthorizationStatusChanged()
     {
-        bool isAuthorized = _authorizationProvider.IsAuthorized;
+        bool isAuthorized = _authorizationData.IsAuthorized;
 
         _loginHintBacground.SetActive(!isAuthorized);
         _loginHintContent.SetActive(!isAuthorized);
 
         if (isAuthorized && IsOpened)
         {
-            _leaderboardTabs.UpdateActiveTab();
+            _tabSwitcher.UpdateActiveTab();
         }
     }
 

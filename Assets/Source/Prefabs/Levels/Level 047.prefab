@@ -495,7 +495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 1
+  _unitSlot: 4
   _island: {fileID: 122799803850257257}
   _rootOfPoints: {fileID: 2140385288046789757}
   _points:
@@ -507,12 +507,16 @@ MonoBehaviour:
   - {fileID: 4257055943148989527}
   _startUnits:
   - _paint: 3
+    _slot: 3
     _amount: 1
   - _paint: 4
+    _slot: 4
     _amount: 3
   - _paint: 2
+    _slot: 2
     _amount: 1
   - _paint: 0
+    _slot: 0
     _amount: 1
 --- !u!212 &1869260111044630422 stripped
 SpriteRenderer:
@@ -954,7 +958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 4
+  _unitSlot: 4
   _island: {fileID: 2655194357415488154}
   _rootOfPoints: {fileID: 2362476470436733305}
   _points:
@@ -976,14 +980,19 @@ MonoBehaviour:
   - {fileID: 6508096078714807915}
   _startUnits:
   - _paint: 3
+    _slot: 3
     _amount: 1
   - _paint: 2
+    _slot: 2
     _amount: 1
   - _paint: 4
+    _slot: 4
     _amount: 4
   - _paint: 0
+    _slot: 0
     _amount: 1
   - _paint: 1
+    _slot: 1
     _amount: 9
 --- !u!212 &5030111565923240895 stripped
 SpriteRenderer:
@@ -1352,7 +1361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 2
+  _unitSlot: 2
   _island: {fileID: 1035022056220555658}
   _rootOfPoints: {fileID: 4245687529593870334}
   _points:
@@ -1374,12 +1383,16 @@ MonoBehaviour:
   - {fileID: 4644305657402396908}
   _startUnits:
   - _paint: 2
+    _slot: 2
     _amount: 1
   - _paint: 0
+    _slot: 0
     _amount: 2
   - _paint: 1
+    _slot: 1
     _amount: 7
   - _paint: 4
+    _slot: 4
     _amount: 6
 --- !u!212 &2557280172597788650 stripped
 SpriteRenderer:
@@ -6002,7 +6015,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1172089645980655682, guid: a5d005ec5dd4c4642a388180d217a59a, type: 3}
       propertyPath: m_SelectedVertices.Array.size
-      value: 17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1172089645980655682, guid: a5d005ec5dd4c4642a388180d217a59a, type: 3}
       propertyPath: m_Textures0.Array.data[100].x
@@ -7657,7 +7670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 1
+  _unitSlot: 1
   _island: {fileID: 1624503875152587480}
   _rootOfPoints: {fileID: 314720490544658466}
   _points:
@@ -7679,12 +7692,16 @@ MonoBehaviour:
   - {fileID: 9135069904481976112}
   _startUnits:
   - _paint: 4
+    _slot: 4
     _amount: 2
   - _paint: 1
+    _slot: 1
     _amount: 3
   - _paint: 0
+    _slot: 0
     _amount: 4
   - _paint: 2
+    _slot: 2
     _amount: 7
 --- !u!212 &2830365695223275988 stripped
 SpriteRenderer:
@@ -14234,7 +14251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 3
+  _unitSlot: 3
   _island: {fileID: 8832414880953988283}
   _rootOfPoints: {fileID: 5492971297500285253}
   _points:
@@ -14242,8 +14259,10 @@ MonoBehaviour:
   - {fileID: 7726948141663122916}
   _startUnits:
   - _paint: 2
+    _slot: 2
     _amount: 1
   - _paint: 1
+    _slot: 1
     _amount: 1
 --- !u!64 &4064867364237333452 stripped
 MeshCollider:
@@ -14488,7 +14507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _paint: 0
+  _unitSlot: 0
   _island: {fileID: 8029757752146515500}
   _rootOfPoints: {fileID: 3707267255582789776}
   _points:
@@ -14502,10 +14521,13 @@ MonoBehaviour:
   - {fileID: 313705297016779232}
   _startUnits:
   - _paint: 2
+    _slot: 2
     _amount: 5
   - _paint: 4
+    _slot: 4
     _amount: 1
   - _paint: 1
+    _slot: 1
     _amount: 2
 --- !u!212 &1448350041339424247 stripped
 SpriteRenderer:

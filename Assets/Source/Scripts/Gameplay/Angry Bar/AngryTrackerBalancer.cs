@@ -3,7 +3,7 @@ using UnityEngine;
 public class AngryTrackerBalancer
 {
     private LevelProgressTracker _progressTracker;
-    private LevelLoader _levelLoader;
+    private LevelChangeEventTracker _levelChangeEventTracker;
 
     private float _angryValueLimit = 0.3f;
     private bool _isCurrentLevelFinished = false;
@@ -19,13 +19,13 @@ public class AngryTrackerBalancer
     public float Value { get; private set; } = 1f;
 
 
-    public AngryTrackerBalancer(LevelProgressTracker progressTracker, LevelLoader levelLoader)
+    public AngryTrackerBalancer(LevelProgressTracker progressTracker, LevelChangeEventTracker levelChangeEventTracker)
     {
         _progressTracker = progressTracker;
-        _levelLoader = levelLoader;
+        _levelChangeEventTracker = levelChangeEventTracker;
 
         _progressTracker.LevelFinished += RecordWin;
-        _levelLoader.LevelStartChanging += OnLevelStartChanging;
+        _levelChangeEventTracker.LevelStartChanging += OnLevelStartChanging;
     }
 
     private void OnLevelStartChanging()
@@ -52,7 +52,7 @@ public class AngryTrackerBalancer
         ClampValue();
     }
 
-    private void RecordWin()
+    private void RecordWin(ILevelData _)
     {
         if (_loseStreak != 0)
         {

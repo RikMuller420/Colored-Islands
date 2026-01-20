@@ -1,73 +1,53 @@
 using UnityEngine;
 
-public class TrainigSequenceLoader
+public class TrainigSequenceLoader : MonoBehaviour
 {
-    private LevelLoader _levelLoader;
-    private LevelObjectsHolder _levelObjectsHolder;
-    private BuferIslandsHolder _buferIslandsHolder;
-    private SelectHandler _selectHandler;
-    private UnitMover _unitMover;
-    private Camera _mainCamera;
-    private BoostButtonActivator _boostButtonActivator;
-    private LevelProgressTracker _levelProgressTracker;
-    private UIOrientationChanger _uIOrientationChanger;
-    private GameProgressStorage _progressStorage;
-    private MenuWindow _inGameMenu;
-    private FinalScoreWindow _finalScoreWindow;
-    private MenuTrainigSequence _menuTrainigSequence;
-    private LevelSettings _levelSettings;
-    private ScreenSizeChangeTracker _screenSizeChangeTracker;
-    private Canvas _canvas;
-    private CustomizationWindow _customizationMenu;
+    [SerializeField] private LevelSettings _levelSettings;
 
-    public TrainigSequenceLoader(LevelLoader levelLoader, LevelObjectsHolder levelObjectsHolder,
-                                BuferIslandsHolder buferIslandsHolder, SelectHandler selectHandler,
-                                UnitMover unitMover, Camera mainCamera, BoostButtonActivator bosstButtonActivator,
-                                LevelProgressTracker levelProgressTracker, UIOrientationChanger uIOrientationChanger,
-                                GameProgressStorage progressStorage, MenuWindow inGameMenu, FinalScoreWindow finalScoreWindow,
-                                MenuTrainigSequence menuTrainigSequence, LevelSettings levelSettings, 
-                                ScreenSizeChangeTracker screenSizeChangeTracker, Canvas canvas, CustomizationWindow customizationMenu)
+    [SerializeField] private LevelLoader _levelLoader;
+    [SerializeField] private BuferIslandsHolder _buferIslandsHolder;
+    [SerializeField] private Camera _mainCamera;
+    [SerializeField] private BoostButtonActivator _boostButtonActivator;
+    [SerializeField] private LevelProgressTracker _levelProgressTracker;
+    [SerializeField] private UIOrientationChanger _uIOrientationChanger;
+    [SerializeField] private PlayerDataProvider _playerData;
+    [SerializeField] private MenuWindow _inGameMenu;
+    [SerializeField] private FinalScoreWindow _finalScoreWindow;
+    [SerializeField] private MenuTrainigSequence _menuTrainigSequence;
+    [SerializeField] private ScreenSizeChangeTracker _screenSizeChangeTracker;
+    [SerializeField] private Canvas _canvas;
+    [SerializeField] private CustomizationWindow _customizationMenu;
+
+    private IUnitMovedEvent _unitMovedEvent;
+    private IUnitsSelectedEvent _unitsSelectedEvent;
+
+    public void Initilize(IUnitsSelectedEvent unitsSelectedEvent, IUnitMovedEvent unitMovedEvent)
     {
-        _levelLoader = levelLoader;
-        _levelObjectsHolder = levelObjectsHolder;
-        _selectHandler = selectHandler;
-        _unitMover = unitMover;
-        _buferIslandsHolder = buferIslandsHolder;
-        _mainCamera = mainCamera;
-        _boostButtonActivator = bosstButtonActivator;
-        _levelProgressTracker = levelProgressTracker;
-        _uIOrientationChanger = uIOrientationChanger;
-        _progressStorage = progressStorage;
-        _inGameMenu = inGameMenu;
-        _finalScoreWindow = finalScoreWindow;
-        _menuTrainigSequence = menuTrainigSequence;
-        _levelSettings = levelSettings;
-        _screenSizeChangeTracker = screenSizeChangeTracker;
-        _canvas = canvas;
-        _customizationMenu = customizationMenu;
+        _unitsSelectedEvent = unitsSelectedEvent;
+        _unitMovedEvent = unitMovedEvent;
 
         _levelLoader.LevelChanged += OnLevelChanged;
     }
 
     public void TryLoadTrainingLevel()
     {
-        if (_progressStorage.LastAvailableLevelId <= _levelSettings.LastTrainingLevel)
+        if (_playerData.LastAvailableLevelId <= _levelSettings.LastTrainingLevel)
         {
-            _levelLoader.LoadLevel(_progressStorage.LastAvailableLevelId);
+            _levelLoader.LoadLevel(_playerData.LastAvailableLevelId);
         }
     }
 
-    private void OnLevelChanged()
+    private void OnLevelChanged(ILevelData levelData)
     {
-        if (_levelLoader.CurrentLevelData.Id <= 0)
+        if (levelData.LevelId == _levelSettings.MainMenuSettings.Id)
         {
             return;
         }
 
-        if (_levelObjectsHolder.IslandsParent.TryGetComponent(out TrainigSequence trainigSequence))
+        if (levelData.IslandsParent.TryGetComponent(out TrainigSequence trainigSequence))
         {
-            trainigSequence.Initialize(_levelObjectsHolder, _buferIslandsHolder, _selectHandler, _unitMover, _mainCamera,
-                                       _boostButtonActivator, _levelProgressTracker, _uIOrientationChanger, _progressStorage,
+            trainigSequence.Initialize(levelData, _buferIslandsHolder, _unitsSelectedEvent, _unitMovedEvent, _mainCamera,
+                                       _boostButtonActivator, _levelProgressTracker, _uIOrientationChanger, _playerData,
                                        _inGameMenu, _finalScoreWindow, _menuTrainigSequence, _screenSizeChangeTracker,
                                        _canvas, _levelLoader, _customizationMenu);
             trainigSequence.StartTrainingNextFrame();

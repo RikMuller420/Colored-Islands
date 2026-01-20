@@ -18,29 +18,29 @@ public class ObjectivesAnimator : MonoBehaviour
         _goldTextAnimator.ResetAnimation();
     }
 
-    public void ShowAngryScoreAnimation(LevelProgressTracker progressTracker, out float animationDuration)
+    public void ShowAngryScoreAnimation(float angryValue, bool isCompleted, out float animationDuration)
     {
         animationDuration = _angryScoreObjective.AnimationDuration;
-        int revercedAngryPercent = _percentMultiplier - (int)(progressTracker.AngryValue * _percentMultiplier);
-        _angryScoreObjective.ShowAppearAnimation($"{revercedAngryPercent}%", progressTracker.IsAngryTaskDone);
+        int revercedAngryPercent = _percentMultiplier - (int)(angryValue * _percentMultiplier);
+        _angryScoreObjective.ShowAppearAnimation($"{revercedAngryPercent}%", isCompleted);
     }
 
-    public void ShowMoveObjectiveAnimation(LevelProgressTracker progressTracker, out float animationDuration)
+    public void ShowMoveObjectiveAnimation(int moveCount, bool isCompleted, out float animationDuration)
     {
         animationDuration = _movesObjective.AnimationDuration;
-        string moves = progressTracker.ExtraStarMoveCount.ToString();
-        _movesObjective.ShowAppearAnimation(moves, progressTracker.IsMoveTaskDone);
+        string moves = moveCount.ToString();
+        _movesObjective.ShowAppearAnimation(moves, isCompleted);
     }
 
-    public void ShowGoldAnimation(LevelProgressTracker progressTracker, out float animationDuration)
+    public void ShowGoldAnimation(int earndeGold, out float animationDuration)
     {
         animationDuration = _goldObjective.AnimationDuration;
         int reachedGold = 0;
         _goldObjective.ShowAppearAnimation(reachedGold.ToString(), true);
 
-        if (progressTracker.ReachedGold > 0)
+        if (earndeGold > 0)
         {
-            _goldTextAnimator.ShowGrowAnimation(_goldGrowSettings, progressTracker.ReachedGold);
+            _goldTextAnimator.ShowGrowAnimation(_goldGrowSettings, earndeGold);
         }
     }
 }

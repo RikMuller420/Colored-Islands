@@ -1,7 +1,7 @@
 using System;
 using YG;
 
-public class AuthorizationProvider
+public class AuthorizationProvider : IAuthorizationData
 {
     public event Action AuthorizationStatusChanged;
 

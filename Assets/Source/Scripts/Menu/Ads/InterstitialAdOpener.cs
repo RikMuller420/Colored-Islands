@@ -9,29 +9,29 @@ public class InterstitialAdOpener
     private int _currentLoadsWithoutAd = 0;
     private DateTime _lastAdTime;
 
-    private LevelLoader _levelLoader;
+    private LevelChangeEventTracker _levelChangeEventTracker;
     private RemoveAdsProvider _removeAdsProvider;
     private InterstitialAdProvider _interAdProvider;
     private RewardedAdProvider _rewardedAdProvider;
 
-    public InterstitialAdOpener(LevelLoader levelLoader, RemoveAdsProvider removeAdsProvider,
+    public InterstitialAdOpener(LevelChangeEventTracker levelChangeEventTracker, RemoveAdsProvider removeAdsProvider,
                               InterstitialAdProvider interAdProvider, RewardedAdProvider rewardedAdProvider)
     {
-        _levelLoader = levelLoader;
+        _levelChangeEventTracker = levelChangeEventTracker;
         _removeAdsProvider = removeAdsProvider;
         _interAdProvider = interAdProvider;
         _rewardedAdProvider = rewardedAdProvider;
 
-        _levelLoader.LevelChanged += OnLevelChanged;
+        _levelChangeEventTracker.LevelChanged += OnLevelChanged;
         _interAdProvider.AdShowed += OnInterAdOpened;
         _rewardedAdProvider.RewardedAdClosed += ResetAdTimer;
     }
 
-    private void OnLevelChanged()
+    private void OnLevelChanged(ILevelData levelData)
     {
         _currentLoadsWithoutAd++;
 
-        if (_levelLoader.CurrentLevelData.Id < _adMinLevelId)
+        if (levelData.LevelId < _adMinLevelId)
         {
             return;
         }

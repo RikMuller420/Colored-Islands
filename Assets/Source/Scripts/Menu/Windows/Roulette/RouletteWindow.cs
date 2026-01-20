@@ -6,11 +6,11 @@ public class RouletteWindow : MenuWindow
     [SerializeField] private RouletteWheel _rouletteWheel;
     [SerializeField] private RouletteRewardWindow _rouletteRewardWindow;
 
-    private GameProgressStorage _progressStorage;
+    private IPlayerData _playerData;
 
-    public void Initialize(GameProgressStorage progressStorage)
+    public void Initialize(IPlayerData playerData)
     {
-        _progressStorage = progressStorage;
+        _playerData = playerData;
         enabled = true;
     }
 
@@ -40,7 +40,7 @@ public class RouletteWindow : MenuWindow
 
     private void OnRewardReciewed()
     {
-        if (_progressStorage.AviableSpinCount == 0)
+        if (_playerData.AviableSpinCount == 0)
         {
             Close();
         }

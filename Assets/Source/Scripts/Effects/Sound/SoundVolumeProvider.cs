@@ -6,16 +6,16 @@ using UnityEngine.Audio;
 public class SoundVolumeProvider
 {
     private AudioMixers _mixers;
-    private GameProgressStorage _gameProgressStorage;
+    private PlayerDataProvider _playerData;
 
     public event Action<AudioGroup> SoundEnabledChanged;
 
-    public SoundVolumeProvider(AudioMixers mixers, GameProgressStorage gameProgressStorage)
+    public SoundVolumeProvider(AudioMixers mixers, PlayerDataProvider playerData)
     {
         _mixers = mixers;
-        _gameProgressStorage = gameProgressStorage;
+        _playerData = playerData;
 
-        gameProgressStorage.SoundEnabledChanged += OnSoundEnabledChanged;
+        playerData.SoundEnabledChanged += OnSoundEnabledChanged;
 
         foreach (AudioMixerData mixer in _mixers.Mixers)
         {
@@ -23,12 +23,12 @@ public class SoundVolumeProvider
         }
     }
 
-    public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _gameProgressStorage.GetIsSoundOnStatus(audioGroup);
+    public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _playerData.GetIsSoundOnStatus(audioGroup);
 
     public void SetAudioGroupVolume(AudioGroup audioGroup, bool isVolumeOn)
     {
-        _gameProgressStorage.SetSoundToggle(audioGroup, isVolumeOn);
-        _gameProgressStorage.Save();
+        _playerData.SetSoundToggle(audioGroup, isVolumeOn);
+        _playerData.Save();
 
         UpdateAudioGroupVolume(audioGroup);
     }

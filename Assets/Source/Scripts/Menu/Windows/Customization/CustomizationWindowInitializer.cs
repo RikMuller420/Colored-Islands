@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CustomizationWindowInitializer : MonoBehaviour
 {
+    [SerializeField] private PlayerDataProvider _playerData;
+    [SerializeField] private LevelProgressTracker _levelProgressTracker;
+
     [SerializeField] private UnitsFaceSettings _unitsFaceSettings;
     [SerializeField] private UnitsHatSettings _unitsHatSettings;
     [SerializeField] private PaintMaterials _paintMaterials;
@@ -21,23 +24,23 @@ public class CustomizationWindowInitializer : MonoBehaviour
 
     [SerializeField] private List<UnitSelectButton> _unitSelectButtons = new();
 
-    public void Initialize(GameProgressStorage progressStorage, LevelProgressTracker levelProgressTracker)
+    public void Initialize()
     {
         _unitCustomizationView.Initialize(_paintMaterials, _unitsFaceSettings, _unitsHatSettings);
-        List<ColorSelectButton> colorSelectButtons = CreateColorButtons(progressStorage);
-        List<HatSelectButton> hatSelectButtons = CreateHatButtons(progressStorage);
-        List<FaceSelectButton> faceSelectButtons = CreateFaceButtons(progressStorage);
+        List<ColorSelectButton> colorSelectButtons = CreateColorButtons(_playerData);
+        List<HatSelectButton> hatSelectButtons = CreateHatButtons(_playerData);
+        List<FaceSelectButton> faceSelectButtons = CreateFaceButtons(_playerData);
 
-        UnitCustomizator unitCustomizator = new UnitCustomizator(_unitCustomizationView, progressStorage,
+        UnitCustomizator unitCustomizator = new UnitCustomizator(_unitCustomizationView, _playerData,
                                                 _unitSelectButtons, hatSelectButtons, faceSelectButtons, colorSelectButtons);
 
         CustomizationButtonAviabiltyUpdater buttonAviabiltyUpdater = new CustomizationButtonAviabiltyUpdater(
-                                                levelProgressTracker, progressStorage, hatSelectButtons, faceSelectButtons);
+                                                _levelProgressTracker, _playerData, hatSelectButtons, faceSelectButtons);
 
         _customizationWindowOpenerButton.Initialize(unitCustomizator, buttonAviabiltyUpdater);
     }
 
-    private List<ColorSelectButton> CreateColorButtons(GameProgressStorage progressStorage)
+    private List<ColorSelectButton> CreateColorButtons(IPlayerData playerData)
     {
         List<ColorSelectButton> colorSelectButtons = new List<ColorSelectButton>();
 
@@ -51,7 +54,7 @@ public class CustomizationWindowInitializer : MonoBehaviour
         return colorSelectButtons;
     }
 
-    private List<HatSelectButton> CreateHatButtons(GameProgressStorage progressStorage)
+    private List<HatSelectButton> CreateHatButtons(IPlayerData playerData)
     {
         List<HatSelectButton> hatSelectButtons = new List<HatSelectButton>();
 
@@ -62,8 +65,8 @@ public class CustomizationWindowInitializer : MonoBehaviour
         foreach (UnitHatData hatData in _unitsHatSettings.Hats)
         {
             HatSelectButton hatButton = Instantiate(_hatPrefab, _hatParent);
-            bool isHatAviable = progressStorage.LastAvailableLevelId > hatData.RequredLevel;
-            bool wasHatUsed = progressStorage.WasHatUsed(hatData.Id);
+            bool isHatAviable = playerData.LastAvailableLevelId > hatData.RequredLevel;
+            bool wasHatUsed = playerData.WasHatUsed(hatData.Id);
             hatButton.Initialize(hatData.Id, hatData.SelectSprite, hatData.RequredLevel, isHatAviable, wasHatUsed);
             hatSelectButtons.Add(hatButton);
         }
@@ -71,14 +74,14 @@ public class CustomizationWindowInitializer : MonoBehaviour
         return hatSelectButtons;
     }
 
-    private List<FaceSelectButton> CreateFaceButtons(GameProgressStorage progressStorage)
+    private List<FaceSelectButton> CreateFaceButtons(IPlayerData playerData)
     {
         List<FaceSelectButton> faceSelectButtons = new List<FaceSelectButton>();
 
         foreach (UnitFaceData faceData in _unitsFaceSettings.Faces)
         {
             FaceSelectButton faceButton = Instantiate(_facePrefab, _facesParent);
-            FaceAvailabilitie face = progressStorage.FaceAvailabilities.FirstOrDefault(face => face.FaceId == faceData.Id);
+            FaceAvailabilitie face = playerData.FaceAvailabilities.FirstOrDefault(face => face.FaceId == faceData.Id);
             faceButton.Initialize(faceData.Id, faceData.Sprite, face.IsAviable, face.WasUsed);
             faceSelectButtons.Add(faceButton);
         }

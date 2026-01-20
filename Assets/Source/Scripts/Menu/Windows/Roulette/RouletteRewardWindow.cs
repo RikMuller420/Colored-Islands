@@ -6,7 +6,7 @@ public class RouletteRewardWindow : MenuWindow
     [SerializeField] private Slot _slot;
     [SerializeField] private Button _receiveButton;
 
-    private GameProgressStorage _progressStorage;
+    private PlayerDataProvider _playerDataProvider;
     private RemoveAdsProvider _removeAdsProvider;
 
     protected override void OnEnable()
@@ -21,10 +21,10 @@ public class RouletteRewardWindow : MenuWindow
         base.OnDisable();
     }
 
-    public void Initialize(UnitsFaceSettings unitsFaceSettings, GameProgressStorage progressStorage,
+    public void Initialize(UnitsFaceSettings unitsFaceSettings, PlayerDataProvider playerDataProvider,
                         RemoveAdsProvider removeAdsProvider)
     {
-        _progressStorage = progressStorage;
+        _playerDataProvider = playerDataProvider;
         _removeAdsProvider = removeAdsProvider;
         _slot.Initialize(unitsFaceSettings);
     }
@@ -54,11 +54,11 @@ public class RouletteRewardWindow : MenuWindow
         switch (_slot.RouletteRewardType)
         {
             case RouletteRewardType.Gold:
-                _progressStorage.SetGoldAmount(_progressStorage.GoldAmount + _slot.GoldAmount);
+                _playerDataProvider.SetGoldAmount(_playerDataProvider.GoldAmount + _slot.GoldAmount);
                 break;
 
             case RouletteRewardType.Face:
-                _progressStorage.UnlockFace(_slot.FaceID);
+                _playerDataProvider.UnlockFace(_slot.FaceID);
                 break;
 
             case RouletteRewardType.RemoveAds:
@@ -66,7 +66,7 @@ public class RouletteRewardWindow : MenuWindow
                 break;
         }
 
-        _progressStorage.Save();
+        _playerDataProvider.Save();
         Close();
     }
 }

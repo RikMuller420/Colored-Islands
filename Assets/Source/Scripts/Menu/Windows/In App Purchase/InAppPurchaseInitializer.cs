@@ -4,6 +4,9 @@ using UnityEngine;
 public class InAppPurchaseInitializer : MonoBehaviour
 {
     [SerializeField] private InAppSettings _inAppSettings;
+
+    [SerializeField] private PlayerDataProvider _playerData;
+    [SerializeField] private FreeStuffCollDownProvider _collDownProvider;
     [SerializeField] private InAppConfirmedWindow _inAppConfirmedWindow;
     [SerializeField] private RemoveAdsAviabilityUpdater _removeAdsAviabilityUpdater;
     [SerializeField] private List<InAppOffer> _inAppOffers = new();
@@ -13,12 +16,11 @@ public class InAppPurchaseInitializer : MonoBehaviour
     public void Initialize(WalletProvider walletProvider, BoostAmountProvider boostProvider,
                            RemoveAdsProvider removeAdsProvider, InAppPurchaseProvider inAppPurchaseProvider,
                            InAppByAddViewProvider inAppByAddViewProvider, RewardedAdProvider rewardedAdProvider,
-                           GameProgressStorage progressStorage, StickyAdProvider stickyAdProvider,
-                           FreeStuffCollDownProvider collDownProvider)
+                           StickyAdProvider stickyAdProvider)
     {
         var inAppProvider = new InAppsProvider(_inAppSettings.InApps, walletProvider, boostProvider,
                                                removeAdsProvider, _inAppConfirmedWindow, inAppPurchaseProvider,
-                                               inAppByAddViewProvider, progressStorage);
+                                               inAppByAddViewProvider, _playerData);
 
         _removeAdsAviabilityUpdater.Initialize(removeAdsProvider, stickyAdProvider);
 
@@ -29,9 +31,9 @@ public class InAppPurchaseInitializer : MonoBehaviour
 
         foreach (InAppByAddViewOffer inAppByAddViewOffer in _inAppByAddViewOffers)
         {
-            inAppByAddViewOffer.Initialize(inAppByAddViewProvider, rewardedAdProvider, collDownProvider);
+            inAppByAddViewOffer.Initialize(inAppByAddViewProvider, rewardedAdProvider, _collDownProvider);
         }
 
-        _goldRewardByWathAddOffer.Initialize(rewardedAdProvider, walletProvider, collDownProvider);
+        _goldRewardByWathAddOffer.Initialize(rewardedAdProvider, walletProvider, _collDownProvider);
     }
 }

@@ -5,40 +5,35 @@ public class GoldCalculator
     private int _goldPerNewStar = 50;
     private int _goldPerReEarnedStar = 5;
 
-    private LevelProgressTracker _progressTracker;
-    private GameProgressStorage _progressStorage;
-    private UpgradesProvider _upgradesProvider;
+    private IPlayerData _playerData;
+    private IUpgradesData _upgradesData;
+    private ILevelData _currentLevelData;
 
-    public GoldCalculator(LevelProgressTracker progressTracker, GameProgressStorage gameProgressStorage,
-                        UpgradesProvider upgradesProvider)
+    public GoldCalculator(IPlayerData playerData, IUpgradesData upgradesData,
+                          ILevelData currentLevelData)
     {
-        _progressTracker = progressTracker;
-        _progressStorage = gameProgressStorage;
-        _upgradesProvider = upgradesProvider;
+        _playerData = playerData;
+        _upgradesData = upgradesData;
+        _currentLevelData = currentLevelData;
     }
 
-    public int CalculateGold()
+    public int CalculateLevelGold(bool isAngryTaskDone, bool isMoveTaskDone)
     {
-        if (_progressTracker.IsLevelFinished == false)
-        {
-            return 0;
-        }
-
-        LevelProgress savedProgress = _progressStorage.Levels
-                                    .FirstOrDefault(level => level.Id == _progressTracker.LevelData.Id);
+        LevelProgress savedProgress = _playerData.Levels
+                                    .FirstOrDefault(level => level.Id == _currentLevelData.LevelId);
         int gold = 0;
         gold += savedProgress.IsDone ? _goldPerReEarnedStar : _goldPerNewStar;
 
-        if (_progressTracker.IsAngryTaskDone)
+        if (isAngryTaskDone)
         {
-            gold += savedProgress.IsAngryTaskDone ? _goldPerReEarnedStar : _goldPerNewStar;
+            gold += savedProgress.IsAngryStarEarned ? _goldPerReEarnedStar : _goldPerNewStar;
         }
 
-        if (_progressTracker.IsMoveTaskDone)
+        if (isMoveTaskDone)
         {
-            gold += savedProgress.IsMoveTaskDone ? _goldPerReEarnedStar : _goldPerNewStar;
+            gold += savedProgress.IsMovesStarEarned ? _goldPerReEarnedStar : _goldPerNewStar;
         }
 
-        return _upgradesProvider.CalculateUpgradedGoldAmount(gold);
+        return _upgradesData.CalculateUpgradedGoldAmount(gold);
     }
 }

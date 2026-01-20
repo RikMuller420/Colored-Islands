@@ -2,7 +2,7 @@ using System;
 using YG;
 using YG.Utils.LB;
 
-public class LeaderboardProvider
+public class LeaderboardProvider : ILeaderboardReader
 {
     private const int QuantityTop = 3;
     private const int QuantityAround = 6;

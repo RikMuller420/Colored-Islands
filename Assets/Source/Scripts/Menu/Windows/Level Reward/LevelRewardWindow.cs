@@ -5,16 +5,15 @@ public class LevelRewardWindow : MenuWindow
 {
     private const string RewardedAddId = "DoubleLevelReward";
 
+    [SerializeField] private PlayerDataProvider _playerData;
+    [SerializeField] private UnitsHatSettings _hatSettings;
     [SerializeField] private LevelRewardView _levelRewardView;
     [SerializeField] private AddMultipliedRewardWindow _addMultipliedRewardWindow;
 
     [SerializeField] private Button _receiveButton;
     [SerializeField] private Button _receiveWithAdsButton;
 
-    private UnitsHatSettings _unitsHatSettings;
-    private GameProgressStorage _progressStorage;
     private RewardedAdProvider _rewardedAdProvider;
-    private UpgradesProvider _upgradesProvider;
     private LevelRewardSaver _levelRewardSaver;
 
     private LevelRewardData _currentReward;
@@ -32,15 +31,13 @@ public class LevelRewardWindow : MenuWindow
         _receiveWithAdsButton.onClick.RemoveListener(TryReceiveRewardWithAdd);
     }
 
-    public void Initialize(UnitsHatSettings unitsHatSettings, GameProgressStorage progressStorage,
-                            RewardedAdProvider rewardedAdProvider, UpgradesProvider upgradesProvider)
+    public void Initialize(RewardedAdProvider rewardedAdProvider, UpgradesProvider upgradesProvider)
     {
-        _levelRewardView.Initialize(unitsHatSettings, upgradesProvider);
-        _levelRewardSaver = new LevelRewardSaver(progressStorage, upgradesProvider);
-        _unitsHatSettings = unitsHatSettings;
-        _progressStorage = progressStorage;
+        _levelRewardView.Initialize(_hatSettings, upgradesProvider);
+        _levelRewardSaver = new LevelRewardSaver(_playerData, upgradesProvider);
         _rewardedAdProvider = rewardedAdProvider;
-        _upgradesProvider = upgradesProvider;
+
+        _addMultipliedRewardWindow.Initialize(_hatSettings, upgradesProvider);
     }
 
     public void Open(LevelRewardData levelRewardData)

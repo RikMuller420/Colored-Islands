@@ -4,30 +4,29 @@ using UnityEngine;
 
 public class LeaderboardSynchronizer : MonoBehaviour
 {
+    [SerializeField] private LeaderboardSettings _leaderboardSettings;
+
     private float _synchronizeInterval = 15;
     private WaitForSeconds _wait;
 
     private LeaderboardProvider _leaderboardProvider;
-    private LeaderboardSettings _leaderboardSettings;
-    private LeaderboardScoreCalculator _scoreCalculator;
+    private PlayerScoreCalculator _scoreCalculator;
 
     public event Action<Leaderboard> PlayerScoreChanged;
-
-    public void Initialize(LeaderboardProvider leaderboardProvider, LeaderboardSettings leaderboardSettings,
-                            LeaderboardScoreCalculator scoreCalculator)
-    {
-        _leaderboardProvider = leaderboardProvider;
-        _leaderboardSettings = leaderboardSettings;
-        _scoreCalculator = scoreCalculator;
-
-        _leaderboardProvider.LeaderboardReceived += SynchronizeLeaderboard;
-        enabled = true;
-    }
 
     private void Start()
     {
         _wait = new WaitForSeconds(_synchronizeInterval);
         StartCoroutine(Synchronizing());
+    }
+
+    public void Initialize(LeaderboardProvider leaderboardProvider, IPlayerData playerData)
+    {
+        _leaderboardProvider = leaderboardProvider;
+        _scoreCalculator = new PlayerScoreCalculator(playerData);
+
+        _leaderboardProvider.LeaderboardReceived += SynchronizeLeaderboard;
+        enabled = true;
     }
 
     private IEnumerator Synchronizing()

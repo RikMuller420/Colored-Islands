@@ -1,0 +1,38 @@
+using System;
+using System.Collections.Generic;
+
+public interface IPlayerData 
+{
+    public int LastAvailableLevelId { get; }
+    public LevelProgress FirstUnfinishedLevel { get; }
+    public bool IsTrainingFinished { get; }
+    public IReadOnlyCollection<LevelProgress> Levels { get; }
+    public int GoldAmount { get; }
+    public int ScoreAmount { get; }
+    public bool IsAdsRemoved { get; }
+    public int AviableSpinCount { get; }
+    public IReadOnlyCollection<FaceAvailabilitie> FaceAvailabilities { get; }
+    public bool IsLanguageSaved { get; }
+    public Language Language { get; }
+
+    public bool WasHatUsed(int hatId);
+    public bool WasLevelRewardReceived(int levelId);
+    public CustomizationPreferences GetCustomizationPreference(UnitSlotType slot);
+    public int GetBoostAmount(BoostType boostType);
+    public int GetUpgradeStage(UpgradeType upgradeType);
+    public int GetEarnedInAppWithAddProgress(InAppType inAppType);
+    public bool GetIsSoundOnStatus(AudioGroup audioGroup);
+
+    public event Action GoldAmountChanged;
+    public event Action<int> LevelProgressChanged;
+    public event Action<BoostType> BoostsAmountChanged;
+    public event Action<UpgradeType> Upgraded;
+    public event Action<InAppType> EarnInAppWithAddProgressUpdated;
+
+    public event Action RemoveAdsStateChanged;
+    public event Action<AudioGroup> SoundEnabledChanged;
+    public event Action<UnitSlotType> CustomizationPreferenceChanged;
+    public event Action TrainingFinished;
+    public event Action<int> FaceUnlocked;
+    public event Action SpinCountChanged;
+}

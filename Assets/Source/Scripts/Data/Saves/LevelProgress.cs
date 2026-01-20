@@ -28,8 +28,8 @@ public class LevelProgress
 
     [JsonIgnore] public int Id => _id;
     [JsonIgnore] public bool IsDone => _isDone;
-    [JsonIgnore] public bool IsMoveTaskDone => _isMoveTaskDone;
-    [JsonIgnore] public bool IsAngryTaskDone => _isAngryTaskDone;
+    [JsonIgnore] public bool IsMovesStarEarned => _isMoveTaskDone;
+    [JsonIgnore] public bool IsAngryStarEarned => _isAngryTaskDone;
     [JsonIgnore] public int BestScore => _bestScore;
 
     public int GetStarsCount()

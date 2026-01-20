@@ -6,13 +6,13 @@ public class LevelTabInitializer : MonoBehaviour
     [SerializeField] private int _startLevelIndex = 1;
     [SerializeField] private List<LevelButton> _levelButtons = new();
 
-    public void InitializeButtons(GameProgressStorage progressStorage, LevelLoader levelLoader)
+    public void InitializeButtons(IPlayerData playerData, LevelLoader levelLoader)
     {
         int levelIndex = _startLevelIndex;
 
         foreach (LevelButton levelButton in _levelButtons)
         {
-            levelButton.Initialize(levelIndex, progressStorage, levelLoader);
+            levelButton.Initialize(levelIndex, playerData, levelLoader);
             levelIndex++;
         }
     }
