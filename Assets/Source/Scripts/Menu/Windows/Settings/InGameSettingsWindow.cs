@@ -1,60 +1,66 @@
 using System;
 using Lean.Localization;
+using SlimeGround.Data.ScriptableObjects.Levels;
+using SlimeGround.Gameplay.Levels;
+using SlimeGround.Menu.Extensions.Windows;
 using UnityEngine;
 
-public class InGameSettingsWindow : MenuWindow
+namespace SlimeGround.Menu.Windows.Settings
 {
-    [SerializeField] private LevelSettings _levelSettings;
-    [SerializeField] private LevelChangeEventTracker _levelChangeEventTracker;
-    [SerializeField] private LeanToken _movesToken;
-    [SerializeField] private LeanToken _minutesToken;
+	public class InGameSettingsWindow : MenuWindow
+	{
+	    [SerializeField] private LevelSettings _levelSettings;
+	    [SerializeField] private LevelChangeEventTracker _levelChangeEventTracker;
+	    [SerializeField] private LeanToken _movesToken;
+	    [SerializeField] private LeanToken _minutesToken;
 
-    private new void OnEnable()
-    {
-        base.OnEnable();
-        _levelChangeEventTracker.LevelChanged += OnLevelChanged;
+	    private new void OnEnable()
+	    {
+	        base.OnEnable();
+	        _levelChangeEventTracker.LevelChanged += OnLevelChanged;
 
-    }
+	    }
 
-    private new void OnDisable()
-    {
-        base.OnDisable();
-        _levelChangeEventTracker.LevelChanged -= OnLevelChanged;
-    }
+	    private new void OnDisable()
+	    {
+	        base.OnDisable();
+	        _levelChangeEventTracker.LevelChanged -= OnLevelChanged;
+	    }
 
-    private void OnLevelChanged(ILevelData levelData)
-    {
-        if (levelData.LevelId == _levelSettings.MainMenuSettings.Id)
-        {
-            return;
-        }
+	    private void OnLevelChanged(ILevelData levelData)
+	    {
+	        if (levelData.LevelId == _levelSettings.MainMenuSettings.Id)
+	        {
+	            return;
+	        }
 
-        _movesToken.SetValue(levelData.ExtraStarMoveCount);
+	        _movesToken.SetValue(levelData.ExtraStarMoveCount);
 
-        TimeSpan time = TimeSpan.FromSeconds(levelData.ExtraScoreTime);
-        string timeString = $"{(int)time.TotalMinutes}:{time.Seconds:D2}";
-        _minutesToken.SetValue(timeString);
-    }
+	        TimeSpan time = TimeSpan.FromSeconds(levelData.ExtraScoreTime);
+	        string timeString = $"{(int)time.TotalMinutes}:{time.Seconds:D2}";
+	        _minutesToken.SetValue(timeString);
+	    }
 
-    public override void Open()
-    {
-        if (IsOpened)
-        {
-            return;
-        }
+	    public override void Open()
+	    {
+	        if (IsOpened)
+	        {
+	            return;
+	        }
 
-        Time.timeScale = 0f;
-        base.Open();
-    }
+	        Time.timeScale = 0f;
+	        base.Open();
+	    }
 
-    public override void Close()
-    {
-        if (IsOpened == false)
-        {
-            return;
-        }
+	    public override void Close()
+	    {
+	        if (IsOpened == false)
+	        {
+	            return;
+	        }
 
-        Time.timeScale = 1f;
-        base.Close();
-    }
+	        Time.timeScale = 1f;
+	        base.Close();
+	    }
+	}
 }

@@ -1,26 +1,29 @@
 using System;
-using GameAnalyticsSDK;
+using SlimeGround.Integration.Metrics;
 
-[Serializable]
-public abstract class Boost 
+namespace SlimeGround.Gameplay.Boosts
 {
-    private BoostAmountProvider _boostAmountProvider;
+	[Serializable]
+	public abstract class Boost 
+	{
+	    private BoostAmountProvider _boostAmountProvider;
 
-    public event Action<Boost> BoostApplyed;
+	    public event Action<Boost> BoostApplyed;
 
-    public Boost(BoostAmountProvider boostAmountProvider)
-    {
-        _boostAmountProvider = boostAmountProvider;
-    }
+	    public Boost(BoostAmountProvider boostAmountProvider)
+	    {
+	        _boostAmountProvider = boostAmountProvider;
+	    }
 
-    public abstract BoostType Type { get; }
+	    public abstract BoostType Type { get; }
 
-    public abstract void TryApplyBoost();
+	    public abstract void TryApplyBoost();
 
-    protected void SpendBoost(BoostType boostType)
-    {
-        BoostApplyed?.Invoke(this);
-        _boostAmountProvider.SpendBoost(boostType);
-        MetricSaver.SpentBoost(boostType);
-    }
+	    protected void SpendBoost(BoostType boostType)
+	    {
+	        BoostApplyed?.Invoke(this);
+	        _boostAmountProvider.SpendBoost(boostType);
+	        MetricSaver.SpentBoost(boostType);
+	    }
+	}
 }

@@ -1,6 +1,11 @@
 using UnityEngine;
 
-public class MainMenuSettingsWindow : MonoBehaviour
+namespace SlimeGround.Menu.Windows.Settings
 {
+
+	public class MainMenuSettingsWindow : MonoBehaviour
+	{
+
+	}
 
 }

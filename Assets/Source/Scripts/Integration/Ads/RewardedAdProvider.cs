@@ -1,22 +1,27 @@
 using System;
 using YG;
 
-public class RewardedAdProvider
+namespace SlimeGround.Integration.Ads
 {
-    public event Action RewardedAdClosed;
 
-    public RewardedAdProvider()
-    {
-        YG2.onCloseRewardedAdv += OnCloseRewardedAdv;
-    }
+	public class RewardedAdProvider
+	{
+	    public event Action RewardedAdClosed;
 
-    public void ShowAdvReward(string id, Action receiveRewerd)
-    {
-        YG2.RewardedAdvShow(id, receiveRewerd);
-    }
+	    public RewardedAdProvider()
+	    {
+	        YG2.onCloseRewardedAdv += OnCloseRewardedAdv;
+	    }
 
-    public void OnCloseRewardedAdv()
-    {
-        RewardedAdClosed?.Invoke();
-    }
+	    public void ShowAdvReward(string id, Action receiveRewerd)
+	    {
+	        YG2.RewardedAdvShow(id, receiveRewerd);
+	    }
+
+	    public void OnCloseRewardedAdv()
+	    {
+	        RewardedAdClosed?.Invoke();
+	    }
+	}
+
 }

@@ -1,13 +1,18 @@
-public enum ColorSample
+
+namespace SlimeGround.Data
 {
-    Red,
-    Blue,
-    Green,
-    Yellow,
-    Pink,
-    White,
-    SkyBlue,
-    Fuchsia,
-    Orange,
-    Mint
+	public enum ColorSample
+	{
+	    Red,
+	    Blue,
+	    Green,
+	    Yellow,
+	    Pink,
+	    White,
+	    SkyBlue,
+	    Fuchsia,
+	    Orange,
+	    Mint
+	}
+
 }

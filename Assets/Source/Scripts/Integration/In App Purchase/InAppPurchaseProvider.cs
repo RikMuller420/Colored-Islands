@@ -1,23 +1,28 @@
 using System;
 using YG;
 
-public class InAppPurchaseProvider
+namespace SlimeGround.Integration.InAppPurchase
 {
-    public event Action<string> SuccessPurchased;
 
-    public InAppPurchaseProvider()
-    {
-        YG2.onPurchaseSuccess += OnSuccessPurchased;
-    }
+	public class InAppPurchaseProvider
+	{
+	    public event Action<string> SuccessPurchased;
 
-    public void BuyInApp(string id)
-    {
-        YG2.BuyPayments(id);
-    }
+	    public InAppPurchaseProvider()
+	    {
+	        YG2.onPurchaseSuccess += OnSuccessPurchased;
+	    }
 
-    private void OnSuccessPurchased(string id)
-    {
-        SuccessPurchased?.Invoke(id);
-    }
+	    public void BuyInApp(string id)
+	    {
+	        YG2.BuyPayments(id);
+	    }
+
+	    private void OnSuccessPurchased(string id)
+	    {
+	        SuccessPurchased?.Invoke(id);
+	    }
+
+	}
 
 }

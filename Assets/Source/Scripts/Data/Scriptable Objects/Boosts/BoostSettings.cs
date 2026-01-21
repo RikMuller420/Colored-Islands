@@ -1,11 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BoostSettings", menuName = "Custom/BoostSettings")]
-public class BoostSettings : ScriptableObject
+namespace SlimeGround.Data.ScriptableObjects.Boosts
 {
-    [SerializeField] private BoostSettingsData[] _boosts;
 
-    public IReadOnlyCollection<BoostSettingsData> Boosts => _boosts;
+	[CreateAssetMenu(fileName = "BoostSettings", menuName = "Custom/BoostSettings")]
+	public class BoostSettings : ScriptableObject
+	{
+	    [SerializeField] private BoostSettingsData[] _boosts;
+
+	    public IReadOnlyCollection<BoostSettingsData> Boosts => _boosts;
+	}
+
+
 }
-

@@ -1,38 +1,43 @@
 using Lean.Localization;
+using SlimeGround.Gameplay.Levels;
+using SlimeGround.Menu.Windows.Confirmation;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RestartLevelButton : MonoBehaviour
+namespace SlimeGround.Menu.LevelNavigation
 {
-    private const string SureQuestionStart = "Are you sure you want to";
-    private const string SureQuestionEnd = "restart level?";
+	public class RestartLevelButton : MonoBehaviour
+	{
+	    private const string SureQuestionStart = "Are you sure you want to";
+	    private const string SureQuestionEnd = "restart level?";
 
-    [SerializeField] private Button _button;
-    [SerializeField] private ConfirmationMenuWindow _confirmationWindow;
-    [SerializeField] private LevelLoader _levelLoader;
-    [SerializeField] private bool _isConfirmationRequired = false;
+	    [SerializeField] private Button _button;
+	    [SerializeField] private ConfirmationMenuWindow _confirmationWindow;
+	    [SerializeField] private LevelLoader _levelLoader;
+	    [SerializeField] private bool _isConfirmationRequired = false;
 
-    private void OnEnable()
-    {
-        _button.onClick.AddListener(LoadMainMenu);
-    }
+	    private void OnEnable()
+	    {
+	        _button.onClick.AddListener(LoadMainMenu);
+	    }
 
-    private void OnDisable()
-    {
-        _button.onClick.RemoveListener(LoadMainMenu);
-    }
+	    private void OnDisable()
+	    {
+	        _button.onClick.RemoveListener(LoadMainMenu);
+	    }
 
-    private void LoadMainMenu()
-    {
-        if (_isConfirmationRequired)
-        {
-            string confirmationMessage = LeanLocalization.GetTranslationText(SureQuestionStart) +
-                                            LeanLocalization.GetTranslationText(SureQuestionEnd);
-            _confirmationWindow.Open(confirmationMessage, _levelLoader.ReloadLastLevel);
-        }
-        else
-        {
-            _levelLoader.ReloadLastLevel();
-        }
-    }
+	    private void LoadMainMenu()
+	    {
+	        if (_isConfirmationRequired)
+	        {
+	            string confirmationMessage = LeanLocalization.GetTranslationText(SureQuestionStart) +
+	                                            LeanLocalization.GetTranslationText(SureQuestionEnd);
+	            _confirmationWindow.Open(confirmationMessage, _levelLoader.ReloadLastLevel);
+	        }
+	        else
+	        {
+	            _levelLoader.ReloadLastLevel();
+	        }
+	    }
+	}
 }

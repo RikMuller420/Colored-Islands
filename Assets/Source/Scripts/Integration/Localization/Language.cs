@@ -1,6 +1,11 @@
-public enum Language
+
+namespace SlimeGround.Integration.Localization
 {
-    English,
-    Russian,
-    Turkish
+	public enum Language
+	{
+	    English,
+	    Russian,
+	    Turkish
+	}
+
 }

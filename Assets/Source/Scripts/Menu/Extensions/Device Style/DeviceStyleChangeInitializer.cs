@@ -1,27 +1,33 @@
 using System.Collections.Generic;
+using SlimeGround.Integration.DeviceInfo;
 using UnityEngine;
 
-public class DeviceStyleChangeInitializer : MonoBehaviour
+namespace SlimeGround.Menu.Extensions.DeviceStyle
 {
-    [SerializeField] private List<ExitButtonStyleChanger> _exitButtonStyleChangers = new();
 
-    public void Initialize()
-    {
-        var deviceInfoProvider = new DeviceInfoProvider();
-        DeviceType deviceType = deviceInfoProvider.GetDeviceType();
+	public class DeviceStyleChangeInitializer : MonoBehaviour
+	{
+	    [SerializeField] private List<ExitButtonStyleChanger> _exitButtonStyleChangers = new();
 
-        foreach (IDeviceStyleChanger styleChanger in _exitButtonStyleChangers)
-        {
-            styleChanger.SetStyle(deviceType);
-        }
-    }
+	    public void Initialize()
+	    {
+	        var deviceInfoProvider = new DeviceInfoProvider();
+	        Integration.DeviceInfo.DeviceType deviceType = deviceInfoProvider.GetDeviceType();
 
-    [ContextMenu("Fill StyleChangers List")]
-    public void FillStyleChangersList()
-    {
-        ExitButtonStyleChanger[] foundChangers = FindObjectsOfType<ExitButtonStyleChanger>(true);
+	        foreach (IDeviceStyleChanger styleChanger in _exitButtonStyleChangers)
+	        {
+	            styleChanger.SetStyle(deviceType);
+	        }
+	    }
 
-        _exitButtonStyleChangers.Clear();
-        _exitButtonStyleChangers.AddRange(foundChangers);
-    }
+	    [ContextMenu("Fill StyleChangers List")]
+	    public void FillStyleChangersList()
+	    {
+	        ExitButtonStyleChanger[] foundChangers = FindObjectsOfType<ExitButtonStyleChanger>(true);
+
+	        _exitButtonStyleChangers.Clear();
+	        _exitButtonStyleChangers.AddRange(foundChangers);
+	    }
+	}
+
 }

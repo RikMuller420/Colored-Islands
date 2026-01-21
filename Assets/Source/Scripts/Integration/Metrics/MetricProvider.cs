@@ -1,13 +1,18 @@
 using GameAnalyticsSDK;
 
-public class MetricProvider
+namespace SlimeGround.Integration.Metrics
 {
-    private const string BuildName = "0.1";
 
-    public MetricProvider()
-    {
-        GameAnalytics.SetBuildAllPlatforms(BuildName);
-        GameAnalytics.Initialize();
-    }
+	public class MetricProvider
+	{
+	    private const string BuildName = "0.1";
+
+	    public MetricProvider()
+	    {
+	        GameAnalytics.SetBuildAllPlatforms(BuildName);
+	        GameAnalytics.Initialize();
+	    }
+	}
+
+
 }
-

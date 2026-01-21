@@ -1,17 +1,22 @@
 using System.Collections.Generic;
+using SlimeGround.Core.CameraSystem;
+using SlimeGround.Gameplay.Islands;
 using UnityEngine;
 
-public interface ILevelData
+namespace SlimeGround.Gameplay.Levels
 {
-    public Transform IslandsParent { get; }
-    public IEnumerable<Island> Islands { get; }
-    public CameraTargets VerticalCameraTargets { get; }
-    public CameraTargets HorizontalCameraTargets { get; }
-    public MeshRenderer LevelBounds { get; }
+	public interface ILevelData
+	{
+	    public Transform IslandsParent { get; }
+	    public IEnumerable<Island> Islands { get; }
+	    public CameraTargets VerticalCameraTargets { get; }
+	    public CameraTargets HorizontalCameraTargets { get; }
+	    public MeshRenderer LevelBounds { get; }
 
-    public int LevelId { get; }
-    public int ExtraStarMoveCount { get; }
-    public float ExtraScoreTime { get; }
-    public int BuferIslandSize { get; }
-    public float AngryBarSpeed { get; }
+	    public int LevelId { get; }
+	    public int ExtraStarMoveCount { get; }
+	    public float ExtraScoreTime { get; }
+	    public int BuferIslandSize { get; }
+	    public float AngryBarSpeed { get; }
+	}
 }

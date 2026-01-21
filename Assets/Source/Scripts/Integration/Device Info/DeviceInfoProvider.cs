@@ -1,24 +1,27 @@
 using YG;
 
-public class DeviceInfoProvider
+namespace SlimeGround.Integration.DeviceInfo
 {
-    public DeviceType GetDeviceType()
-    {
-        YG2.Device yandexDeviceType = YG2.envir.device;
+	public class DeviceInfoProvider
+	{
+	    public DeviceType GetDeviceType()
+	    {
+	        YG2.Device yandexDeviceType = YG2.envir.device;
 
-        switch (yandexDeviceType)
-        {
-            case YG2.Device.Desktop:
-                return DeviceType.Desktop;
+	        switch (yandexDeviceType)
+	        {
+	            case YG2.Device.Desktop:
+	                return DeviceType.Desktop;
 
-            case YG2.Device.Mobile:
-                return DeviceType.Mobile;
+	            case YG2.Device.Mobile:
+	                return DeviceType.Mobile;
 
-            case YG2.Device.Tablet:
-                return DeviceType.Tablet;
+	            case YG2.Device.Tablet:
+	                return DeviceType.Tablet;
 
-            default:
-                return DeviceType.Desktop;
-        }
-    }
+	            default:
+	                return DeviceType.Desktop;
+	        }
+	    }
+	}
 }

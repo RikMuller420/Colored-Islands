@@ -1,6 +1,11 @@
-[System.Serializable]
-public enum AudioGroup
+
+namespace SlimeGround.Effects.Sound
 {
-    MusicVolume,
-    EffectsVolume
+	[System.Serializable]
+	public enum AudioGroup
+	{
+	    MusicVolume,
+	    EffectsVolume
+	}
+
 }

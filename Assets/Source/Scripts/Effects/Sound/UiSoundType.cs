@@ -1,5 +1,10 @@
-public enum UiSoundType
+
+namespace SlimeGround.Effects.Sound
 {
-    Button,
-    Toggle
+	public enum UiSoundType
+	{
+	    Button,
+	    Toggle
+	}
+
 }

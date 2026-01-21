@@ -1,33 +1,38 @@
 using Lean.Localization;
+using SlimeGround.Data.ScriptableObjects.InApps;
+using SlimeGround.Menu.Extensions.Windows;
 using TMPro;
 using UnityEngine;
 
-public class InAppConfirmedWindow : MenuWindow
+namespace SlimeGround.Menu.Windows.InAppPurchase
 {
-    private const string ReceivedLocalizationKey = "Already Received";
+	public class InAppConfirmedWindow : MenuWindow
+	{
+	    private const string ReceivedLocalizationKey = "Already Received";
 
-    [SerializeField] private TextMeshProUGUI _title;
-    [SerializeField] private Transform _iconHolder;
+	    [SerializeField] private TextMeshProUGUI _title;
+	    [SerializeField] private Transform _iconHolder;
 
-    private GameObject _currentIcon;
+	    private GameObject _currentIcon;
 
-    public void Open(InAppSettingsData inAppSettings)
-    {
-        if (IsOpened)
-        {
-            return;
-        }
+	    public void Open(InAppSettingsData inAppSettings)
+	    {
+	        if (IsOpened)
+	        {
+	            return;
+	        }
 
-        _title.text = LeanLocalization.GetTranslationText(inAppSettings.LocalizationKey) + " " +
-                      LeanLocalization.GetTranslationText(ReceivedLocalizationKey);
+	        _title.text = LeanLocalization.GetTranslationText(inAppSettings.LocalizationKey) + " " +
+	                      LeanLocalization.GetTranslationText(ReceivedLocalizationKey);
 
-        if (_currentIcon != null)
-        {
-            Destroy(_currentIcon);
-        }
+	        if (_currentIcon != null)
+	        {
+	            Destroy(_currentIcon);
+	        }
 
-        _currentIcon = Instantiate(inAppSettings.IconPrefab, _iconHolder);
+	        _currentIcon = Instantiate(inAppSettings.IconPrefab, _iconHolder);
 
-        base.Open();
-    }
+	        base.Open();
+	    }
+	}
 }

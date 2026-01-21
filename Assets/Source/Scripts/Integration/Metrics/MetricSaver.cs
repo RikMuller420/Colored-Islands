@@ -3,135 +3,141 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Source.Scripts.Metrics;
 using GameAnalyticsSDK;
+using SlimeGround.Data;
+using SlimeGround.Data.Saves;
+using SlimeGround.Gameplay.Boosts;
+using SlimeGround.Gameplay.Levels;
+using SlimeGround.Menu.Windows.InAppPurchase;
+using SlimeGround.Menu.Windows.GameShop.Upgrades;
 
-
-public class MetricSaver
+namespace SlimeGround.Integration.Metrics
 {
-    private const string CustomizationWindowKey = "CustomizationWindow";
-    private const string BoostCurrency = "Boost";
-    private const string GoldCurrency = "Gold";
-    private const string UpgradeCurrency = "Upgrade";
-    private const string SpinCurrency = "Spin";
+	public class MetricSaver
+	{
+	    private const string CustomizationWindowKey = "CustomizationWindow";
+	    private const string BoostCurrency = "Boost";
+	    private const string GoldCurrency = "Gold";
+	    private const string UpgradeCurrency = "Upgrade";
+	    private const string SpinCurrency = "Spin";
 
-    private ILevelData _levelData { get; }
-    private IPlayerData _playerData { get; }
+	    private ILevelData _levelData { get; }
+	    private IPlayerData _playerData { get; }
 
-    public static MetricSaver Instance { get; private set; }
+	    public static MetricSaver Instance { get; private set; }
 
-    public MetricSaver(ILevelData currentLevelData, IPlayerData playerData)
-    {
-        _levelData = currentLevelData;
-        _playerData = playerData;
-        Instance = this;
-    }
+	    public MetricSaver(ILevelData currentLevelData, IPlayerData playerData)
+	    {
+	        _levelData = currentLevelData;
+	        _playerData = playerData;
+	        Instance = this;
+	    }
 
-    public static void SpentBoost(BoostType type)
-    {
-        int levelId = Instance._levelData.LevelId ;
+	    public static void SpentBoost(BoostType type)
+	    {
+	        int levelId = Instance._levelData.LevelId ;
 
-        GameAnalytics.NewResourceEvent(GAResourceFlowType.Sink, BoostCurrency, 1, type.ToString(), levelId.ToString());
-    }
+	        GameAnalytics.NewResourceEvent(GAResourceFlowType.Sink, BoostCurrency, 1, type.ToString(), levelId.ToString());
+	    }
 
+	    public static void OpenLeaderboardWindow()
+	    {
+	        GameAnalytics.NewDesignEvent("Leaderboard");
+	    }
 
-    public static void OpenLeaderboardWindow()
-    {
-        GameAnalytics.NewDesignEvent("Leaderboard");
-    }
+	    public static void OpenCustomizationWindow()
+	    {
+	        GameAnalytics.StartTimer(CustomizationWindowKey);
+	        GameAnalytics.NewDesignEvent(CustomizationWindowKey);
+	    }
 
+	    public static void CloseCustomizationWindow()
+	    {
+	        GameAnalytics.StopTimer(CustomizationWindowKey);
 
-    public static void OpenCustomizationWindow()
-    {
-        GameAnalytics.StartTimer(CustomizationWindowKey);
-        GameAnalytics.NewDesignEvent(CustomizationWindowKey);
-    }
+	        IEnumerable<UnitSlotType> slotCollection = Enum.GetValues(typeof(UnitSlotType)).Cast<UnitSlotType>();
+	        Dictionary<string, object> slimeSlots = new Dictionary<string, object>();
 
-    public static void CloseCustomizationWindow()
-    {
-        GameAnalytics.StopTimer(CustomizationWindowKey);
+	        foreach (UnitSlotType slot in slotCollection)
+	        {
+	            CustomizationPreferences slimePreference = Instance._playerData.GetCustomizationPreference(slot);
 
-        IEnumerable<UnitSlotType> slotCollection = Enum.GetValues(typeof(UnitSlotType)).Cast<UnitSlotType>();
-        Dictionary<string, object> slimeSlots = new Dictionary<string, object>();
+	            SlimeSlot slimeSlot = new SlimeSlot()
+	            {
+	                ColorId = slimePreference.ColorSample.ToString(),
+	                FaceId = slimePreference.FaceId.ToString(),
+	                HatId = slimePreference.HatId.ToString()
+	            };
 
-        foreach (UnitSlotType slot in slotCollection)
-        {
-            CustomizationPreferences slimePreference = Instance._playerData.GetCustomizationPreference(slot);
+	            slimeSlots.Add(((int)slot).ToString(), slimeSlot);
+	        }
 
-            SlimeSlot slimeSlot = new SlimeSlot()
-            {
-                ColorId = slimePreference.ColorSample.ToString(),
-                FaceId = slimePreference.FaceId.ToString(),
-                HatId = slimePreference.HatId.ToString()
-            };
+	        GameAnalytics.NewDesignEvent("avatar:preferences:snapshot", slimeSlots.Count, slimeSlots);
+	    }
 
-            slimeSlots.Add(((int)slot).ToString(), slimeSlot);
-        }
+	    public static void StartLevel()
+	    {
+	        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, Instance._levelData.LevelId.ToString());
+	    }
 
-        GameAnalytics.NewDesignEvent("avatar:preferences:snapshot", slimeSlots.Count, slimeSlots);
-    }
+	    public static void FinishLevel()
+	    {
+	        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Instance._levelData.LevelId.ToString());
+	    }
 
-    public static void StartLevel()
-    {
-        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, Instance._levelData.LevelId.ToString());
-    }
+	    public static void GetRouleteSpin(int spinCount)
+	    {
+	        GameAnalytics.NewResourceEvent(GAResourceFlowType.Source, SpinCurrency, spinCount, SpinCurrency, SpinCurrency);
+	    }
 
-    public static void FinishLevel()
-    {
-        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Instance._levelData.LevelId.ToString());
-    }
+	    public static void SpinRoulete()
+	    {
+	        GameAnalytics.NewResourceEvent(GAResourceFlowType.Sink, SpinCurrency, 1, SpinCurrency, SpinCurrency);
+	    }
 
-    public static void GetRouleteSpin(int spinCount)
-    {
-        GameAnalytics.NewResourceEvent(GAResourceFlowType.Source, SpinCurrency, spinCount, SpinCurrency, SpinCurrency);
-    }
+	    public static void BuyUpgrade(UpgradeType type)
+	    {
+	        GameAnalytics.NewResourceEvent(GAResourceFlowType.Source, UpgradeCurrency, 1, type.ToString(), type.ToString());
+	    }
 
-    public static void SpinRoulete()
-    {
-        GameAnalytics.NewResourceEvent(GAResourceFlowType.Sink, SpinCurrency, 1, SpinCurrency, SpinCurrency);
-    }
+	    public static void BuyBoost(BoostType type)
+	    {
+	        GameAnalytics.NewResourceEvent(GAResourceFlowType.Source, BoostCurrency, 1, type.ToString(), type.ToString());
+	    }
 
-    public static void BuyUpgrade(UpgradeType type)
-    {
-        GameAnalytics.NewResourceEvent(GAResourceFlowType.Source, UpgradeCurrency, 1, type.ToString(), type.ToString());
-    }
+	    public static void TrackAngryBarFailed()
+	    {
+	        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "Angry Bar " + Instance._levelData.LevelId);
+	    }
 
-    public static void BuyBoost(BoostType type)
-    {
-        GameAnalytics.NewResourceEvent(GAResourceFlowType.Source, BoostCurrency, 1, type.ToString(), type.ToString());
-    }
+	    public static void TrackMoveLimitFailed()
+	    {
+	        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "Move Limit " + Instance._levelData.LevelId);
+	    }
 
-    public static void TrackAngryBarFailed()
-    {
-        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "Angry Bar " + Instance._levelData.LevelId);
-    }
+	    public static void GetInAppViaWathAdd(InAppType inAppType)
+	    {
+	        GameAnalytics.NewAdEvent(GAAdAction.Clicked, GAAdType.Video, inAppType.ToString(), "UI");
+	    }
 
-    public static void TrackMoveLimitFailed()
-    {
-        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "Move Limit " + Instance._levelData.LevelId);
-    }
+	    public static void ShowGetFreeGoldAdd()
+	    {
+	        GameAnalytics.NewAdEvent(GAAdAction.Clicked, GAAdType.Video, "Free Gold", "UI");
+	    }
 
-    public static void GetInAppViaWathAdd(InAppType inAppType)
-    {
-        GameAnalytics.NewAdEvent(GAAdAction.Clicked, GAAdType.Video, inAppType.ToString(), "UI");
-    }
+	    public static void ReceiveStandartLevelReward()
+	    {
+	        GameAnalytics.NewDesignEvent("Receive Standart Level Reward");
+	    }
 
-    public static void ShowGetFreeGoldAdd()
-    {
-        GameAnalytics.NewAdEvent(GAAdAction.Clicked, GAAdType.Video, "Free Gold", "UI");
-    }
+	    public static void ReceiveMultiplayedLevelRewardWithAdd()
+	    {
+	        GameAnalytics.NewDesignEvent("Receive Multiplied Level Reward");
+	        GameAnalytics.NewAdEvent(GAAdAction.Clicked, GAAdType.Video, "Multiply Level Rewards", "Level Reward");
+	    }
 
-    public static void ReceiveStandartLevelReward()
-    {
-        GameAnalytics.NewDesignEvent("Receive Standart Level Reward");
-    }
-
-    public static void ReceiveMultiplayedLevelRewardWithAdd()
-    {
-        GameAnalytics.NewDesignEvent("Receive Multiplied Level Reward");
-        GameAnalytics.NewAdEvent(GAAdAction.Clicked, GAAdType.Video, "Multiply Level Rewards", "Level Reward");
-    }
-
-    public static void ShowGetFreeBoostAdd(BoostType type)
-    {
-        GameAnalytics.NewAdEvent(GAAdAction.Show, GAAdType.RewardedVideo, "Boost", type.ToString());
-    }
+	    public static void ShowGetFreeBoostAdd(BoostType type)
+	    {
+	        GameAnalytics.NewAdEvent(GAAdAction.Show, GAAdType.RewardedVideo, "Boost", type.ToString());
+	    }
+	}
 }

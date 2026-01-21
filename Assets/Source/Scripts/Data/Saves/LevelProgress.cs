@@ -1,56 +1,61 @@
 using System;
 using Newtonsoft.Json;
 
-[Serializable]
-public class LevelProgress
+namespace SlimeGround.Data.Saves
 {
-    [JsonProperty] private int _id;
-    [JsonProperty] private bool _isDone;
-    [JsonProperty] private bool _isMoveTaskDone;
-    [JsonProperty] private bool _isAngryTaskDone;
-    [JsonProperty] private int _bestScore;
 
-    public LevelProgress(int id)
-    {
-        _id = id;
-    }
+	[Serializable]
+	public class LevelProgress
+	{
+	    [JsonProperty] private int _id;
+	    [JsonProperty] private bool _isDone;
+	    [JsonProperty] private bool _isMoveTaskDone;
+	    [JsonProperty] private bool _isAngryTaskDone;
+	    [JsonProperty] private int _bestScore;
 
-    [JsonConstructor]
-    public LevelProgress(int id, bool isDone, bool isMoveTaskDone,
-                         bool isAngryTaskDone, int bestScore)
-    {
-        _id = id;
-        _isDone = isDone;
-        _isMoveTaskDone = isMoveTaskDone;
-        _isAngryTaskDone = isAngryTaskDone;
-        _bestScore = bestScore;
-    }
+	    public LevelProgress(int id)
+	    {
+	        _id = id;
+	    }
 
-    [JsonIgnore] public int Id => _id;
-    [JsonIgnore] public bool IsDone => _isDone;
-    [JsonIgnore] public bool IsMovesStarEarned => _isMoveTaskDone;
-    [JsonIgnore] public bool IsAngryStarEarned => _isAngryTaskDone;
-    [JsonIgnore] public int BestScore => _bestScore;
+	    [JsonConstructor]
+	    public LevelProgress(int id, bool isDone, bool isMoveTaskDone,
+	                         bool isAngryTaskDone, int bestScore)
+	    {
+	        _id = id;
+	        _isDone = isDone;
+	        _isMoveTaskDone = isMoveTaskDone;
+	        _isAngryTaskDone = isAngryTaskDone;
+	        _bestScore = bestScore;
+	    }
 
-    public int GetStarsCount()
-    {
-        int stars = 0;
+	    [JsonIgnore] public int Id => _id;
+	    [JsonIgnore] public bool IsDone => _isDone;
+	    [JsonIgnore] public bool IsMovesStarEarned => _isMoveTaskDone;
+	    [JsonIgnore] public bool IsAngryStarEarned => _isAngryTaskDone;
+	    [JsonIgnore] public int BestScore => _bestScore;
 
-        if (_isDone)
-        {
-            stars++;
-        }
+	    public int GetStarsCount()
+	    {
+	        int stars = 0;
 
-        if (_isMoveTaskDone)
-        {
-            stars++;
-        }
+	        if (_isDone)
+	        {
+	            stars++;
+	        }
 
-        if (_isAngryTaskDone)
-        {
-            stars++;
-        }
+	        if (_isMoveTaskDone)
+	        {
+	            stars++;
+	        }
 
-        return stars;
-    }
+	        if (_isAngryTaskDone)
+	        {
+	            stars++;
+	        }
+
+	        return stars;
+	    }
+	}
+
 }

@@ -1,14 +1,18 @@
 using System.Linq;
+using SlimeGround.Data.Saves;
 
-public class BestGameScore : GameScoreCalcualtor
+namespace SlimeGround.Menu.Windows.Leaderboard
 {
-    public BestGameScore(IPlayerData playerData) : base(playerData) { }
-    public override int Score => CalculateScore();
+	public class BestGameScore : GameScoreCalcualtor
+	{
+	    public BestGameScore(IPlayerData playerData) : base(playerData) { }
+	    public override int Score => CalculateScore();
 
-    private int CalculateScore()
-    {
-        return PlayerData.Levels
-                .Where(level => level.IsDone)
-                .Sum(level => level.BestScore);
-    }
+	    private int CalculateScore()
+	    {
+	        return PlayerData.Levels
+	                .Where(level => level.IsDone)
+	                .Sum(level => level.BestScore);
+	    }
+	}
 }

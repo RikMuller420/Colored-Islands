@@ -4,65 +4,70 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SliderButton : MonoBehaviour
+namespace SlimeGround.Menu.Extensions.Controls
 {
-    [SerializeField] private TextMeshProUGUI _textMesh;
-    [SerializeField] private Button _leftButton;
-    [SerializeField] private Button _rightButton;
 
-    private ReadOnlyCollection<string> _textVariants;
-    private int _value;
+	public class SliderButton : MonoBehaviour
+	{
+	    [SerializeField] private TextMeshProUGUI _textMesh;
+	    [SerializeField] private Button _leftButton;
+	    [SerializeField] private Button _rightButton;
 
-    public event Action<int> ValueChanged;
+	    private ReadOnlyCollection<string> _textVariants;
+	    private int _value;
 
-    private void OnEnable()
-    {
-        _leftButton.onClick.AddListener(GoToPreviousVariant);
-        _rightButton.onClick.AddListener(GoToNextVariant);
-    }
+	    public event Action<int> ValueChanged;
 
-    private void OnDisable()
-    {
-        _leftButton.onClick.RemoveListener(GoToPreviousVariant);
-        _rightButton.onClick.RemoveListener(GoToNextVariant);
-    }
+	    private void OnEnable()
+	    {
+	        _leftButton.onClick.AddListener(GoToPreviousVariant);
+	        _rightButton.onClick.AddListener(GoToNextVariant);
+	    }
 
-    public void Initialize(ReadOnlyCollection<string> textVariants, int startValue = 0)
-    {
-        _textVariants = new ReadOnlyCollection<string>(textVariants);
+	    private void OnDisable()
+	    {
+	        _leftButton.onClick.RemoveListener(GoToPreviousVariant);
+	        _rightButton.onClick.RemoveListener(GoToNextVariant);
+	    }
 
-        if (startValue < 0 || startValue >= _textVariants.Count)
-        {
-            throw new InvalidOperationException("Index out of range");
-        }
+	    public void Initialize(ReadOnlyCollection<string> textVariants, int startValue = 0)
+	    {
+	        _textVariants = new ReadOnlyCollection<string>(textVariants);
 
-        _value = startValue;
-        UpdateText();
-        enabled = true;
-    }
+	        if (startValue < 0 || startValue >= _textVariants.Count)
+	        {
+	            throw new InvalidOperationException("Index out of range");
+	        }
 
-    private void GoToNextVariant()
-    {
-        _value = ++_value % _textVariants.Count;
-        UpdateText();
-        ValueChanged?.Invoke(_value);
-    }
+	        _value = startValue;
+	        UpdateText();
+	        enabled = true;
+	    }
 
-    private void GoToPreviousVariant()
-    {
-        _value--;
+	    private void GoToNextVariant()
+	    {
+	        _value = ++_value % _textVariants.Count;
+	        UpdateText();
+	        ValueChanged?.Invoke(_value);
+	    }
 
-        if (_value < 0)
-        {
-            _value = _textVariants.Count - 1;
-        }
+	    private void GoToPreviousVariant()
+	    {
+	        _value--;
 
-        UpdateText();
-        ValueChanged?.Invoke(_value);
-    }
+	        if (_value < 0)
+	        {
+	            _value = _textVariants.Count - 1;
+	        }
 
-    private void UpdateText()
-    {
-        _textMesh.text = _textVariants[_value];
-    }
+	        UpdateText();
+	        ValueChanged?.Invoke(_value);
+	    }
+
+	    private void UpdateText()
+	    {
+	        _textMesh.text = _textVariants[_value];
+	    }
+	}
+
 }

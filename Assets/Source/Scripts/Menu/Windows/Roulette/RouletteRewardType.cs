@@ -1,6 +1,11 @@
-public enum RouletteRewardType 
+
+namespace SlimeGround.Menu.Windows.Roulette
 {
-    Gold,
-    Face,
-    RemoveAds
+	public enum RouletteRewardType 
+	{
+	    Gold,
+	    Face,
+	    RemoveAds
+	}
+
 }

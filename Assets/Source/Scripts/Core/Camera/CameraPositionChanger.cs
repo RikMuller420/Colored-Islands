@@ -1,161 +1,170 @@
 using System.Collections;
 using Cinemachine;
+using SlimeGround.Data.ScriptableObjects.Levels;
+using SlimeGround.Gameplay.Islands;
+using SlimeGround.Gameplay.Levels;
+using SlimeGround.Menu.OrientationChanger;
 using UnityEngine;
 
-public class CameraPositionChanger : MonoBehaviour
+namespace SlimeGround.Core.CameraSystem
 {
-    [SerializeField] private LevelSettings _levelSettings;
 
-    [SerializeField] private LevelChangeEventTracker _levelChangeEventTracker;
-    [SerializeField] private BuferIslandsHolder _buferIslands;
-    [SerializeField] private UIOrientationChanger _uIOrientationChanger;
-    [SerializeField] private ScreenSizeChangeTracker _screenSizeChangeTracker;
+	public class CameraPositionChanger : MonoBehaviour
+	{
+	    [SerializeField] private LevelSettings _levelSettings;
 
-    [SerializeField] private Transform _cameraFollowTarget;
-    [SerializeField] private Transform _cameraLookAtTarget;
-    [SerializeField] private Camera _mainCamera;
-    [SerializeField] private CinemachineVirtualCamera _virtualCamera;
-    [SerializeField] private CameraTargets _menuVerticalTargets;
-    [SerializeField] private CameraTargets _menuHorizontalTargets;
+	    [SerializeField] private LevelChangeEventTracker _levelChangeEventTracker;
+	    [SerializeField] private BuferIslandsHolder _buferIslands;
+	    [SerializeField] private UIOrientationChanger _uIOrientationChanger;
+	    [SerializeField] private ScreenSizeChangeTracker _screenSizeChangeTracker;
 
-    private float _minVerticalAspectRatio = 0.8f;
-    private float _maxHorizontalAspectRatio = 1.3f;
+	    [SerializeField] private Transform _cameraFollowTarget;
+	    [SerializeField] private Transform _cameraLookAtTarget;
+	    [SerializeField] private Camera _mainCamera;
+	    [SerializeField] private CinemachineVirtualCamera _virtualCamera;
+	    [SerializeField] private CameraTargets _menuVerticalTargets;
+	    [SerializeField] private CameraTargets _menuHorizontalTargets;
 
-    private ILevelData _currentLevelData;
+	    private float _minVerticalAspectRatio = 0.8f;
+	    private float _maxHorizontalAspectRatio = 1.3f;
 
-    private CameraFoVChanger _cameraFoVChanger;
-    private float _refreshRate = 0.1f;
-    private float _foVUpdateDelay = 0.2f;
-    private Coroutine _updateFoVInDelayCorutine;
+	    private ILevelData _currentLevelData;
 
-    private WaitForSeconds _waitUpdatePosition;
-    private WaitForSeconds _waitFoVUpdate;
+	    private CameraFoVChanger _cameraFoVChanger;
+	    private float _refreshRate = 0.1f;
+	    private float _foVUpdateDelay = 0.2f;
+	    private Coroutine _updateFoVInDelayCorutine;
 
-    private float _cameraSqrTreshold = 0.05f;
+	    private WaitForSeconds _waitUpdatePosition;
+	    private WaitForSeconds _waitFoVUpdate;
 
-    private void OnEnable()
-    {
-        _levelChangeEventTracker.LevelChanged += UpdateCameraPosition;
-        _screenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
-    }
+	    private float _cameraSqrTreshold = 0.05f;
 
-    private void OnDisable()
-    {
-        _levelChangeEventTracker.LevelChanged -= UpdateCameraPosition;
-        _screenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
-    }
+	    private void OnEnable()
+	    {
+	        _levelChangeEventTracker.LevelChanged += UpdateCameraPosition;
+	        _screenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
+	    }
 
-    public void Initialize(ILevelData currentLevelData)
-    {
-        _currentLevelData = currentLevelData;
-        _cameraFoVChanger = new CameraFoVChanger(_currentLevelData, _buferIslands,
-                                                _uIOrientationChanger, _mainCamera, _virtualCamera);
-        _waitUpdatePosition = new WaitForSeconds(_refreshRate);
-        _waitFoVUpdate = new WaitForSeconds(_foVUpdateDelay);
-        UpdateCameraPosition();
+	    private void OnDisable()
+	    {
+	        _levelChangeEventTracker.LevelChanged -= UpdateCameraPosition;
+	        _screenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
+	    }
 
-        enabled = true;
-    }
+	    public void Initialize(ILevelData currentLevelData)
+	    {
+	        _currentLevelData = currentLevelData;
+	        _cameraFoVChanger = new CameraFoVChanger(_currentLevelData, _uIOrientationChanger, 
+													 _mainCamera, _virtualCamera);
+	        _waitUpdatePosition = new WaitForSeconds(_refreshRate);
+	        _waitFoVUpdate = new WaitForSeconds(_foVUpdateDelay);
+	        UpdateCameraPosition();
 
-    private void OnScreenSizeChanged(Vector2 vector) => UpdateCameraPosition();
+	        enabled = true;
+	    }
 
-    private void UpdateCameraPosition() => UpdateCameraPosition(_currentLevelData);
+	    private void OnScreenSizeChanged(Vector2 vector) => UpdateCameraPosition();
 
-    private void UpdateCameraPosition(ILevelData levelData)
-    {
-        if (levelData.LevelId == _levelSettings.MainMenuSettings.Id)
-        {
-            SetMenuCameraPosition();
+	    private void UpdateCameraPosition() => UpdateCameraPosition(_currentLevelData);
 
-            return;
-        }
+	    private void UpdateCameraPosition(ILevelData levelData)
+	    {
+	        if (levelData.LevelId == _levelSettings.MainMenuSettings.Id)
+	        {
+	            SetMenuCameraPosition();
 
-        if (levelData.VerticalCameraTargets == null || levelData.HorizontalCameraTargets == null)
-        {
-            return;
-        }
+	            return;
+	        }
 
-        float aspectRatio = (float)Screen.width / Screen.height;
+	        if (levelData.VerticalCameraTargets == null || levelData.HorizontalCameraTargets == null)
+	        {
+	            return;
+	        }
 
-        Vector3 lookAtPosition;
-        Vector3 followTargetPosition;
+	        float aspectRatio = (float)Screen.width / Screen.height;
 
-        if (aspectRatio <= _minVerticalAspectRatio)
-        {
-            lookAtPosition = levelData.VerticalCameraTargets.LookAtPoint.position;
-            followTargetPosition = levelData.VerticalCameraTargets.FollowPoint.position;
-        }
-        else if (aspectRatio >= _maxHorizontalAspectRatio)
-        {
-            lookAtPosition = levelData.HorizontalCameraTargets.LookAtPoint.position;
-            followTargetPosition = levelData.HorizontalCameraTargets.FollowPoint.position;
-        }
-        else
-        {
-            float scale = (aspectRatio - _minVerticalAspectRatio) / (_maxHorizontalAspectRatio - _minVerticalAspectRatio);
+	        Vector3 lookAtPosition;
+	        Vector3 followTargetPosition;
 
-            lookAtPosition = Vector3.Lerp
-            (
-                levelData.VerticalCameraTargets.LookAtPoint.position,
-                levelData.HorizontalCameraTargets.LookAtPoint.position,
-                scale
-            );
+	        if (aspectRatio <= _minVerticalAspectRatio)
+	        {
+	            lookAtPosition = levelData.VerticalCameraTargets.LookAtPoint.position;
+	            followTargetPosition = levelData.VerticalCameraTargets.FollowPoint.position;
+	        }
+	        else if (aspectRatio >= _maxHorizontalAspectRatio)
+	        {
+	            lookAtPosition = levelData.HorizontalCameraTargets.LookAtPoint.position;
+	            followTargetPosition = levelData.HorizontalCameraTargets.FollowPoint.position;
+	        }
+	        else
+	        {
+	            float scale = (aspectRatio - _minVerticalAspectRatio) / (_maxHorizontalAspectRatio - _minVerticalAspectRatio);
 
-            followTargetPosition = Vector3.Lerp
-            (
-                levelData.VerticalCameraTargets.FollowPoint.position,
-                levelData.HorizontalCameraTargets.FollowPoint.position,
-                scale
-            );
-        }
+	            lookAtPosition = Vector3.Lerp
+	            (
+	                levelData.VerticalCameraTargets.LookAtPoint.position,
+	                levelData.HorizontalCameraTargets.LookAtPoint.position,
+	                scale
+	            );
 
-        _cameraLookAtTarget.position = lookAtPosition;
-        _cameraFollowTarget.position = followTargetPosition;
+	            followTargetPosition = Vector3.Lerp
+	            (
+	                levelData.VerticalCameraTargets.FollowPoint.position,
+	                levelData.HorizontalCameraTargets.FollowPoint.position,
+	                scale
+	            );
+	        }
 
-        TryStopUpdateFoVCoroutine();
-        _updateFoVInDelayCorutine = StartCoroutine(AdjustFoVInDelay());
-    }
+	        _cameraLookAtTarget.position = lookAtPosition;
+	        _cameraFollowTarget.position = followTargetPosition;
 
-    private void TryStopUpdateFoVCoroutine()
-    {
-        if (_updateFoVInDelayCorutine != null)
-        {
-            StopCoroutine(_updateFoVInDelayCorutine);
-            _updateFoVInDelayCorutine = null;
-        }
-    }
+	        TryStopUpdateFoVCoroutine();
+	        _updateFoVInDelayCorutine = StartCoroutine(AdjustFoVInDelay());
+	    }
 
-    private void SetMenuCameraPosition()
-    {
-        TryStopUpdateFoVCoroutine();
+	    private void TryStopUpdateFoVCoroutine()
+	    {
+	        if (_updateFoVInDelayCorutine != null)
+	        {
+	            StopCoroutine(_updateFoVInDelayCorutine);
+	            _updateFoVInDelayCorutine = null;
+	        }
+	    }
 
-        _cameraLookAtTarget.position = _uIOrientationChanger.IsVertical ?
-                                            _menuVerticalTargets.LookAtPoint.position :
-                                            _menuHorizontalTargets.LookAtPoint.position;
+	    private void SetMenuCameraPosition()
+	    {
+	        TryStopUpdateFoVCoroutine();
 
-        _cameraFollowTarget.position = _uIOrientationChanger.IsVertical ?
-                                            _menuVerticalTargets.FollowPoint.position :
-                                            _menuHorizontalTargets.FollowPoint.position;
+	        _cameraLookAtTarget.position = _uIOrientationChanger.IsVertical ?
+	                                            _menuVerticalTargets.LookAtPoint.position :
+	                                            _menuHorizontalTargets.LookAtPoint.position;
 
-        _cameraFoVChanger.SetMenuCameraFoV();
-    }
+	        _cameraFollowTarget.position = _uIOrientationChanger.IsVertical ?
+	                                            _menuVerticalTargets.FollowPoint.position :
+	                                            _menuHorizontalTargets.FollowPoint.position;
 
-    private IEnumerator AdjustFoVInDelay()
-    {
-        while (enabled)
-        {
-            float cameraSqrOffset = (_cameraFollowTarget.position - _mainCamera.transform.position).sqrMagnitude;
+	        _cameraFoVChanger.SetMenuCameraFoV();
+	    }
 
-            if (cameraSqrOffset < _cameraSqrTreshold)
-            {
-                break;
-            }
+	    private IEnumerator AdjustFoVInDelay()
+	    {
+	        while (enabled)
+	        {
+	            float cameraSqrOffset = (_cameraFollowTarget.position - _mainCamera.transform.position).sqrMagnitude;
 
-            yield return _waitUpdatePosition;
-        }
+	            if (cameraSqrOffset < _cameraSqrTreshold)
+	            {
+	                break;
+	            }
 
-        yield return _waitFoVUpdate;
+	            yield return _waitUpdatePosition;
+	        }
 
-        _cameraFoVChanger.AdjustFOVToFitObjects();
-    }
+	        yield return _waitFoVUpdate;
+
+	        _cameraFoVChanger.AdjustFOVToFitObjects();
+	    }
+	}
+
 }

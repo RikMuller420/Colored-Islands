@@ -1,6 +1,11 @@
 using System;
 
-public interface IUnitsSelectedEvent
+namespace SlimeGround.Core.InputHandling
 {
-    public event Action UnitsSelected;
+
+	public interface IUnitsSelectedEvent
+	{
+	    public event Action UnitsSelected;
+	}
+
 }

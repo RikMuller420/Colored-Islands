@@ -1,8 +1,13 @@
 using System;
 
-public interface IAuthorizationData
+namespace SlimeGround.Integration.Authorization
 {
-    public event Action AuthorizationStatusChanged;
 
-    public bool IsAuthorized { get; }
+	public interface IAuthorizationData
+	{
+	    public event Action AuthorizationStatusChanged;
+
+	    public bool IsAuthorized { get; }
+	}
+
 }

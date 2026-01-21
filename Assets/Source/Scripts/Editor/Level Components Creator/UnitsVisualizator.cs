@@ -1,56 +1,63 @@
 using System.Collections.Generic;
 using System.Linq;
+using SlimeGround.Data;
+using SlimeGround.Data.ScriptableObjects.Paints;
+using SlimeGround.Gameplay.Islands;
+using SlimeGround.Gameplay.Units;
 using UnityEditor;
 using UnityEngine;
 
-public class UnitsVisualizator
+namespace SlimeGround.Editor.LevelComponentsCreator
 {
-    private const string VisualizationHolderSceneObjectName = "Visualization";
-
-    private GameObject _visualizationHolder = null;
-
-    public bool IsVisualizationExist => _visualizationHolder != null;
-
-    public void Visualize(IReadOnlyCollection<IslandInitializer> _islandInitializers, Unit unitPrefab, PaintMaterials paintMaterials)
+    public class UnitsVisualizator
     {
-        ClearVisualization();
+        private const string VisualizationHolderSceneObjectName = "Visualization";
 
-        if (_visualizationHolder == null)
+        private GameObject _visualizationHolder = null;
+
+        public bool IsVisualizationExist => _visualizationHolder != null;
+
+        public void Visualize(IReadOnlyCollection<IslandInitializer> _islandInitializers, Unit unitPrefab, ColorSampleMaterials paintMaterials)
         {
-            _visualizationHolder = new GameObject(VisualizationHolderSceneObjectName);
-        }
+            ClearVisualization();
 
-        foreach (IslandInitializer island in _islandInitializers)
-        {
-            int pointIndex = 0;
-
-            foreach (IslandStartUnits islandStartUnits in island.StartUnits)
+            if (_visualizationHolder == null)
             {
-                for (int i = 0; i < islandStartUnits.Amout; i++)
+                _visualizationHolder = new GameObject(VisualizationHolderSceneObjectName);
+            }
+
+            foreach (IslandInitializer island in _islandInitializers)
+            {
+                int pointIndex = 0;
+
+                foreach (IslandStartUnits islandStartUnits in island.StartUnits)
                 {
-                    Vector3 placePos = island.Points[pointIndex].transform.position;
+                    for (int i = 0; i < islandStartUnits.Amout; i++)
+                    {
+                        Vector3 placePos = island.Points[pointIndex].transform.position;
 
-                    Unit unit = (Unit)PrefabUtility.InstantiatePrefab(unitPrefab);
-                    Undo.RegisterCreatedObjectUndo(unit, "Create Prefab Instance");
+                        Unit unit = (Unit)PrefabUtility.InstantiatePrefab(unitPrefab);
+                        Undo.RegisterCreatedObjectUndo(unit, "Create Prefab Instance");
 
-                    unit.transform.position = placePos;
-                    unit.transform.SetParent(_visualizationHolder.transform);
-                    ColorSample colorSample = (ColorSample)(int)islandStartUnits.Slot;
-                    Material material = paintMaterials.Materials.FirstOrDefault(paint => paint.ColorSample == colorSample).UnitMaterial;
-                    unit.SetMaterial(material);
-                    unit.Activate();
+                        unit.transform.position = placePos;
+                        unit.transform.SetParent(_visualizationHolder.transform);
+                        ColorSample colorSample = (ColorSample)(int)islandStartUnits.Slot;
+                        Material material = paintMaterials.Materials.FirstOrDefault(paint => paint.ColorSample == colorSample).UnitMaterial;
+                        unit.SetMaterial(material);
+                        unit.Activate();
 
-                    pointIndex++;
+                        pointIndex++;
+                    }
                 }
             }
         }
-    }
 
-    public void ClearVisualization()
-    {
-        if (_visualizationHolder != null)
+        public void ClearVisualization()
         {
-            Undo.DestroyObjectImmediate(_visualizationHolder);
+            if (_visualizationHolder != null)
+            {
+                Undo.DestroyObjectImmediate(_visualizationHolder);
+            }
         }
     }
 }

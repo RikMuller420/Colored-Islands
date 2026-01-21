@@ -1,61 +1,65 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SlimeGround.Data.Saves;
 
-public class BoostAmountProvider
+namespace SlimeGround.Gameplay.Boosts
 {
-    private PlayerDataProvider _playerData;
+	public class BoostAmountProvider
+	{
+	    private PlayerDataProvider _playerData;
 
-    public event Action<BoostType> BoostsAmountChanged;
-    public event Action<BoostType> BoostApplyed;
+	    public event Action<BoostType> BoostsAmountChanged;
+	    public event Action<BoostType> BoostApplyed;
 
-    public BoostAmountProvider(PlayerDataProvider playerData)
-    {
-        _playerData = playerData;
-        _playerData.BoostsAmountChanged += OnBoostsAmountInSavedProgressChanged;
-    }
+	    public BoostAmountProvider(PlayerDataProvider playerData)
+	    {
+	        _playerData = playerData;
+	        _playerData.BoostsAmountChanged += OnBoostsAmountInSavedProgressChanged;
+	    }
 
-    public int BoostAmount(BoostType boostType) => _playerData.GetBoostAmount(boostType);
+	    public int BoostAmount(BoostType boostType) => _playerData.GetBoostAmount(boostType);
 
-    public void SpendBoost(BoostType boostType)
-    {
-        int boostAmount = BoostAmount(boostType);
+	    public void SpendBoost(BoostType boostType)
+	    {
+	        int boostAmount = BoostAmount(boostType);
 
-        if (boostAmount == 0)
-        {
-            throw new InvalidOperationException("not enough Boosts");
-        }
+	        if (boostAmount == 0)
+	        {
+	            throw new InvalidOperationException("not enough Boosts");
+	        }
 
-        boostAmount--;
-        _playerData.SetBoostAmount(boostType, boostAmount);
-        _playerData.Save();
-        BoostApplyed?.Invoke(boostType);
-    }
+	        boostAmount--;
+	        _playerData.SetBoostAmount(boostType, boostAmount);
+	        _playerData.Save();
+	        BoostApplyed?.Invoke(boostType);
+	    }
 
-    public void AddBoost(BoostType boostType)
-    {
-        int boostAmount = BoostAmount(boostType);
-        boostAmount++;
-        _playerData.SetBoostAmount(boostType, boostAmount);
-        _playerData.Save();
-    }
+	    public void AddBoost(BoostType boostType)
+	    {
+	        int boostAmount = BoostAmount(boostType);
+	        boostAmount++;
+	        _playerData.SetBoostAmount(boostType, boostAmount);
+	        _playerData.Save();
+	    }
 
-    public void AddBoostBundle(int amount)
-    {
-        IEnumerable<BoostType> boostTypes = Enum.GetValues(typeof(BoostType)).Cast<BoostType>();
-        BoostType lastType = boostTypes.Last();
+	    public void AddBoostBundle(int amount)
+	    {
+	        IEnumerable<BoostType> boostTypes = Enum.GetValues(typeof(BoostType)).Cast<BoostType>();
+	        BoostType lastType = boostTypes.Last();
 
-        foreach (BoostType boostType in boostTypes)
-        {
-            int boostAmount = BoostAmount(boostType);
-            boostAmount += amount;
-            _playerData.SetBoostAmount(boostType, boostAmount);
-            _playerData.Save();
-        }
-    }
+	        foreach (BoostType boostType in boostTypes)
+	        {
+	            int boostAmount = BoostAmount(boostType);
+	            boostAmount += amount;
+	            _playerData.SetBoostAmount(boostType, boostAmount);
+	            _playerData.Save();
+	        }
+	    }
 
-    private void OnBoostsAmountInSavedProgressChanged(BoostType boostType)
-    {
-        BoostsAmountChanged?.Invoke(boostType);
-    }
+	    private void OnBoostsAmountInSavedProgressChanged(BoostType boostType)
+	    {
+	        BoostsAmountChanged?.Invoke(boostType);
+	    }
+	}
 }

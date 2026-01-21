@@ -1,5 +1,10 @@
-public enum LeaderboardType 
+
+namespace SlimeGround.Menu.Windows.Leaderboard
 {
-    TotalGameScore,
-    BestGameScore
+	public enum LeaderboardType 
+	{
+	    TotalGameScore,
+	    BestGameScore
+	}
+
 }

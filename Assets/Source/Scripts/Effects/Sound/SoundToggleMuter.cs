@@ -1,42 +1,46 @@
+using SlimeGround.Menu.Extensions.Controls;
 using UnityEngine;
 
-public class SoundToggleMuter : MonoBehaviour
+namespace SlimeGround.Effects.Sound
 {
-    [SerializeField] private ToggleButton _toggle;
-    [SerializeField] private AudioGroup _audioGroup;
+	public class SoundToggleMuter : MonoBehaviour
+	{
+	    [SerializeField] private ToggleButton _toggle;
+	    [SerializeField] private AudioGroup _audioGroup;
 
-    private SoundVolumeProvider _soundVolumeProvider;
+	    private SoundVolumeProvider _soundVolumeProvider;
 
-    private void OnEnable()
-    {
-        _toggle.EnableChanged += OnToggleChanged;
-        _soundVolumeProvider.SoundEnabledChanged += OnSoundEnabledChanged;
-    }
+	    private void OnEnable()
+	    {
+	        _toggle.EnableChanged += OnToggleChanged;
+	        _soundVolumeProvider.SoundEnabledChanged += OnSoundEnabledChanged;
+	    }
 
-    private void OnDisable()
-    {
-        _toggle.EnableChanged -= OnToggleChanged;
-        _soundVolumeProvider.SoundEnabledChanged -= OnSoundEnabledChanged;
-    }
+	    private void OnDisable()
+	    {
+	        _toggle.EnableChanged -= OnToggleChanged;
+	        _soundVolumeProvider.SoundEnabledChanged -= OnSoundEnabledChanged;
+	    }
 
-    public void Initialize(SoundVolumeProvider soundVolumeProvider)
-    {
-        _soundVolumeProvider = soundVolumeProvider;
-        enabled = true;
-        OnSoundEnabledChanged(_audioGroup);
-    }
+	    public void Initialize(SoundVolumeProvider soundVolumeProvider)
+	    {
+	        _soundVolumeProvider = soundVolumeProvider;
+	        enabled = true;
+	        OnSoundEnabledChanged(_audioGroup);
+	    }
 
-    private void OnSoundEnabledChanged(AudioGroup audioGroup)
-    {
-        if (_audioGroup == audioGroup)
-        {
-            bool isOn = _soundVolumeProvider.GetIsSoundOnStatus(_audioGroup);
-            _toggle.SetToggle(isOn);
-        }
-    }
+	    private void OnSoundEnabledChanged(AudioGroup audioGroup)
+	    {
+	        if (_audioGroup == audioGroup)
+	        {
+	            bool isOn = _soundVolumeProvider.GetIsSoundOnStatus(_audioGroup);
+	            _toggle.SetToggle(isOn);
+	        }
+	    }
 
-    private void OnToggleChanged(bool isOn)
-    {
-        _soundVolumeProvider.SetAudioGroupVolume(_audioGroup, isOn);
-    }
+	    private void OnToggleChanged(bool isOn)
+	    {
+	        _soundVolumeProvider.SetAudioGroupVolume(_audioGroup, isOn);
+	    }
+	}
 }

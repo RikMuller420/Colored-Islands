@@ -1,7 +1,12 @@
-public enum GameplaySoundType
+
+namespace SlimeGround.Effects.Sound
 {
-    UnitRun,
-    ApplyBoost,
-    OutOfBoost,
-    WinSound
+	public enum GameplaySoundType
+	{
+	    UnitRun,
+	    ApplyBoost,
+	    OutOfBoost,
+	    WinSound
+	}
+
 }

@@ -1,77 +1,101 @@
+using SlimeGround.Core.CameraSystem;
+using SlimeGround.Core.InputHandling;
+using SlimeGround.Data.Saves;
+using SlimeGround.Data.ScriptableObjects.Levels;
+using SlimeGround.Data.ScriptableObjects.Upgrades;
+using SlimeGround.Effects;
+using SlimeGround.Gameplay;
+using SlimeGround.Gameplay.Boosts;
+using SlimeGround.Gameplay.Levels;
+using SlimeGround.Gameplay.Training;
+using SlimeGround.Gameplay.Units;
+using SlimeGround.Integration.Ads;
+using SlimeGround.Integration.Authorization;
+using SlimeGround.Integration.InAppPurchase;
+using SlimeGround.Integration.Leaderboards;
+using SlimeGround.Integration.Metrics;
+using SlimeGround.Menu;
+using SlimeGround.Menu.Extensions.DeviceStyle;
+using SlimeGround.Menu.Windows.GameShop.Upgrades;
+using SlimeGround.Menu.Windows.Leaderboard;
 using UnityEngine;
 
-public class GameInitializer : MonoBehaviour
+namespace SlimeGround
 {
-    [Header("Settings")]
-    [SerializeField] private LevelSettings _levelSettings;
-    [SerializeField] private UpgradeSettings _upgradeSettings;
-    [SerializeField] private LayerMask _allIslandsAndUnitsLayer;
+	public class GameInitializer : MonoBehaviour
+	{
+	    [Header("Settings")]
+	    [SerializeField] private LevelSettings _levelSettings;
+	    [SerializeField] private UpgradeSettings _upgradeSettings;
+	    [SerializeField] private LayerMask _allIslandsAndUnitsLayer;
 
-    [Header("Component Initializers")]
-    [SerializeField] private MetricInitializer _metricInitializer;
-    [SerializeField] private BoostInitializer _boostInitializer;
-    [SerializeField] private LeaderboardInitializer _leaderboardInitializer;
-    [SerializeField] private MenuInitializer _menuInitializer;
-    [SerializeField] private EffectsInitializer _effectsInitializer;
-    [SerializeField] private GameplayInitializer _gameplayInitializer;
-    [SerializeField] private DeviceStyleChangeInitializer _deviceStyleChangeInitializer;
+	    [Header("Component Initializers")]
+	    [SerializeField] private MetricInitializer _metricInitializer;
+	    [SerializeField] private BoostInitializer _boostInitializer;
+	    [SerializeField] private LeaderboardInitializer _leaderboardInitializer;
+	    [SerializeField] private MenuInitializer _menuInitializer;
+	    [SerializeField] private EffectsInitializer _effectsInitializer;
+	    [SerializeField] private GameplayInitializer _gameplayInitializer;
+	    [SerializeField] private DeviceStyleChangeInitializer _deviceStyleChangeInitializer;
 
-    [Header("Gameplay")]
-    [SerializeField] private PlayerDataProvider _playerData;
-    [SerializeField] private InputHandler _inputHandler;
-    [SerializeField] private LevelLoader _levelLoader;
-    [SerializeField] private Camera _camera;
-    [SerializeField] private Transform _unitsLookAtPoint;
-    [SerializeField] private CameraPositionChanger _cameraPositionChanger;
-    [SerializeField] private TrainigSequenceLoader _trainigLoader;
+	    [Header("Gameplay")]
+	    [SerializeField] private PlayerDataProvider _playerData;
+	    [SerializeField] private InputHandler _inputHandler;
+	    [SerializeField] private LevelLoader _levelLoader;
+	    [SerializeField] private Camera _camera;
+	    [SerializeField] private Transform _unitsLookAtPoint;
+	    [SerializeField] private CameraPositionChanger _cameraPositionChanger;
+	    [SerializeField] private TrainigSequenceLoader _trainigLoader;
 
-    private void Start()
-    {
-        InitializeGame();
+	    private void Start()
+	    {
+	        InitializeGame();
 
-        _levelLoader.LoadMainMenu();
+	        _levelLoader.LoadMainMenu();
 
-        var inAppConsumer = new InAppPurchaseConsumeProvider();
-        inAppConsumer.ConsumePurchase();
+	        var inAppConsumer = new InAppPurchaseConsumeProvider();
+	        inAppConsumer.ConsumePurchase();
 
-        _trainigLoader.TryLoadTrainingLevel();
-    }
+	        _trainigLoader.TryLoadTrainingLevel();
+	    }
 
-    private void InitializeGame()
-    {
-        _playerData.Initialize();
+	    private void InitializeGame()
+	    {
+	        _playerData.Initialize();
 
-        var upgradesProvider = new UpgradesProvider(_playerData, _upgradeSettings);
-        var boostAmountProvider = new BoostAmountProvider(_playerData);
-        var walletProvider = new WalletProvider(_playerData);
-        var rewardedAdProvider = new RewardedAdProvider();
-        var authorizationProvider = new AuthorizationProvider();
-        var leaderboardProvider = new LeaderboardProvider();
+	        var upgradesProvider = new UpgradesProvider(_playerData, _upgradeSettings);
+	        var boostAmountProvider = new BoostAmountProvider(_playerData);
+	        var walletProvider = new WalletProvider(_playerData);
+	        var rewardedAdProvider = new RewardedAdProvider();
+	        var authorizationProvider = new AuthorizationProvider();
+	        var leaderboardProvider = new LeaderboardProvider();
 
-        var levelDataHolder = new LevelDataHolder(_levelSettings.MainMenuSettings);
+	        var levelDataHolder = new LevelDataHolder(_levelSettings.MainMenuSettings);
 
-        var unitMover = new UnitMover(_unitsLookAtPoint);
-        var clickHandler = new ClickHandler(unitMover, _inputHandler, _camera,
-                                            _allIslandsAndUnitsLayer,
-                                            out IUnitsSelectedEvent unitsSelectedEvent);
+	        var unitMover = new UnitMover(_unitsLookAtPoint);
+	        var clickHandler = new ClickHandler(unitMover, _inputHandler, _camera,
+	                                            _allIslandsAndUnitsLayer,
+	                                            out IUnitsSelectedEvent unitsSelectedEvent);
 
-        _gameplayInitializer.Initialize(upgradesProvider, leaderboardProvider,
-                                        levelDataHolder, unitMover);
-        
-        _levelLoader.Initialize(upgradesProvider, unitMover, levelDataHolder);
+	        _gameplayInitializer.Initialize(upgradesProvider, leaderboardProvider,
+	                                        levelDataHolder, unitMover);
+	        
+	        _levelLoader.Initialize(upgradesProvider, unitMover, levelDataHolder);
 
-        _boostInitializer.Initialize(unitMover, clickHandler, levelDataHolder,
-                                     boostAmountProvider, walletProvider, rewardedAdProvider,
-                                     out IBoostStopApplyedEvent freezeBoostApplyedEvent);
+	        _boostInitializer.Initialize(unitMover, clickHandler, levelDataHolder,
+	                                     boostAmountProvider, walletProvider, rewardedAdProvider,
+	                                     out IBoostStopApplyedEvent freezeBoostApplyedEvent);
 
-        _menuInitializer.Initialize(upgradesProvider, authorizationProvider, rewardedAdProvider,
-                                    boostAmountProvider, walletProvider, freezeBoostApplyedEvent);
+	        _menuInitializer.Initialize(upgradesProvider, authorizationProvider, rewardedAdProvider,
+	                                    boostAmountProvider, walletProvider, freezeBoostApplyedEvent);
 
-        _trainigLoader.Initilize(unitsSelectedEvent, unitMover);
-        _deviceStyleChangeInitializer.Initialize();
-        _metricInitializer.Initilize(levelDataHolder);
-        _effectsInitializer.Initialize(unitMover);
-        _cameraPositionChanger.Initialize(levelDataHolder);
-        _leaderboardInitializer.Initialize(leaderboardProvider, authorizationProvider);
-    }
+	        _trainigLoader.Initilize(unitsSelectedEvent, unitMover);
+	        _deviceStyleChangeInitializer.Initialize();
+	        _metricInitializer.Initilize(levelDataHolder);
+	        _effectsInitializer.Initialize(unitMover);
+	        _cameraPositionChanger.Initialize(levelDataHolder);
+	        _leaderboardInitializer.Initialize(leaderboardProvider, authorizationProvider);
+	    }
+	}
+
 }

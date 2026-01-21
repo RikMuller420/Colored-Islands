@@ -1,17 +1,22 @@
 using UnityEngine;
 
-[System.Serializable]
-public class CameraTargets
+namespace SlimeGround.Core.CameraSystem
 {
-    [SerializeField] private Transform _lookAtPoint;
-    [SerializeField] private Transform _followPoint;
 
-    public CameraTargets(Transform lookAtPoint, Transform followPoint)
-    {
-        _lookAtPoint = lookAtPoint;
-        _followPoint = followPoint;
-    }
+	[System.Serializable]
+	public class CameraTargets
+	{
+	    [SerializeField] private Transform _lookAtPoint;
+	    [SerializeField] private Transform _followPoint;
 
-    public Transform LookAtPoint => _lookAtPoint;
-    public Transform FollowPoint => _followPoint;
+	    public CameraTargets(Transform lookAtPoint, Transform followPoint)
+	    {
+	        _lookAtPoint = lookAtPoint;
+	        _followPoint = followPoint;
+	    }
+
+	    public Transform LookAtPoint => _lookAtPoint;
+	    public Transform FollowPoint => _followPoint;
+	}
+
 }

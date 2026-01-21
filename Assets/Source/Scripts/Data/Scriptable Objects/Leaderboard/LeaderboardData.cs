@@ -1,17 +1,21 @@
+using SlimeGround.Menu.Windows.Leaderboard;
 using UnityEngine;
 
-[System.Serializable]
-public class LeaderboardData 
+namespace SlimeGround.Data.ScriptableObjects.Leaderboard
 {
-    [SerializeField] private LeaderboardType _type;
-    [SerializeField] private string _key;
+	[System.Serializable]
+	public class LeaderboardData 
+	{
+	    [SerializeField] private LeaderboardType _type;
+	    [SerializeField] private string _key;
 
-    public LeaderboardData(LeaderboardType type, string key)
-    {
-        _type = type;
-        _key = key;
-    }
+	    public LeaderboardData(LeaderboardType type, string key)
+	    {
+	        _type = type;
+	        _key = key;
+	    }
 
-    public LeaderboardType Type => _type;
-    public string Key => _key;
+	    public LeaderboardType Type => _type;
+	    public string Key => _key;
+	}
 }

@@ -1,47 +1,52 @@
 using System;
+using SlimeGround.Data;
+using SlimeGround.Data.ScriptableObjects.Paints;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ColorSelectButton : SelectButton
+namespace SlimeGround.Menu.Windows.Customization
 {
-    [SerializeField] private Image _faceImage;
+	public class ColorSelectButton : SelectButton
+	{
+	    [SerializeField] private Image _faceImage;
 
-    public ColorSample ColorSample { get; private set; }
+	    public ColorSample ColorSample { get; private set; }
 
-    public event Action<ColorSelectButton> ButtonClicked;
+	    public event Action<ColorSelectButton> ButtonClicked;
 
-    public void Initialize(PaintMaterialData material)
-    {
-        ColorSample = material.ColorSample;
-        ColorBlock colorBlock = Button.colors;
-        colorBlock.normalColor = material.UnitUiColor;
-        colorBlock.highlightedColor = material.UnitUiColor;
-        colorBlock.pressedColor = material.UnitUiHatColor;
-        colorBlock.selectedColor = material.UnitUiHatColor;
-        colorBlock.disabledColor = material.UnitUiHatColor;
+	    public void Initialize(ColorSampleMaterialData material)
+	    {
+	        ColorSample = material.ColorSample;
+	        ColorBlock colorBlock = Button.colors;
+	        colorBlock.normalColor = material.UnitUiColor;
+	        colorBlock.highlightedColor = material.UnitUiColor;
+	        colorBlock.pressedColor = material.UnitUiHatColor;
+	        colorBlock.selectedColor = material.UnitUiHatColor;
+	        colorBlock.disabledColor = material.UnitUiHatColor;
 
-        Button.colors = colorBlock;
+	        Button.colors = colorBlock;
 
-        Initialize(true, true);
-    }
+	        Initialize(true, true);
+	    }
 
-    public void SetFaceImage(Sprite sprite)
-    {
-        _faceImage.sprite = sprite;
-    }
+	    public void SetFaceImage(Sprite sprite)
+	    {
+	        _faceImage.sprite = sprite;
+	    }
 
-    private void OnEnable()
-    {
-        Button.onClick.AddListener(OnButtonPressed);
-    }
+	    private void OnEnable()
+	    {
+	        Button.onClick.AddListener(OnButtonPressed);
+	    }
 
-    private void OnDisable()
-    {
-        Button.onClick.RemoveListener(OnButtonPressed);
-    }
+	    private void OnDisable()
+	    {
+	        Button.onClick.RemoveListener(OnButtonPressed);
+	    }
 
-    private void OnButtonPressed()
-    {
-        ButtonClicked?.Invoke(this);
-    }
+	    private void OnButtonPressed()
+	    {
+	        ButtonClicked?.Invoke(this);
+	    }
+	}
 }

@@ -3,58 +3,63 @@ using GameAnalyticsSDK;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MenuDimmer : MonoBehaviour
+namespace SlimeGround.Menu.Extensions.Windows
 {
-    [SerializeField] private CanvasGroup _backgroundDim;
-    [SerializeField] private Button _button;
 
-    private MenuWindow _openedMenu;
+	public class MenuDimmer : MonoBehaviour
+	{
+	    [SerializeField] private CanvasGroup _backgroundDim;
+	    [SerializeField] private Button _button;
 
-    private float _dimFadeDuration = 0.3f;
-    private float _maxDimAlpha = 1f;
-    private float _minDimAlpha = 0f;
+	    private MenuWindow _openedMenu;
 
-    private void OnEnable()
-    {
-        _button.onClick.AddListener(CloseOpenedWindow);
-    }
+	    private float _dimFadeDuration = 0.3f;
+	    private float _maxDimAlpha = 1f;
+	    private float _minDimAlpha = 0f;
 
-    private void OnDisable()
-    {
-        _button.onClick.RemoveListener(CloseOpenedWindow);
-    }
+	    private void OnEnable()
+	    {
+	        _button.onClick.AddListener(CloseOpenedWindow);
+	    }
 
-    public void Activate(MenuWindow menu, bool isAbleToCloseWindow)
-    {
-        _openedMenu = menu;
-        _button.enabled = isAbleToCloseWindow;
+	    private void OnDisable()
+	    {
+	        _button.onClick.RemoveListener(CloseOpenedWindow);
+	    }
 
-        _backgroundDim.DOKill();
-        _backgroundDim.blocksRaycasts = true;
-        _backgroundDim
-            .DOFade(_maxDimAlpha, _dimFadeDuration)
-            .SetEase(Ease.OutQuad)
-            .SetUpdate(true);
-    }
+	    public void Activate(MenuWindow menu, bool isAbleToCloseWindow)
+	    {
+	        _openedMenu = menu;
+	        _button.enabled = isAbleToCloseWindow;
 
-    public void Deactivate()
-    {
-        _backgroundDim.DOKill();
-        _backgroundDim.blocksRaycasts = false;
-        _backgroundDim
-            .DOFade(_minDimAlpha, _dimFadeDuration)
-            .SetEase(Ease.InQuad)
-            .SetUpdate(true)
-            .OnComplete(StopBlockDimRaycasts);
-    }
+	        _backgroundDim.DOKill();
+	        _backgroundDim.blocksRaycasts = true;
+	        _backgroundDim
+	            .DOFade(_maxDimAlpha, _dimFadeDuration)
+	            .SetEase(Ease.OutQuad)
+	            .SetUpdate(true);
+	    }
 
-    private void StopBlockDimRaycasts()
-    {
-        _backgroundDim.blocksRaycasts = false;
-    }
+	    public void Deactivate()
+	    {
+	        _backgroundDim.DOKill();
+	        _backgroundDim.blocksRaycasts = false;
+	        _backgroundDim
+	            .DOFade(_minDimAlpha, _dimFadeDuration)
+	            .SetEase(Ease.InQuad)
+	            .SetUpdate(true)
+	            .OnComplete(StopBlockDimRaycasts);
+	    }
 
-    private void CloseOpenedWindow()
-    {
-        _openedMenu.Close();
-    }
+	    private void StopBlockDimRaycasts()
+	    {
+	        _backgroundDim.blocksRaycasts = false;
+	    }
+
+	    private void CloseOpenedWindow()
+	    {
+	        _openedMenu.Close();
+	    }
+	}
+
 }

@@ -1,85 +1,92 @@
 using System.Collections.Generic;
 using System.Linq;
+using SlimeGround.Data;
+using SlimeGround.Data.ScriptableObjects.Paints;
+using SlimeGround.Gameplay.Islands;
+using SlimeGround.Gameplay.Units;
 using UnityEditor;
 
-public class UnitsOnIslandDistributor
+namespace SlimeGround.Editor.LevelComponentsCreator
 {
-    public void DistributeUnits(IReadOnlyCollection<IslandInitializer> islands, 
-                                           Dictionary<UnitSlotType, int> unitsAmount, UnitsVisualizator unitsVisualizator,
-                                           Unit unitPrefab, PaintMaterials paintMaterials)
+    public class UnitsOnIslandDistributor
     {
-        Dictionary<IslandInitializer, List<IslandStartUnits>> islandsUnits = new Dictionary<IslandInitializer, List<IslandStartUnits>>();
-
-        AddFirstUnitToIslandsDictionary(islands, unitsAmount, islandsUnits);
-        AddLackingUnitsToIslandsDictionary(islands, unitsAmount, islandsUnits);
-
-        foreach (var islandUnits in islandsUnits)
+        public void DistributeUnits(IReadOnlyCollection<IslandInitializer> islands, 
+                                               Dictionary<UnitSlotType, int> unitsAmount, UnitsVisualizator unitsVisualizator,
+                                               Unit unitPrefab, ColorSampleMaterials paintMaterials)
         {
-            islandUnits.Key.SetStartUnits(islandUnits.Value);
-            EditorUtility.SetDirty(islandUnits.Key.gameObject);
-        }
+            Dictionary<IslandInitializer, List<IslandStartUnits>> islandsUnits = new Dictionary<IslandInitializer, List<IslandStartUnits>>();
 
-        if (unitsVisualizator.IsVisualizationExist)
-        {
-            unitsVisualizator.Visualize(islands, unitPrefab, paintMaterials);
-        }
-    }
+            AddFirstUnitToIslandsDictionary(islands, unitsAmount, islandsUnits);
+            AddLackingUnitsToIslandsDictionary(islands, unitsAmount, islandsUnits);
 
-    private void AddFirstUnitToIslandsDictionary(IReadOnlyCollection<IslandInitializer> islands,
-                                            Dictionary<UnitSlotType, int> unitSlotsAmount,
-                                            Dictionary<IslandInitializer, List<IslandStartUnits>> islandsUnits)
-    {
-        foreach (IslandInitializer initializer in islands)
-        {
-            List<UnitSlotType> validPaints = unitSlotsAmount.Keys
-                                        .Where(unitSlotAmount => unitSlotAmount != initializer.UnitSlot)
-                                        .ToList();
-
-            UnitSlotType slot = validPaints[UnityEngine.Random.Range(0, validPaints.Count)];
-
-            List<IslandStartUnits> startUnits = new List<IslandStartUnits>()
+            foreach (var islandUnits in islandsUnits)
             {
-                new IslandStartUnits(slot)
-            };
+                islandUnits.Key.SetStartUnits(islandUnits.Value);
+                EditorUtility.SetDirty(islandUnits.Key.gameObject);
+            }
 
-            islandsUnits.Add(initializer, startUnits);
-            unitSlotsAmount[slot] -= 1;
-
-            if (unitSlotsAmount[slot] == 0)
+            if (unitsVisualizator.IsVisualizationExist)
             {
-                unitSlotsAmount.Remove(slot);
+                unitsVisualizator.Visualize(islands, unitPrefab, paintMaterials);
             }
         }
-    }
 
-    private void AddLackingUnitsToIslandsDictionary(IReadOnlyCollection<IslandInitializer> islands,
+        private void AddFirstUnitToIslandsDictionary(IReadOnlyCollection<IslandInitializer> islands,
                                                 Dictionary<UnitSlotType, int> unitSlotsAmount,
                                                 Dictionary<IslandInitializer, List<IslandStartUnits>> islandsUnits)
-    {
-        foreach (IslandInitializer initializer in islands)
         {
-            for (int i = 0; i < initializer.PointsCount - 1; i++)
+            foreach (IslandInitializer initializer in islands)
             {
-                UnitSlotType slot = unitSlotsAmount.Keys.ToList()[UnityEngine.Random.Range(0, unitSlotsAmount.Count)];
-                List<IslandStartUnits> islandStartUnits = islandsUnits[initializer];
-                IslandStartUnits startUnit = islandStartUnits.FirstOrDefault(unit => unit.Slot == slot);
+                List<UnitSlotType> validPaints = unitSlotsAmount.Keys
+                                            .Where(unitSlotAmount => unitSlotAmount != initializer.UnitSlot)
+                                            .ToList();
 
-                if (startUnit != null)
-                {
-                    IslandStartUnits newStartUnits = new IslandStartUnits(slot, startUnit.Amout + 1);
-                    islandStartUnits.Remove(startUnit);
-                    islandStartUnits.Add(newStartUnits);
-                }
-                else
-                {
-                    islandStartUnits.Add(new IslandStartUnits(slot));
-                }
+                UnitSlotType slot = validPaints[UnityEngine.Random.Range(0, validPaints.Count)];
 
+                List<IslandStartUnits> startUnits = new List<IslandStartUnits>()
+                {
+                    new IslandStartUnits(slot)
+                };
+
+                islandsUnits.Add(initializer, startUnits);
                 unitSlotsAmount[slot] -= 1;
 
                 if (unitSlotsAmount[slot] == 0)
                 {
                     unitSlotsAmount.Remove(slot);
+                }
+            }
+        }
+
+        private void AddLackingUnitsToIslandsDictionary(IReadOnlyCollection<IslandInitializer> islands,
+                                                    Dictionary<UnitSlotType, int> unitSlotsAmount,
+                                                    Dictionary<IslandInitializer, List<IslandStartUnits>> islandsUnits)
+        {
+            foreach (IslandInitializer initializer in islands)
+            {
+                for (int i = 0; i < initializer.PointsCount - 1; i++)
+                {
+                    UnitSlotType slot = unitSlotsAmount.Keys.ToList()[UnityEngine.Random.Range(0, unitSlotsAmount.Count)];
+                    List<IslandStartUnits> islandStartUnits = islandsUnits[initializer];
+                    IslandStartUnits startUnit = islandStartUnits.FirstOrDefault(unit => unit.Slot == slot);
+
+                    if (startUnit != null)
+                    {
+                        IslandStartUnits newStartUnits = new IslandStartUnits(slot, startUnit.Amout + 1);
+                        islandStartUnits.Remove(startUnit);
+                        islandStartUnits.Add(newStartUnits);
+                    }
+                    else
+                    {
+                        islandStartUnits.Add(new IslandStartUnits(slot));
+                    }
+
+                    unitSlotsAmount[slot] -= 1;
+
+                    if (unitSlotsAmount[slot] == 0)
+                    {
+                        unitSlotsAmount.Remove(slot);
+                    }
                 }
             }
         }

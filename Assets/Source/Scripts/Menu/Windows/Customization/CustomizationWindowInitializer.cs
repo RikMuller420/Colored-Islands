@@ -1,91 +1,99 @@
 using System.Collections.Generic;
 using System.Linq;
+using SlimeGround.Data.Saves;
+using SlimeGround.Data.ScriptableObjects.Hats;
+using SlimeGround.Data.ScriptableObjects.Paints;
+using SlimeGround.Data.ScriptableObjects.UnitFaces;
+using SlimeGround.Gameplay.Levels;
 using UnityEngine;
 
-public class CustomizationWindowInitializer : MonoBehaviour
+namespace SlimeGround.Menu.Windows.Customization
 {
-    [SerializeField] private PlayerDataProvider _playerData;
-    [SerializeField] private LevelProgressTracker _levelProgressTracker;
+	public class CustomizationWindowInitializer : MonoBehaviour
+	{
+	    [SerializeField] private PlayerDataProvider _playerData;
+	    [SerializeField] private LevelProgressTracker _levelProgressTracker;
 
-    [SerializeField] private UnitsFaceSettings _unitsFaceSettings;
-    [SerializeField] private UnitsHatSettings _unitsHatSettings;
-    [SerializeField] private PaintMaterials _paintMaterials;
+	    [SerializeField] private UnitsFaceSettings _unitsFaceSettings;
+	    [SerializeField] private UnitsHatSettings _unitsHatSettings;
+	    [SerializeField] private ColorSampleMaterials _paintMaterials;
 
-    [SerializeField] private Sprite _noHatSprite;
+	    [SerializeField] private Sprite _noHatSprite;
 
-    [SerializeField] private Transform _facesParent;
-    [SerializeField] private FaceSelectButton _facePrefab;
-    [SerializeField] private Transform _colorButtonParent;
-    [SerializeField] private ColorSelectButton _colorButtonPrefab;
-    [SerializeField] private Transform _hatParent;
-    [SerializeField] private HatSelectButton _hatPrefab;
-    [SerializeField] private UnitCustomizationView _unitCustomizationView;
-    [SerializeField] private CustomizationWindowOpenerButton _customizationWindowOpenerButton;
+	    [SerializeField] private Transform _facesParent;
+	    [SerializeField] private FaceSelectButton _facePrefab;
+	    [SerializeField] private Transform _colorButtonParent;
+	    [SerializeField] private ColorSelectButton _colorButtonPrefab;
+	    [SerializeField] private Transform _hatParent;
+	    [SerializeField] private HatSelectButton _hatPrefab;
+	    [SerializeField] private UnitCustomizationView _unitCustomizationView;
+	    [SerializeField] private CustomizationWindowOpenerButton _customizationWindowOpenerButton;
 
-    [SerializeField] private List<UnitSelectButton> _unitSelectButtons = new();
+	    [SerializeField] private List<UnitSelectButton> _unitSelectButtons = new();
 
-    public void Initialize()
-    {
-        _unitCustomizationView.Initialize(_paintMaterials, _unitsFaceSettings, _unitsHatSettings);
-        List<ColorSelectButton> colorSelectButtons = CreateColorButtons(_playerData);
-        List<HatSelectButton> hatSelectButtons = CreateHatButtons(_playerData);
-        List<FaceSelectButton> faceSelectButtons = CreateFaceButtons(_playerData);
+	    public void Initialize()
+	    {
+	        _unitCustomizationView.Initialize(_paintMaterials, _unitsFaceSettings, _unitsHatSettings);
+	        List<ColorSelectButton> colorSelectButtons = CreateColorButtons(_playerData);
+	        List<HatSelectButton> hatSelectButtons = CreateHatButtons(_playerData);
+	        List<FaceSelectButton> faceSelectButtons = CreateFaceButtons(_playerData);
 
-        UnitCustomizator unitCustomizator = new UnitCustomizator(_unitCustomizationView, _playerData,
-                                                _unitSelectButtons, hatSelectButtons, faceSelectButtons, colorSelectButtons);
+	        UnitCustomizator unitCustomizator = new UnitCustomizator(_unitCustomizationView, _playerData,
+	                                                _unitSelectButtons, hatSelectButtons, faceSelectButtons, colorSelectButtons);
 
-        CustomizationButtonAviabiltyUpdater buttonAviabiltyUpdater = new CustomizationButtonAviabiltyUpdater(
-                                                _levelProgressTracker, _playerData, hatSelectButtons, faceSelectButtons);
+	        CustomizationButtonAviabiltyUpdater buttonAviabiltyUpdater = new CustomizationButtonAviabiltyUpdater(
+	                                                _levelProgressTracker, _playerData, hatSelectButtons, faceSelectButtons);
 
-        _customizationWindowOpenerButton.Initialize(unitCustomizator, buttonAviabiltyUpdater);
-    }
+	        _customizationWindowOpenerButton.Initialize(unitCustomizator, buttonAviabiltyUpdater);
+	    }
 
-    private List<ColorSelectButton> CreateColorButtons(IPlayerData playerData)
-    {
-        List<ColorSelectButton> colorSelectButtons = new List<ColorSelectButton>();
+	    private List<ColorSelectButton> CreateColorButtons(IPlayerData playerData)
+	    {
+	        List<ColorSelectButton> colorSelectButtons = new List<ColorSelectButton>();
 
-        foreach (PaintMaterialData material in _paintMaterials.Materials)
-        {
-            ColorSelectButton colorButton = Instantiate(_colorButtonPrefab, _colorButtonParent);
-            colorButton.Initialize(material);
-            colorSelectButtons.Add(colorButton);
-        }
+	        foreach (ColorSampleMaterialData material in _paintMaterials.Materials)
+	        {
+	            ColorSelectButton colorButton = Instantiate(_colorButtonPrefab, _colorButtonParent);
+	            colorButton.Initialize(material);
+	            colorSelectButtons.Add(colorButton);
+	        }
 
-        return colorSelectButtons;
-    }
+	        return colorSelectButtons;
+	    }
 
-    private List<HatSelectButton> CreateHatButtons(IPlayerData playerData)
-    {
-        List<HatSelectButton> hatSelectButtons = new List<HatSelectButton>();
+	    private List<HatSelectButton> CreateHatButtons(IPlayerData playerData)
+	    {
+	        List<HatSelectButton> hatSelectButtons = new List<HatSelectButton>();
 
-        HatSelectButton noHatButton = Instantiate(_hatPrefab, _hatParent);
-        noHatButton.Initialize(_unitsHatSettings.NoHatId, _noHatSprite, 0, true, true);
-        hatSelectButtons.Add(noHatButton);
+	        HatSelectButton noHatButton = Instantiate(_hatPrefab, _hatParent);
+	        noHatButton.Initialize(_unitsHatSettings.NoHatId, _noHatSprite, 0, true, true);
+	        hatSelectButtons.Add(noHatButton);
 
-        foreach (UnitHatData hatData in _unitsHatSettings.Hats)
-        {
-            HatSelectButton hatButton = Instantiate(_hatPrefab, _hatParent);
-            bool isHatAviable = playerData.LastAvailableLevelId > hatData.RequredLevel;
-            bool wasHatUsed = playerData.WasHatUsed(hatData.Id);
-            hatButton.Initialize(hatData.Id, hatData.SelectSprite, hatData.RequredLevel, isHatAviable, wasHatUsed);
-            hatSelectButtons.Add(hatButton);
-        }
+	        foreach (UnitHatData hatData in _unitsHatSettings.Hats)
+	        {
+	            HatSelectButton hatButton = Instantiate(_hatPrefab, _hatParent);
+	            bool isHatAviable = playerData.LastAvailableLevelId > hatData.RequredLevel;
+	            bool wasHatUsed = playerData.WasHatUsed(hatData.Id);
+	            hatButton.Initialize(hatData.Id, hatData.SelectSprite, hatData.RequredLevel, isHatAviable, wasHatUsed);
+	            hatSelectButtons.Add(hatButton);
+	        }
 
-        return hatSelectButtons;
-    }
+	        return hatSelectButtons;
+	    }
 
-    private List<FaceSelectButton> CreateFaceButtons(IPlayerData playerData)
-    {
-        List<FaceSelectButton> faceSelectButtons = new List<FaceSelectButton>();
+	    private List<FaceSelectButton> CreateFaceButtons(IPlayerData playerData)
+	    {
+	        List<FaceSelectButton> faceSelectButtons = new List<FaceSelectButton>();
 
-        foreach (UnitFaceData faceData in _unitsFaceSettings.Faces)
-        {
-            FaceSelectButton faceButton = Instantiate(_facePrefab, _facesParent);
-            FaceAvailabilitie face = playerData.FaceAvailabilities.FirstOrDefault(face => face.FaceId == faceData.Id);
-            faceButton.Initialize(faceData.Id, faceData.Sprite, face.IsAviable, face.WasUsed);
-            faceSelectButtons.Add(faceButton);
-        }
+	        foreach (UnitFaceData faceData in _unitsFaceSettings.Faces)
+	        {
+	            FaceSelectButton faceButton = Instantiate(_facePrefab, _facesParent);
+	            FaceAvailabilitie face = playerData.FaceAvailabilities.FirstOrDefault(face => face.FaceId == faceData.Id);
+	            faceButton.Initialize(faceData.Id, faceData.Sprite, face.IsAviable, face.WasUsed);
+	            faceSelectButtons.Add(faceButton);
+	        }
 
-        return faceSelectButtons;
-    }
+	        return faceSelectButtons;
+	    }
+	}
 }

@@ -1,4 +1,9 @@
-public interface ISelectable
+
+namespace SlimeGround.Core.InputHandling
 {
+	public interface ISelectable
+	{
+
+	}
 
 }

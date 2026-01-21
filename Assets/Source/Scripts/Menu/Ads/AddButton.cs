@@ -3,42 +3,47 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AddButton : MonoBehaviour
+namespace SlimeGround.Menu.Ads
 {
-    [SerializeField] private Button _button;
-    [SerializeField] private TextMeshProUGUI _aviableText;
-    [SerializeField] private TextMeshProUGUI _collDownText;
 
-    private FreeStuffCollDownProvider _collDownProvider;
+	public class AddButton : MonoBehaviour
+	{
+	    [SerializeField] private Button _button;
+	    [SerializeField] private TextMeshProUGUI _aviableText;
+	    [SerializeField] private TextMeshProUGUI _collDownText;
 
-    public event Action AviableClicked;
+	    private FreeStuffCollDownProvider _collDownProvider;
 
-    public void Initialize(FreeStuffCollDownProvider collDownProvider)
-    {
-        _collDownProvider = collDownProvider;
-        _button.onClick.AddListener(OnButtonClick);
+	    public event Action AviableClicked;
 
-        _collDownProvider.CoolDownStarted += OnCoolDownStarted;
-        _collDownProvider.CoolDownFinished += OnCoolDownFinished;
-    }
+	    public void Initialize(FreeStuffCollDownProvider collDownProvider)
+	    {
+	        _collDownProvider = collDownProvider;
+	        _button.onClick.AddListener(OnButtonClick);
 
-    private void OnCoolDownStarted()
-    {
-        _aviableText.gameObject.SetActive(false);
-        _collDownText.gameObject.SetActive(true);
-    }
+	        _collDownProvider.CoolDownStarted += OnCoolDownStarted;
+	        _collDownProvider.CoolDownFinished += OnCoolDownFinished;
+	    }
 
-    private void OnCoolDownFinished()
-    {
-        _aviableText.gameObject.SetActive(true);
-        _collDownText.gameObject.SetActive(false);
-    }
+	    private void OnCoolDownStarted()
+	    {
+	        _aviableText.gameObject.SetActive(false);
+	        _collDownText.gameObject.SetActive(true);
+	    }
 
-    private void OnButtonClick()
-    {
-        if (_collDownProvider.TryUseAdd())
-        {
-            AviableClicked?.Invoke();
-        }
-    }
+	    private void OnCoolDownFinished()
+	    {
+	        _aviableText.gameObject.SetActive(true);
+	        _collDownText.gameObject.SetActive(false);
+	    }
+
+	    private void OnButtonClick()
+	    {
+	        if (_collDownProvider.TryUseAdd())
+	        {
+	            AviableClicked?.Invoke();
+	        }
+	    }
+	}
+
 }

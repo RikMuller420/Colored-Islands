@@ -1,5 +1,10 @@
-public enum Level1TrainingMoveType
+
+namespace SlimeGround.Gameplay.Training
 {
-    SelectUnits,
-    MoveUnits
+	public enum Level1TrainingMoveType
+	{
+	    SelectUnits,
+	    MoveUnits
+	}
+
 }

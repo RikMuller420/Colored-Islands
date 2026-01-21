@@ -1,23 +1,28 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MenuWindowOpener : MonoBehaviour
+namespace SlimeGround.Menu.Extensions.Windows
 {
-    [SerializeField] private Button _button;
-    [SerializeField] private MenuWindow _window;
 
-    private void OnEnable()
-    {
-        _button.onClick.AddListener(Open);
-    }
+	public class MenuWindowOpener : MonoBehaviour
+	{
+	    [SerializeField] private Button _button;
+	    [SerializeField] private MenuWindow _window;
 
-    private void OnDisable()
-    {
-        _button.onClick.RemoveListener(Open);
-    }
+	    private void OnEnable()
+	    {
+	        _button.onClick.AddListener(Open);
+	    }
 
-    protected virtual void Open()
-    {
-        _window.Open();
-    }
+	    private void OnDisable()
+	    {
+	        _button.onClick.RemoveListener(Open);
+	    }
+
+	    protected virtual void Open()
+	    {
+	        _window.Open();
+	    }
+	}
+
 }

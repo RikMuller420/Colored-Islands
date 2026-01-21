@@ -1,5 +1,10 @@
-public enum SelectState
+
+namespace SlimeGround.Core.InputHandling
 {
-    None,
-    Units
+	public enum SelectState
+	{
+	    None,
+	    Units
+	}
+
 }

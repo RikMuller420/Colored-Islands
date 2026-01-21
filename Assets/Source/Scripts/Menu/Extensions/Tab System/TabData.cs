@@ -1,3 +1,4 @@
+using SlimeGround.Menu.Extensions.TabSystem;
 using UnityEngine;
 
 namespace UI.TabSystem

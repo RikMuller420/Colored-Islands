@@ -1,53 +1,61 @@
 using System.Collections.Generic;
+using SlimeGround.Data.ScriptableObjects.Leaderboard;
+using SlimeGround.Integration.Authorization;
+using SlimeGround.Integration.Leaderboards;
+using SlimeGround.Integration.Metrics;
+using SlimeGround.Menu.Extensions.Windows;
 using UI.TabSystem;
 using UnityEngine;
 
-public class LeaderboardWindow : MenuWindow
+namespace SlimeGround.Menu.Windows.Leaderboard
 {
-    [SerializeField] private LeaderboardSettings _leaderboardSettings;
+	public class LeaderboardWindow : MenuWindow
+	{
+	    [SerializeField] private LeaderboardSettings _leaderboardSettings;
 
-    [SerializeField] private TabSwitcher _tabSwitcher;
-    [SerializeField] private GameObject _loginHintBacground;
-    [SerializeField] private GameObject _loginHintContent;
+	    [SerializeField] private TabSwitcher _tabSwitcher;
+	    [SerializeField] private GameObject _loginHintBacground;
+	    [SerializeField] private GameObject _loginHintContent;
 
-    [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
+	    [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
 
-    private IAuthorizationData _authorizationData;
+	    private IAuthorizationData _authorizationData;
 
-    public void Initialize(ILeaderboardReader leaderboardReader, IAuthorizationData authorizationData)
-    {
-        _authorizationData = authorizationData;
+	    public void Initialize(ILeaderboardReader leaderboardReader, IAuthorizationData authorizationData)
+	    {
+	        _authorizationData = authorizationData;
 
-        foreach (LeaderboardTab leaderboardTab in _leaderboardTabs)
-        {
-            leaderboardTab.Initialize(leaderboardReader, _leaderboardSettings);
-        }
+	        foreach (LeaderboardTab leaderboardTab in _leaderboardTabs)
+	        {
+	            leaderboardTab.Initialize(leaderboardReader, _leaderboardSettings);
+	        }
 
-        _authorizationData.AuthorizationStatusChanged += OnAuthorizationStatusChanged;
-        OnAuthorizationStatusChanged();
-    }
+	        _authorizationData.AuthorizationStatusChanged += OnAuthorizationStatusChanged;
+	        OnAuthorizationStatusChanged();
+	    }
 
-    private void OnAuthorizationStatusChanged()
-    {
-        bool isAuthorized = _authorizationData.IsAuthorized;
+	    private void OnAuthorizationStatusChanged()
+	    {
+	        bool isAuthorized = _authorizationData.IsAuthorized;
 
-        _loginHintBacground.SetActive(!isAuthorized);
-        _loginHintContent.SetActive(!isAuthorized);
+	        _loginHintBacground.SetActive(!isAuthorized);
+	        _loginHintContent.SetActive(!isAuthorized);
 
-        if (isAuthorized && IsOpened)
-        {
-            _tabSwitcher.UpdateActiveTab();
-        }
-    }
+	        if (isAuthorized && IsOpened)
+	        {
+	            _tabSwitcher.UpdateActiveTab();
+	        }
+	    }
 
-    public override void Open()
-    {
-        if (IsOpened)
-        {
-            return;
-        }
+	    public override void Open()
+	    {
+	        if (IsOpened)
+	        {
+	            return;
+	        }
 
-        base.Open();
-        MetricSaver.OpenLeaderboardWindow();
-    }
+	        base.Open();
+	        MetricSaver.OpenLeaderboardWindow();
+	    }
+	}
 }

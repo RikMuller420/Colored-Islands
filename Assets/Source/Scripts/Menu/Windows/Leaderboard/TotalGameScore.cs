@@ -1,6 +1,11 @@
-public class TotalGameScore : GameScoreCalcualtor
-{
-    public TotalGameScore(IPlayerData playerData) : base(playerData) { }
+using SlimeGround.Data.Saves;
 
-    public override int Score => PlayerData.ScoreAmount;
+namespace SlimeGround.Menu.Windows.Leaderboard
+{
+	public class TotalGameScore : GameScoreCalcualtor
+	{
+	    public TotalGameScore(IPlayerData playerData) : base(playerData) { }
+
+	    public override int Score => PlayerData.ScoreAmount;
+	}
 }

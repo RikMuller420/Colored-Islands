@@ -1,9 +1,14 @@
-public enum UnitSlotType 
+
+namespace SlimeGround.Data
 {
-    Red,
-    Blue,
-    Green,
-    Yellow,
-    Pink,
-    White
+	public enum UnitSlotType 
+	{
+	    Red,
+	    Blue,
+	    Green,
+	    Yellow,
+	    Pink,
+	    White
+	}
+
 }

@@ -1,10 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AudioMixers", menuName = "Custom/AudioMixers")]
-public class AudioMixers : ScriptableObject
+namespace SlimeGround.Data.ScriptableObjects.Sounds
 {
-    [SerializeField] private AudioMixerData[] _mixers;
 
-    public IReadOnlyCollection<AudioMixerData> Mixers => _mixers;
+	[CreateAssetMenu(fileName = "AudioMixers", menuName = "Custom/AudioMixers")]
+	public class AudioMixers : ScriptableObject
+	{
+	    [SerializeField] private AudioMixerData[] _mixers;
+
+	    public IReadOnlyCollection<AudioMixerData> Mixers => _mixers;
+	}
 }

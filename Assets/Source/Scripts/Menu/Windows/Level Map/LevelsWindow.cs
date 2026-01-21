@@ -1,44 +1,49 @@
 using System.Collections.Generic;
+using SlimeGround.Data.Saves;
+using SlimeGround.Gameplay.Levels;
+using SlimeGround.Menu.Extensions.Windows;
 using UI.TabSystem;
 using UnityEngine;
-using static YG.YG2;
 
-public class LevelsWindow : MenuWindow
+namespace SlimeGround.Menu.Windows.LevelMap
 {
-    [SerializeField] private IPlayerData _playerData;
-    [SerializeField] private TabSwitcher _tabSwitcher;
+	public class LevelsWindow : MenuWindow
+	{
+	    [SerializeField] private IPlayerData _playerData;
+	    [SerializeField] private TabSwitcher _tabSwitcher;
 
-    private int _levelPerTab = 20;
+	    private int _levelPerTab = 20;
 
-    [SerializeField] private LevelLoader _levelLoader;
-    [SerializeField] private List<LevelTabInitializer> _levelTabInitializers;
+	    [SerializeField] private LevelLoader _levelLoader;
+	    [SerializeField] private List<LevelTabInitializer> _levelTabInitializers;
 
-    public void Initialize(IPlayerData playerData)
-    {
-        _playerData = playerData;
+	    public void Initialize(IPlayerData playerData)
+	    {
+	        _playerData = playerData;
 
-        foreach (LevelTabInitializer levelTabInitializer in _levelTabInitializers)
-        {
-            levelTabInitializer.InitializeButtons(_playerData, _levelLoader);
-        }
-    }
+	        foreach (LevelTabInitializer levelTabInitializer in _levelTabInitializers)
+	        {
+	            levelTabInitializer.InitializeButtons(_playerData, _levelLoader);
+	        }
+	    }
 
-    public override void Open()
-    {
-        if (IsOpened)
-        {
-            return;
-        }
+	    public override void Open()
+	    {
+	        if (IsOpened)
+	        {
+	            return;
+	        }
 
-        base.Open();
+	        base.Open();
 
-        int tabIndex = (_playerData.LastAvailableLevelId - 1) / _levelPerTab;
+	        int tabIndex = (_playerData.LastAvailableLevelId - 1) / _levelPerTab;
 
-        if (tabIndex < 0)
-        {
-            tabIndex = 0;
-        }
+	        if (tabIndex < 0)
+	        {
+	            tabIndex = 0;
+	        }
 
-        _tabSwitcher.ActivateTab(tabIndex);
-    }
+	        _tabSwitcher.ActivateTab(tabIndex);
+	    }
+	}
 }

@@ -1,18 +1,25 @@
+using SlimeGround.Data.ScriptableObjects.Hats;
+using SlimeGround.Data.ScriptableObjects.LevelRewards;
+using SlimeGround.Menu.Extensions.Windows;
+using SlimeGround.Menu.Windows.GameShop.Upgrades;
 using UnityEngine;
 
-public class AddMultipliedRewardWindow : MenuWindow
+namespace SlimeGround.Menu.Windows.LevelReward
 {
-    [SerializeField] private LevelRewardView _levelRewardView;
+	public class AddMultipliedRewardWindow : MenuWindow
+	{
+	    [SerializeField] private LevelRewardView _levelRewardView;
 
-    public void Initialize(UnitsHatSettings unitsHatSettings, UpgradesProvider upgradesProvider)
-    {
-        _levelRewardView.Initialize(unitsHatSettings, upgradesProvider);
-    }
+	    public void Initialize(UnitsHatSettings unitsHatSettings, UpgradesProvider upgradesProvider)
+	    {
+	        _levelRewardView.Initialize(unitsHatSettings, upgradesProvider);
+	    }
 
-    public void Open(LevelRewardData levelRewardData, int adsMultiplier)
-    {
-        _levelRewardView.SetIcons(levelRewardData, adsMultiplier);
+	    public void Open(LevelRewardData levelRewardData, int adsMultiplier)
+	    {
+	        _levelRewardView.SetIcons(levelRewardData, adsMultiplier);
 
-        base.Open();
-    }
+	        base.Open();
+	    }
+	}
 }

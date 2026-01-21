@@ -1,17 +1,21 @@
+using SlimeGround.Gameplay.Levels;
 using UnityEngine;
 
-[System.Serializable]
-public struct LevelSettingsData
+namespace SlimeGround.Data.ScriptableObjects.Levels
 {
-    [SerializeField] private int _id;
-    [SerializeField] private Level _levelPrefab;
+	[System.Serializable]
+	public struct LevelSettingsData
+	{
+	    [SerializeField] private int _id;
+	    [SerializeField] private Level _levelPrefab;
 
-    public LevelSettingsData(int id, Level levelPrefab)
-    {
-        _id = id;
-        _levelPrefab = levelPrefab;
-    }
+	    public LevelSettingsData(int id, Level levelPrefab)
+	    {
+	        _id = id;
+	        _levelPrefab = levelPrefab;
+	    }
 
-    public int Id => _id;
-    public Level LevelPrefab => _levelPrefab;
+	    public int Id => _id;
+	    public Level LevelPrefab => _levelPrefab;
+	}
 }

@@ -1,25 +1,30 @@
 using System;
 using YG;
 
-public class InterstitialAdProvider
+namespace SlimeGround.Integration.Ads
 {
-    public event Action AdShowed;
 
-    public InterstitialAdProvider()
-    {
-        YG2.onCloseInterAdvWasShow += OnAdShowed;
-    }
+	public class InterstitialAdProvider
+	{
+	    public event Action AdShowed;
 
-    public void ShowAd()
-    {
-        YG2.InterstitialAdvShow();
-    }
+	    public InterstitialAdProvider()
+	    {
+	        YG2.onCloseInterAdvWasShow += OnAdShowed;
+	    }
 
-    private void OnAdShowed(bool isShowed)
-    {
-        if (isShowed)
-        {
-            AdShowed?.Invoke();
-        }
-    }
+	    public void ShowAd()
+	    {
+	        YG2.InterstitialAdvShow();
+	    }
+
+	    private void OnAdShowed(bool isShowed)
+	    {
+	        if (isShowed)
+	        {
+	            AdShowed?.Invoke();
+	        }
+	    }
+	}
+
 }

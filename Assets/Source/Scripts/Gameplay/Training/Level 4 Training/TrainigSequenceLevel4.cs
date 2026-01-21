@@ -1,141 +1,147 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using SlimeGround.Gameplay.Boosts;
+using SlimeGround.Gameplay.Islands;
+using SlimeGround.Menu.Boosts;
 using TMPro;
 using UnityEngine;
 
-public class TrainigSequenceLevel4 : TrainigSequence
+namespace SlimeGround.Gameplay.Training
 {
-    [SerializeField] private CanvasGroup _angyBarBubble;
-    [SerializeField] private TextMeshProUGUI _angryBarDescription;
+	public class TrainigSequenceLevel4 : TrainigSequence
+	{
+	    [SerializeField] private CanvasGroup _angyBarBubble;
+	    [SerializeField] private TextMeshProUGUI _angryBarDescription;
 
-    private float _startDelay = 1f;
-    private float _bubbleFadeDuration = 0.7f;
-    private float _pointerAppearDelay = 0.5f;
-    private float _descriptionTypeDuration = 1.5f;
-    private float _angryValueForStartTraining = 0.4f;
-    private BoostButton _freezeObjectivesBoostButton;
-    private bool _isTrainingStarted = false;
-    private bool _isTrainingDone = false;
-    private List<BaseIsland> _finishedIslands = new();
-    private RectTransform _buttonRectTransform;
-    private bool _isHintHided = false;
+	    private float _startDelay = 1f;
+	    private float _bubbleFadeDuration = 0.7f;
+	    private float _pointerAppearDelay = 0.5f;
+	    private float _descriptionTypeDuration = 1.5f;
+	    private float _angryValueForStartTraining = 0.4f;
+	    private BoostButton _freezeObjectivesBoostButton;
+	    private bool _isTrainingStarted = false;
+	    private bool _isTrainingDone = false;
+	    private List<BaseIsland> _finishedIslands = new();
+	    private RectTransform _buttonRectTransform;
+	    private bool _isHintHided = false;
 
-    private void OnDestroy()
-    {
-        ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
-        InGameMenu.MenuOpened -= OnMenuOpened;
-        InGameMenu.MenuClosed -= OnMenuClosed;
-        _freezeObjectivesBoostButton.TryBoostApplying -= OnTryApplyingBoost;
-        LevelProgressTracker.AngryChanged -= OnAngryValueChanged;
-        LevelProgressTracker.FirstMoveDone -= OnUnitSelected;
-        LevelProgressTracker.IslandFinished -= OnIslandFinished;
+	    private void OnDestroy()
+	    {
+	        ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
+	        InGameMenu.MenuOpened -= OnMenuOpened;
+	        InGameMenu.MenuClosed -= OnMenuClosed;
+	        _freezeObjectivesBoostButton.TryBoostApplying -= OnTryApplyingBoost;
+	        LevelProgressTracker.AngryChanged -= OnAngryValueChanged;
+	        LevelProgressTracker.FirstMoveDone -= OnUnitSelected;
+	        LevelProgressTracker.IslandFinished -= OnIslandFinished;
 
-        ResetLevelState();
-    }
+	        ResetLevelState();
+	    }
 
-    public override void StartTraining()
-    {
-        BoostButtonActivator.DeactivateAllButtons();
-        ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
-        InGameMenu.MenuOpened += OnMenuOpened;
-        InGameMenu.MenuClosed += OnMenuClosed;
+	    public override void StartTraining()
+	    {
+	        BoostButtonActivator.DeactivateAllButtons();
+	        ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
+	        InGameMenu.MenuOpened += OnMenuOpened;
+	        InGameMenu.MenuClosed += OnMenuClosed;
 
-        BoostButtonActivator.ActivateButtonImmediate(BoostType.GrowBuferIsland);
-        BoostButtonActivator.SetButtonNonInteractible(BoostType.GrowBuferIsland);
-        BoostButtonActivator.ActivateButtonImmediate(BoostType.FinishIsland);
-        BoostButtonActivator.SetButtonNonInteractible(BoostType.FinishIsland);
+	        BoostButtonActivator.ActivateButtonImmediate(BoostType.GrowBuferIsland);
+	        BoostButtonActivator.SetButtonNonInteractible(BoostType.GrowBuferIsland);
+	        BoostButtonActivator.ActivateButtonImmediate(BoostType.FinishIsland);
+	        BoostButtonActivator.SetButtonNonInteractible(BoostType.FinishIsland);
 
-        _freezeObjectivesBoostButton = BoostButtonActivator.GetBoostButton(BoostType.FreezeObjectives);
-        _freezeObjectivesBoostButton.TryBoostApplying += OnTryApplyingBoost;
-        _buttonRectTransform = BoostButtonActivator.GetBoostButtonRectTransform(BoostType.FreezeObjectives);
+	        _freezeObjectivesBoostButton = BoostButtonActivator.GetBoostButton(BoostType.FreezeObjectives);
+	        _freezeObjectivesBoostButton.TryBoostApplying += OnTryApplyingBoost;
+	        _buttonRectTransform = BoostButtonActivator.GetBoostButtonRectTransform(BoostType.FreezeObjectives);
 
-        LevelProgressTracker.AngryChanged += OnAngryValueChanged;
-        UnitsSelectedEvent.UnitsSelected += OnUnitSelected;
-        LevelProgressTracker.IslandFinished += OnIslandFinished;
+	        LevelProgressTracker.AngryChanged += OnAngryValueChanged;
+	        UnitsSelectedEvent.UnitsSelected += OnUnitSelected;
+	        LevelProgressTracker.IslandFinished += OnIslandFinished;
 
-        StartCoroutine(OpenAngyBarHintInDelay());
-    }
+	        StartCoroutine(OpenAngyBarHintInDelay());
+	    }
 
-    private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition(_buttonRectTransform);
+	    private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition(_buttonRectTransform);
 
-    private void OnIslandFinished(BaseIsland island)
-    {
-        _finishedIslands.Add(island);
-    }
+	    private void OnIslandFinished(BaseIsland island)
+	    {
+	        _finishedIslands.Add(island);
+	    }
 
-    private void OnUnitSelected()
-    {
-        if (_isHintHided)
-        {
-            return;
-        }
+	    private void OnUnitSelected()
+	    {
+	        if (_isHintHided)
+	        {
+	            return;
+	        }
 
-        DOTween.Sequence().Append(_angyBarBubble.DOFade(0f, _bubbleFadeDuration));
-        _isHintHided = true;
-    }
+	        DOTween.Sequence().Append(_angyBarBubble.DOFade(0f, _bubbleFadeDuration));
+	        _isHintHided = true;
+	    }
 
-    private void OnAngryValueChanged(float value)
-    {
-        if (_isTrainingStarted == false)
-        {
-            if (value > _angryValueForStartTraining)
-            {
-                StartCoroutine(StartBoostTraining());
-                _isTrainingStarted = true;
-            }
-        }
-    }
+	    private void OnAngryValueChanged(float value)
+	    {
+	        if (_isTrainingStarted == false)
+	        {
+	            if (value > _angryValueForStartTraining)
+	            {
+	                StartCoroutine(StartBoostTraining());
+	                _isTrainingStarted = true;
+	            }
+	        }
+	    }
 
-    private IEnumerator StartBoostTraining()
-    {
-        LevelProgressTracker.PauseTracking();
-        DeactivateColliders();
+	    private IEnumerator StartBoostTraining()
+	    {
+	        LevelProgressTracker.PauseTracking();
+	        DeactivateColliders();
 
-        BoostButtonActivator.ActivateButtonWithFade(BoostType.FreezeObjectives);
+	        BoostButtonActivator.ActivateButtonWithFade(BoostType.FreezeObjectives);
 
-        yield return new WaitForSeconds(_pointerAppearDelay);
+	        yield return new WaitForSeconds(_pointerAppearDelay);
 
-        UpdatePointerPosition(_buttonRectTransform);
-        ActivatePointer();
-    }
+	        UpdatePointerPosition(_buttonRectTransform);
+	        ActivatePointer();
+	    }
 
-    private IEnumerator OpenAngyBarHintInDelay()
-    {
-        yield return new WaitForSeconds(_startDelay);
+	    private IEnumerator OpenAngyBarHintInDelay()
+	    {
+	        yield return new WaitForSeconds(_startDelay);
 
-        string description = _angryBarDescription.text;
-        _angryBarDescription.text = "";
-        DOTween.Sequence().Append(_angyBarBubble.DOFade(1f, _bubbleFadeDuration))
-                          .Join(_angryBarDescription.DOText(description, _descriptionTypeDuration).SetEase(Ease.Linear));
-    }
+	        string description = _angryBarDescription.text;
+	        _angryBarDescription.text = "";
+	        DOTween.Sequence().Append(_angyBarBubble.DOFade(1f, _bubbleFadeDuration))
+	                          .Join(_angryBarDescription.DOText(description, _descriptionTypeDuration).SetEase(Ease.Linear));
+	    }
 
-    private void OnMenuOpened()
-    {
-        if (_isTrainingDone == false)
-        {
-            Pointer.gameObject.SetActive(false);
-        }
-    }
+	    private void OnMenuOpened()
+	    {
+	        if (_isTrainingDone == false)
+	        {
+	            Pointer.gameObject.SetActive(false);
+	        }
+	    }
 
-    private void OnMenuClosed()
-    {
-        if (_isTrainingDone == false)
-        {
-            Pointer.gameObject.SetActive(true);
-        }
-    }
-    private void OnTryApplyingBoost()
-    {
-        AddBost(BoostType.FreezeObjectives);
-        ActivateAllColliders();
+	    private void OnMenuClosed()
+	    {
+	        if (_isTrainingDone == false)
+	        {
+	            Pointer.gameObject.SetActive(true);
+	        }
+	    }
+	    private void OnTryApplyingBoost()
+	    {
+	        AddBost(BoostType.FreezeObjectives);
+	        ActivateAllColliders();
 
-        foreach (BaseIsland island in _finishedIslands)
-        {
-            DeactivateColliders(island);
-        }
+	        foreach (BaseIsland island in _finishedIslands)
+	        {
+	            DeactivateColliders(island);
+	        }
 
-        DeactivatePointer();
-        _isTrainingDone = true;
-    }
+	        DeactivatePointer();
+	        _isTrainingDone = true;
+	    }
+	}
 }

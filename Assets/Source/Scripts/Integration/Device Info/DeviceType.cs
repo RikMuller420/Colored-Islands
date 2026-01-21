@@ -1,6 +1,11 @@
-public enum DeviceType
+
+namespace SlimeGround.Integration.DeviceInfo
 {
-    Desktop,
-    Mobile,
-    Tablet
+	public enum DeviceType
+	{
+	    Desktop,
+	    Mobile,
+	    Tablet
+	}
+
 }

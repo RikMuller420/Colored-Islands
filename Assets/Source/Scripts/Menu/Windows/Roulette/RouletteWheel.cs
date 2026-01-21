@@ -1,150 +1,156 @@
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using SlimeGround.Data.Saves;
+using SlimeGround.Data.ScriptableObjects.UnitFaces;
+using SlimeGround.Menu.Windows.GameShop.Upgrades;
 using UnityEngine;
 
-public class RouletteWheel : MonoBehaviour
+namespace SlimeGround.Menu.Windows.Roulette
 {
-    [SerializeField] private RectTransform _wheel;
-    [SerializeField] private List<Slot> _slots = new();
+	public class RouletteWheel : MonoBehaviour
+	{
+	    [SerializeField] private RectTransform _wheel;
+	    [SerializeField] private List<Slot> _slots = new();
 
-    private int _maxFaceSlots = 4;
-    private float _minSpinDuration = 3f;
-    private float _maxSpinDuration = 5f;
-    private int _minRotations = 3;
-    private int _maxRotations = 6;
-    private float _slotRotation;
-    private float _fullWheelRotation = 360f;
-    private float _maxDinishAngleOffset = 10f;
-    private int[] _goldInRewards = new int[8]
-    {
-        100,
-        200,
-        100,
-        200,
-        100,
-        500,
-        100,
-        1000
-    };
-    private Quaternion _whellStartLocalRotation;
+	    private int _maxFaceSlots = 4;
+	    private float _minSpinDuration = 3f;
+	    private float _maxSpinDuration = 5f;
+	    private int _minRotations = 3;
+	    private int _maxRotations = 6;
+	    private float _slotRotation;
+	    private float _fullWheelRotation = 360f;
+	    private float _maxDinishAngleOffset = 10f;
+	    private int[] _goldInRewards = new int[8]
+	    {
+	        100,
+	        200,
+	        100,
+	        200,
+	        100,
+	        500,
+	        100,
+	        1000
+	    };
+	    private Quaternion _whellStartLocalRotation;
 
-    private IPlayerData _playerData;
-    private UpgradesProvider _upgradesProvider;
+	    private IPlayerData _playerData;
+	    private UpgradesProvider _upgradesProvider;
 
-    public event System.Action SpinStarted;
-    public event System.Action<Slot> SpinFinished;
+	    public event System.Action SpinStarted;
+	    public event System.Action<Slot> SpinFinished;
 
 
-    public void Initialize(IPlayerData playerData, UnitsFaceSettings faceSettings,
-                           UpgradesProvider upgradesProvider)
-    {
-        _playerData = playerData;
-        _upgradesProvider = upgradesProvider;
-        _slotRotation = _fullWheelRotation / _slots.Count;
-        _whellStartLocalRotation = _wheel.localRotation;
+	    public void Initialize(IPlayerData playerData, UnitsFaceSettings faceSettings,
+	                           UpgradesProvider upgradesProvider)
+	    {
+	        _playerData = playerData;
+	        _upgradesProvider = upgradesProvider;
+	        _slotRotation = _fullWheelRotation / _slots.Count;
+	        _whellStartLocalRotation = _wheel.localRotation;
 
-        foreach (Slot slot in _slots)
-        {
-            slot.Initialize(faceSettings);
-        }
-    }
+	        foreach (Slot slot in _slots)
+	        {
+	            slot.Initialize(faceSettings);
+	        }
+	    }
 
-    public void Spin()
-    {
-        float totalChance = 0f;
+	    public void Spin()
+	    {
+	        float totalChance = 0f;
 
-        foreach (Slot slot in _slots)
-        {
-            totalChance += slot.DropChance;
-        }
+	        foreach (Slot slot in _slots)
+	        {
+	            totalChance += slot.DropChance;
+	        }
 
-        float randomValue = Random.value * totalChance;
-        float currentSum = 0f;
-        Slot winningSlot = _slots[0];
-        int winningIndex = 0;
+	        float randomValue = Random.value * totalChance;
+	        float currentSum = 0f;
+	        Slot winningSlot = _slots[0];
+	        int winningIndex = 0;
 
-        for (int i = 0; i < _slots.Count; i++)
-        {
-            currentSum += _slots[i].DropChance;
+	        for (int i = 0; i < _slots.Count; i++)
+	        {
+	            currentSum += _slots[i].DropChance;
 
-            if (randomValue <= currentSum)
-            {
-                winningSlot = _slots[i];
-                winningIndex = i;
+	            if (randomValue <= currentSum)
+	            {
+	                winningSlot = _slots[i];
+	                winningIndex = i;
 
-                break;
-            }
-        }
+	                break;
+	            }
+	        }
 
-        float slotAngle = winningIndex * _slotRotation;
-        float randomOffset = Random.Range(-_maxDinishAngleOffset, _maxDinishAngleOffset);
-        float targetRotation = slotAngle + randomOffset;
+	        float slotAngle = winningIndex * _slotRotation;
+	        float randomOffset = Random.Range(-_maxDinishAngleOffset, _maxDinishAngleOffset);
+	        float targetRotation = slotAngle + randomOffset;
 
-        float fullRotations = Random.Range(_minRotations, _maxRotations) * _fullWheelRotation;
-        float finalRotation = -(targetRotation + fullRotations);
+	        float fullRotations = Random.Range(_minRotations, _maxRotations) * _fullWheelRotation;
+	        float finalRotation = -(targetRotation + fullRotations);
 
-        float spinDuration = Random.Range(_minSpinDuration, _maxSpinDuration);
+	        float spinDuration = Random.Range(_minSpinDuration, _maxSpinDuration);
 
-        _wheel.DORotate(new Vector3(0, 0, finalRotation), spinDuration, RotateMode.FastBeyond360)
-              .SetEase(Ease.InOutQuad)
-              .OnStart(() =>
-              {
-                  SpinStarted?.Invoke();
-              })
-              .OnComplete(() =>
-              {
-                  SpinFinished?.Invoke(winningSlot);
-              });
-    }
+	        _wheel.DORotate(new Vector3(0, 0, finalRotation), spinDuration, RotateMode.FastBeyond360)
+	              .SetEase(Ease.InOutQuad)
+	              .OnStart(() =>
+	              {
+	                  SpinStarted?.Invoke();
+	              })
+	              .OnComplete(() =>
+	              {
+	                  SpinFinished?.Invoke(winningSlot);
+	              });
+	    }
 
-    public void PrepareSlots()
-    {
-        _wheel.localRotation = _whellStartLocalRotation;
+	    public void PrepareSlots()
+	    {
+	        _wheel.localRotation = _whellStartLocalRotation;
 
-        bool isRemoveAdsSlotAviable = _playerData.IsAdsRemoved == false;
-        List<int> faceIds = AviableFaceIds();
-        List<Slot> unusedSlots = new List<Slot>(_slots);
+	        bool isRemoveAdsSlotAviable = _playerData.IsAdsRemoved == false;
+	        List<int> faceIds = AviableFaceIds();
+	        List<Slot> unusedSlots = new List<Slot>(_slots);
 
-        int faceSlotIndex = 0;
+	        int faceSlotIndex = 0;
 
-        foreach (int faceId in faceIds)
-        {
-            unusedSlots[faceSlotIndex].ActivateFaceIcon(faceId);
-            unusedSlots.RemoveAt(faceSlotIndex);
-            faceSlotIndex++;
-        }
+	        foreach (int faceId in faceIds)
+	        {
+	            unusedSlots[faceSlotIndex].ActivateFaceIcon(faceId);
+	            unusedSlots.RemoveAt(faceSlotIndex);
+	            faceSlotIndex++;
+	        }
 
-        if (isRemoveAdsSlotAviable)
-        {
-            unusedSlots[0].ActivateRemoveAdsIcon();
-            unusedSlots.RemoveAt(0);
-        }
+	        if (isRemoveAdsSlotAviable)
+	        {
+	            unusedSlots[0].ActivateRemoveAdsIcon();
+	            unusedSlots.RemoveAt(0);
+	        }
 
-        for (int i = 0; i< unusedSlots.Count; i++)
-        {
-            int goldAmount = _upgradesProvider.CalculateUpgradedGoldAmount(_goldInRewards[i]);
+	        for (int i = 0; i< unusedSlots.Count; i++)
+	        {
+	            int goldAmount = _upgradesProvider.CalculateUpgradedGoldAmount(_goldInRewards[i]);
 
-            unusedSlots[i].ActivateGoldIcon(goldAmount);
-        }
-    }
+	            unusedSlots[i].ActivateGoldIcon(goldAmount);
+	        }
+	    }
 
-    private List<int> AviableFaceIds()
-    {
-        List<int> lockedFaceIds = _playerData.FaceAvailabilities
-                                                .Where(face => !face.IsAviable)
-                                                .Select(face => face.FaceId)
-                                                .ToList();
-        List<int> randomFaceIds = new List<int>();
-        int count = Mathf.Min(_maxFaceSlots, lockedFaceIds.Count);
+	    private List<int> AviableFaceIds()
+	    {
+	        List<int> lockedFaceIds = _playerData.FaceAvailabilities
+	                                                .Where(face => !face.IsAviable)
+	                                                .Select(face => face.FaceId)
+	                                                .ToList();
+	        List<int> randomFaceIds = new List<int>();
+	        int count = Mathf.Min(_maxFaceSlots, lockedFaceIds.Count);
 
-        for (int i = 0; i < count; i++)
-        {
-            int randomIndex = Random.Range(0, lockedFaceIds.Count);
-            randomFaceIds.Add(lockedFaceIds[randomIndex]);
-            lockedFaceIds.RemoveAt(randomIndex);
-        }
+	        for (int i = 0; i < count; i++)
+	        {
+	            int randomIndex = Random.Range(0, lockedFaceIds.Count);
+	            randomFaceIds.Add(lockedFaceIds[randomIndex]);
+	            lockedFaceIds.RemoveAt(randomIndex);
+	        }
 
-        return randomFaceIds;
-    }
+	        return randomFaceIds;
+	    }
+	}
 }

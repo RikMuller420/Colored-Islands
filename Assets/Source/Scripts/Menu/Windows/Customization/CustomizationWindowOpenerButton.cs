@@ -1,51 +1,55 @@
+using SlimeGround.Menu.Extensions.Windows;
 using UnityEngine;
 
-public class CustomizationWindowOpenerButton : MenuWindowOpener
+namespace SlimeGround.Menu.Windows.Customization
 {
-    [SerializeField] private GameObject unusedMarkPanel;
-    [SerializeField] private GameObject unusedMarkParticle;
+	public class CustomizationWindowOpenerButton : MenuWindowOpener
+	{
+	    [SerializeField] private GameObject unusedMarkPanel;
+	    [SerializeField] private GameObject unusedMarkParticle;
 
-    private UnitCustomizator _unitCustomizator;
-    private CustomizationButtonAviabiltyUpdater _customizationAviabiltyUpdater;
+	    private UnitCustomizator _unitCustomizator;
+	    private CustomizationButtonAviabiltyUpdater _customizationAviabiltyUpdater;
 
-    public void Initialize(UnitCustomizator unitCustomizator, CustomizationButtonAviabiltyUpdater customizationAviabiltyUpdater)
-    {
-        _unitCustomizator = unitCustomizator;
-        _customizationAviabiltyUpdater = customizationAviabiltyUpdater;
+	    public void Initialize(UnitCustomizator unitCustomizator, CustomizationButtonAviabiltyUpdater customizationAviabiltyUpdater)
+	    {
+	        _unitCustomizator = unitCustomizator;
+	        _customizationAviabiltyUpdater = customizationAviabiltyUpdater;
 
-        unitCustomizator.FaceUsed += UpdateUnusedMarkActivity;
-        unitCustomizator.HatUsed += UpdateUnusedMarkActivity;
-        customizationAviabiltyUpdater.HatButtonUnlocked += UpdateUnusedMarkActivity;
-        customizationAviabiltyUpdater.FaceButtonUnlocked += UpdateUnusedMarkActivity;
+	        unitCustomizator.FaceUsed += UpdateUnusedMarkActivity;
+	        unitCustomizator.HatUsed += UpdateUnusedMarkActivity;
+	        customizationAviabiltyUpdater.HatButtonUnlocked += UpdateUnusedMarkActivity;
+	        customizationAviabiltyUpdater.FaceButtonUnlocked += UpdateUnusedMarkActivity;
 
-        UpdateUnusedMarkActivity();
-    }
+	        UpdateUnusedMarkActivity();
+	    }
 
-    private void UpdateUnusedMarkActivity()
-    {
-        bool isAnyUnusedButton = false;
+	    private void UpdateUnusedMarkActivity()
+	    {
+	        bool isAnyUnusedButton = false;
 
-        foreach (HatSelectButton hatButton in _unitCustomizator.HatSelectButtons)
-        {
-            if (hatButton.IsUnusedMarkActive)
-            {
-                isAnyUnusedButton = true;
+	        foreach (HatSelectButton hatButton in _unitCustomizator.HatSelectButtons)
+	        {
+	            if (hatButton.IsUnusedMarkActive)
+	            {
+	                isAnyUnusedButton = true;
 
-                break;
-            }
-        }
+	                break;
+	            }
+	        }
 
-        foreach (FaceSelectButton faceButton in _unitCustomizator.FaceSelectButtons)
-        {
-            if (faceButton.IsUnusedMarkActive)
-            {
-                isAnyUnusedButton = true;
+	        foreach (FaceSelectButton faceButton in _unitCustomizator.FaceSelectButtons)
+	        {
+	            if (faceButton.IsUnusedMarkActive)
+	            {
+	                isAnyUnusedButton = true;
 
-                break;
-            }
-        }
+	                break;
+	            }
+	        }
 
-        unusedMarkPanel.SetActive(isAnyUnusedButton);
-        unusedMarkParticle.SetActive(isAnyUnusedButton);
-    }
+	        unusedMarkPanel.SetActive(isAnyUnusedButton);
+	        unusedMarkParticle.SetActive(isAnyUnusedButton);
+	    }
+	}
 }

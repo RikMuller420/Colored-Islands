@@ -1,12 +1,17 @@
+using SlimeGround.Data.Saves;
+using SlimeGround.Gameplay.Levels;
 using UnityEngine;
 
-public class MetricInitializer : MonoBehaviour
+namespace SlimeGround.Integration.Metrics
 {
-    [SerializeField] private PlayerDataProvider _playerData;
+	public class MetricInitializer : MonoBehaviour
+	{
+	    [SerializeField] private PlayerDataProvider _playerData;
 
-    public void Initilize(ILevelData currentLevelData)
-    {
-        var metricProvider = new MetricProvider();
-        var metricSaver = new MetricSaver(currentLevelData, _playerData);
-    }
+	    public void Initilize(ILevelData currentLevelData)
+	    {
+	        var metricProvider = new MetricProvider();
+	        var metricSaver = new MetricSaver(currentLevelData, _playerData);
+	    }
+	}
 }

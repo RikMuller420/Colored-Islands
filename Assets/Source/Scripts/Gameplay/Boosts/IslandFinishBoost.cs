@@ -1,71 +1,77 @@
 using System;
+using SlimeGround.Core.InputHandling;
+using SlimeGround.Gameplay.Islands;
+using SlimeGround.Gameplay.Levels;
 
-public class IslandFinishBoost : Boost
+namespace SlimeGround.Gameplay.Boosts
 {
-    private ClickHandler _clickHandler;
-    private IslandFinishClickBehaviour _islandFinishBehaviour;
-    private LevelChangeEventTracker _levelChangeEventTracker;
+	public class IslandFinishBoost : Boost
+	{
+	    private ClickHandler _clickHandler;
+	    private IslandFinishClickBehaviour _islandFinishBehaviour;
+	    private LevelChangeEventTracker _levelChangeEventTracker;
 
-    private bool _isBoostApplying = false;
+	    private bool _isBoostApplying = false;
 
-    public event Action BoostStartApplyed;
-    public event Action BoostStopApplyed;
+	    public event Action BoostStartApplyed;
+	    public event Action BoostStopApplyed;
 
-    public IslandFinishBoost(ClickHandler clickHandler,
-                             IslandFinishClickBehaviour islandInstantFinisher,
-                             LevelChangeEventTracker levelChangeEventTracker, BoostAmountProvider boostAmountProvider) :
-                             base(boostAmountProvider)
-    {
-        _clickHandler = clickHandler;
-        _islandFinishBehaviour = islandInstantFinisher;
-        _levelChangeEventTracker = levelChangeEventTracker;
+	    public IslandFinishBoost(ClickHandler clickHandler,
+	                             IslandFinishClickBehaviour islandInstantFinisher,
+	                             LevelChangeEventTracker levelChangeEventTracker, BoostAmountProvider boostAmountProvider) :
+	                             base(boostAmountProvider)
+	    {
+	        _clickHandler = clickHandler;
+	        _islandFinishBehaviour = islandInstantFinisher;
+	        _levelChangeEventTracker = levelChangeEventTracker;
 
-        _islandFinishBehaviour.IslandFinished += OnIslandFinished;
-        _levelChangeEventTracker.LevelChanged += OnLevelChanged;
-    }
+	        _islandFinishBehaviour.IslandFinished += OnIslandFinished;
+	        _levelChangeEventTracker.LevelChanged += OnLevelChanged;
+	    }
 
-    public override BoostType Type => BoostType.FinishIsland;
+	    public override BoostType Type => BoostType.FinishIsland;
 
-    public override void TryApplyBoost()
-    {
-        if (_isBoostApplying)
-        {
-            StopBoostApplying();
-        }
-        else
-        {
-            StartBoostApplying();
-        }
-    }
+	    public override void TryApplyBoost()
+	    {
+	        if (_isBoostApplying)
+	        {
+	            StopBoostApplying();
+	        }
+	        else
+	        {
+	            StartBoostApplying();
+	        }
+	    }
 
-    private void StartBoostApplying()
-    {
-        _clickHandler.SetClickBehaviour(_islandFinishBehaviour);
-        _isBoostApplying = true;
-        BoostStartApplyed?.Invoke();
-    }
+	    private void StartBoostApplying()
+	    {
+	        _clickHandler.SetClickBehaviour(_islandFinishBehaviour);
+	        _isBoostApplying = true;
+	        BoostStartApplyed?.Invoke();
+	    }
 
-    private void StopBoostApplying()
-    {
-        _clickHandler.SetDeafultClickHandler();
-        _isBoostApplying = false;
-        BoostStopApplyed?.Invoke();
-    }
+	    private void StopBoostApplying()
+	    {
+	        _clickHandler.SetDeafultClickHandler();
+	        _isBoostApplying = false;
+	        BoostStopApplyed?.Invoke();
+	    }
 
-    private void OnIslandFinished(Island _)
-    {
-        if (_isBoostApplying)
-        {
-            StopBoostApplying();
-            SpendBoost(Type);
-        }
-    }
+	    private void OnIslandFinished(Island _)
+	    {
+	        if (_isBoostApplying)
+	        {
+	            StopBoostApplying();
+	            SpendBoost(Type);
+	        }
+	    }
 
-    private void OnLevelChanged(ILevelData _)
-    {
-        if (_isBoostApplying)
-        {
-            StopBoostApplying();
-        }
-    }
+	    private void OnLevelChanged(ILevelData _)
+	    {
+	        if (_isBoostApplying)
+	        {
+	            StopBoostApplying();
+	        }
+	    }
+	}
 }

@@ -1,6 +1,10 @@
 using System;
+using SlimeGround.Gameplay.Islands;
 
-public interface IIslandFinishEvent
+namespace SlimeGround.Core.InputHandling
 {
-    public event Action<Island> IslandFinished;
+	public interface IIslandFinishEvent
+	{
+	    public event Action<Island> IslandFinished;
+	}
 }

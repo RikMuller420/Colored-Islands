@@ -1,33 +1,38 @@
 using System.Collections;
 using UnityEngine;
 
-public class ParticleSystemDisabler : MonoBehaviour
+namespace SlimeGround.Effects.Particles
 {
-    [SerializeField] private ParticleSystem _particleSystem;
 
-    private WaitForSeconds _wait;
+	public class ParticleSystemDisabler : MonoBehaviour
+	{
+	    [SerializeField] private ParticleSystem _particleSystem;
 
-    void Start()
-    {
-        _wait = new WaitForSeconds(_particleSystem.main.duration);
-        StartCoroutine(DisableAfterPlay());
-    }
+	    private WaitForSeconds _wait;
 
-    private IEnumerator DisableAfterPlay()
-    {
-        yield return _wait;
+	    void Start()
+	    {
+	        _wait = new WaitForSeconds(_particleSystem.main.duration);
+	        StartCoroutine(DisableAfterPlay());
+	    }
 
-        gameObject.SetActive(false);
-    }
+	    private IEnumerator DisableAfterPlay()
+	    {
+	        yield return _wait;
 
-    private void OnValidate()
-    {
-        if (_particleSystem == null)
-        {
-            if (TryGetComponent(out ParticleSystem system))
-            {
-                _particleSystem = system;
-            }
-        }
-    }
+	        gameObject.SetActive(false);
+	    }
+
+	    private void OnValidate()
+	    {
+	        if (_particleSystem == null)
+	        {
+	            if (TryGetComponent(out ParticleSystem system))
+	            {
+	                _particleSystem = system;
+	            }
+	        }
+	    }
+	}
+
 }

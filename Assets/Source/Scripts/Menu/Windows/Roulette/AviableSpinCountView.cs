@@ -1,21 +1,25 @@
+using SlimeGround.Data.Saves;
 using TMPro;
 using UnityEngine;
 
-public class AviableSpinCountView : MonoBehaviour
+namespace SlimeGround.Menu.Windows.Roulette
 {
-    [SerializeField] private TextMeshProUGUI _text;
+	public class AviableSpinCountView : MonoBehaviour
+	{
+	    [SerializeField] private TextMeshProUGUI _text;
 
-    private IPlayerData _playerData;
+	    private IPlayerData _playerData;
 
-    public void Initialize(IPlayerData playerData)
-    {
-        _playerData = playerData;
-        _playerData.SpinCountChanged += UpdateViewText;
-        UpdateViewText();
-    }
+	    public void Initialize(IPlayerData playerData)
+	    {
+	        _playerData = playerData;
+	        _playerData.SpinCountChanged += UpdateViewText;
+	        UpdateViewText();
+	    }
 
-    private void UpdateViewText()
-    {
-        _text.text = _playerData.AviableSpinCount.ToString();
-    }
+	    private void UpdateViewText()
+	    {
+	        _text.text = _playerData.AviableSpinCount.ToString();
+	    }
+	}
 }

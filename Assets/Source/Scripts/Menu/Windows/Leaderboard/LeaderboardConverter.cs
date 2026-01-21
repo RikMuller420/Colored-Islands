@@ -1,36 +1,41 @@
 using System.Collections.Generic;
 using YG.Utils.LB;
 
-public class LeaderboardConverter
+namespace SlimeGround.Menu.Windows.Leaderboard
 {
-    public Leaderboard ConvertFrom(LBData yandexLeaderboard)
-    {
-        int currentPlayerRank = yandexLeaderboard.currentPlayer.rank;
-        int currentPlayerScore = yandexLeaderboard.currentPlayer.score;
 
-        IReadOnlyCollection<LeaderboardPlayerData> players = FormPlayerCollection(yandexLeaderboard.players);
+	public class LeaderboardConverter
+	{
+	    public Leaderboard ConvertFrom(LBData yandexLeaderboard)
+	    {
+	        int currentPlayerRank = yandexLeaderboard.currentPlayer.rank;
+	        int currentPlayerScore = yandexLeaderboard.currentPlayer.score;
 
-        return new Leaderboard(yandexLeaderboard.technoName, currentPlayerRank, currentPlayerScore, players);
-    }
+	        IReadOnlyCollection<LeaderboardPlayerData> players = FormPlayerCollection(yandexLeaderboard.players);
 
-    private IReadOnlyCollection<LeaderboardPlayerData> FormPlayerCollection(LBPlayerData[] yndexPlayers)
-    {
-        List<LeaderboardPlayerData> players = new List<LeaderboardPlayerData>();
+	        return new Leaderboard(yandexLeaderboard.technoName, currentPlayerRank, currentPlayerScore, players);
+	    }
 
-        foreach (LBPlayerData yandexPlayer in yndexPlayers)
-        {
-            var player = new LeaderboardPlayerData
-            (
-                rank: yandexPlayer.rank,
-                name: yandexPlayer.name,
-                score: yandexPlayer.score,
-                photoLink: yandexPlayer.photo
-            );
+	    private IReadOnlyCollection<LeaderboardPlayerData> FormPlayerCollection(LBPlayerData[] yndexPlayers)
+	    {
+	        List<LeaderboardPlayerData> players = new List<LeaderboardPlayerData>();
 
-            players.Add(player);
-        }
+	        foreach (LBPlayerData yandexPlayer in yndexPlayers)
+	        {
+	            var player = new LeaderboardPlayerData
+	            (
+	                rank: yandexPlayer.rank,
+	                name: yandexPlayer.name,
+	                score: yandexPlayer.score,
+	                photoLink: yandexPlayer.photo
+	            );
 
-        return players;
-    }
+	            players.Add(player);
+	        }
+
+	        return players;
+	    }
+
+	}
 
 }

@@ -1,4 +1,9 @@
-public interface IDeviceStyleChanger
+using SlimeGround.Integration.DeviceInfo;
+
+namespace SlimeGround.Menu.Extensions.DeviceStyle
 {
-    void SetStyle(DeviceType deviceType);
+	public interface IDeviceStyleChanger
+	{
+	    void SetStyle(DeviceType deviceType);
+	}
 }

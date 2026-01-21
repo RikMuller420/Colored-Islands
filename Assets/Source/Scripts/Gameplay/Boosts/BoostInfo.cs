@@ -1,12 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using SlimeGround.Menu.Boosts;
 
-public class BoostInfo
+namespace SlimeGround.Gameplay.Boosts
 {
-    private BoostType _boostType;
-    private Boost _boost;
-    private BoostButton _boostButton;
-    private BoostSoundPlayer _boostSoundPlayer;
-
+	public class BoostInfo
+	{
+	    private BoostType _boostType;
+	    private Boost _boost;
+	    private BoostButton _boostButton;
+	    private BoostSoundPlayer _boostSoundPlayer;
+	}
 }

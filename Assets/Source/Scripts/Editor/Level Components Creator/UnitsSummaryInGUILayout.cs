@@ -1,39 +1,44 @@
 using System;
 using System.Collections.Generic;
+using SlimeGround.Data;
+using SlimeGround.Gameplay.Islands;
 using UnityEditor;
 using UnityEngine;
 
-public class UnitsSummaryInGUILayout 
+namespace SlimeGround.Editor.LevelComponentsCreator
 {
-    private int _spacingOffset = 5;
-
-    public Dictionary<UnitSlotType, int> CreateUnitsSummary(IReadOnlyCollection<IslandInitializer> islands)
+    public class UnitsSummaryInGUILayout 
     {
-        EditorGUILayout.Space(_spacingOffset);
-        GUILayout.Label("Units Summary:", EditorStyles.boldLabel);
+        private int _spacingOffset = 5;
 
-        int maxSlotCount = Enum.GetValues(typeof(UnitSlotType)).Length;
-        Dictionary<UnitSlotType, int> requireUnitSlotsAmount = new Dictionary<UnitSlotType, int>();
-
-        foreach (IslandInitializer island in islands)
+        public Dictionary<UnitSlotType, int> CreateUnitsSummary(IReadOnlyCollection<IslandInitializer> islands)
         {
-            if (requireUnitSlotsAmount.ContainsKey(island.UnitSlot))
-            {
-                requireUnitSlotsAmount[island.UnitSlot] += island.PointsCount;
-            }
-            else
-            {
-                requireUnitSlotsAmount.Add(island.UnitSlot, island.PointsCount);
-            }
-        }
+            EditorGUILayout.Space(_spacingOffset);
+            GUILayout.Label("Units Summary:", EditorStyles.boldLabel);
 
-        foreach (KeyValuePair<UnitSlotType, int> unitSlotsAmount in requireUnitSlotsAmount)
-        {
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField($"Color: {unitSlotsAmount.Key} - {unitSlotsAmount.Value}", GUILayout.Width(300));
-            EditorGUILayout.EndHorizontal();
-        }
+            int maxSlotCount = Enum.GetValues(typeof(UnitSlotType)).Length;
+            Dictionary<UnitSlotType, int> requireUnitSlotsAmount = new Dictionary<UnitSlotType, int>();
 
-        return requireUnitSlotsAmount;
+            foreach (IslandInitializer island in islands)
+            {
+                if (requireUnitSlotsAmount.ContainsKey(island.UnitSlot))
+                {
+                    requireUnitSlotsAmount[island.UnitSlot] += island.PointsCount;
+                }
+                else
+                {
+                    requireUnitSlotsAmount.Add(island.UnitSlot, island.PointsCount);
+                }
+            }
+
+            foreach (KeyValuePair<UnitSlotType, int> unitSlotsAmount in requireUnitSlotsAmount)
+            {
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField($"Color: {unitSlotsAmount.Key} - {unitSlotsAmount.Value}", GUILayout.Width(300));
+                EditorGUILayout.EndHorizontal();
+            }
+
+            return requireUnitSlotsAmount;
+        }
     }
 }

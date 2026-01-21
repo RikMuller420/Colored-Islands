@@ -1,24 +1,29 @@
 using System;
 using YG;
 
-public class AuthorizationProvider : IAuthorizationData
+namespace SlimeGround.Integration.Authorization
 {
-    public event Action AuthorizationStatusChanged;
 
-    public AuthorizationProvider()
-    {
-        YG2.onGetSDKData += OnAuthorizationStatusChanged;
-    }
+	public class AuthorizationProvider : IAuthorizationData
+	{
+	    public event Action AuthorizationStatusChanged;
 
-    public bool IsAuthorized => YG2.player.auth;
+	    public AuthorizationProvider()
+	    {
+	        YG2.onGetSDKData += OnAuthorizationStatusChanged;
+	    }
 
-    public void AskForAuthorization()
-    {
-        YG2.OpenAuthDialog();
-    }
+	    public bool IsAuthorized => YG2.player.auth;
 
-    private void OnAuthorizationStatusChanged()
-    {
-        AuthorizationStatusChanged?.Invoke();
-    }
+	    public void AskForAuthorization()
+	    {
+	        YG2.OpenAuthDialog();
+	    }
+
+	    private void OnAuthorizationStatusChanged()
+	    {
+	        AuthorizationStatusChanged?.Invoke();
+	    }
+	}
+
 }

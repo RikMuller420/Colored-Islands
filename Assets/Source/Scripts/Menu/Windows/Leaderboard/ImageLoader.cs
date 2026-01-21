@@ -3,42 +3,47 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class ImageLoader : MonoBehaviour
+namespace SlimeGround.Menu.Windows.Leaderboard
 {
-    [SerializeField] private Image _image;
-    [SerializeField] private Sprite _defaultImage;
 
-    public void SetImage(string url)
-    {
-        if (gameObject.activeSelf == false)
-        {
-            SetDefaultImage();
-        }
+	public class ImageLoader : MonoBehaviour
+	{
+	    [SerializeField] private Image _image;
+	    [SerializeField] private Sprite _defaultImage;
 
-        StartCoroutine(SetImageCoroutine(url));
-    }
+	    public void SetImage(string url)
+	    {
+	        if (gameObject.activeSelf == false)
+	        {
+	            SetDefaultImage();
+	        }
 
-    public void SetDefaultImage()
-    {
-        _image.sprite = _defaultImage;
-    }
+	        StartCoroutine(SetImageCoroutine(url));
+	    }
 
-    IEnumerator SetImageCoroutine(string url)
-    {
-        using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(url))
-        {
-            yield return request.SendWebRequest();
+	    public void SetDefaultImage()
+	    {
+	        _image.sprite = _defaultImage;
+	    }
 
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                Texture2D texture = DownloadHandlerTexture.GetContent(request);
-                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-                _image.sprite = sprite;
-            }
-            else
-            {
-                SetDefaultImage();
-            }
-        }
-    }
+	    IEnumerator SetImageCoroutine(string url)
+	    {
+	        using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(url))
+	        {
+	            yield return request.SendWebRequest();
+
+	            if (request.result == UnityWebRequest.Result.Success)
+	            {
+	                Texture2D texture = DownloadHandlerTexture.GetContent(request);
+	                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+	                _image.sprite = sprite;
+	            }
+	            else
+	            {
+	                SetDefaultImage();
+	            }
+	        }
+	    }
+	}
+
 }

@@ -3,72 +3,77 @@ using System.Collections;
 using Lean.Localization;
 using UnityEngine;
 
-public class FreeStuffCollDownProvider : MonoBehaviour
+namespace SlimeGround.Menu.Ads
 {
-    [SerializeField] private LeanToken _timerToken;
 
-    private int _restSeconds = 0;
-    private int _awaitSeconds = 150;
-    private int _secondsInMinute = 60;
-    private WaitForSeconds _awaitSecond;
-    private Coroutine _timerCoroutine;
+	public class FreeStuffCollDownProvider : MonoBehaviour
+	{
+	    [SerializeField] private LeanToken _timerToken;
 
-    public event Action CoolDownStarted;
-    public event Action CoolDownFinished;
+	    private int _restSeconds = 0;
+	    private int _awaitSeconds = 150;
+	    private int _secondsInMinute = 60;
+	    private WaitForSeconds _awaitSecond;
+	    private Coroutine _timerCoroutine;
 
-    public bool IsAddAviable => _restSeconds <= 0;
+	    public event Action CoolDownStarted;
+	    public event Action CoolDownFinished;
 
-    private void Start()
-    {
-        _awaitSecond = new WaitForSeconds(1);
-    }
+	    public bool IsAddAviable => _restSeconds <= 0;
 
-    public bool TryUseAdd()
-    {
-        if (_restSeconds > 0)
-        {
-            return false;
-        }
+	    private void Start()
+	    {
+	        _awaitSecond = new WaitForSeconds(1);
+	    }
 
-        StartCoolDown();
+	    public bool TryUseAdd()
+	    {
+	        if (_restSeconds > 0)
+	        {
+	            return false;
+	        }
 
-        return true;
-    }
+	        StartCoolDown();
 
-    private void StartCoolDown()
-    {
-        _restSeconds = _awaitSeconds;
-        UpdateTimerToken(_restSeconds);
+	        return true;
+	    }
 
-        CoolDownStarted?.Invoke();
+	    private void StartCoolDown()
+	    {
+	        _restSeconds = _awaitSeconds;
+	        UpdateTimerToken(_restSeconds);
 
-        if (_timerCoroutine != null)
-        {
-            StopCoroutine(_timerCoroutine);
-        }
+	        CoolDownStarted?.Invoke();
 
-        _timerCoroutine = StartCoroutine(TimerTicking());
-    }
+	        if (_timerCoroutine != null)
+	        {
+	            StopCoroutine(_timerCoroutine);
+	        }
 
-    private IEnumerator TimerTicking()
-    {
-        while (_restSeconds > 0)
-        {
-            yield return _awaitSecond;
+	        _timerCoroutine = StartCoroutine(TimerTicking());
+	    }
 
-            _restSeconds--;
-            UpdateTimerToken(_restSeconds);
-        }
+	    private IEnumerator TimerTicking()
+	    {
+	        while (_restSeconds > 0)
+	        {
+	            yield return _awaitSecond;
 
-        CoolDownFinished?.Invoke();
-    }
+	            _restSeconds--;
+	            UpdateTimerToken(_restSeconds);
+	        }
 
-    private void UpdateTimerToken(int seconds)
-    {
-        int timerMinutes = seconds / _secondsInMinute;
-        int timerSeconds = seconds % _secondsInMinute;
-        string timerText = $"{timerMinutes}:{timerSeconds.ToString("D2")}";
+	        CoolDownFinished?.Invoke();
+	    }
 
-        _timerToken.SetValue(timerText);
-    }
+	    private void UpdateTimerToken(int seconds)
+	    {
+	        int timerMinutes = seconds / _secondsInMinute;
+	        int timerSeconds = seconds % _secondsInMinute;
+	        string timerText = $"{timerMinutes}:{timerSeconds.ToString("D2")}";
+
+	        _timerToken.SetValue(timerText);
+	    }
+	}
+
 }

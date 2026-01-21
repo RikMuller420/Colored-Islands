@@ -1,6 +1,11 @@
 using System;
 
-public interface IBoostStopApplyedEvent 
+namespace SlimeGround.Gameplay.Boosts
 {
-    public event Action StopApplyed;
+
+	public interface IBoostStopApplyedEvent 
+	{
+	    public event Action StopApplyed;
+	}
+
 }

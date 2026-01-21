@@ -1,7 +1,12 @@
-public enum BoostType
+
+namespace SlimeGround.Gameplay.Boosts
 {
-    GrowBuferIsland,
-    FinishIsland,
-    ReducePaints,
-    FreezeObjectives
+	public enum BoostType
+	{
+	    GrowBuferIsland,
+	    FinishIsland,
+	    ReducePaints,
+	    FreezeObjectives
+	}
+
 }

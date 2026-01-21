@@ -1,13 +1,18 @@
 using TMPro;
 using UnityEngine;
 
-public class LevelObjectiveLineResizer : MonoBehaviour
+namespace SlimeGround.Menu.Windows.Settings
 {
-    [SerializeField] private TextMeshProUGUI _text;
-    [SerializeField] private RectTransform _icon;
 
-    private void Update()
-    {
-        _icon.offsetMin = new Vector2(-_text.preferredWidth, 0f);
-    }
+	public class LevelObjectiveLineResizer : MonoBehaviour
+	{
+	    [SerializeField] private TextMeshProUGUI _text;
+	    [SerializeField] private RectTransform _icon;
+
+	    private void Update()
+	    {
+	        _icon.offsetMin = new Vector2(-_text.preferredWidth, 0f);
+	    }
+	}
+
 }

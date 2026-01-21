@@ -1,73 +1,78 @@
 using System.Collections.Generic;
+using SlimeGround.Gameplay.Units;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ClickHandler
+namespace SlimeGround.Core.InputHandling
 {
-    private Camera _camera;
-    private DefaultClickHandler _defaultClickBehaviour;
+	public class ClickHandler
+	{
+	    private Camera _camera;
+	    private DefaultClickHandler _defaultClickBehaviour;
 
-    private ClickBehaviour _currentClickBehaviour;
+	    private ClickBehaviour _currentClickBehaviour;
 
-    public ClickHandler(UnitMover unitMover, InputHandler inputHandler,
-                        Camera camera, LayerMask allIslandsAndUnitsLayer,
-                        out IUnitsSelectedEvent unitsSelectedEvent)
-    {
-        _camera = camera;
+	    public ClickHandler(UnitMover unitMover, InputHandler inputHandler,
+	                        Camera camera, LayerMask allIslandsAndUnitsLayer,
+	                        out IUnitsSelectedEvent unitsSelectedEvent)
+	    {
+	        _camera = camera;
 
-        _defaultClickBehaviour = new DefaultClickHandler(unitMover, allIslandsAndUnitsLayer);
+	        _defaultClickBehaviour = new DefaultClickHandler(unitMover, allIslandsAndUnitsLayer);
 
-        SetDeafultClickHandler();
-        inputHandler.Clicked += OnClick;
+	        SetDeafultClickHandler();
+	        inputHandler.Clicked += OnClick;
 
-        unitsSelectedEvent = _defaultClickBehaviour;
-    }
+	        unitsSelectedEvent = _defaultClickBehaviour;
+	    }
 
-    public void SetDeafultClickHandler()
-    {
-        SetClickBehaviour(_defaultClickBehaviour);
-    }
+	    public void SetDeafultClickHandler()
+	    {
+	        SetClickBehaviour(_defaultClickBehaviour);
+	    }
 
-    public void SetClickBehaviour(ClickBehaviour clickBehaviour)
-    {
-        if (_currentClickBehaviour != null)
-        {
-            _currentClickBehaviour.ResetBehaviour();
-        }
+	    public void SetClickBehaviour(ClickBehaviour clickBehaviour)
+	    {
+	        if (_currentClickBehaviour != null)
+	        {
+	            _currentClickBehaviour.ResetBehaviour();
+	        }
 
-        _currentClickBehaviour = clickBehaviour;
-    }
+	        _currentClickBehaviour = clickBehaviour;
+	    }
 
-    private void OnClick(Vector2 clickPosition)
-    {
-        bool isPaused = Time.timeScale == 0;
+	    private void OnClick(Vector2 clickPosition)
+	    {
+	        bool isPaused = Time.timeScale == 0;
 
-        if (isPaused)
-        {
-            return;
-        }
+	        if (isPaused)
+	        {
+	            return;
+	        }
 
-        Ray ray = _camera.ScreenPointToRay(clickPosition);
+	        Ray ray = _camera.ScreenPointToRay(clickPosition);
 
-        if (IsPointerOverUI(clickPosition))
-        {
-            return;
-        }
+	        if (IsPointerOverUI(clickPosition))
+	        {
+	            return;
+	        }
 
-        if (Physics.Raycast(ray, out RaycastHit hit, _currentClickBehaviour.MaxClickDistance, _currentClickBehaviour.LayerMask))
-        {
-            _currentClickBehaviour.HandleClick(hit);
-        }
-    }
+	        if (Physics.Raycast(ray, out RaycastHit hit, _currentClickBehaviour.MaxClickDistance, _currentClickBehaviour.LayerMask))
+	        {
+	            _currentClickBehaviour.HandleClick(hit);
+	        }
+	    }
 
-    private bool IsPointerOverUI(Vector2 screenPosition)
-    {
-        PointerEventData eventData = new PointerEventData(EventSystem.current);
-        eventData.position = screenPosition;
+	    private bool IsPointerOverUI(Vector2 screenPosition)
+	    {
+	        PointerEventData eventData = new PointerEventData(EventSystem.current);
+	        eventData.position = screenPosition;
 
-        List<RaycastResult> results = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(eventData, results);
+	        List<RaycastResult> results = new List<RaycastResult>();
+	        EventSystem.current.RaycastAll(eventData, results);
 
-        return results.Count > 0;
-    }
+	        return results.Count > 0;
+	    }
+	}
+
 }

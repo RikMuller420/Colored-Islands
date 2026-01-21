@@ -1,12 +1,16 @@
+using SlimeGround.Effects.Sound;
 using UnityEngine;
 using UnityEngine.Audio;
 
-[System.Serializable]
-public class AudioMixerData 
+namespace SlimeGround.Data.ScriptableObjects.Sounds
 {
-    [SerializeField] private AudioGroup _audioGroup;
-    [SerializeField] private AudioMixerGroup _mixer;
+	[System.Serializable]
+	public class AudioMixerData 
+	{
+	    [SerializeField] private AudioGroup _audioGroup;
+	    [SerializeField] private AudioMixerGroup _mixer;
 
-    public AudioGroup AudioGroup => _audioGroup;
-    public AudioMixerGroup Mixer => _mixer;
+	    public AudioGroup AudioGroup => _audioGroup;
+	    public AudioMixerGroup Mixer => _mixer;
+	}
 }

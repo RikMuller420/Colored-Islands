@@ -1,6 +1,11 @@
-public enum InAppBonusType
+
+namespace SlimeGround.Data.ScriptableObjects.InApps
 {
-    Gold,
-    BoostBundle,
-    RemoveAdds
+	public enum InAppBonusType
+	{
+	    Gold,
+	    BoostBundle,
+	    RemoveAdds
+	}
+
 }

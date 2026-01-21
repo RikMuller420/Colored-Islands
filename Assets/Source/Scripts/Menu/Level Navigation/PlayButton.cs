@@ -1,31 +1,36 @@
+using SlimeGround.Data.Saves;
+using SlimeGround.Gameplay.Levels;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayButton : MonoBehaviour
+namespace SlimeGround.Menu.LevelNavigation
 {
-    [SerializeField] private LevelLoader _levelLoader;
-    [SerializeField] private Button _button;
+	public class PlayButton : MonoBehaviour
+	{
+	    [SerializeField] private LevelLoader _levelLoader;
+	    [SerializeField] private Button _button;
 
-    private IPlayerData _playerData;
+	    private IPlayerData _playerData;
 
-    private void OnEnable()
-    {
-        _button.onClick.AddListener(LoadLastAvailableLevel);
-    }
+	    private void OnEnable()
+	    {
+	        _button.onClick.AddListener(LoadLastAvailableLevel);
+	    }
 
-    private void OnDisable()
-    {
-        _button.onClick.RemoveListener(LoadLastAvailableLevel);
-    }
+	    private void OnDisable()
+	    {
+	        _button.onClick.RemoveListener(LoadLastAvailableLevel);
+	    }
 
-    public void Initialize(IPlayerData playerData)
-    {
-        _playerData = playerData;
-        enabled = true;
-    }
+	    public void Initialize(IPlayerData playerData)
+	    {
+	        _playerData = playerData;
+	        enabled = true;
+	    }
 
-    private void LoadLastAvailableLevel()
-    {
-        _levelLoader.LoadLevel(_playerData.LastAvailableLevelId);
-    }
+	    private void LoadLastAvailableLevel()
+	    {
+	        _levelLoader.LoadLevel(_playerData.LastAvailableLevelId);
+	    }
+	}
 }

@@ -1,41 +1,46 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class SelectedUnitMaterial
+namespace SlimeGround.Effects
 {
-    private const string WidthName = "_OtlWidth";
 
-    public Material Material { get; }
+	public class SelectedUnitMaterial
+	{
+	    private const string WidthName = "_OtlWidth";
 
-    private Tween _alphaTween;
+	    public Material Material { get; }
 
-    private float _appearDuration = 0.3f;
-    private float _maxWidth = 6f;
-    private float _minWidth = 0f;
+	    private Tween _alphaTween;
 
-    public SelectedUnitMaterial(Material material)
-    {
-        Material = material;
-        DOTween.Init();
-    }
+	    private float _appearDuration = 0.3f;
+	    private float _maxWidth = 6f;
+	    private float _minWidth = 0f;
 
-    public void StartSelectionAnimation()
-    {
-        _alphaTween?.Kill();
+	    public SelectedUnitMaterial(Material material)
+	    {
+	        Material = material;
+	        DOTween.Init();
+	    }
 
-        SetWidth(_minWidth);
+	    public void StartSelectionAnimation()
+	    {
+	        _alphaTween?.Kill();
 
-        _alphaTween = DOTween.To(
-            () => Material.GetFloat(WidthName),
-            width => { Material.SetFloat(WidthName, width); },
-            _maxWidth,
-            _appearDuration
-        )
-        .SetEase(Ease.OutQuad);
-    }
+	        SetWidth(_minWidth);
 
-    private void SetWidth(float value)
-    {
-        Material.SetFloat(WidthName, value);
-    }
+	        _alphaTween = DOTween.To(
+	            () => Material.GetFloat(WidthName),
+	            width => { Material.SetFloat(WidthName, width); },
+	            _maxWidth,
+	            _appearDuration
+	        )
+	        .SetEase(Ease.OutQuad);
+	    }
+
+	    private void SetWidth(float value)
+	    {
+	        Material.SetFloat(WidthName, value);
+	    }
+	}
+
 }
