@@ -130,6 +130,7 @@ namespace SlimeGround.Gameplay.Training
 	            Pointer.gameObject.SetActive(true);
 	        }
 	    }
+
 	    private void OnTryApplyingBoost()
 	    {
 	        AddBost(BoostType.FreezeObjectives);

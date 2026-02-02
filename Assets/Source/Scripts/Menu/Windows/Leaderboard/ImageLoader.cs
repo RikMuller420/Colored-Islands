@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 namespace SlimeGround.Menu.Windows.Leaderboard
 {
-
 	public class ImageLoader : MonoBehaviour
 	{
 	    [SerializeField] private Image _image;
@@ -26,7 +25,7 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	        _image.sprite = _defaultImage;
 	    }
 
-	    IEnumerator SetImageCoroutine(string url)
+	    private IEnumerator SetImageCoroutine(string url)
 	    {
 	        using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(url))
 	        {
@@ -45,5 +44,4 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	        }
 	    }
 	}
-
 }

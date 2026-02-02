@@ -81,7 +81,7 @@ namespace SlimeGround.Menu.LevelNavigation
 	        {
 	            UpdateButtonAviability();
 	        }
-	        else if(changedLevelId == _levelId)
+	        else if (changedLevelId == _levelId)
 	        {
 	            UpdateStarSprites();
 	        }

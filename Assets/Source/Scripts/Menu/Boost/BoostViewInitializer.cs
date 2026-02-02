@@ -29,7 +29,6 @@ namespace SlimeGround.Menu.Boosts
 	                           WalletProvider walletProvider, IIslandFinishEvent islandFinishEvent,
 	                           RewardedAdProvider rewardedAdProvider)
 	    {
-
 	        var boostSoundPlayer = new BoostSoundPlayer(_gameplaySoundPlayer, _outOfBoostWindow, boosts);
 
 	        Dictionary<Boost, BoostButton> boostsButtons = new Dictionary<Boost, BoostButton>()
@@ -56,5 +55,4 @@ namespace SlimeGround.Menu.Boosts
 	        return boosts.FirstOrDefault(boost => boost.Type == boostType);
 	    }
 	}
-
 }

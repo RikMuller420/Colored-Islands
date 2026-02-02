@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 namespace SlimeGround.Menu.Windows.FinalScore
 {
-
 	public class StarsAnimator : MonoBehaviour
 	{
 	    [SerializeField] private List<Image> _stars;
@@ -61,5 +60,4 @@ namespace SlimeGround.Menu.Windows.FinalScore
 	        star.DOFade(1f, _fadeDuration);
 	    }
 	}
-
 }

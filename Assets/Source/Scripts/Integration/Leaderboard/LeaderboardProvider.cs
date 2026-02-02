@@ -13,15 +13,15 @@ namespace SlimeGround.Integration.Leaderboards
 
 	    private LeaderboardConverter _leaderboardConverter;
 
-	    public event Action<Leaderboard> LeaderboardReceived;
-
 	    public LeaderboardProvider()
 	    {
 	        _leaderboardConverter = new LeaderboardConverter();
 	        YG2.onGetLeaderboard += OnGetLeaderboard;
 	    }
 
-	    public void SaveScore(string tableKey, int score)
+		public event Action<Leaderboard> LeaderboardReceived;
+
+		public void SaveScore(string tableKey, int score)
 	    {
 	        YG2.SetLeaderboard(tableKey, score);
 	    }

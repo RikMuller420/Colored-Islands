@@ -74,5 +74,4 @@ namespace SlimeGround.Core.InputHandling
 	        return results.Count > 0;
 	    }
 	}
-
 }

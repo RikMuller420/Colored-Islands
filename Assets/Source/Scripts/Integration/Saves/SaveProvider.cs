@@ -2,7 +2,6 @@ using YG;
 
 namespace SlimeGround.Integration.Saves
 {
-
 	public class SaveProvider
 	{
 	    public void Save(string saveData)
@@ -16,5 +15,4 @@ namespace SlimeGround.Integration.Saves
 	        return YG2.saves.GameProgress;
 	    }
 	}
-
 }

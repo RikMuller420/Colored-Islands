@@ -15,8 +15,6 @@ namespace SlimeGround.Core.InputHandling
 	    private ILevelData _currentLevelData;
 	    private BuferIslandsHolder _buferIslands;
 
-	    public event Action<Island> IslandFinished;
-
 	    public IslandFinishClickBehaviour(ILevelData currentLevelData, BuferIslandsHolder buferIslands,
 	                                        UnitMover unitMover, LayerMask layerMask) : base(layerMask)
 	    {
@@ -25,7 +23,9 @@ namespace SlimeGround.Core.InputHandling
 	        _buferIslands = buferIslands;
 	    }
 
-	    public override void HandleClick(RaycastHit hit)
+		public event Action<Island> IslandFinished;
+
+		public override void HandleClick(RaycastHit hit)
 	    {
 	        if (hit.collider.TryGetComponent(out Island island))
 	        {

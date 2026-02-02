@@ -132,7 +132,7 @@ namespace SlimeGround.Menu.Windows.FinalScore
 
 	        yield return _starAnimationInterval;
 
-	        if(_progressTracker.IsAngryTaskDone)
+	        if (_progressTracker.IsAngryTaskDone)
 	        {
 	            _starsAnimator.PlayNextStarAnimation();
 	        }

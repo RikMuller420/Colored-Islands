@@ -41,7 +41,6 @@ namespace SlimeGround.Gameplay.Levels
 	                           CustomizationSettingsHolder customizationSettings, IPlayerData playerData,
 	                           UnitMover unitMover, Transform cameraTransform)
 	    {
-
 	        foreach (IslandInitializer island in _islands)
 	        {
 	            CustomizationPreferences customizationPreferences = playerData.GetCustomizationPreference(island.UnitSlot);

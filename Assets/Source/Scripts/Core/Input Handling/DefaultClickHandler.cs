@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace SlimeGround.Core.InputHandling
 {
-
 	public class DefaultClickHandler : ClickBehaviour, IUnitsSelectedEvent
 	{
 	    private SelectState _currentSelection;
@@ -16,15 +15,15 @@ namespace SlimeGround.Core.InputHandling
 	    private UnitMover _unitMover;
 	    private UnitHighlighter _unitHighlighter;
 
-	    public event Action UnitsSelected;
-
 	    public DefaultClickHandler(UnitMover unitMover, LayerMask layerMask) : base(layerMask)
 	    {
 	        _unitMover = unitMover;
 	        _unitHighlighter = new UnitHighlighter();
 	    }
 
-	    public SelectState CurrentSelection => _currentSelection;
+		public event Action UnitsSelected;
+
+		public SelectState CurrentSelection => _currentSelection;
 	    public BaseIsland SelectedIsland => _selectedIsland;
 	    public UnitSlotType SelectedUnitSlot => _selectedUnitSlot;
 
@@ -51,6 +50,7 @@ namespace SlimeGround.Core.InputHandling
 	                break;
 	        }
 	    }
+
 	    private void ResetSelection()
 	    {
 	        if (CurrentSelection == SelectState.Units)
@@ -85,5 +85,4 @@ namespace SlimeGround.Core.InputHandling
 	        ResetSelection();
 	    }
 	}
-
 }

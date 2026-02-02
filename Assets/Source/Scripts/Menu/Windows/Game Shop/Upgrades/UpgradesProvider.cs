@@ -10,15 +10,15 @@ namespace SlimeGround.Menu.Windows.GameShop.Upgrades
 	    private PlayerDataProvider _playerData;
 	    private UpgradeSettings _upgradeSettings;
 
-	    public event Action<UpgradeType> Upgraded;
-
 	    public UpgradesProvider(PlayerDataProvider playerData, UpgradeSettings upgradeSettings)
 	    {
 	        _playerData = playerData;
 	        _upgradeSettings = upgradeSettings;
 	    }
 
-	    public int UpgradeStage(UpgradeType upgradeType) => _playerData.GetUpgradeStage(upgradeType);
+		public event Action<UpgradeType> Upgraded;
+
+		public int UpgradeStage(UpgradeType upgradeType) => _playerData.GetUpgradeStage(upgradeType);
 
 	    public int CalculateUpgradedGoldAmount(int baseGold) =>
 	                (int)(baseGold * UpgradeStageValue(UpgradeType.IncreaseRewards));
@@ -40,7 +40,6 @@ namespace SlimeGround.Menu.Windows.GameShop.Upgrades
 	        return (upgradeStage == 0) ?
 	                upgrade.DefaultValue :
 	                upgrade.StageValues[upgradeStage - 1];
-
 	    }
 	}
 }

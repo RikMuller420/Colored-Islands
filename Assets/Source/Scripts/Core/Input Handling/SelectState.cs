@@ -1,4 +1,3 @@
-
 namespace SlimeGround.Core.InputHandling
 {
 	public enum SelectState
@@ -6,5 +5,4 @@ namespace SlimeGround.Core.InputHandling
 	    None,
 	    Units
 	}
-
 }

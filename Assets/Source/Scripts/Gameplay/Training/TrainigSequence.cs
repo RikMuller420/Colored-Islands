@@ -21,7 +21,9 @@ namespace SlimeGround.Gameplay.Training
 	    [SerializeField] private RectTransform _pointer;
 	    [SerializeField] private Image _pointerImage;
 
-	    protected LevelLoader LevelLoader { get; private set; }
+		private WaitForEndOfFrame _wait;
+
+		protected LevelLoader LevelLoader { get; private set; }
 	    protected CustomizationWindow CustomizationMenu { get; private set; }
 	    protected ILevelData CurrentLevelData { get; private set; }
 	    protected BuferIslandsHolder BuferIslandsHolder { get; private set; }
@@ -40,9 +42,6 @@ namespace SlimeGround.Gameplay.Training
 	    protected Image PointerImage => _pointerImage;
 	    protected float FadeDuration { get; private set; } = 0.55f;
 	    protected Canvas Canvas { get; private set; }
-
-	    private WaitForEndOfFrame _wait;
-
 
 	    public void Initialize(ILevelData currentLevelData, BuferIslandsHolder buferIslandsHolder,
 	                           IUnitsSelectedEvent unitsSelectedEvent, IUnitMovedEvent unitMovedEvent, Camera mainCamera,

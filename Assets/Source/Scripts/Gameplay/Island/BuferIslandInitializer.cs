@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace SlimeGround.Gameplay.Islands
 {
-
 	public class BuferIslandInitializer : MonoBehaviour
 	{
 	    [SerializeField] private BaseIsland _island;
@@ -34,5 +33,4 @@ namespace SlimeGround.Gameplay.Islands
 	                .Where(transform => transform != _rootOfPoints));
 	    }
 	}
-
 }

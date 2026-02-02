@@ -1,4 +1,3 @@
-
 namespace SlimeGround.Effects.Sound
 {
 	[System.Serializable]
@@ -7,5 +6,4 @@ namespace SlimeGround.Effects.Sound
 	    MusicVolume,
 	    EffectsVolume
 	}
-
 }

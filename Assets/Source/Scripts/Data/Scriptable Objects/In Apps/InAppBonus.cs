@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace SlimeGround.Data.ScriptableObjects.InApps
 {
-
 	[System.Serializable]
 	public class InAppBonus
 	{
@@ -12,5 +11,4 @@ namespace SlimeGround.Data.ScriptableObjects.InApps
 	    public InAppBonusType Type => _type;
 	    public int Amount => _amount;
 	}
-
 }

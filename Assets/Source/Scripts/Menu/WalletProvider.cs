@@ -7,16 +7,16 @@ namespace SlimeGround.Menu
 	{
 	    private PlayerDataProvider _playerData;
 
-	    public event Action<int> GoldAmountChanged;
-
 	    public WalletProvider(PlayerDataProvider playerData)
 	    {
 	        _playerData = playerData;
 	        _playerData.GoldAmountChanged += OnGoldAmountInSavedProgressChanged;
 	    }
 
+	    public event Action<int> GoldAmountChanged;
+	    
 	    public int GoldAmount => _playerData.GoldAmount;
-
+	    
 	    public void AddGold(int amount)
 	    {
 	        if (amount < 0)

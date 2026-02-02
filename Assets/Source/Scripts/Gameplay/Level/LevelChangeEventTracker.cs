@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SlimeGround.Gameplay.Levels
 {
-
 	public class LevelChangeEventTracker : MonoBehaviour
 	{
 	    [SerializeField] private LevelLoader _levelLoader;
@@ -32,7 +31,5 @@ namespace SlimeGround.Gameplay.Levels
 	    {
 	        LevelChanged.Invoke(levelData);
 	    }
-
 	}
-
 }

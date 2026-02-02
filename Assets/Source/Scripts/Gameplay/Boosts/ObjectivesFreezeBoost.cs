@@ -13,11 +13,9 @@ namespace SlimeGround.Gameplay.Boosts
 	    private int _maxMoves = 7;
 	    private bool _isBoostApplying = false;
 
-	    public event Action StopApplyed;
-
 	    public ObjectivesFreezeBoost(LevelProgressTracker levelProgressTracker, UnitMover unitMover,
-	                                LevelChangeEventTracker levelChangeEventTracker, BoostAmountProvider boostAmountProvider) :
-	                                base(boostAmountProvider)       
+	                                LevelChangeEventTracker levelChangeEventTracker,
+									BoostAmountProvider boostAmountProvider) : base(boostAmountProvider)       
 	    {
 	        _levelProgressTracker = levelProgressTracker;
 	        _levelChangeEventTracker = levelChangeEventTracker;
@@ -26,7 +24,9 @@ namespace SlimeGround.Gameplay.Boosts
 	        levelChangeEventTracker.LevelChanged += OnLevelChanged;
 	    }
 
-	    public override BoostType Type => BoostType.FreezeObjectives;
+		public event Action StopApplyed;
+
+		public override BoostType Type => BoostType.FreezeObjectives;
 
 	    public override void TryApplyBoost()
 	    {

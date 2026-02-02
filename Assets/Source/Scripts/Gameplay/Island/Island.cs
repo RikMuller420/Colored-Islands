@@ -34,7 +34,7 @@ namespace SlimeGround.Gameplay.Islands
 	    public void Initialize(List<IslandPoint> placementPoints, UnitSlotType paint, ColorSample colorSample,
 	                            ColorSampleMaterials paintMaterials)
 	    {
-	        base.Initialize(placementPoints);
+	        Initialize(placementPoints);
 
 	        _points = Points.Select(point => point.Point).ToList().AsReadOnly();
 	        _renderer = new IslandRenderer(MeshRenderer, paintMaterials);

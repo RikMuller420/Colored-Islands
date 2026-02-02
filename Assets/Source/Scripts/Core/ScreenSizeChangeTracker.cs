@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace SlimeGround.Core
 {
-
 	public class ScreenSizeChangeTracker : MonoBehaviour
 	{
 	    private Vector2 _lastScreenSize = Vector2.zero;
@@ -35,5 +34,4 @@ namespace SlimeGround.Core
 	        }
 	    }
 	}
-
 }

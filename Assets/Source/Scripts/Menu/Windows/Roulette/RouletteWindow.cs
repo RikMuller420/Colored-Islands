@@ -12,12 +12,6 @@ namespace SlimeGround.Menu.Windows.Roulette
 
 	    private IPlayerData _playerData;
 
-	    public void Initialize(IPlayerData playerData)
-	    {
-	        _playerData = playerData;
-	        enabled = true;
-	    }
-
 	    protected override void OnEnable()
 	    {
 	        _rouletteWheel.SpinStarted += DisableCloseButtons;
@@ -34,7 +28,13 @@ namespace SlimeGround.Menu.Windows.Roulette
 	        base.OnDisable();
 	    }
 
-	    public override void Open()
+		public void Initialize(IPlayerData playerData)
+		{
+			_playerData = playerData;
+			enabled = true;
+		}
+
+		public override void Open()
 	    {
 	        _roulette.PrepareRoulette();
 	        base.Open();

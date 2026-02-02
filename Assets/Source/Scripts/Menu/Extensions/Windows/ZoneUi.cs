@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SlimeGround.Menu.Extensions.Windows
 {
-
 	public class ZoneUi : MonoBehaviour
 	{
 	    [SerializeField] private bool _isOpened = false;
@@ -108,5 +107,4 @@ namespace SlimeGround.Menu.Extensions.Windows
 	        _canvasGroup.blocksRaycasts = false;
 	    }
 	}
-
 }

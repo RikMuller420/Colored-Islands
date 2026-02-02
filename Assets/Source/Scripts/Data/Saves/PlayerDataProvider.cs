@@ -10,8 +10,8 @@ using SlimeGround.Gameplay.Boosts;
 using SlimeGround.Integration.Localization;
 using SlimeGround.Integration.Saves;
 using SlimeGround.Menu.Windows.Customization;
-using SlimeGround.Menu.Windows.InAppPurchase;
 using SlimeGround.Menu.Windows.GameShop.Upgrades;
+using SlimeGround.Menu.Windows.InAppPurchase;
 using UnityEngine;
 
 namespace SlimeGround.Data.Saves

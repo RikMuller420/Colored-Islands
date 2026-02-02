@@ -1,4 +1,3 @@
-
 namespace SlimeGround.Data.ScriptableObjects.InApps
 {
 	public enum InAppBonusType
@@ -7,5 +6,4 @@ namespace SlimeGround.Data.ScriptableObjects.InApps
 	    BoostBundle,
 	    RemoveAdds
 	}
-
 }

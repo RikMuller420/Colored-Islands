@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SlimeGround.Data.ScriptableObjects.Localization
 {
-
 	[CreateAssetMenu(fileName = "LanguageSettings", menuName = "Custom/LanguageSettings")]
 	public class LocalizationSettings : ScriptableObject
 	{
@@ -11,5 +10,4 @@ namespace SlimeGround.Data.ScriptableObjects.Localization
 
 	    public ReadOnlyCollection<LanguageData> Languages => new ReadOnlyCollection<LanguageData>(_languages);
 	}
-
 }

@@ -8,14 +8,14 @@ namespace SlimeGround.Gameplay.Boosts
 	{
 	    private BoostAmountProvider _boostAmountProvider;
 
-	    public event Action<Boost> BoostApplyed;
-
 	    public Boost(BoostAmountProvider boostAmountProvider)
 	    {
 	        _boostAmountProvider = boostAmountProvider;
 	    }
 
-	    public abstract BoostType Type { get; }
+		public event Action<Boost> BoostApplyed;
+
+		public abstract BoostType Type { get; }
 
 	    public abstract void TryApplyBoost();
 

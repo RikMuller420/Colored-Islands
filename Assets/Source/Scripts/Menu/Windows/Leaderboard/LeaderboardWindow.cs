@@ -34,7 +34,18 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	        OnAuthorizationStatusChanged();
 	    }
 
-	    private void OnAuthorizationStatusChanged()
+		public override void Open()
+		{
+			if (IsOpened)
+			{
+				return;
+			}
+
+			base.Open();
+			MetricSaver.OpenLeaderboardWindow();
+		}
+
+		private void OnAuthorizationStatusChanged()
 	    {
 	        bool isAuthorized = _authorizationData.IsAuthorized;
 
@@ -45,17 +56,6 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	        {
 	            _tabSwitcher.UpdateActiveTab();
 	        }
-	    }
-
-	    public override void Open()
-	    {
-	        if (IsOpened)
-	        {
-	            return;
-	        }
-
-	        base.Open();
-	        MetricSaver.OpenLeaderboardWindow();
 	    }
 	}
 }

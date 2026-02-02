@@ -3,17 +3,16 @@ using YG;
 
 namespace SlimeGround.Integration.Authorization
 {
-
 	public class AuthorizationProvider : IAuthorizationData
 	{
-	    public event Action AuthorizationStatusChanged;
-
 	    public AuthorizationProvider()
 	    {
 	        YG2.onGetSDKData += OnAuthorizationStatusChanged;
 	    }
 
-	    public bool IsAuthorized => YG2.player.auth;
+		public event Action AuthorizationStatusChanged;
+
+		public bool IsAuthorized => YG2.player.auth;
 
 	    public void AskForAuthorization()
 	    {
@@ -25,5 +24,4 @@ namespace SlimeGround.Integration.Authorization
 	        AuthorizationStatusChanged?.Invoke();
 	    }
 	}
-
 }

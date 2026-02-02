@@ -4,7 +4,6 @@ using UnityEngine.Pool;
 
 namespace SlimeGround.Core.Pools
 {
-
 	public class GenericPool<T> : MonoBehaviour where T : PoolableObject
 	{
 	    protected ObjectPool<T> _pool;
@@ -73,5 +72,4 @@ namespace SlimeGround.Core.Pools
 	        Destroy(instance);
 	    }
 	}
-
 }

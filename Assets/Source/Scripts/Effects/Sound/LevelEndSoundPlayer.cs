@@ -19,5 +19,4 @@ namespace SlimeGround.Effects.Sound
 	        _gameplaySoundPlayer.PlaySound(GameplaySoundType.WinSound);
 	    }
 	}
-
 }

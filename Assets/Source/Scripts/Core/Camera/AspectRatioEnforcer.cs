@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace SlimeGround.Core.CameraSystem
 {
-
 	public class AspectRatioEnforcer : MonoBehaviour
 	{
 	    [SerializeField] private ScreenSizeChangeTracker _screenSizeChangeTracker;
@@ -30,7 +29,7 @@ namespace SlimeGround.Core.CameraSystem
 	        _screenSizeChangeTracker.ScreenSizeChanged -= UpdateViewport;
 	    }
 
-	    void UpdateViewport(Vector2 screenSize)
+		private void UpdateViewport(Vector2 screenSize)
 	    {
 	        float screenAspect = screenSize.x / screenSize.y;
 
@@ -60,5 +59,4 @@ namespace SlimeGround.Core.CameraSystem
 	        rect.offsetMax = Vector2.zero;
 	    }
 	}
-
 }

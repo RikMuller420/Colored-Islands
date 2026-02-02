@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace SlimeGround.Core.CameraSystem
 {
-
 	[System.Serializable]
 	public class CameraTargets
 	{
@@ -18,5 +17,4 @@ namespace SlimeGround.Core.CameraSystem
 	    public Transform LookAtPoint => _lookAtPoint;
 	    public Transform FollowPoint => _followPoint;
 	}
-
 }

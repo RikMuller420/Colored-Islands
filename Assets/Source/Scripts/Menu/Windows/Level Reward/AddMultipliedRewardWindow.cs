@@ -18,8 +18,7 @@ namespace SlimeGround.Menu.Windows.LevelReward
 	    public void Open(LevelRewardData levelRewardData, int adsMultiplier)
 	    {
 	        _levelRewardView.SetIcons(levelRewardData, adsMultiplier);
-
-	        base.Open();
+	        Open();
 	    }
 	}
 }

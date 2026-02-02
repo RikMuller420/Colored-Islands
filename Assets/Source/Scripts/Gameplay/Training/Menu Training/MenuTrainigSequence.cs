@@ -43,8 +43,6 @@ namespace SlimeGround.Gameplay.Training
 
 	    private void StartCustomizationTraining()
 	    {
-
-
 	        _trainingHintGroup.blocksRaycasts = true;
 	        DOTween.Sequence().Append(_trainingHintGroup.DOFade(1f, _fadeDuration));
 	        PrintHint(CustomizationHintKey);
@@ -76,7 +74,6 @@ namespace SlimeGround.Gameplay.Training
 	        _dimButton.interactable = false;
 	        _dimButton.onClick.RemoveListener(GoToShopTraining);
 
-
 	        _customizationWindow.Close();
 	        _shopWindow.Open();
 	        PrintHint(ShopHintKey);
@@ -84,7 +81,6 @@ namespace SlimeGround.Gameplay.Training
 	        _goNextButton.onClick.AddListener(StartFinalHintTraining);
 	        _dimButton.onClick.AddListener(StartFinalHintTraining);
 	    }
-
 
 	    private void StartFinalHintTraining()
 	    {

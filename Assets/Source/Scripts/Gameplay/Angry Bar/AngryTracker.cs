@@ -20,8 +20,6 @@ namespace SlimeGround.Gameplay.AngryBar
 	    private float _upgradeMultiplier = 1f;
 	    private float _angrySpeed = 0.3f;
 
-	    public float AngryValue => _angryValue / _angryLimit;
-
 	    public AngryTracker(ILevelData currentLevelData, LevelProgressTracker progressTracker,
 	                        IUpgradesData upgradesData, LevelChangeEventTracker levelChangeEventTracker)
 	    {
@@ -33,7 +31,9 @@ namespace SlimeGround.Gameplay.AngryBar
 	        _upgradesData.Upgraded += UpdateUpgradeMultiplier;
 	    }
 
-	    public void AddAngryTick()
+		public float AngryValue => _angryValue / _angryLimit;
+
+		public void AddAngryTick()
 	    {
 	        float instabilityStep = 0f;
 

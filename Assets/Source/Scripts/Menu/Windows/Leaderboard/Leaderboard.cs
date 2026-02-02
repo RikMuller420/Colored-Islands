@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 namespace SlimeGround.Menu.Windows.Leaderboard
 {
-
 	public class Leaderboard
 	{
 	    public Leaderboard(string key, int currentPlayerRank, int currentPlayerScore,
@@ -19,5 +18,4 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	    public int CurrentPlayerScore { get; }
 	    public IReadOnlyCollection<LeaderboardPlayerData> Players { get; }
 	}
-
 }

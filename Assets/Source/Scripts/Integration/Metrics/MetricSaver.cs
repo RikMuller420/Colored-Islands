@@ -7,8 +7,8 @@ using SlimeGround.Data;
 using SlimeGround.Data.Saves;
 using SlimeGround.Gameplay.Boosts;
 using SlimeGround.Gameplay.Levels;
-using SlimeGround.Menu.Windows.InAppPurchase;
 using SlimeGround.Menu.Windows.GameShop.Upgrades;
+using SlimeGround.Menu.Windows.InAppPurchase;
 
 namespace SlimeGround.Integration.Metrics
 {
@@ -20,10 +20,8 @@ namespace SlimeGround.Integration.Metrics
 	    private const string UpgradeCurrency = "Upgrade";
 	    private const string SpinCurrency = "Spin";
 
-	    private ILevelData _levelData { get; }
-	    private IPlayerData _playerData { get; }
-
-	    public static MetricSaver Instance { get; private set; }
+		private readonly ILevelData _levelData;
+		private readonly IPlayerData _playerData;
 
 	    public MetricSaver(ILevelData currentLevelData, IPlayerData playerData)
 	    {
@@ -32,9 +30,11 @@ namespace SlimeGround.Integration.Metrics
 	        Instance = this;
 	    }
 
-	    public static void SpentBoost(BoostType type)
+		public static MetricSaver Instance { get; private set; }
+
+		public static void SpentBoost(BoostType type)
 	    {
-	        int levelId = Instance._levelData.LevelId ;
+	        int levelId = Instance._levelData.LevelId;
 
 	        GameAnalytics.NewResourceEvent(GAResourceFlowType.Sink, BoostCurrency, 1, type.ToString(), levelId.ToString());
 	    }

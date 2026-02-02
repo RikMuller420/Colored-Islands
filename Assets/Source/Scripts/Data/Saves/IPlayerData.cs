@@ -4,14 +4,27 @@ using SlimeGround.Effects.Sound;
 using SlimeGround.Gameplay.Boosts;
 using SlimeGround.Integration.Localization;
 using SlimeGround.Menu.Windows.Customization;
-using SlimeGround.Menu.Windows.InAppPurchase;
 using SlimeGround.Menu.Windows.GameShop.Upgrades;
+using SlimeGround.Menu.Windows.InAppPurchase;
 
 namespace SlimeGround.Data.Saves
 {
 	public interface IPlayerData 
 	{
-	    public int LastAvailableLevelId { get; }
+		public event Action GoldAmountChanged;
+		public event Action<int> LevelProgressChanged;
+		public event Action<BoostType> BoostsAmountChanged;
+		public event Action<UpgradeType> Upgraded;
+		public event Action<InAppType> EarnInAppWithAddProgressUpdated;
+
+		public event Action RemoveAdsStateChanged;
+		public event Action<AudioGroup> SoundEnabledChanged;
+		public event Action<UnitSlotType> CustomizationPreferenceChanged;
+		public event Action TrainingFinished;
+		public event Action<int> FaceUnlocked;
+		public event Action SpinCountChanged;
+
+		public int LastAvailableLevelId { get; }
 	    public LevelProgress FirstUnfinishedLevel { get; }
 	    public bool IsTrainingFinished { get; }
 	    public IReadOnlyCollection<LevelProgress> Levels { get; }
@@ -30,18 +43,5 @@ namespace SlimeGround.Data.Saves
 	    public int GetUpgradeStage(UpgradeType upgradeType);
 	    public int GetEarnedInAppWithAddProgress(InAppType inAppType);
 	    public bool GetIsSoundOnStatus(AudioGroup audioGroup);
-
-	    public event Action GoldAmountChanged;
-	    public event Action<int> LevelProgressChanged;
-	    public event Action<BoostType> BoostsAmountChanged;
-	    public event Action<UpgradeType> Upgraded;
-	    public event Action<InAppType> EarnInAppWithAddProgressUpdated;
-
-	    public event Action RemoveAdsStateChanged;
-	    public event Action<AudioGroup> SoundEnabledChanged;
-	    public event Action<UnitSlotType> CustomizationPreferenceChanged;
-	    public event Action TrainingFinished;
-	    public event Action<int> FaceUnlocked;
-	    public event Action SpinCountChanged;
 	}
 }

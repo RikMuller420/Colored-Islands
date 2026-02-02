@@ -12,7 +12,7 @@ namespace SlimeGround.Menu.Windows.GameShop
 	    [SerializeField] private UpgradeSettings _upgradeSettings;
 	    [SerializeField] private BoostSettings _boostSettings;
 	    [SerializeField] private List<UpgradeOfferLine> _upgradeOfferLines = new();
-	    [SerializeField] private List<BoostOfferLine> _boostOfferLines = new ();
+	    [SerializeField] private List<BoostOfferLine> _boostOfferLines = new();
 
 	    public void Initialize(UpgradesProvider upgradesProvider, BoostAmountProvider boostAmountProvider,
 	                            WalletProvider walletProvider)

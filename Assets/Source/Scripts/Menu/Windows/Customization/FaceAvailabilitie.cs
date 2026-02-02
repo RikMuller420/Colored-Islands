@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 
 namespace SlimeGround.Menu.Windows.Customization
 {
-
 	[Serializable]
 	public class FaceAvailabilitie
 	{
@@ -23,5 +22,4 @@ namespace SlimeGround.Menu.Windows.Customization
 	    [JsonIgnore] public bool IsAviable => _isAviable;
 	    [JsonIgnore] public bool WasUsed => _wasUsed;
 	}
-
 }

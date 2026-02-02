@@ -5,5 +5,3 @@ namespace YG
         public string GameProgress;
     }
 }
-
-

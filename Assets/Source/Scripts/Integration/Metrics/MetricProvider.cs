@@ -2,7 +2,6 @@ using GameAnalyticsSDK;
 
 namespace SlimeGround.Integration.Metrics
 {
-
 	public class MetricProvider
 	{
 	    private const string BuildName = "0.1";
@@ -13,6 +12,4 @@ namespace SlimeGround.Integration.Metrics
 	        GameAnalytics.Initialize();
 	    }
 	}
-
-
 }

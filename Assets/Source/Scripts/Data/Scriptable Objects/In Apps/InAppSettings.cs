@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SlimeGround.Data.ScriptableObjects.InApps
 {
-
 	[CreateAssetMenu(fileName = "InAppSettings", menuName = "Custom/InAppSettings")]
 	public class InAppSettings : ScriptableObject
 	{
@@ -11,5 +10,4 @@ namespace SlimeGround.Data.ScriptableObjects.InApps
 
 	    public IEnumerable<InAppSettingsData> InApps => _inApps;
 	}
-
 }

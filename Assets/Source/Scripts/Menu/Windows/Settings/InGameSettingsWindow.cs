@@ -18,7 +18,6 @@ namespace SlimeGround.Menu.Windows.Settings
 	    {
 	        base.OnEnable();
 	        _levelChangeEventTracker.LevelChanged += OnLevelChanged;
-
 	    }
 
 	    private new void OnDisable()
@@ -27,7 +26,29 @@ namespace SlimeGround.Menu.Windows.Settings
 	        _levelChangeEventTracker.LevelChanged -= OnLevelChanged;
 	    }
 
-	    private void OnLevelChanged(ILevelData levelData)
+		public override void Open()
+		{
+			if (IsOpened)
+			{
+				return;
+			}
+
+			Time.timeScale = 0f;
+			base.Open();
+		}
+
+		public override void Close()
+		{
+			if (IsOpened == false)
+			{
+				return;
+			}
+
+			Time.timeScale = 1f;
+			base.Close();
+		}
+
+		private void OnLevelChanged(ILevelData levelData)
 	    {
 	        if (levelData.LevelId == _levelSettings.MainMenuSettings.Id)
 	        {
@@ -39,28 +60,6 @@ namespace SlimeGround.Menu.Windows.Settings
 	        TimeSpan time = TimeSpan.FromSeconds(levelData.ExtraScoreTime);
 	        string timeString = $"{(int)time.TotalMinutes}:{time.Seconds:D2}";
 	        _minutesToken.SetValue(timeString);
-	    }
-
-	    public override void Open()
-	    {
-	        if (IsOpened)
-	        {
-	            return;
-	        }
-
-	        Time.timeScale = 0f;
-	        base.Open();
-	    }
-
-	    public override void Close()
-	    {
-	        if (IsOpened == false)
-	        {
-	            return;
-	        }
-
-	        Time.timeScale = 1f;
-	        base.Close();
 	    }
 	}
 }

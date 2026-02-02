@@ -67,7 +67,7 @@ namespace SlimeGround.Menu.Boosts
 	        SetWindowTexts();
 
 	        Time.timeScale = 0f;
-	        base.Open();
+	        Open();
 	    }
 
 	    public override void Close()

@@ -3,14 +3,13 @@ using UnityEngine;
 
 namespace SlimeGround.Effects.Particles
 {
-
 	public class ParticleSystemDisabler : MonoBehaviour
 	{
 	    [SerializeField] private ParticleSystem _particleSystem;
 
 	    private WaitForSeconds _wait;
 
-	    void Start()
+		private void Start()
 	    {
 	        _wait = new WaitForSeconds(_particleSystem.main.duration);
 	        StartCoroutine(DisableAfterPlay());
@@ -34,5 +33,4 @@ namespace SlimeGround.Effects.Particles
 	        }
 	    }
 	}
-
 }

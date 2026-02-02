@@ -28,7 +28,8 @@ namespace SlimeGround.Menu.Windows.GameShop
 	    }
 
 	    public void Initialize(InAppByAddViewProvider inAppByAddViewProvider,
-	                        RewardedAdProvider rewardedAdProvider, FreeStuffCollDownProvider collDownProvider)
+							   RewardedAdProvider rewardedAdProvider,
+							   FreeStuffCollDownProvider collDownProvider)
 	    {
 	        _inAppByAddViewProvider = inAppByAddViewProvider;
 	        _rewardedAdProvider = rewardedAdProvider;
@@ -37,7 +38,6 @@ namespace SlimeGround.Menu.Windows.GameShop
 
 	        enabled = true;
 	    }
-
 
 	    private void UpdateIndicator(InAppType inAppType)
 	    {

@@ -105,5 +105,4 @@ namespace SlimeGround.Effects.Sound
 	        _fadeCoroutine = null;
 	    }
 	}
-
 }

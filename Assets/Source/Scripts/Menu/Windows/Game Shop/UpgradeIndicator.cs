@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SlimeGround.Menu.Windows.GameShop
 {
-
 	public class UpgradeIndicator : MonoBehaviour
 	{
 	    [SerializeField] private List<GameObject> _upgradeMarks;
@@ -17,5 +16,4 @@ namespace SlimeGround.Menu.Windows.GameShop
 	        }
 	    }
 	}
-
 }

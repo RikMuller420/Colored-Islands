@@ -10,7 +10,8 @@ namespace SlimeGround.Gameplay.Boosts
 	    private BuferIslandsHolder _buferIslandsHolder;
 
 	    public BufferIslandBoost(BuferIslandsHolder buferIslandsHolder,
-	                            BoostAmountProvider boostAmountProvider) : base(boostAmountProvider)
+	                             BoostAmountProvider boostAmountProvider)
+								 : base(boostAmountProvider)
 	    {
 	        _buferIslandsHolder = buferIslandsHolder;
 	    }

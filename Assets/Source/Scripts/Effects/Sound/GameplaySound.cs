@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace SlimeGround.Effects.Sound
 {
-
 	[System.Serializable]
 
 	public class GameplaySound
@@ -13,5 +12,4 @@ namespace SlimeGround.Effects.Sound
 	    public GameplaySoundType Type => _type;
 	    public AudioSource AudioSource => _audioSource;
 	}
-
 }

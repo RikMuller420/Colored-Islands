@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace SlimeGround.Gameplay.Units
 {
-
 	public class Hat : MonoBehaviour
 	{
 	    [SerializeField] private GameObject _gameObject;
@@ -11,5 +10,4 @@ namespace SlimeGround.Gameplay.Units
 	    public GameObject GameObject => _gameObject;
 	    public MeshRenderer MeshRenderer => _meshRenderer;
 	}
-
 }

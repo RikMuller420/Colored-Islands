@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace SlimeGround.Menu.Extensions.TabSystem
 {
-
 	public class TabContent : MonoBehaviour
 	{
 	    [SerializeField] private CanvasGroup _canvasGroup;
@@ -19,5 +18,4 @@ namespace SlimeGround.Menu.Extensions.TabSystem
 	        _canvasGroup.blocksRaycasts = false;
 	    }
 	}
-
 }

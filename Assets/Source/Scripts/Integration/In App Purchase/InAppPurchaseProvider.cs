@@ -3,17 +3,16 @@ using YG;
 
 namespace SlimeGround.Integration.InAppPurchase
 {
-
 	public class InAppPurchaseProvider
 	{
-	    public event Action<string> SuccessPurchased;
-
 	    public InAppPurchaseProvider()
 	    {
 	        YG2.onPurchaseSuccess += OnSuccessPurchased;
 	    }
 
-	    public void BuyInApp(string id)
+		public event Action<string> SuccessPurchased;
+
+		public void BuyInApp(string id)
 	    {
 	        YG2.BuyPayments(id);
 	    }
@@ -22,7 +21,5 @@ namespace SlimeGround.Integration.InAppPurchase
 	    {
 	        SuccessPurchased?.Invoke(id);
 	    }
-
 	}
-
 }

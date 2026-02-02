@@ -34,7 +34,7 @@ namespace SlimeGround.Menu.Windows.Confirmation
 
 	        _text.text = confirmationText;
 	        _confirmedDelegate = confirmed;
-	        base.Open();
+	        Open();
 	    }
 
 	    private void Confirm()

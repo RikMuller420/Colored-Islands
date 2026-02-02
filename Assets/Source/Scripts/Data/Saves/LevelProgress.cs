@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 
 namespace SlimeGround.Data.Saves
 {
-
 	[Serializable]
 	public class LevelProgress
 	{
@@ -57,5 +56,4 @@ namespace SlimeGround.Data.Saves
 	        return stars;
 	    }
 	}
-
 }

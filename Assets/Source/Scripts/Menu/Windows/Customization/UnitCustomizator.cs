@@ -21,12 +21,6 @@ namespace SlimeGround.Menu.Windows.Customization
 
 	    private UnitSlotType _currentSlot;
 
-	    public IEnumerable<FaceSelectButton> FaceSelectButtons => _faceSelectButtons;
-	    public IEnumerable<HatSelectButton> HatSelectButtons => _hatSelectButtons;
-
-	    public event Action FaceUsed;
-	    public event Action HatUsed;
-
 	    public UnitCustomizator(UnitCustomizationView unitCustomizationView, PlayerDataProvider playerData,
 	                            List<UnitSelectButton> unitSelectButtons, List<HatSelectButton> hatSelectButtons,
 	                            List<FaceSelectButton> faceSelectButtons, List<ColorSelectButton> colorSelectButtons)
@@ -63,7 +57,13 @@ namespace SlimeGround.Menu.Windows.Customization
 	        ChangeCurrentPaint(_unitSelectButtons[0]);
 	    }
 
-	    private void ChangeCurrentPaint(UnitSelectButton button)
+		public event Action FaceUsed;
+		public event Action HatUsed;
+
+		public IEnumerable<FaceSelectButton> FaceSelectButtons => _faceSelectButtons;
+		public IEnumerable<HatSelectButton> HatSelectButtons => _hatSelectButtons;
+
+		private void ChangeCurrentPaint(UnitSelectButton button)
 	    {
 	        if (_currentUnitButton != null)
 	        {

@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace SlimeGround.Gameplay.Units
 {
-
 	public class UnitLookAtRotator
 	{
 	    private Transform _body;
@@ -18,13 +17,17 @@ namespace SlimeGround.Gameplay.Units
 	    private Sequence _lookAtSequenceStart;
 	    private Sequence _lookAtSequenceEnd;
 
-	    public UnitLookAtRotator(Transform body)
+		public UnitLookAtRotator(Transform body)
 	    {
 	        _body = body;
 	        _initialLocalRotation = _body.localRotation;
 	    }
 
-	    public void ResetRotation()
+		private float RandomLookAtTime => Random.Range(_lookAtDurationInterval.x, _lookAtDurationInterval.y);
+		private float RandomAwaitTime => Random.Range(_awaitInterval.x, _awaitInterval.y);
+		private float RandomLookBackTime => Random.Range(_lookBackDurationInterval.x, _lookBackDurationInterval.y);
+
+		public void ResetRotation()
 	    {
 	        StopRotationSequences();
 	        _body.localRotation = _initialLocalRotation;
@@ -40,7 +43,7 @@ namespace SlimeGround.Gameplay.Units
 	                .OnComplete(() => LookAtMovedUnits(unitsMoveInfo));
 	    }
 
-	    private void StopRotationSequences()
+		private void StopRotationSequences()
 	    {
 	        _lookAtSequenceStart?.Kill();
 	        _lookAtSequenceEnd?.Kill();
@@ -61,7 +64,7 @@ namespace SlimeGround.Gameplay.Units
 	        Vector3 target = unitsMoveInfo.EndIsland.Points
 	                            .Where(point => point.IsFree == false && unitsMoveInfo.Units.Contains(point.OccupiedUnit))
 	                            .Aggregate(Vector3.zero, (sum, point) => sum + point.Transform.position)
-	                            / unitsMoveInfo.Units.Count; ;
+	                            / unitsMoveInfo.Units.Count;
 
 	        return CalculateRotation(target, _lookAtAngleSecondInterval);
 	    }
@@ -85,10 +88,5 @@ namespace SlimeGround.Gameplay.Units
 
 	        return yOnlyRotation;
 	    }
-
-	    private float RandomLookAtTime => Random.Range(_lookAtDurationInterval.x, _lookAtDurationInterval.y);
-	    private float RandomAwaitTime => Random.Range(_awaitInterval.x, _awaitInterval.y);
-	    private float RandomLookBackTime => Random.Range(_lookBackDurationInterval.x, _lookBackDurationInterval.y);
 	}
-
 }

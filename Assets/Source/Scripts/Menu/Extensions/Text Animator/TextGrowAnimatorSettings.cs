@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace SlimeGround.Menu.Extensions.TextAnimator
 {
-
 	[System.Serializable]
 	public class TextGrowAnimatorSettings
 	{

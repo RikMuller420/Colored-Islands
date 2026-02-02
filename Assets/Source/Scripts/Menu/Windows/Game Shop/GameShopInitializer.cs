@@ -5,8 +5,8 @@ using SlimeGround.Integration.Ads;
 using SlimeGround.Integration.InAppPurchase;
 using SlimeGround.Menu.Ads;
 using SlimeGround.Menu.Wallet;
-using SlimeGround.Menu.Windows.InAppPurchase;
 using SlimeGround.Menu.Windows.GameShop.Upgrades;
+using SlimeGround.Menu.Windows.InAppPurchase;
 using UnityEngine;
 
 namespace SlimeGround.Menu.Windows.GameShop

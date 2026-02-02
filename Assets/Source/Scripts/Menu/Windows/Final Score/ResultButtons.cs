@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 namespace SlimeGround.Menu.Windows.FinalScore
 {
-
 	public class ResultButtons : MonoBehaviour
 	{
 	    [SerializeField] private List<Button> _buttons;
@@ -42,5 +41,4 @@ namespace SlimeGround.Menu.Windows.FinalScore
 	            .SetLoops(loops, LoopType.Yoyo);
 	    }
 	}
-
 }

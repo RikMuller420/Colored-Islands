@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SlimeGround.Menu.Windows.Settings
 {
-
 	public class LevelObjectiveLineResizer : MonoBehaviour
 	{
 	    [SerializeField] private TextMeshProUGUI _text;
@@ -14,5 +13,4 @@ namespace SlimeGround.Menu.Windows.Settings
 	        _icon.offsetMin = new Vector2(-_text.preferredWidth, 0f);
 	    }
 	}
-
 }

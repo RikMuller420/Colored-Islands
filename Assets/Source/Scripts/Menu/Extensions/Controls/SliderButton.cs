@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 namespace SlimeGround.Menu.Extensions.Controls
 {
-
 	public class SliderButton : MonoBehaviour
 	{
 	    [SerializeField] private TextMeshProUGUI _textMesh;
@@ -69,5 +68,4 @@ namespace SlimeGround.Menu.Extensions.Controls
 	        _textMesh.text = _textVariants[_value];
 	    }
 	}
-
 }

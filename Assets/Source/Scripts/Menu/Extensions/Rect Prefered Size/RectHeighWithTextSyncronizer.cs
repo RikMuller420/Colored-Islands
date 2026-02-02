@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SlimeGround.Menu.Extensions.RectPreferedSize
 {
-
 	public class RectHeighWithTextSyncronizer : MonoBehaviour
 	{
 	    [SerializeField] private RectTransform _rectTransform;
@@ -17,5 +16,4 @@ namespace SlimeGround.Menu.Extensions.RectPreferedSize
 	        _rectTransform.sizeDelta = new Vector2(rect.width, rect.height);
 	    }
 	}
-
 }

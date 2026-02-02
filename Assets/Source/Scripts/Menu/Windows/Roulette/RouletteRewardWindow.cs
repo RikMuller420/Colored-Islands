@@ -52,7 +52,7 @@ namespace SlimeGround.Menu.Windows.Roulette
 	                break;
 	        }
 
-	        base.OpenUnclosableWindow();
+	        OpenUnclosableWindow();
 	    }
 
 	    private void ReceiveReward()

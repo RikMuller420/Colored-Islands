@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace SlimeGround.Menu.Extensions.DeviceStyle
 {
-
 	public class DeviceStyleChangeInitializer : MonoBehaviour
 	{
 	    [SerializeField] private List<ExitButtonStyleChanger> _exitButtonStyleChangers = new();
@@ -29,5 +28,4 @@ namespace SlimeGround.Menu.Extensions.DeviceStyle
 	        _exitButtonStyleChangers.AddRange(foundChangers);
 	    }
 	}
-
 }

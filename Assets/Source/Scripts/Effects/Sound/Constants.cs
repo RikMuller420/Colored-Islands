@@ -1,4 +1,3 @@
-
 namespace SlimeGround.Effects.Sound
 {
 	public static class Constants 
@@ -6,5 +5,4 @@ namespace SlimeGround.Effects.Sound
 	    public const float LogToDbRatio = 20;
 	    public const float MinDbVolume = -80f;
 	}
-
 }

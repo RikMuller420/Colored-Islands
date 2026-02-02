@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 
 namespace SlimeGround.Core.InputHandling
 {
-
 	public class InputHandler : MonoBehaviour
 	{
 	    private PlayerInput _playerInput;
@@ -43,5 +42,4 @@ namespace SlimeGround.Core.InputHandling
 	        Clicked?.Invoke(inputPosition);
 	    }
 	}
-
 }

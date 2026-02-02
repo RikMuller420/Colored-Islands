@@ -29,5 +29,4 @@ namespace SlimeGround.Data.Saves
 	    [JsonIgnore] public int HatId => _hatId;
 	    [JsonIgnore] public ColorSample ColorSample => (ColorSample)_colorSampleId;
 	}
-
 }

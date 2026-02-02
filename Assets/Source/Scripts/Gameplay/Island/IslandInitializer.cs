@@ -31,7 +31,7 @@ namespace SlimeGround.Gameplay.Islands
 	        FindRequireComponents();
 	        List<IslandPoint> placementPoints = new List<IslandPoint>();
 
-	        foreach(SpriteRenderer point in _points)
+	        foreach (SpriteRenderer point in _points)
 	        {
 	            placementPoints.Add(new IslandPoint(point));            
 	        }

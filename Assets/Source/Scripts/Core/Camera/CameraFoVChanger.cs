@@ -61,12 +61,14 @@ namespace SlimeGround.Core.CameraSystem
 	        float requiredFOV = CalculateRequiredFOV(combinedBounds);
 	        float fieldOfView = Mathf.Clamp(requiredFOV, _minFOV, _maxFOV);
 
-	        DOTween.To(
+	        DOTween.To
+			(
 	            () => _virtualCamera.m_Lens.FieldOfView,
 	            value => _virtualCamera.m_Lens.FieldOfView = value,
 	            fieldOfView,
 	            _fovChangeDuration
-	        ).SetEase(Ease.InOutSine);
+	        )
+			.SetEase(Ease.InOutSine);
 	    }
 
 	    private void UpdateObjectsList()
@@ -132,7 +134,6 @@ namespace SlimeGround.Core.CameraSystem
 
 	            float horizontalAngle = Mathf.Acos(Vector3.Dot(horizontalProjection.normalized, forward)) * Mathf.Rad2Deg;
 	            float verticalAngle = Mathf.Acos(Vector3.Dot(verticalProjection.normalized, forward)) * Mathf.Rad2Deg;
-
 
 	            float verticalFOVHalf = verticalAngle;
 	            float verticalPadding = _uIOrientationChanger.IsVertical ? _verticalOrientationPadding : _horizontalOrientationPadding;

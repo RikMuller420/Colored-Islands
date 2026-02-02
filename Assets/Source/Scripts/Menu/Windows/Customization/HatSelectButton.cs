@@ -5,16 +5,15 @@ using UnityEngine.UI;
 
 namespace SlimeGround.Menu.Windows.Customization
 {
-
 	public class HatSelectButton : SelectButton
 	{
 	    [SerializeField] private Image _hatImage;
 	    [SerializeField] private TextMeshProUGUI _requredLevelText;
 
+	    public event Action<HatSelectButton> ButtonClicked;
+
 	    public int HatId { get; private set; }
 	    public int RequredLevel { get; private set; }
-
-	    public event Action<HatSelectButton> ButtonClicked;
 
 	    public void Initialize(int hatId, Sprite hatSprite, int requredLevel, bool isAviable, bool wasUsed)
 	    {
@@ -40,5 +39,4 @@ namespace SlimeGround.Menu.Windows.Customization
 	        ButtonClicked?.Invoke(this);
 	    }
 	}
-
 }

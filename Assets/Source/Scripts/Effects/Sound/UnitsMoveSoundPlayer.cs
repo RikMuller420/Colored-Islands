@@ -31,7 +31,7 @@ namespace SlimeGround.Effects.Sound
 	        StartCoroutine(PlayMoveSound(unitsMoveInfo.Units.Count));
 	    }
 
-	    public IEnumerator PlayMoveSound(int soundCount)
+		private IEnumerator PlayMoveSound(int soundCount)
 	    {
 	        for (int i = 0; i < soundCount; i++)
 	        {
@@ -41,5 +41,4 @@ namespace SlimeGround.Effects.Sound
 	        }
 	    }
 	}
-
 }

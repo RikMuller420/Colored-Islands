@@ -66,8 +66,8 @@ namespace SlimeGround.Menu.Boosts
 	    private void StartBlinkFinishBoostButton()
 	    {
 	        _islandFinishBoostButton.Animator.StartBlinking();
-
 	    }
+
 	    private void StopBlinkFinishBoostButton()
 	    {
 	        _islandFinishBoostButton.Animator.StopBlinking();

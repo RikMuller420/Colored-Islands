@@ -19,8 +19,6 @@ namespace SlimeGround.Gameplay.AngryBar
 	    private int _winStreak = 0;
 	    private int _loseStreak = 0;
 
-	    public float Value { get; private set; } = 1f;
-
 	    public AngryTrackerBalancer(LevelProgressTracker progressTracker, LevelChangeEventTracker levelChangeEventTracker)
 	    {
 	        _progressTracker = progressTracker;
@@ -30,7 +28,9 @@ namespace SlimeGround.Gameplay.AngryBar
 	        _levelChangeEventTracker.LevelStartChanging += OnLevelStartChanging;
 	    }
 
-	    private void OnLevelStartChanging()
+		public float Value { get; private set; } = 1f;
+
+		private void OnLevelStartChanging()
 	    {
 	        if (_isCurrentLevelFinished == false && _progressTracker.AngryValue > _angryValueLimit)
 	        {

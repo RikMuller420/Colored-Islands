@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SlimeGround.Data.ScriptableObjects.Boosts
 {
-
 	[CreateAssetMenu(fileName = "BoostSettings", menuName = "Custom/BoostSettings")]
 	public class BoostSettings : ScriptableObject
 	{
@@ -11,6 +10,4 @@ namespace SlimeGround.Data.ScriptableObjects.Boosts
 
 	    public IReadOnlyCollection<BoostSettingsData> Boosts => _boosts;
 	}
-
-
 }

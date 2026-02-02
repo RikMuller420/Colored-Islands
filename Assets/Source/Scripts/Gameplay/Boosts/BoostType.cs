@@ -1,4 +1,3 @@
-
 namespace SlimeGround.Gameplay.Boosts
 {
 	public enum BoostType
@@ -8,5 +7,4 @@ namespace SlimeGround.Gameplay.Boosts
 	    ReducePaints,
 	    FreezeObjectives
 	}
-
 }

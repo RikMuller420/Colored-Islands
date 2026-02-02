@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 namespace SlimeGround.Menu.Boosts
 {
-
 	public class ButtonAnimator
 	{
 	    private Image _buttonBackground;
@@ -43,5 +42,4 @@ namespace SlimeGround.Menu.Boosts
 	        _glow.SetActive(false);
 	    }
 	}
-
 }

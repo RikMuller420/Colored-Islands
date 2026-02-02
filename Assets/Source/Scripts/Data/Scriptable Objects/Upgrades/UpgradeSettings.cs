@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SlimeGround.Data.ScriptableObjects.Upgrades
 {
-
 	[CreateAssetMenu(fileName = "UpgradeSettings", menuName = "Custom/UpgradeSettings")]
 	public class UpgradeSettings : ScriptableObject
 	{

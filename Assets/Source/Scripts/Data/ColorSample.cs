@@ -1,4 +1,3 @@
-
 namespace SlimeGround.Data
 {
 	public enum ColorSample
@@ -14,5 +13,4 @@ namespace SlimeGround.Data
 	    Orange,
 	    Mint
 	}
-
 }

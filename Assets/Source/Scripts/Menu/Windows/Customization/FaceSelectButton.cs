@@ -4,15 +4,13 @@ using UnityEngine.UI;
 
 namespace SlimeGround.Menu.Windows.Customization
 {
-
 	public class FaceSelectButton : SelectButton
 	{
 	    [SerializeField] private Image _faceImage;
 
-	    public int FaceId { get; private set; }
-
 	    public event Action<FaceSelectButton> ButtonClicked;
 
+	    public int FaceId { get; private set; }
 
 	    public void Initialize(int faceId, Sprite faceSprite, bool isAviable, bool wasUsed)
 	    {
@@ -36,5 +34,4 @@ namespace SlimeGround.Menu.Windows.Customization
 	        ButtonClicked?.Invoke(this);
 	    }
 	}
-
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace SlimeGround.Menu.Windows.Leaderboard
 {
-
 	public class LeaderboardView : MonoBehaviour
 	{
 	    [SerializeField] private List<PlayerResultView> _topPlayerViews = new();
@@ -80,5 +79,4 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	        }
 	    }
 	}
-
 }

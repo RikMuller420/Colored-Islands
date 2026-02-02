@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SlimeGround.Menu.Windows.Leaderboard
 {
-
 	[System.Serializable]
 	public class NewLeaderPositionData
 	{
@@ -15,5 +14,4 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	    public LeanToken Token => _token;
 	    public string LeanTextKey => _leanTextKey;
 	}
-
 }

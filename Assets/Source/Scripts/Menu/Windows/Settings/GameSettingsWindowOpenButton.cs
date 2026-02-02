@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 namespace SlimeGround.Menu.Windows.Settings
 {
-
 	public class GameSettingsWindowOpenButton : MonoBehaviour
 	{
 	    [SerializeField] private Button _button;
@@ -24,5 +23,4 @@ namespace SlimeGround.Menu.Windows.Settings
 	        _window.Open();
 	    }
 	}
-
 }

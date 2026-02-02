@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace SlimeGround.Menu.Windows.Leaderboard
 {
-
 	public class PlayerResultView : MonoBehaviour
 	{
 	    private const string RankPrefix = "#";
@@ -13,13 +12,13 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	    private const string ZeroPlayerScore = "0";
 	    private const string MaxPlayerScore = "Absolute";
 
-	    [SerializeField] private TextMeshProUGUI _playerRank;
+		private readonly string[] _scoreSuffixes = { "", "K", "M", "B", "T" };
+
+		[SerializeField] private TextMeshProUGUI _playerRank;
 	    [SerializeField] private TextMeshProUGUI _playerName;
 	    [SerializeField] private TextMeshProUGUI _playerScore;
 	    [SerializeField] private GameObject _currentPlayerHighlight;
 	    [SerializeField] private ImageLoader imageLoader;
-
-	    private readonly string[] _scoreSuffixes = { "", "K", "M", "B", "T" };
 
 	    public void SetPlayeData(LeaderboardPlayerData player, bool isCurrentPlayer)
 	    {
@@ -71,5 +70,4 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	        return score.ToString();
 	    }
 	}
-
 }

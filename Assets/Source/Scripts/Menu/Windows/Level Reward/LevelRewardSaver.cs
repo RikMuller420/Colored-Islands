@@ -35,7 +35,7 @@ namespace SlimeGround.Menu.Windows.LevelReward
 
 	        if (reward.BoostAmount > 0)
 	        {
-	            int boostAmount = _playerData.GetBoostAmount(reward.BoostType) + reward.BoostAmount * multiplier;
+	            int boostAmount = _playerData.GetBoostAmount(reward.BoostType) + (reward.BoostAmount * multiplier);
 	            _playerData.SetBoostAmount(reward.BoostType, boostAmount);
 	        }
 

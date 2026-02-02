@@ -12,8 +12,6 @@ namespace SlimeGround.Effects.Sound
 	    private AudioMixers _mixers;
 	    private PlayerDataProvider _playerData;
 
-	    public event Action<AudioGroup> SoundEnabledChanged;
-
 	    public SoundVolumeProvider(AudioMixers mixers, PlayerDataProvider playerData)
 	    {
 	        _mixers = mixers;
@@ -27,7 +25,9 @@ namespace SlimeGround.Effects.Sound
 	        }
 	    }
 
-	    public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _playerData.GetIsSoundOnStatus(audioGroup);
+		public event Action<AudioGroup> SoundEnabledChanged;
+
+		public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _playerData.GetIsSoundOnStatus(audioGroup);
 
 	    public void SetAudioGroupVolume(AudioGroup audioGroup, bool isVolumeOn)
 	    {

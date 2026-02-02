@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace SlimeGround.Menu.Extensions.TextAnimator
 {
-
 	public class NumberTextGrowAnimator : MonoBehaviour
 	{
 	    [SerializeField] private TextMeshProUGUI _text;
@@ -35,15 +34,16 @@ namespace SlimeGround.Menu.Extensions.TextAnimator
 	    {
 	        int value = startValue;
 
-	        DOTween.To(() =>
-	            value,
-	            newValue =>
-	            {
-	                value = newValue;
-	                _text.text = CalculateText(value);
-	            },
-	            resultValue,
-	            _settings.GrowAnimationDuration
+	        DOTween.To(
+				() =>
+					value,
+					newValue =>
+					{
+						value = newValue;
+						_text.text = CalculateText(value);
+					},
+					resultValue,
+					_settings.GrowAnimationDuration
 	            )
 	            .SetEase(Ease.OutQuad)
 	            .SetDelay(_settings.AnimationDelay);
@@ -63,5 +63,4 @@ namespace SlimeGround.Menu.Extensions.TextAnimator
 	        return $"{_textPrefix}{value}";
 	    }
 	}
-
 }

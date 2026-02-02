@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SlimeGround.Effects.Sound
 {
-
 	public class UISoundPlayer : MonoBehaviour
 	{
 	    [SerializeField] private List<UiSound> _sounds;
@@ -18,5 +17,4 @@ namespace SlimeGround.Effects.Sound
 	        audioSource.Play();
 	    }
 	}
-
 }

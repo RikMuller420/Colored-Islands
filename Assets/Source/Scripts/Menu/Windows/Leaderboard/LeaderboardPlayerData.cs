@@ -1,4 +1,3 @@
-
 namespace SlimeGround.Menu.Windows.Leaderboard
 {
 	public class LeaderboardPlayerData
@@ -16,5 +15,4 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	    public int Score { get; }
 	    public string PhotoLink { get; }
 	}
-
 }

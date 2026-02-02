@@ -13,9 +13,6 @@ namespace SlimeGround.Menu.Windows.Customization
 	    private List<HatSelectButton> _hatSelectButtons;
 	    private List<FaceSelectButton> _faceSelectButtons;
 
-	    public event Action HatButtonUnlocked;
-	    public event Action FaceButtonUnlocked;
-
 	    public CustomizationButtonAviabiltyUpdater(LevelProgressTracker levelProgressTracker, IPlayerData playerData,
 	                                List<HatSelectButton> hatSelectButtons, List<FaceSelectButton> faceSelectButtons)
 	    {
@@ -28,7 +25,10 @@ namespace SlimeGround.Menu.Windows.Customization
 	        _playerData.FaceUnlocked += UpdateFaceAviability;
 	    }
 
-	    private void UpdateFaceAviability(int faceId)
+		public event Action HatButtonUnlocked;
+		public event Action FaceButtonUnlocked;
+
+		private void UpdateFaceAviability(int faceId)
 	    {
 	        FaceSelectButton faceButton = _faceSelectButtons.FirstOrDefault(face => face.FaceId == faceId);
 	        faceButton.SetUnlockedStyle();

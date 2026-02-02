@@ -22,5 +22,4 @@ namespace SlimeGround.Gameplay.Islands
 	        particle.transform.position = island.CenterPoint.position;
 	    }
 	}
-
 }

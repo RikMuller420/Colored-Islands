@@ -77,5 +77,4 @@ namespace SlimeGround.Gameplay.AngryBar
 	        _emojiAnimator.SetBool(_isFreezedHash, false);
 	    }
 	}
-
 }

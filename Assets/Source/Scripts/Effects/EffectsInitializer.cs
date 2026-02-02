@@ -25,5 +25,4 @@ namespace SlimeGround.Effects
 	        var levelEndSoundPlayer = new LevelEndSoundPlayer(_levelProgressTracker, _gameplaySoundPlayer);
 	    }
 	}
-
 }

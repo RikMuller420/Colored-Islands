@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SlimeGround.Data.ScriptableObjects.Hats
 {
-
 	[CreateAssetMenu(fileName = "UnitsHatSettings", menuName = "Custom/UnitsHatSettings")]
 	public class UnitsHatSettings : ScriptableObject
 	{
@@ -13,5 +12,4 @@ namespace SlimeGround.Data.ScriptableObjects.Hats
 	    public int NoHatId => _noHatId;
 	    public IReadOnlyCollection<UnitHatData> Hats => _hats;
 	}
-
 }

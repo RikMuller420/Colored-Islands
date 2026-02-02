@@ -11,7 +11,6 @@ namespace SlimeGround.Gameplay.Training
 	    private float _appearTime = 0.7f;
 	    private float _disappearTime = 1.5f;
 
-
 	    public override void StartTraining()
 	    {
 	        _iceHint.DOFade(1f, _appearTime);

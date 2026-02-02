@@ -2,7 +2,6 @@ using YG;
 
 namespace SlimeGround.Integration.Localization
 {
-
 	public class LocalizationProvider
 	{
 	    public string GetLanguageKey()
@@ -10,5 +9,4 @@ namespace SlimeGround.Integration.Localization
 	        return YG2.lang;
 	    }
 	}
-
 }

@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 namespace SlimeGround.Gameplay.AngryBar
 {
-
 	public class SmoothBarChanger : MonoBehaviour
 	{
 	    [SerializeField] private Image _filler;
@@ -79,5 +78,4 @@ namespace SlimeGround.Gameplay.AngryBar
 	        }
 	    }
 	}
-
 }

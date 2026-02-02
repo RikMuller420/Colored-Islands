@@ -8,7 +8,6 @@ using UnityEngine;
 
 namespace SlimeGround.Core.CameraSystem
 {
-
 	public class CameraPositionChanger : MonoBehaviour
 	{
 	    [SerializeField] private LevelSettings _levelSettings;
@@ -166,5 +165,4 @@ namespace SlimeGround.Core.CameraSystem
 	        _cameraFoVChanger.AdjustFOVToFitObjects();
 	    }
 	}
-
 }

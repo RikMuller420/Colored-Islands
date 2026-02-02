@@ -1,4 +1,3 @@
-
 namespace SlimeGround.Menu.Windows.InAppPurchase
 {
 	public enum InAppType 
@@ -7,7 +6,6 @@ namespace SlimeGround.Menu.Windows.InAppPurchase
 	    BigGoldBundle,
 	    RemoveAds,
 	    SmallComboBundle,
-	    BigComboBundle,
+	    BigComboBundle
 	}
-
 }

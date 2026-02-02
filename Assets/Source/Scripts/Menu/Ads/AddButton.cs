@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 namespace SlimeGround.Menu.Ads
 {
-
 	public class AddButton : MonoBehaviour
 	{
 	    [SerializeField] private Button _button;
@@ -45,5 +44,4 @@ namespace SlimeGround.Menu.Ads
 	        }
 	    }
 	}
-
 }

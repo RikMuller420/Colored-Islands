@@ -6,8 +6,8 @@ using SlimeGround.Effects.Sound;
 using SlimeGround.Gameplay.Boosts;
 using SlimeGround.Integration.Localization;
 using SlimeGround.Menu.Windows.Customization;
-using SlimeGround.Menu.Windows.InAppPurchase;
 using SlimeGround.Menu.Windows.GameShop.Upgrades;
+using SlimeGround.Menu.Windows.InAppPurchase;
 
 namespace SlimeGround.Data.Saves
 {

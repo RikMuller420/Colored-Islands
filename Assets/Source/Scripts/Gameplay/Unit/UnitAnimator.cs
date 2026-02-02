@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SlimeGround.Gameplay.Units
 {
-
 	public class UnitAnimator : MonoBehaviour
 	{
 	    private const string IdleTriggerName = "Idle";
@@ -67,5 +66,4 @@ namespace SlimeGround.Gameplay.Units
 	        }
 	    }
 	}
-
 }

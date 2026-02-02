@@ -7,15 +7,15 @@ namespace SlimeGround.Menu.Ads
 	{
 	    private PlayerDataProvider _playerData;
 
-	    public event Action RemoveAdsStateChanged;
-
 	    public RemoveAdsProvider(PlayerDataProvider playerData)
 	    {
 	        _playerData = playerData;
 	        playerData.RemoveAdsStateChanged += OnRemoveAdsStateChanged;
 	    }
 
-	    public bool IsAdsRemoved => _playerData.IsAdsRemoved;
+		public event Action RemoveAdsStateChanged;
+
+		public bool IsAdsRemoved => _playerData.IsAdsRemoved;
 
 	    public void RemoveAds()
 	    {

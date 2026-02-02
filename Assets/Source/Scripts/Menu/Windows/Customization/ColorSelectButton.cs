@@ -10,9 +10,8 @@ namespace SlimeGround.Menu.Windows.Customization
 	{
 	    [SerializeField] private Image _faceImage;
 
-	    public ColorSample ColorSample { get; private set; }
-
 	    public event Action<ColorSelectButton> ButtonClicked;
+	    public ColorSample ColorSample { get; private set; }
 
 	    public void Initialize(ColorSampleMaterialData material)
 	    {

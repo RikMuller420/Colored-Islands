@@ -79,7 +79,7 @@ namespace SlimeGround
 
 	        _gameplayInitializer.Initialize(upgradesProvider, leaderboardProvider,
 	                                        levelDataHolder, unitMover);
-	        
+
 	        _levelLoader.Initialize(upgradesProvider, unitMover, levelDataHolder);
 
 	        _boostInitializer.Initialize(unitMover, clickHandler, levelDataHolder,
@@ -97,5 +97,4 @@ namespace SlimeGround
 	        _leaderboardInitializer.Initialize(leaderboardProvider, authorizationProvider);
 	    }
 	}
-
 }

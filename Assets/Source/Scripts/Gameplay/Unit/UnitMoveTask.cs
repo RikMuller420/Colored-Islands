@@ -8,8 +8,10 @@ namespace SlimeGround.Gameplay.Units
 	{
 	    private Tween _pathTween;
 	    private Transform _unitsLookAtTarget;
+		private IslandPoint _targetPoint;
+		private Unit _unit;
 
-	    private bool _isMoveAnimationActive;
+		private bool _isMoveAnimationActive;
 	    private float _deactivateMoveAnimationPercent = 0.5f;
 
 	    private float _maxMoveSpeed = 10f;
@@ -24,10 +26,10 @@ namespace SlimeGround.Gameplay.Units
 	        _unit = unit;
 	        _targetPoint = targetPoint;
 	        _unitsLookAtTarget = unitsLookAtTarget;
-	        Vector3 intermediatePoint = CalculateIntermediatePoint(_currentPosition, _targetPosition);
-	        Vector3[] path = { _currentPosition, intermediatePoint, _targetPosition };
+	        Vector3 intermediatePoint = CalculateIntermediatePoint(CurrentPosition, TargetPosition);
+	        Vector3[] path = { CurrentPosition, intermediatePoint, TargetPosition };
 
-	        float moveTime = (_currentPosition - _targetPosition).magnitude / _maxMoveSpeed;
+	        float moveTime = (CurrentPosition - TargetPosition).magnitude / _maxMoveSpeed;
 
 	        if (moveTime < _minMoveTime)
 	        {
@@ -44,11 +46,8 @@ namespace SlimeGround.Gameplay.Units
 	        _isMoveAnimationActive = true;
 	    }
 
-	    private IslandPoint _targetPoint;
-	    private Unit _unit;
-
-	    private Vector3 _currentPosition => _unit.transform.position;
-	    private Vector3 _targetPosition => _targetPoint.Transform.position;
+	    private Vector3 CurrentPosition => _unit.transform.position;
+	    private Vector3 TargetPosition => _targetPoint.Transform.position;
 
 	    private void OnMoveUpdate()
 	    {
@@ -70,11 +69,11 @@ namespace SlimeGround.Gameplay.Units
 	    {
 	        float length = (endPoint - startPoint).magnitude;
 	        Vector3 direction = (endPoint - startPoint).normalized;
-	        Vector3 randomPoint = startPoint + direction * (length * Random.Range(_minArcPosition, _maxArcPosition));
+	        Vector3 randomPoint = startPoint + (direction * (length * Random.Range(_minArcPosition, _maxArcPosition)));
 
 	        Vector3 perpendicular = new Vector3(-direction.z, 0, direction.x).normalized;
 	        float arcOffset = (endPoint - startPoint).magnitude * Random.Range(_minArcOffset, _maxArcOffset);
-	        Vector3 intermediatePoint = randomPoint + perpendicular * arcOffset;
+	        Vector3 intermediatePoint = randomPoint + (perpendicular * arcOffset);
 
 	        return intermediatePoint;
 	    }

@@ -3,17 +3,16 @@ using YG;
 
 namespace SlimeGround.Integration.Ads
 {
-
 	public class InterstitialAdProvider
 	{
-	    public event Action AdShowed;
-
 	    public InterstitialAdProvider()
 	    {
 	        YG2.onCloseInterAdvWasShow += OnAdShowed;
 	    }
 
-	    public void ShowAd()
+		public event Action AdShowed;
+
+		public void ShowAd()
 	    {
 	        YG2.InterstitialAdvShow();
 	    }
@@ -26,5 +25,4 @@ namespace SlimeGround.Integration.Ads
 	        }
 	    }
 	}
-
 }

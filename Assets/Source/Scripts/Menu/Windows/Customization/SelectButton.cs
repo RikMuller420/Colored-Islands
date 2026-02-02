@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 namespace SlimeGround.Menu.Windows.Customization
 {
-
 	public class SelectButton : MonoBehaviour
 	{
 	    [SerializeField] private Button _button;
@@ -11,9 +10,8 @@ namespace SlimeGround.Menu.Windows.Customization
 	    [SerializeField] private GameObject _selectedFrame;
 	    [SerializeField] private GameObject _markerUnused;
 
-	    protected Button Button => _button;
-
 	    public bool IsUnusedMarkActive => _markerUnused.activeSelf;
+	    protected Button Button => _button;
 
 	    public void Initialize(bool isAviable, bool wasUsed)
 	    {
@@ -66,5 +64,4 @@ namespace SlimeGround.Menu.Windows.Customization
 	        _markerUnused.SetActive(false);
 	    }
 	}
-
 }

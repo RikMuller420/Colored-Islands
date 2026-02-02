@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace SlimeGround.Data.ScriptableObjects.UnitFaces
 {
-
 	[System.Serializable]
 	public class UnitFaceData
 	{
@@ -22,5 +21,4 @@ namespace SlimeGround.Data.ScriptableObjects.UnitFaces
 	    public Material Material => _material;
 	    public bool IsAviableOnStart => _isAviableOnStart;
 	}
-
 }

@@ -80,5 +80,4 @@ namespace SlimeGround.Gameplay.Units
 	    }
 	#endif
 	}
-
 }

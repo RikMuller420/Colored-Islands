@@ -1,4 +1,3 @@
-
 namespace SlimeGround.Menu.Windows.GameShop.Upgrades
 {
 	public enum UpgradeType 
@@ -7,5 +6,4 @@ namespace SlimeGround.Menu.Windows.GameShop.Upgrades
 	    IncreaseRewards,
 	    SlowDownAngryBar
 	}
-
 }

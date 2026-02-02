@@ -2,7 +2,6 @@ using System;
 
 namespace SlimeGround.Menu.Windows.GameShop.Upgrades
 {
-
 	public interface IUpgradesData
 	{
 	    public event Action<UpgradeType> Upgraded;
@@ -11,5 +10,4 @@ namespace SlimeGround.Menu.Windows.GameShop.Upgrades
 	    public int UpgradeStage(UpgradeType upgradeType);
 	    public int CalculateUpgradedGoldAmount(int baseGold);
 	}
-
 }

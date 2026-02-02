@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SlimeGround.Gameplay.Islands
 {
-
 	public class IslandFinishParticlePool : MonoBehaviour
 	{
 	    [SerializeField] private ParticleSystem _particlePrefab;
@@ -28,5 +27,4 @@ namespace SlimeGround.Gameplay.Islands
 	        return newParticle;
 	    }
 	}
-
 }

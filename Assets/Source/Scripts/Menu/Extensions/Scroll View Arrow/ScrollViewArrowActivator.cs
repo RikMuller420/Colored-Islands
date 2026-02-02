@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 namespace SlimeGround.Menu.Extensions.ScrollViewArrow
 {
-
 	public class ScrollViewArrowActivator : MonoBehaviour
 	{
 	    [SerializeField] private Scrollbar _scrollbar;
@@ -19,7 +18,6 @@ namespace SlimeGround.Menu.Extensions.ScrollViewArrow
 	    private float _topArrowValue;
 	    private float _botArrowValue;
 	    private bool _isUpdating = false;
-
 
 	    private void Awake()
 	    {
@@ -52,7 +50,7 @@ namespace SlimeGround.Menu.Extensions.ScrollViewArrow
 	    {
 	        _isUpdating = true;
 
-	        yield return new WaitForEndOfFrame(); // ���� ����� �����, ����� �������� ��������� � UI rebuild
+	        yield return new WaitForEndOfFrame();
 
 	        if (_content.rect.height < _window.rect.height)
 	        {
@@ -74,5 +72,4 @@ namespace SlimeGround.Menu.Extensions.ScrollViewArrow
 	        _isUpdating = false;
 	    }
 	}
-
 }

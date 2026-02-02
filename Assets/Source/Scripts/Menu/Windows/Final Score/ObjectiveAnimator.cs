@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 namespace SlimeGround.Menu.Windows.FinalScore
 {
-
 	public class ObjectiveAnimator : MonoBehaviour
 	{
 	    [SerializeField] private TextMeshProUGUI _text;
@@ -68,5 +67,4 @@ namespace SlimeGround.Menu.Windows.FinalScore
 	        }
 	    }
 	}
-
 }

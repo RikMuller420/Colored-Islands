@@ -46,7 +46,7 @@ namespace SlimeGround.Menu.Windows.GameShop
 	    {
 	        _upgradesProvider = upgradesProvider;
 	        _walletProvider = walletProvider;
-	        _upgradeSettings = upgradeSettings.Upgrades.FirstOrDefault(upgrade => upgrade.Type == _upgradeType); ;
+	        _upgradeSettings = upgradeSettings.Upgrades.FirstOrDefault(upgrade => upgrade.Type == _upgradeType);
 	        UpdatePrice();
 	        OnUpgraded(_upgradeType);
 	        UpdateBuyAviability(walletProvider.GoldAmount);

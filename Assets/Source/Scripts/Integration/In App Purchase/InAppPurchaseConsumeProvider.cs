@@ -2,7 +2,6 @@ using YG;
 
 namespace SlimeGround.Integration.InAppPurchase
 {
-
 	public class InAppPurchaseConsumeProvider
 	{
 	    public void ConsumePurchase()
@@ -10,5 +9,4 @@ namespace SlimeGround.Integration.InAppPurchase
 	        YG2.ConsumePurchases();
 	    }
 	}
-
 }

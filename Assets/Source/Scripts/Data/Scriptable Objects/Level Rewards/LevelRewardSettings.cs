@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SlimeGround.Data.ScriptableObjects.LevelRewards
 {
-
 	[CreateAssetMenu(fileName = "LevelRewardSettings", menuName = "Custom/LevelRewardSettings")]
 	public class LevelRewardSettings : ScriptableObject
 	{
@@ -11,5 +10,4 @@ namespace SlimeGround.Data.ScriptableObjects.LevelRewards
 
 	    public IReadOnlyCollection<LevelRewardData> LevelRewards => _levelRewards;
 	}
-
 }

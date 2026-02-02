@@ -3,12 +3,9 @@ using UnityEngine;
 
 namespace SlimeGround.Effects
 {
-
 	public class SelectedUnitMaterial
 	{
 	    private const string WidthName = "_OtlWidth";
-
-	    public Material Material { get; }
 
 	    private Tween _alphaTween;
 
@@ -22,7 +19,9 @@ namespace SlimeGround.Effects
 	        DOTween.Init();
 	    }
 
-	    public void StartSelectionAnimation()
+		public Material Material { get; }
+
+		public void StartSelectionAnimation()
 	    {
 	        _alphaTween?.Kill();
 
@@ -42,5 +41,4 @@ namespace SlimeGround.Effects
 	        Material.SetFloat(WidthName, value);
 	    }
 	}
-
 }

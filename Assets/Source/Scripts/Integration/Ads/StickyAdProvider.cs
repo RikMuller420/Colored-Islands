@@ -2,7 +2,6 @@ using YG;
 
 namespace SlimeGround.Integration.Ads
 {
-
 	public class StickyAdProvider
 	{
 	    public void DeactivateStickyAds()
@@ -10,5 +9,4 @@ namespace SlimeGround.Integration.Ads
 	        YG2.StickyAdActivity(false);
 	    }
 	}
-
 }

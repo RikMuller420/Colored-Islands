@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 namespace SlimeGround.Effects.Sound
 {
-
 	public class ButtonUISoundPlayer : MonoBehaviour
 	{
 	    [SerializeField] private Button _button;
@@ -38,5 +37,4 @@ namespace SlimeGround.Effects.Sound
 	        _uiSoundPlayer.PlaySound(_uiSoundType);
 	    }
 	}
-
 }

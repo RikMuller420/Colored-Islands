@@ -1,4 +1,3 @@
-
 namespace SlimeGround.Data
 {
 	public enum UnitSlotType 
@@ -10,5 +9,4 @@ namespace SlimeGround.Data
 	    Pink,
 	    White
 	}
-
 }

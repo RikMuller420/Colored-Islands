@@ -40,7 +40,6 @@ namespace SlimeGround.Menu.Windows.Roulette
 	    public event System.Action SpinStarted;
 	    public event System.Action<Slot> SpinFinished;
 
-
 	    public void Initialize(IPlayerData playerData, UnitsFaceSettings faceSettings,
 	                           UpgradesProvider upgradesProvider)
 	    {
@@ -126,7 +125,7 @@ namespace SlimeGround.Menu.Windows.Roulette
 	            unusedSlots.RemoveAt(0);
 	        }
 
-	        for (int i = 0; i< unusedSlots.Count; i++)
+	        for (int i = 0; i < unusedSlots.Count; i++)
 	        {
 	            int goldAmount = _upgradesProvider.CalculateUpgradedGoldAmount(_goldInRewards[i]);
 

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 namespace SlimeGround.Menu.Extensions.Windows
 {
-
 	public class MenuDimmer : MonoBehaviour
 	{
 	    [SerializeField] private CanvasGroup _backgroundDim;
@@ -61,5 +60,4 @@ namespace SlimeGround.Menu.Extensions.Windows
 	        _openedMenu.Close();
 	    }
 	}
-
 }

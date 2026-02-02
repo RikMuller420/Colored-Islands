@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 namespace SlimeGround.Menu.Extensions.Controls
 {
-
 	public class ToggleButton : MonoBehaviour
 	{
 	    [SerializeField] private bool _startEnabled = true;
@@ -61,5 +60,4 @@ namespace SlimeGround.Menu.Extensions.Controls
 	        _toggleOff.SetActive(!_isOn);
 	    }
 	}
-
 }

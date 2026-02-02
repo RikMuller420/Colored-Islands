@@ -21,7 +21,6 @@ namespace SlimeGround.Gameplay.Islands
 	    public int FreePointsCount => Points.Count(point => point.IsFree);
 	    public IReadOnlyCollection<IslandPoint> Points { get; private set; }
 
-
 	    public void Initialize(List<IslandPoint> placementPoints)
 	    {
 	        Points = placementPoints.OrderByDescending(point => point.Transform.position.z).ToList();

@@ -7,12 +7,10 @@ using UnityEngine;
 
 namespace SlimeGround.Gameplay.Units
 {
-	public class UnitMover: IUnitMovedEvent
+	public class UnitMover : IUnitMovedEvent
 	{
 	    private IslandPaintDistributor _islandSlotDistributor;
 	    private Transform _unitsLookAtTarget;
-
-	    public event Action<UnitsMoveInfo> UnitsMoved;
 
 	    public UnitMover(Transform unitsLookAtTarget)
 	    {
@@ -20,7 +18,9 @@ namespace SlimeGround.Gameplay.Units
 	        _islandSlotDistributor = new IslandPaintDistributor();
 	    }
 
-	    public void MoveAllPossibleUnits(BaseIsland homeIsland, UnitSlotType unitSlot, BaseIsland targetIsland)
+		public event Action<UnitsMoveInfo> UnitsMoved;
+
+		public void MoveAllPossibleUnits(BaseIsland homeIsland, UnitSlotType unitSlot, BaseIsland targetIsland)
 	    {
 	        if (targetIsland.FreePointsCount == 0)
 	        {
@@ -39,8 +39,6 @@ namespace SlimeGround.Gameplay.Units
 	                                    .ToList()
 	                                    .AsReadOnly();
 
-
-
 	        foreach (Unit unit in movedUnits)
 	        {
 	            MoveUnit(unit, targetIsland);
@@ -55,7 +53,6 @@ namespace SlimeGround.Gameplay.Units
 	        }
 
 	        UnitsMoved?.Invoke(unitsMoveInfo);
-
 	    }
 
 	    public void MoveUnit(Unit unit, BaseIsland targetIsland)
@@ -91,7 +88,7 @@ namespace SlimeGround.Gameplay.Units
 	            {
 	                pointToFill.Add(point, slot);
 	            }
-	            else if(point.OccupiedUnit.Slot != slot)
+	            else if (point.OccupiedUnit.Slot != slot)
 	            {
 	                pointToFill.Add(point, slot);
 	                unitsToMove.Add(point.OccupiedUnit);

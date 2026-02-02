@@ -1,4 +1,3 @@
-
 namespace SlimeGround.Effects.Sound
 {
 	public enum GameplaySoundType
@@ -8,5 +7,4 @@ namespace SlimeGround.Effects.Sound
 	    OutOfBoost,
 	    WinSound
 	}
-
 }

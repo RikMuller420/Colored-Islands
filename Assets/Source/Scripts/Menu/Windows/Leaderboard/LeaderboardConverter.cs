@@ -3,7 +3,6 @@ using YG.Utils.LB;
 
 namespace SlimeGround.Menu.Windows.Leaderboard
 {
-
 	public class LeaderboardConverter
 	{
 	    public Leaderboard ConvertFrom(LBData yandexLeaderboard)
@@ -35,7 +34,5 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 
 	        return players;
 	    }
-
 	}
-
 }

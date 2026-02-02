@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace SlimeGround.Menu.Ads
 {
-
 	public class FreeStuffCollDownProvider : MonoBehaviour
 	{
 	    [SerializeField] private LeanToken _timerToken;
@@ -75,5 +74,4 @@ namespace SlimeGround.Menu.Ads
 	        _timerToken.SetValue(timerText);
 	    }
 	}
-
 }

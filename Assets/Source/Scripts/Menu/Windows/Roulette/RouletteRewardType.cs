@@ -1,4 +1,3 @@
-
 namespace SlimeGround.Menu.Windows.Roulette
 {
 	public enum RouletteRewardType 
@@ -7,5 +6,4 @@ namespace SlimeGround.Menu.Windows.Roulette
 	    Face,
 	    RemoveAds
 	}
-
 }

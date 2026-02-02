@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SlimeGround.Data.ScriptableObjects.UnitFaces
 {
-
 	[CreateAssetMenu(fileName = "UnitsFaceSettings", menuName = "Custom/UnitsFaceSettings")]
 	public class UnitsFaceSettings : ScriptableObject
 	{
@@ -11,5 +10,4 @@ namespace SlimeGround.Data.ScriptableObjects.UnitFaces
 
 	    public IReadOnlyCollection<UnitFaceData> Faces => _faces;
 	}
-
 }

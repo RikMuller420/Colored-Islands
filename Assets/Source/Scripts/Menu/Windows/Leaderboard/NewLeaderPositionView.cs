@@ -20,7 +20,7 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	    [SerializeField] private LeaderboardSettings _leaderboardSettings;
 	    [SerializeField] private LevelChangeEventTracker _levelChangeEventTracker;
 
-	    private Dictionary<LeaderboardType, int> _playerRanks = new ();
+	    private Dictionary<LeaderboardType, int> _playerRanks = new();
 	    private Dictionary<LeaderboardType, int> _showedPlayerRanks = new();
 
 	    private DateTime _lastShowTime = DateTime.Now;

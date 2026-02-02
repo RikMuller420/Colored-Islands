@@ -1,4 +1,3 @@
-
 namespace SlimeGround.Gameplay.Training
 {
 	public enum Level1TrainingMoveType
@@ -6,5 +5,4 @@ namespace SlimeGround.Gameplay.Training
 	    SelectUnits,
 	    MoveUnits
 	}
-
 }

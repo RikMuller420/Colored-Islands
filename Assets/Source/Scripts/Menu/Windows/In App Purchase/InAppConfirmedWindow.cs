@@ -32,7 +32,7 @@ namespace SlimeGround.Menu.Windows.InAppPurchase
 
 	        _currentIcon = Instantiate(inAppSettings.IconPrefab, _iconHolder);
 
-	        base.Open();
+	        Open();
 	    }
 	}
 }

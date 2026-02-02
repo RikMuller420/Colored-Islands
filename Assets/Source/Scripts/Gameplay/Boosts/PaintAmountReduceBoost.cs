@@ -27,6 +27,7 @@ namespace SlimeGround.Gameplay.Boosts
 	        _unitMover = unitMover;
 	        _playerData = playerData;
 	    }
+
 	    public override BoostType Type => BoostType.ReducePaints;
 
 	    public override void TryApplyBoost()

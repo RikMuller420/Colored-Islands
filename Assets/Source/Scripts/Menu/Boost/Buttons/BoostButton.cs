@@ -10,6 +10,7 @@ namespace SlimeGround.Menu.Boosts
 	public class BoostButton : MonoBehaviour
 	{
 	    [SerializeField] protected Button Button;
+
 	    [SerializeField] private Image _buttonBackground;
 	    [SerializeField] private GameObject _glow;
 	    [SerializeField] private TextMeshProUGUI _amountText;

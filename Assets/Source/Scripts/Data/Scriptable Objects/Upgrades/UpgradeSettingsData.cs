@@ -8,7 +8,9 @@ namespace SlimeGround.Data.ScriptableObjects.Upgrades
 	public class UpgradeSettingsData
 	{
 	    [SerializeField] private UpgradeType _upgradeType;
-	    [SerializeField] private int[] _goldPrices = new int[5]
+		[SerializeField] private float _defaultValue = 1f;
+
+		[SerializeField] private int[] _goldPrices = new int[5]
 	    {
 	        200,
 	        500,
@@ -16,7 +18,7 @@ namespace SlimeGround.Data.ScriptableObjects.Upgrades
 	        2000,
 	        5000
 	    };
-	    [SerializeField] private float _defaultValue = 1f;
+
 	    [SerializeField] private float[] _stageValues = new float[5]
 	    {
 	        1,

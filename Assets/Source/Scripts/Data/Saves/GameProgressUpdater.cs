@@ -17,7 +17,6 @@ namespace SlimeGround.Data.Saves
 	    public GameProgressUpdater(LevelProgressTracker progressTracker, PlayerDataProvider playerData,
 	                               LeaderboardProvider leaderboardProvider, LeaderboardSettings leaderboardSettings)
 	    {
-
 	        _progressTracker = progressTracker;
 	        _playerData = playerData;
 	        _leaderboardProvider = leaderboardProvider;
