@@ -44,7 +44,7 @@ namespace SlimeGround.Menu.Windows.Customization
 	            {
 	                hatButton.SetUnlockedStyle();
 
-	                if (_playerData.WasHatUsed(hatButton.HatId) == false)
+	                if (_playerData.IsHatUsed(hatButton.HatId) == false)
 	                {
 	                    hatButton.ActivateUnusedMark();
 	                }

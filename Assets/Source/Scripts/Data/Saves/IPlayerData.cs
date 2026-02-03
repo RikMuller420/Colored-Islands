@@ -36,8 +36,8 @@ namespace SlimeGround.Data.Saves
 	    public bool IsLanguageSaved { get; }
 	    public Language Language { get; }
 
-	    public bool WasHatUsed(int hatId);
-	    public bool WasLevelRewardReceived(int levelId);
+	    public bool IsHatUsed(int hatId);
+	    public bool IsLevelRewardReceived(int levelId);
 	    public CustomizationPreferences GetCustomizationPreference(UnitSlotType slot);
 	    public int GetBoostAmount(BoostType boostType);
 	    public int GetUpgradeStage(UpgradeType upgradeType);

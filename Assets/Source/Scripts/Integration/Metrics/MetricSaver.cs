@@ -14,11 +14,12 @@ namespace SlimeGround.Integration.Metrics
 {
 	public class MetricSaver
 	{
-	    private const string CustomizationWindowKey = "CustomizationWindow";
+		private const string CustomizationWindowKey = "CustomizationWindow";
 	    private const string BoostCurrency = "Boost";
-	    private const string GoldCurrency = "Gold";
 	    private const string UpgradeCurrency = "Upgrade";
 	    private const string SpinCurrency = "Spin";
+
+		private static MetricSaver s_instance;
 
 		private readonly ILevelData _levelData;
 		private readonly IPlayerData _playerData;
@@ -27,14 +28,12 @@ namespace SlimeGround.Integration.Metrics
 	    {
 	        _levelData = currentLevelData;
 	        _playerData = playerData;
-	        Instance = this;
+	        s_instance = this;
 	    }
-
-		public static MetricSaver Instance { get; private set; }
 
 		public static void SpentBoost(BoostType type)
 	    {
-	        int levelId = Instance._levelData.LevelId;
+	        int levelId = s_instance._levelData.LevelId;
 
 	        GameAnalytics.NewResourceEvent(GAResourceFlowType.Sink, BoostCurrency, 1, type.ToString(), levelId.ToString());
 	    }
@@ -59,7 +58,7 @@ namespace SlimeGround.Integration.Metrics
 
 	        foreach (UnitSlotType slot in slotCollection)
 	        {
-	            CustomizationPreferences slimePreference = Instance._playerData.GetCustomizationPreference(slot);
+	            CustomizationPreferences slimePreference = s_instance._playerData.GetCustomizationPreference(slot);
 
 	            SlimeSlot slimeSlot = new SlimeSlot()
 	            {
@@ -76,12 +75,12 @@ namespace SlimeGround.Integration.Metrics
 
 	    public static void StartLevel()
 	    {
-	        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, Instance._levelData.LevelId.ToString());
+	        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, s_instance._levelData.LevelId.ToString());
 	    }
 
 	    public static void FinishLevel()
 	    {
-	        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Instance._levelData.LevelId.ToString());
+	        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, s_instance._levelData.LevelId.ToString());
 	    }
 
 	    public static void GetRouleteSpin(int spinCount)
@@ -106,12 +105,12 @@ namespace SlimeGround.Integration.Metrics
 
 	    public static void TrackAngryBarFailed()
 	    {
-	        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "Angry Bar " + Instance._levelData.LevelId);
+	        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "Angry Bar " + s_instance._levelData.LevelId);
 	    }
 
 	    public static void TrackMoveLimitFailed()
 	    {
-	        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "Move Limit " + Instance._levelData.LevelId);
+	        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "Move Limit " + s_instance._levelData.LevelId);
 	    }
 
 	    public static void GetInAppViaWathAdd(InAppType inAppType)

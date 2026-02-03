@@ -140,7 +140,7 @@ namespace SlimeGround.Data.Saves
 	    {
 	        foreach (UnitHatData actualHat in _unitsHatSettings.Hats)
 	        {
-	            bool isHatSaved = playerData.WasHatsUsed.ContainsKey(actualHat.Id);
+	            bool isHatSaved = playerData.IsHatsUsed.ContainsKey(actualHat.Id);
 
 	            if (isHatSaved == false)
 	            {
@@ -153,7 +153,7 @@ namespace SlimeGround.Data.Saves
 	    {
 	        foreach (LevelRewardData actualReward in _levelRewardSettings.LevelRewards)
 	        {
-	            bool isRewardSaved = playerData.WasLevelRewardReceived.ContainsKey(actualReward.LevelId);
+	            bool isRewardSaved = playerData.IsLevelRewardReceived.ContainsKey(actualReward.LevelId);
 
 	            if (isRewardSaved == false)
 	            {

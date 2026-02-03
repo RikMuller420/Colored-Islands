@@ -16,7 +16,7 @@ namespace SlimeGround.Core.InputHandling
 	    private BuferIslandsHolder _buferIslands;
 
 	    public IslandFinishClickBehaviour(ILevelData currentLevelData, BuferIslandsHolder buferIslands,
-	                                        UnitMover unitMover, LayerMask layerMask) : base(layerMask)
+	                                      UnitMover unitMover, LayerMask layerMask) : base(layerMask)
 	    {
 	        _currentLevelData = currentLevelData;
 	        _unitMover = unitMover;
@@ -34,7 +34,7 @@ namespace SlimeGround.Core.InputHandling
 	        }
 	    }
 
-	    public override void ResetBehaviour() { }
+	    public override void ResetBehaviour() { return; }
 
 	    private void FinishIsland(Island island)
 	    {

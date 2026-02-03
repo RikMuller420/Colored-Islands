@@ -24,7 +24,7 @@ namespace SlimeGround.Data.Saves
 	        enabled = true;
 	    }
 
-	    public void TrySave(PlayerData playerData)
+	    public void SaveWhileEnabled(PlayerData playerData)
 	    {
 	        if (IsAbleToSave())
 	        {
@@ -32,12 +32,12 @@ namespace SlimeGround.Data.Saves
 	        }
 	        else
 	        {
-	            TryStopSaveCorutine();
-	            _saveCorutine = StartCoroutine(SaveWhileEnabled(playerData));
+	            StopSaveCorutine();
+	            _saveCorutine = StartCoroutine(SaveWhileEnabledCoroutine(playerData));
 	        }
 	    }
 
-	    private IEnumerator SaveWhileEnabled(PlayerData playerData)
+	    private IEnumerator SaveWhileEnabledCoroutine(PlayerData playerData)
 	    {
 	        while (enabled)
 	        {
@@ -52,7 +52,7 @@ namespace SlimeGround.Data.Saves
 	        }
 	    }
 
-	    private void TryStopSaveCorutine()
+	    private void StopSaveCorutine()
 	    {
 	        if (_saveCorutine != null)
 	        {

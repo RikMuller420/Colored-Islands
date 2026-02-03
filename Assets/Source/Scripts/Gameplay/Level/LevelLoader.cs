@@ -98,7 +98,7 @@ namespace SlimeGround.Gameplay.Levels
 	        }
 
 	        _buferIslands.DeactivateCurrentIsland();
-	        _unitsPool.ReleaseActiveObjects();
+	        _unitsPool.ReleaseActiveUnits();
 	    }
 	}
 }

@@ -42,42 +42,55 @@ namespace SlimeGround.Data.Saves
 	    public event Action<int> FaceUnlocked;
 	    public event Action SpinCountChanged;
 
-	    public void Initialize()
-	    {
-	        _saveProvider = new SaveProvider();
-	        _playerDataSaver.Initialize(_saveProvider);
-
-	        PlayerDataReader playerDataReader = new PlayerDataReader(_levelSettings, _unitsFaceSettings, _unitsHatSettings,
-	                                                                 _levelRewardSettings, _saveProvider);
-	        _playerData = playerDataReader.GetData();
-	        Save();
-	    }
-
-	    public void Save() => _playerDataSaver.TrySave(_playerData);
-
-	    public int LastAvailableLevelId => Levels.FirstOrDefault(level => level.IsDone == false)?.Id ?? Levels.Max(level => level.Id);
 	    public LevelProgress FirstUnfinishedLevel => Levels.FirstOrDefault(level => level.IsDone == false);
-	    public bool IsTrainingFinished => _playerData.IsTrainingFinished;
+		public int LastAvailableLevelId => Levels.FirstOrDefault(level => level.IsDone == false)?.Id ?? Levels.Max(level => level.Id);
+		public bool IsTrainingFinished => _playerData.IsTrainingFinished;
 	    public IReadOnlyCollection<LevelProgress> Levels => _playerData.Levels;
 	    public int GoldAmount => _playerData.GoldAmount;
 	    public int ScoreAmount => _playerData.ScoreAmount;
 	    public bool IsAdsRemoved => _playerData.IsAdsRemoved;
 	    public int AviableSpinCount => _playerData.AviableSpinCount;
 	    public IReadOnlyCollection<FaceAvailabilitie> FaceAvailabilities => _playerData.FaceAvailabilities;
-	    public bool WasHatUsed(int hatId) => _playerData.WasHatsUsed.ContainsKey(hatId) ? _playerData.WasHatsUsed[hatId] : true;
-	    public bool WasLevelRewardReceived(int levelId) => _playerData.WasLevelRewardReceived.ContainsKey(levelId) ? _playerData.WasLevelRewardReceived[levelId] : true;
 	    public bool IsLanguageSaved => _playerData.IsLanguageSaved;
 	    public Language Language => _playerData.Language;
-	    public CustomizationPreferences GetCustomizationPreference(UnitSlotType unitSlot) => _playerData.CustomizationPreferences[unitSlot];
+
+		public void Initialize()
+		{
+			_saveProvider = new SaveProvider();
+			_playerDataSaver.Initialize(_saveProvider);
+
+			PlayerDataReader playerDataReader = new PlayerDataReader(_levelSettings, _unitsFaceSettings, _unitsHatSettings,
+																	 _levelRewardSettings, _saveProvider);
+			_playerData = playerDataReader.GetData();
+			Save();
+		}
+
+		public CustomizationPreferences GetCustomizationPreference(UnitSlotType unitSlot) => _playerData.CustomizationPreferences[unitSlot];
 	    public int GetBoostAmount(BoostType boostType) => _playerData.BoostsAmounts[boostType];
 	    public int GetUpgradeStage(UpgradeType upgradeType) => _playerData.UpgradeStages[upgradeType];
 	    public int GetEarnedInAppWithAddProgress(InAppType inAppType) => _playerData.EarnInAppWithAddProgress[inAppType];
 	    public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _playerData.IsSoundOnStatus[audioGroup];
 
-	    public void MarkHatUsed(int hatId) => _playerData.WasHatsUsed[hatId] = true;
-	    public void MarkLevelRewardReceived(int levelId) => _playerData.WasLevelRewardReceived[levelId] = true;
+	    public void MarkHatUsed(int hatId) => _playerData.IsHatsUsed[hatId] = true;
+	    public void MarkLevelRewardReceived(int levelId) => _playerData.IsLevelRewardReceived[levelId] = true;
 
-	    public void UnlockFace(int faceId)
+		public void Save() => _playerDataSaver.SaveWhileEnabled(_playerData);
+
+		public bool IsLevelRewardReceived(int levelId)
+		{
+			return _playerData.IsLevelRewardReceived.ContainsKey(levelId) ?
+										_playerData.IsLevelRewardReceived[levelId]
+										: true;
+		}
+
+		public bool IsHatUsed(int hatId)
+		{
+			return _playerData.IsHatsUsed.ContainsKey(hatId) ?
+										_playerData.IsHatsUsed[hatId]
+										: true;
+		}
+
+		public void UnlockFace(int faceId)
 	    {
 	        FaceAvailabilitie face = _playerData.FaceAvailabilities.Find(face => face.FaceId == faceId);
 	        FaceAvailabilitie newFace = new FaceAvailabilitie(face.FaceId, true, face.WasUsed);

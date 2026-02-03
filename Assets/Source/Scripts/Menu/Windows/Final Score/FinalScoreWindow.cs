@@ -149,7 +149,7 @@ namespace SlimeGround.Menu.Windows.FinalScore
 	    {
 	        int currentLevelId = levelData.LevelId;
 	        LevelRewardData reward = _levelRewardSettings.LevelRewards.FirstOrDefault(reward => reward.LevelId == currentLevelId);
-	        bool wasRewardReceived = _playerData.WasLevelRewardReceived(currentLevelId);
+	        bool wasRewardReceived = _playerData.IsLevelRewardReceived(currentLevelId);
 
 	        if (reward != null && wasRewardReceived == false)
 	        {

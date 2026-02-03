@@ -8,9 +8,9 @@ namespace SlimeGround.Core.InputHandling
 {
 	public class DefaultClickHandler : ClickBehaviour, IUnitsSelectedEvent
 	{
-	    private SelectState _currentSelection;
-	    private BaseIsland _selectedIsland;
-	    private UnitSlotType _selectedUnitSlot;
+		private bool _isUnitsSelected;
+	    private BaseIsland _selectedUnitsIsland;
+	    private UnitSlotType _selectedUnitType;
 
 	    private UnitMover _unitMover;
 	    private UnitHighlighter _unitHighlighter;
@@ -23,9 +23,9 @@ namespace SlimeGround.Core.InputHandling
 
 		public event Action UnitsSelected;
 
-		public SelectState CurrentSelection => _currentSelection;
-	    public BaseIsland SelectedIsland => _selectedIsland;
-	    public UnitSlotType SelectedUnitSlot => _selectedUnitSlot;
+		public bool IsUnitsSelected => _isUnitsSelected;
+	    public BaseIsland SelectedUnitsIsland => _selectedUnitsIsland;
+	    public UnitSlotType SelectedUnitType => _selectedUnitType;
 
 	    public override void HandleClick(RaycastHit hit)
 	    {
@@ -53,35 +53,35 @@ namespace SlimeGround.Core.InputHandling
 
 	    private void ResetSelection()
 	    {
-	        if (CurrentSelection == SelectState.Units)
+	        if (IsUnitsSelected)
 	        {
-	            _unitHighlighter.UnhighlightUnits(SelectedIsland, SelectedUnitSlot);
+	            _unitHighlighter.UnhighlightUnits(SelectedUnitsIsland, SelectedUnitType);
 	        }
 
-	        _currentSelection = SelectState.None;
+			_isUnitsSelected = false;
 	    }
 
 	    private void SelectUnit(UnitCollider unitCollider)
 	    {
 	        ResetSelection();
 
-	        _currentSelection = SelectState.Units;
-	        _selectedIsland = unitCollider.Unit.Island;
-	        _selectedUnitSlot = unitCollider.Unit.Slot;
-	        _unitHighlighter.HighlightUnits(_selectedIsland, _selectedUnitSlot);
+			_isUnitsSelected = true;
+	        _selectedUnitsIsland = unitCollider.Unit.Island;
+	        _selectedUnitType = unitCollider.Unit.Slot;
+	        _unitHighlighter.HighlightUnits(_selectedUnitsIsland, _selectedUnitType);
 	        UnitsSelected?.Invoke();
 	    }
 
 	    private void SelectIsland(BaseIsland island)
 	    {
-	        if (CurrentSelection == SelectState.None || island == SelectedIsland ||
+	        if (_isUnitsSelected == false || island == SelectedUnitsIsland ||
 	            island.FreePointsCount == 0)
 	        {
 	            return;
 	        }
 
-	        _unitHighlighter.UnhighlightUnits(SelectedIsland, SelectedUnitSlot);
-	        _unitMover.MoveAllPossibleUnits(SelectedIsland, SelectedUnitSlot, island);
+	        _unitHighlighter.UnhighlightUnits(SelectedUnitsIsland, SelectedUnitType);
+	        _unitMover.MoveAllPossibleUnits(SelectedUnitsIsland, SelectedUnitType, island);
 	        ResetSelection();
 	    }
 	}

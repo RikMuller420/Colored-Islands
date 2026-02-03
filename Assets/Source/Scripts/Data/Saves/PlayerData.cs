@@ -28,8 +28,8 @@ namespace SlimeGround.Data.Saves
 	    [JsonProperty] public Dictionary<InAppType, int> EarnInAppWithAddProgress;
 	    [JsonProperty] public Dictionary<AudioGroup, bool> IsSoundOnStatus;
 	    [JsonProperty] public Dictionary<UnitSlotType, CustomizationPreferences> CustomizationPreferences;
-	    [JsonProperty] public Dictionary<int, bool> WasHatsUsed;
-	    [JsonProperty] public Dictionary<int, bool> WasLevelRewardReceived;
+	    [JsonProperty] public Dictionary<int, bool> IsHatsUsed;
+	    [JsonProperty] public Dictionary<int, bool> IsLevelRewardReceived;
 	    [JsonProperty] public List<FaceAvailabilitie> FaceAvailabilities;
 
 	    public PlayerData()
@@ -49,12 +49,12 @@ namespace SlimeGround.Data.Saves
 
 	    public void AddLevelReward(int levelId, bool wasReceived)
 	    {
-	        WasLevelRewardReceived.Add(levelId, wasReceived);
+	        IsLevelRewardReceived.Add(levelId, wasReceived);
 	    }
 
 	    public void AddHat(int hatId, bool wasUsed)
 	    {
-	        WasHatsUsed.Add(hatId, wasUsed);
+	        IsHatsUsed.Add(hatId, wasUsed);
 	    }
 
 	    public void AddLevel(LevelProgress levelProgress)
@@ -71,8 +71,8 @@ namespace SlimeGround.Data.Saves
 	    {
 	        Levels = new List<LevelProgress>();
 	        FaceAvailabilities = new List<FaceAvailabilitie>();
-	        WasHatsUsed = new Dictionary<int, bool>();
-	        WasLevelRewardReceived = new Dictionary<int, bool>();
+	        IsHatsUsed = new Dictionary<int, bool>();
+	        IsLevelRewardReceived = new Dictionary<int, bool>();
 	        BoostsAmounts = new Dictionary<BoostType, int>();
 	        UpgradeStages = new Dictionary<UpgradeType, int>();
 	        IsSoundOnStatus = new Dictionary<AudioGroup, bool>();

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SlimeGround.Core.CameraSystem
 {
-	public class AspectRatioEnforcer : MonoBehaviour
+	public class AspectRatioLimiter : MonoBehaviour
 	{
 	    [SerializeField] private ScreenSizeChangeTracker _screenSizeChangeTracker;
 	    [SerializeField] private RectTransform _mainUi;
@@ -11,11 +11,11 @@ namespace SlimeGround.Core.CameraSystem
 
 	    private float _maxAspectX = 20f;
 	    private float _maxAspectY = 9f;
-	    private float _maxAspect;
+	    private float _maxAspectRatio;
 
 	    private void Start()
 	    {
-	        _maxAspect = _maxAspectX / _maxAspectY;
+	        _maxAspectRatio = _maxAspectX / _maxAspectY;
 	        UpdateViewport(new Vector2(Screen.width, Screen.height));
 	    }
 
@@ -33,9 +33,9 @@ namespace SlimeGround.Core.CameraSystem
 	    {
 	        float screenAspect = screenSize.x / screenSize.y;
 
-	        if (screenAspect > _maxAspect)
+	        if (screenAspect > _maxAspectRatio)
 	        {
-	            float scaleWidth = _maxAspect / screenAspect;
+	            float scaleWidth = _maxAspectRatio / screenAspect;
 	            float offsetLeft = (1f - scaleWidth) / 2f;
 	            float offsetRight = 1f - offsetLeft;
 

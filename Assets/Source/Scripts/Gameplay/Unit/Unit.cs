@@ -1,4 +1,3 @@
-using SlimeGround.Core.Pools;
 using SlimeGround.Data;
 using SlimeGround.Gameplay.Islands;
 using SlimeGround.Menu.Windows.Customization;
@@ -6,7 +5,7 @@ using UnityEngine;
 
 namespace SlimeGround.Gameplay.Units
 {
-	public class Unit : PoolableObject
+	public class Unit : MonoBehaviour
 	{
 	    [SerializeField] private UnitRenderer _renderer;
 	    [SerializeField] private Transform _meshTransform;
