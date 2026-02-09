@@ -14,6 +14,11 @@ namespace SlimeGround.Integration.Authorization
 
 		public bool IsAuthorized => YG2.player.auth;
 
+		public void Dispose()
+		{
+			YG2.onGetSDKData -= OnAuthorizationStatusChanged;
+		}
+
 	    public void AskForAuthorization()
 	    {
 	        YG2.OpenAuthDialog();

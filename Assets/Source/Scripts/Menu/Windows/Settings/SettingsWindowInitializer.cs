@@ -23,7 +23,9 @@ namespace SlimeGround.Menu.Windows.Settings
 	    [SerializeField] private List<SoundToggleMuter> _soundToggleMuters;
 	    [SerializeField] private List<LoginButton> _loginButtons;
 
-	    public void Initialize(AuthorizationProvider authorizationProvider)
+		private SoundVolumeProvider _soundVolumeProvider;
+
+		public void Initialize(AuthorizationProvider authorizationProvider)
 	    {
 	        _finalScoreWindow.Initialize(_playerData);
 
@@ -32,12 +34,17 @@ namespace SlimeGround.Menu.Windows.Settings
 	            loginButton.Initialize(authorizationProvider);
 	        }
 
-	        var soundVolumeProvider = new SoundVolumeProvider(_audioMixers, _playerData);
+			_soundVolumeProvider = new SoundVolumeProvider(_audioMixers, _playerData);
 
 	        foreach (SoundToggleMuter soundToggleMuter in _soundToggleMuters)
 	        {
-	            soundToggleMuter.Initialize(soundVolumeProvider);
+	            soundToggleMuter.Initialize(_soundVolumeProvider);
 	        }
 	    }
+
+		private void Dispose()
+		{
+			_soundVolumeProvider.Dispose();
+		}
 	}
 }

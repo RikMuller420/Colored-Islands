@@ -31,21 +31,32 @@ namespace SlimeGround.Menu.Windows.Customization
 
 	    [SerializeField] private List<UnitSelectButton> _unitSelectButtons = new();
 
-	    public void Initialize()
+		private UnitCustomizator _unitCustomizator;
+		private CustomizationButtonAviabiltyUpdater _buttonAviabiltyUpdater;
+
+		public void Initialize()
 	    {
 	        _unitCustomizationView.Initialize(_paintMaterials, _unitsFaceSettings, _unitsHatSettings);
 	        List<ColorSelectButton> colorSelectButtons = CreateColorButtons(_playerData);
 	        List<HatSelectButton> hatSelectButtons = CreateHatButtons(_playerData);
 	        List<FaceSelectButton> faceSelectButtons = CreateFaceButtons(_playerData);
 
-	        UnitCustomizator unitCustomizator = new UnitCustomizator(_unitCustomizationView, _playerData,
-	                                                _unitSelectButtons, hatSelectButtons, faceSelectButtons, colorSelectButtons);
+			_unitCustomizator = new UnitCustomizator(_unitCustomizationView, _playerData,
+	                                                 _unitSelectButtons, hatSelectButtons,
+													 faceSelectButtons, colorSelectButtons);
 
-	        CustomizationButtonAviabiltyUpdater buttonAviabiltyUpdater = new CustomizationButtonAviabiltyUpdater(
-	                                                _levelProgressTracker, _playerData, hatSelectButtons, faceSelectButtons);
+			_buttonAviabiltyUpdater = new CustomizationButtonAviabiltyUpdater(_levelProgressTracker,
+													_playerData, hatSelectButtons, faceSelectButtons);
 
-	        _customizationWindowOpenerButton.Initialize(unitCustomizator, buttonAviabiltyUpdater);
+	        _customizationWindowOpenerButton.Initialize(_unitCustomizator, _buttonAviabiltyUpdater);
 	    }
+
+		public void Dispose()
+		{
+			_unitCustomizator.Dispose();
+			_buttonAviabiltyUpdater.Dispose();
+			_customizationWindowOpenerButton.Dispose();
+		}
 
 	    private List<ColorSelectButton> CreateColorButtons(IPlayerData playerData)
 	    {

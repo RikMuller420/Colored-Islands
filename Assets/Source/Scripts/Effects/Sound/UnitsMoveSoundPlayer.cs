@@ -26,7 +26,12 @@ namespace SlimeGround.Effects.Sound
 	        enabled = true;
 	    }
 
-	    private void OnUnitMoved(UnitsMoveInfo unitsMoveInfo)
+		public void Dispose()
+		{
+			_unitMover.UnitsMoved -= OnUnitMoved;
+		}
+
+		private void OnUnitMoved(UnitsMoveInfo unitsMoveInfo)
 	    {
 	        StartCoroutine(PlayMoveSound(unitsMoveInfo.Units.Count));
 	    }

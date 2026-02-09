@@ -30,6 +30,12 @@ namespace SlimeGround.Gameplay.AngryBar
 
 		public float Value { get; private set; } = 1f;
 
+		public void Dispose()
+		{
+			_progressTracker.LevelFinished -= RecordWin;
+			_levelChangeEventTracker.LevelStartChanging -= OnLevelStartChanging;
+		}
+
 		private void OnLevelStartChanging()
 	    {
 	        if (_isCurrentLevelFinished == false && _progressTracker.AngryValue > _angryValueLimit)

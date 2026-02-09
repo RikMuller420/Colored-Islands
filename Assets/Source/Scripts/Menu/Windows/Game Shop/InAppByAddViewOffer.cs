@@ -39,6 +39,11 @@ namespace SlimeGround.Menu.Windows.GameShop
 	        enabled = true;
 	    }
 
+		public void Dispose()
+		{
+			_button.Dispose();
+		}
+
 	    private void UpdateIndicator(InAppType inAppType)
 	    {
 	        if (inAppType != _inAppType)

@@ -37,6 +37,12 @@ namespace SlimeGround.Menu.Windows.InAppPurchase
 	        _inAppByAddViewProvider.InAppProgressFinished += OnPurchaseSuccess;
 	    }
 
+		public void Dispose()
+		{
+			_inAppPurchaseProvider.SuccessPurchased -= OnPurchaseSuccess;
+			_inAppByAddViewProvider.InAppProgressFinished -= OnPurchaseSuccess;
+		}
+
 	    public void BuyPurchase(InAppType inAppType)
 	    {
 	        InAppSettingsData inApp = _inAppPurchases.FirstOrDefault(inApp => inApp.Type == inAppType);

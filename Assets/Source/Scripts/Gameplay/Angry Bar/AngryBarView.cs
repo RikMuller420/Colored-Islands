@@ -36,6 +36,16 @@ namespace SlimeGround.Gameplay.AngryBar
 	        enabled = true;
 	    }
 
+		public void Dispose()
+		{
+			_boostAmountProvider.BoostApplyed -= OnBoostApplyed;
+			_freezeBoostApplyed.StopApplyed -= OnFreezeBoostStoppedApplyed;
+			_levelProgressTracker.AngryChanged -= OnAngyValueChanged;
+			_levelProgressTracker.LevelFinished -= OnLevelFinished;
+			_levelProgressTracker.AngryTaskFailed -= OnAngryTaskFailed;
+			_levelChangeEventTracker.LevelChanged -= OnLevelChanged;
+		}
+
 	    private void OnAngyValueChanged(float value)
 	    {
 	        _emojiAnimator.UpdateEmojiAnimation(value);

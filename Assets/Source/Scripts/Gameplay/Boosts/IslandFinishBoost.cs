@@ -31,6 +31,12 @@ namespace SlimeGround.Gameplay.Boosts
 
 		public override BoostType Type => BoostType.FinishIsland;
 
+		public void Dispose()
+		{
+			_islandFinishBehaviour.IslandFinished -= OnIslandFinished;
+			_levelChangeEventTracker.LevelChanged -= OnLevelChanged;
+		}
+
 	    public override void TryApplyBoost()
 	    {
 	        if (_isBoostApplying)

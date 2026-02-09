@@ -28,6 +28,12 @@ namespace SlimeGround.Menu.Windows.Customization
 		public event Action HatButtonUnlocked;
 		public event Action FaceButtonUnlocked;
 
+		public void Dispose()
+		{
+			_levelProgressTracker.LevelFinished -= UpdateHatAviability;
+			_playerData.FaceUnlocked -= UpdateFaceAviability;
+		}
+
 		private void UpdateFaceAviability(int faceId)
 	    {
 	        FaceSelectButton faceButton = _faceSelectButtons.FirstOrDefault(face => face.FaceId == faceId);

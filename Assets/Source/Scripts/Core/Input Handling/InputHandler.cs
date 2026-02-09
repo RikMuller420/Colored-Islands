@@ -26,7 +26,12 @@ namespace SlimeGround.Core.InputHandling
 	        _playerInput.Disable();
 	    }
 
-	    private void OnClick(InputAction.CallbackContext context)
+		private void OnDestroy()
+		{
+			_playerInput.Player.Click.performed -= OnClick;
+		}
+
+		private void OnClick(InputAction.CallbackContext context)
 	    {
 	        Vector2 inputPosition;
 

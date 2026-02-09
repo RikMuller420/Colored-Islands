@@ -17,7 +17,12 @@ namespace SlimeGround.Menu.Windows.Roulette
 	        UpdateViewText();
 	    }
 
-	    private void UpdateViewText()
+		public void Dispose()
+		{
+			_playerData.SpinCountChanged -= UpdateViewText;
+		}
+
+		private void UpdateViewText()
 	    {
 	        _text.text = _playerData.AviableSpinCount.ToString();
 	    }

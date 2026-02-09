@@ -14,7 +14,12 @@ namespace SlimeGround.Effects.Sound
 	        _progressTracker.LevelFinished += PlayWinSound;
 	    }
 
-	    private void PlayWinSound(ILevelData _)
+		public void Dispose()
+		{
+			_progressTracker.LevelFinished -= PlayWinSound;
+		}
+
+		private void PlayWinSound(ILevelData _)
 	    {
 	        _gameplaySoundPlayer.PlaySound(GameplaySoundType.WinSound);
 	    }

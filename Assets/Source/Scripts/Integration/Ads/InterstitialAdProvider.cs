@@ -12,6 +12,11 @@ namespace SlimeGround.Integration.Ads
 
 		public event Action AdShowed;
 
+		public void Dispose()
+		{
+			YG2.onCloseInterAdvWasShow -= OnAdShowed;
+		}
+
 		public void ShowAd()
 	    {
 	        YG2.InterstitialAdvShow();

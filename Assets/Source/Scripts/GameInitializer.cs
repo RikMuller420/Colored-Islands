@@ -47,7 +47,14 @@ namespace SlimeGround
 	    [SerializeField] private CameraPositionChanger _cameraPositionChanger;
 	    [SerializeField] private TrainigSequenceLoader _trainigLoader;
 
-	    private void Start()
+		private BoostAmountProvider _boostAmountProvider;
+		private WalletProvider _walletProvider;
+		private RewardedAdProvider _rewardedAdProvider;
+		private LeaderboardProvider _leaderboardProvider;
+		private AuthorizationProvider _authorizationProvider;
+		private ClickHandler _clickHandler;
+
+		private void Start()
 	    {
 	        InitializeGame();
 
@@ -59,42 +66,62 @@ namespace SlimeGround
 	        _trainigLoader.TryLoadTrainingLevel();
 	    }
 
-	    private void InitializeGame()
+		private void OnDestroy() => Dispose();
+
+		private void InitializeGame()
 	    {
 	        _playerData.Initialize();
 
 	        var upgradesProvider = new UpgradesProvider(_playerData, _upgradeSettings);
-	        var boostAmountProvider = new BoostAmountProvider(_playerData);
-	        var walletProvider = new WalletProvider(_playerData);
-	        var rewardedAdProvider = new RewardedAdProvider();
-	        var authorizationProvider = new AuthorizationProvider();
-	        var leaderboardProvider = new LeaderboardProvider();
+			_boostAmountProvider = new BoostAmountProvider(_playerData);
+			_walletProvider = new WalletProvider(_playerData);
+			_rewardedAdProvider = new RewardedAdProvider();
+			_authorizationProvider = new AuthorizationProvider();
+			_leaderboardProvider = new LeaderboardProvider();
 
 	        var levelDataHolder = new LevelDataHolder(_levelSettings.MainMenuSettings);
 
 	        var unitMover = new UnitMover(_unitsLookAtPoint);
-	        var clickHandler = new ClickHandler(unitMover, _inputHandler, _camera,
-	                                            _allIslandsAndUnitsLayer,
-	                                            out IUnitsSelectedEvent unitsSelectedEvent);
+			_clickHandler = new ClickHandler(unitMover, _inputHandler, _camera,
+	                                         _allIslandsAndUnitsLayer,
+	                                         out IUnitsSelectedEvent unitsSelectedEvent);
 
-	        _gameplayInitializer.Initialize(upgradesProvider, leaderboardProvider,
+	        _gameplayInitializer.Initialize(upgradesProvider, _leaderboardProvider,
 	                                        levelDataHolder, unitMover);
 
 	        _levelLoader.Initialize(upgradesProvider, unitMover, levelDataHolder);
 
-	        _boostInitializer.Initialize(unitMover, clickHandler, levelDataHolder,
-	                                     boostAmountProvider, walletProvider, rewardedAdProvider,
+	        _boostInitializer.Initialize(unitMover, _clickHandler, levelDataHolder,
+										 _boostAmountProvider, _walletProvider, _rewardedAdProvider,
 	                                     out IBoostStopApplyedEvent freezeBoostApplyedEvent);
 
-	        _menuInitializer.Initialize(upgradesProvider, authorizationProvider, rewardedAdProvider,
-	                                    boostAmountProvider, walletProvider, freezeBoostApplyedEvent);
+	        _menuInitializer.Initialize(upgradesProvider, _authorizationProvider, _rewardedAdProvider,
+										_boostAmountProvider, _walletProvider, freezeBoostApplyedEvent);
 
 	        _trainigLoader.Initilize(unitsSelectedEvent, unitMover);
 	        _deviceStyleChangeInitializer.Initialize();
 	        _metricInitializer.Initilize(levelDataHolder);
 	        _effectsInitializer.Initialize(unitMover);
 	        _cameraPositionChanger.Initialize(levelDataHolder);
-	        _leaderboardInitializer.Initialize(leaderboardProvider, authorizationProvider);
+	        _leaderboardInitializer.Initialize(_leaderboardProvider, _authorizationProvider);
 	    }
+
+		private void Dispose()
+		{
+			_boostAmountProvider.Dispose();
+			_walletProvider.Dispose();
+			_leaderboardProvider.Dispose();
+			_rewardedAdProvider.Dispose();
+			_authorizationProvider.Dispose();
+
+			_clickHandler.Dispose();
+			_gameplayInitializer.Dispose();
+			_levelLoader.Dispose();
+			_boostInitializer.Dispose();
+			_menuInitializer.Dispose();
+			_trainigLoader.Dispose();
+			_effectsInitializer.Dispose();
+			_leaderboardInitializer.Dispose();
+		}
 	}
 }

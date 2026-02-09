@@ -23,14 +23,22 @@ namespace SlimeGround.Gameplay
 	    [SerializeField] private LevelProgressTracker _levelProgressTracker;
 	    [SerializeField] private BuferIslandsHolder _buferIslands;
 
-	    public void Initialize(IUpgradesData upgradesData, LeaderboardProvider leaderboardProvider,
+		private GameProgressUpdater _gameProgressUpdater;
+
+		public void Initialize(IUpgradesData upgradesData, LeaderboardProvider leaderboardProvider,
 	                           ILevelData currentLevelData, UnitMover unitMover)
 	    {
-	        var levelProgressUpdater = new GameProgressUpdater(_levelProgressTracker, _playerData, leaderboardProvider,
-	                                            _leaderboardSettings);
+			_gameProgressUpdater = new GameProgressUpdater(_levelProgressTracker, _playerData,
+														   leaderboardProvider, _leaderboardSettings);
 
 	        _levelProgressTracker.Initialize(currentLevelData, unitMover, upgradesData, _playerData);
 	        _buferIslands.Initialize(unitMover);
 	    }
+
+		public void Dispose()
+		{
+			_gameProgressUpdater.Dispose();
+			_levelProgressTracker.Dispose();
+		}
 	}
 }

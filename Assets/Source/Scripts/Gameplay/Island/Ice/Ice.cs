@@ -14,10 +14,15 @@ namespace SlimeGround.Gameplay.Islands
 
 	    private int _movesCount = 0;
 	    private UnitMover _unitMover;
+		private bool _isEventsSubscribed = false;
 
-	    private void OnDestroy()
+		private void OnDestroy()
 	    {
-	        _unitMover.UnitsMoved -= OnUnitsMoved;
+			if (_isEventsSubscribed)
+			{
+				_unitMover.UnitsMoved -= OnUnitsMoved;
+				_isEventsSubscribed = false;
+			}
 	    }
 
 	    public void Initialize(UnitMover unitMover, Transform cameraTransform)
@@ -36,7 +41,12 @@ namespace SlimeGround.Gameplay.Islands
 
 	        _iceView.SetMovesToDeactivateText(_movesToDeactivate);
 	        _iceView.Activate(cameraTransform);
-	        _unitMover.UnitsMoved += OnUnitsMoved;
+
+			if (_isEventsSubscribed == false)
+			{
+				_unitMover.UnitsMoved += OnUnitsMoved;
+				_isEventsSubscribed = true;
+			}
 	    }
 
 	    private void OnUnitsMoved(UnitsMoveInfo _)

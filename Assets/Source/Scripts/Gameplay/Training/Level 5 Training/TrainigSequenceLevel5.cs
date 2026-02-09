@@ -20,6 +20,7 @@ namespace SlimeGround.Gameplay.Training
 	    private bool _isTrainingDone = false;
 	    private int _movesBeforeTraining = 2;
 	    private int _performedMoves = 0;
+		private bool _isEventsSubscribed = false;
 	    private bool _isTrainingStarted = false;
 	    private RectTransform _buttonRectTransform;
 
@@ -30,24 +31,27 @@ namespace SlimeGround.Gameplay.Training
 
 	    private void OnDestroy()
 	    {
-	        ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
-	        InGameMenu.MenuOpened -= OnMenuOpened;
-	        InGameMenu.MenuClosed -= OnMenuClosed;
-	        UnitMovedEvent.UnitsMoved -= OnUnitsMoved;
-	        _reducePaintsBoostButton.TryBoostApplying -= OnTryApplyingReducePaintsBoost;
-	        FinalScoreWindow.ScoreShowed -= OnFinalScoreShowed;
+			if (_isEventsSubscribed)
+			{
+				ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
+				InGameMenu.MenuOpened -= OnMenuOpened;
+				InGameMenu.MenuClosed -= OnMenuClosed;
+				UnitMovedEvent.UnitsMoved -= OnUnitsMoved;
+				_reducePaintsBoostButton.TryBoostApplying -= OnTryApplyingReducePaintsBoost;
+				FinalScoreWindow.ScoreShowed -= OnFinalScoreShowed;
+				_lastStepButton.onClick.RemoveListener(GoToMenuTraining);
+
+				_isEventsSubscribed = false;
+			}
+
 	        ResetLevelState();
 	    }
 
 	    public override void StartTraining()
 	    {
 	        BoostButtonActivator.DeactivateAllButtons();
-	        ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
-	        InGameMenu.MenuOpened += OnMenuOpened;
-	        InGameMenu.MenuClosed += OnMenuClosed;
-	        UnitMovedEvent.UnitsMoved += OnUnitsMoved;
 
-	        BoostButtonActivator.ActivateButtonImmediate(BoostType.GrowBuferIsland);
+			BoostButtonActivator.ActivateButtonImmediate(BoostType.GrowBuferIsland);
 	        BoostButtonActivator.ActivateButtonImmediate(BoostType.FinishIsland);
 	        BoostButtonActivator.ActivateButtonImmediate(BoostType.FreezeObjectives);
 
@@ -56,11 +60,20 @@ namespace SlimeGround.Gameplay.Training
 	        BoostButtonActivator.SetButtonNonInteractible(BoostType.FreezeObjectives);
 
 	        _reducePaintsBoostButton = BoostButtonActivator.GetBoostButton(BoostType.ReducePaints);
-	        _reducePaintsBoostButton.TryBoostApplying += OnTryApplyingReducePaintsBoost;
 	        _buttonRectTransform = BoostButtonActivator.GetBoostButtonRectTransform(BoostType.ReducePaints);
 
-	        FinalScoreWindow.ScoreShowed += OnFinalScoreShowed;
-	        _lastStepButton.onClick.AddListener(GoToMenuTraining);
+			if (_isEventsSubscribed == false)
+			{
+				ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
+				InGameMenu.MenuOpened += OnMenuOpened;
+				InGameMenu.MenuClosed += OnMenuClosed;
+				UnitMovedEvent.UnitsMoved += OnUnitsMoved;
+				_reducePaintsBoostButton.TryBoostApplying += OnTryApplyingReducePaintsBoost;
+				FinalScoreWindow.ScoreShowed += OnFinalScoreShowed;
+				_lastStepButton.onClick.AddListener(GoToMenuTraining);
+
+				_isEventsSubscribed = true;
+			}
 	    }
 
 	    private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition(_buttonRectTransform);

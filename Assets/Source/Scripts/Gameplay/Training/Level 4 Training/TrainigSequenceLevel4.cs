@@ -20,7 +20,8 @@ namespace SlimeGround.Gameplay.Training
 	    private float _descriptionTypeDuration = 1.5f;
 	    private float _angryValueForStartTraining = 0.4f;
 	    private BoostButton _freezeObjectivesBoostButton;
-	    private bool _isTrainingStarted = false;
+		private bool _isEventsSubscribed = false;
+		private bool _isTrainingStarted = false;
 	    private bool _isTrainingDone = false;
 	    private List<BaseIsland> _finishedIslands = new();
 	    private RectTransform _buttonRectTransform;
@@ -28,36 +29,45 @@ namespace SlimeGround.Gameplay.Training
 
 	    private void OnDestroy()
 	    {
-	        ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
-	        InGameMenu.MenuOpened -= OnMenuOpened;
-	        InGameMenu.MenuClosed -= OnMenuClosed;
-	        _freezeObjectivesBoostButton.TryBoostApplying -= OnTryApplyingBoost;
-	        LevelProgressTracker.AngryChanged -= OnAngryValueChanged;
-	        LevelProgressTracker.FirstMoveDone -= OnUnitSelected;
-	        LevelProgressTracker.IslandFinished -= OnIslandFinished;
+			if (_isEventsSubscribed)
+			{
+				ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
+				InGameMenu.MenuOpened -= OnMenuOpened;
+				InGameMenu.MenuClosed -= OnMenuClosed;
+				_freezeObjectivesBoostButton.TryBoostApplying -= OnTryApplyingBoost;
+				LevelProgressTracker.AngryChanged -= OnAngryValueChanged;
+				LevelProgressTracker.FirstMoveDone -= OnUnitSelected;
+				LevelProgressTracker.IslandFinished -= OnIslandFinished;
+
+				_isEventsSubscribed = false;
+			}
 
 	        ResetLevelState();
 	    }
 
 	    public override void StartTraining()
 	    {
-	        BoostButtonActivator.DeactivateAllButtons();
-	        ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
-	        InGameMenu.MenuOpened += OnMenuOpened;
-	        InGameMenu.MenuClosed += OnMenuClosed;
+			if (_isEventsSubscribed == false)
+			{
+				BoostButtonActivator.DeactivateAllButtons();
+				ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
+				InGameMenu.MenuOpened += OnMenuOpened;
+				InGameMenu.MenuClosed += OnMenuClosed;
+				_freezeObjectivesBoostButton.TryBoostApplying += OnTryApplyingBoost;
+				LevelProgressTracker.AngryChanged += OnAngryValueChanged;
+				UnitsSelectedEvent.UnitsSelected += OnUnitSelected;
+				LevelProgressTracker.IslandFinished += OnIslandFinished;
 
-	        BoostButtonActivator.ActivateButtonImmediate(BoostType.GrowBuferIsland);
+				_isEventsSubscribed = true;
+			}
+
+			BoostButtonActivator.ActivateButtonImmediate(BoostType.GrowBuferIsland);
 	        BoostButtonActivator.SetButtonNonInteractible(BoostType.GrowBuferIsland);
 	        BoostButtonActivator.ActivateButtonImmediate(BoostType.FinishIsland);
 	        BoostButtonActivator.SetButtonNonInteractible(BoostType.FinishIsland);
 
 	        _freezeObjectivesBoostButton = BoostButtonActivator.GetBoostButton(BoostType.FreezeObjectives);
-	        _freezeObjectivesBoostButton.TryBoostApplying += OnTryApplyingBoost;
 	        _buttonRectTransform = BoostButtonActivator.GetBoostButtonRectTransform(BoostType.FreezeObjectives);
-
-	        LevelProgressTracker.AngryChanged += OnAngryValueChanged;
-	        UnitsSelectedEvent.UnitsSelected += OnUnitSelected;
-	        LevelProgressTracker.IslandFinished += OnIslandFinished;
 
 	        StartCoroutine(OpenAngyBarHintInDelay());
 	    }

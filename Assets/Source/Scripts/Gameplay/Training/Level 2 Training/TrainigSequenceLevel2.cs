@@ -10,7 +10,8 @@ namespace SlimeGround.Gameplay.Training
 	    private float _startDelay = 1f;
 	    private WaitForSeconds _startWait;
 	    private BoostButton _boostButton;
-	    private bool _isTrainingDone = false;
+		private bool _isEventsSubscribed = false;
+		private bool _isTrainingDone = false;
 	    private RectTransform _buttonRectTransform;
 
 	    private void Awake()
@@ -20,26 +21,39 @@ namespace SlimeGround.Gameplay.Training
 
 	    private void OnDestroy()
 	    {
-	        InGameMenu.MenuOpened -= OnMenuOpened;
-	        InGameMenu.MenuClosed -= OnMenuClosed;
-	        _boostButton.TryBoostApplying -= OnTryApplyingBoost;
-	        ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
+			if (_isEventsSubscribed)
+			{
+				InGameMenu.MenuOpened -= OnMenuOpened;
+				InGameMenu.MenuClosed -= OnMenuClosed;
+				_boostButton.TryBoostApplying -= OnTryApplyingBoost;
+				ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
+
+				_isEventsSubscribed = false;
+			}
+
 	        ResetLevelState();
 	    }
 
 	    public override void StartTraining()
 	    {
-	        BoostButtonActivator.DeactivateAllButtons();
+			BoostButtonActivator.DeactivateAllButtons();
 	        DeactivateColliders();
-	        InGameMenu.MenuOpened += OnMenuOpened;
-	        InGameMenu.MenuClosed += OnMenuClosed;
-	        ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
+	        
 	        _boostButton = BoostButtonActivator.GetBoostButton(BoostType.GrowBuferIsland);
-	        _boostButton.TryBoostApplying += OnTryApplyingBoost;
 	        BoostButtonActivator.ActivateButtonImmediate(BoostType.GrowBuferIsland);
 	        _buttonRectTransform = BoostButtonActivator.GetBoostButtonRectTransform(BoostType.GrowBuferIsland);
 
-	        StartCoroutine(StartFirstTrainingMove());
+			if (_isEventsSubscribed == false)
+			{
+				InGameMenu.MenuOpened += OnMenuOpened;
+				InGameMenu.MenuClosed += OnMenuClosed;
+				ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
+				_boostButton.TryBoostApplying += OnTryApplyingBoost;
+
+				_isEventsSubscribed = true;
+			}
+
+			StartCoroutine(StartFirstTrainingMove());
 	    }
 
 	    private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition(_buttonRectTransform);

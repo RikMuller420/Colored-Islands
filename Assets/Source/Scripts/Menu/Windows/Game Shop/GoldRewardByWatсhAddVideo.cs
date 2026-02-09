@@ -33,6 +33,11 @@ namespace SlimeGround.Menu.Windows.GameShop
 	        _buyButton.Initialize(collDownProvider);
 	    }
 
+		public void Dispose()
+		{
+			_buyButton.Dispose();
+		}
+
 	    private void TryBuy()
 	    {
 	        _rewardedAdProvider.ShowAdvReward(RewardVideoId, AddGold);

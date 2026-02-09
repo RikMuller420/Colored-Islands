@@ -16,7 +16,12 @@ namespace SlimeGround.Gameplay.Islands
 	        _levelProgressTracker.IslandFinished += OnIslandFinished;
 	    }
 
-	    private void OnIslandFinished(Island island)
+		public void Dispose()
+		{
+			_levelProgressTracker.IslandFinished -= OnIslandFinished;
+		}
+
+		private void OnIslandFinished(Island island)
 	    {
 	        ParticleSystem particle = _particlePool.GetFreeParticle();
 	        particle.transform.position = island.CenterPoint.position;

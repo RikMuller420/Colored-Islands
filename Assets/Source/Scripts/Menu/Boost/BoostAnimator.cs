@@ -43,6 +43,25 @@ namespace SlimeGround.Menu.Boosts
 	        _islandFinishEvent.IslandFinished += OnIslandAutoFinished;
 	    }
 
+		public void Dispose()
+		{
+			foreach (var boostButton in _boostsButtons)
+			{
+				if (boostButton.Key is IslandFinishBoost finishIslandBoost)
+				{
+					finishIslandBoost.BoostStartApplyed -= StartBlinkFinishBoostButton;
+					finishIslandBoost.BoostStopApplyed -= StopBlinkFinishBoostButton;
+				}
+
+				if (boostButton.Key is PaintAmountReduceBoost paintReduceBoost)
+				{
+					paintReduceBoost.BoostApplyed -= PlayReduceColorEffect;
+				}
+			}
+
+			_islandFinishEvent.IslandFinished -= OnIslandAutoFinished;
+		}
+
 	    private void OnIslandAutoFinished(Island island)
 	    {
 	        Vector3 islandCenter = Vector3.zero;

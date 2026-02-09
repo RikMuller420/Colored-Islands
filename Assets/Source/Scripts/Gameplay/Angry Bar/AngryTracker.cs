@@ -33,6 +33,11 @@ namespace SlimeGround.Gameplay.AngryBar
 
 		public float AngryValue => _angryValue / _angryLimit;
 
+		public void Dispose()
+		{
+			_balancer.Dispose();
+		}
+
 		public void AddAngryTick()
 	    {
 	        float instabilityStep = 0f;

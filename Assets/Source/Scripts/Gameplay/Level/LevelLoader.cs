@@ -49,6 +49,11 @@ namespace SlimeGround.Gameplay.Levels
 	        _unitMover = unitMover;
 	    }
 
+		public void Dispose()
+		{
+			_customizationSettings.Dispose();
+		}
+
 	    public void LoadMainMenu()
 	    {
 	        UnloadCurrentLevel();

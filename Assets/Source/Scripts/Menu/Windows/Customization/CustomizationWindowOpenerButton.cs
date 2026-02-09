@@ -16,13 +16,21 @@ namespace SlimeGround.Menu.Windows.Customization
 	        _unitCustomizator = unitCustomizator;
 	        _customizationAviabiltyUpdater = customizationAviabiltyUpdater;
 
-	        unitCustomizator.FaceUsed += UpdateUnusedMarkActivity;
-	        unitCustomizator.HatUsed += UpdateUnusedMarkActivity;
-	        customizationAviabiltyUpdater.HatButtonUnlocked += UpdateUnusedMarkActivity;
-	        customizationAviabiltyUpdater.FaceButtonUnlocked += UpdateUnusedMarkActivity;
+			_unitCustomizator.FaceUsed += UpdateUnusedMarkActivity;
+			_unitCustomizator.HatUsed += UpdateUnusedMarkActivity;
+			_customizationAviabiltyUpdater.HatButtonUnlocked += UpdateUnusedMarkActivity;
+			_customizationAviabiltyUpdater.FaceButtonUnlocked += UpdateUnusedMarkActivity;
 
 	        UpdateUnusedMarkActivity();
 	    }
+
+		public void Dispose()
+		{
+			_unitCustomizator.FaceUsed -= UpdateUnusedMarkActivity;
+			_unitCustomizator.HatUsed -= UpdateUnusedMarkActivity;
+			_customizationAviabiltyUpdater.HatButtonUnlocked -= UpdateUnusedMarkActivity;
+			_customizationAviabiltyUpdater.FaceButtonUnlocked -= UpdateUnusedMarkActivity;
+		}
 
 	    private void UpdateUnusedMarkActivity()
 	    {

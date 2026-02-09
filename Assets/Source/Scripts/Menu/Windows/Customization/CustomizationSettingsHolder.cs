@@ -37,7 +37,12 @@ namespace SlimeGround.Menu.Windows.Customization
 	        _playerData.CustomizationPreferenceChanged += OnCustomizationPreferenceChanged;
 	    }
 
-	    public UnitCustomizationSettings GetCustomizationSettings(UnitSlotType slot)
+		public void Dispose()
+		{
+			_playerData.CustomizationPreferenceChanged -= OnCustomizationPreferenceChanged;
+		}
+
+		public UnitCustomizationSettings GetCustomizationSettings(UnitSlotType slot)
 	    {
 	        return _customizationSettings.FirstOrDefault(settings => settings.Slot == slot);
 	    }

@@ -20,7 +20,12 @@ namespace SlimeGround.Gameplay.Boosts
 
 		public int BoostAmount(BoostType boostType) => _playerData.GetBoostAmount(boostType);
 
-	    public void SpendBoost(BoostType boostType)
+		public void Dispose()
+		{
+			_playerData.BoostsAmountChanged -= OnBoostsAmountInSavedProgressChanged;
+		}
+
+		public void SpendBoost(BoostType boostType)
 	    {
 	        int boostAmount = BoostAmount(boostType);
 

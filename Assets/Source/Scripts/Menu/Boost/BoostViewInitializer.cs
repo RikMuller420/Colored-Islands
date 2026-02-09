@@ -25,11 +25,15 @@ namespace SlimeGround.Menu.Boosts
 	    [SerializeField] private GameObject _reduceColorEffect;
 	    [SerializeField] private BoostBuyConfirmationWindow _boostBuyWindow;
 
-	    public void Initialize(IEnumerable<Boost> boosts, BoostAmountProvider boostAmountProvider,
+		private BoostSoundPlayer _boostSoundPlayer;
+		private BoostAvailabilityUpdater _boostAvailabilityUpdater;
+		private BoostAnimator _boostAnimator;
+
+		public void Initialize(IEnumerable<Boost> boosts, BoostAmountProvider boostAmountProvider,
 	                           WalletProvider walletProvider, IIslandFinishEvent islandFinishEvent,
 	                           RewardedAdProvider rewardedAdProvider)
 	    {
-	        var boostSoundPlayer = new BoostSoundPlayer(_gameplaySoundPlayer, _outOfBoostWindow, boosts);
+			_boostSoundPlayer = new BoostSoundPlayer(_gameplaySoundPlayer, _outOfBoostWindow, boosts);
 
 	        Dictionary<Boost, BoostButton> boostsButtons = new Dictionary<Boost, BoostButton>()
 	        {
@@ -39,8 +43,8 @@ namespace SlimeGround.Menu.Boosts
 	            { FindBoost(boosts, BoostType.FinishIsland), _islandFinishBoostButton }
 	        };
 
-	        var boostAvailabilityUpdater = new BoostAvailabilityUpdater(boostsButtons, _levelChangeEventTracker);
-	        var boostAnimator = new BoostAnimator(boostsButtons, islandFinishEvent, _finishIslandEffect, _reduceColorEffect);
+			_boostAvailabilityUpdater = new BoostAvailabilityUpdater(boostsButtons, _levelChangeEventTracker);
+			_boostAnimator = new BoostAnimator(boostsButtons, islandFinishEvent, _finishIslandEffect, _reduceColorEffect);
 
 	        foreach (var boostButton in boostsButtons)
 	        {
@@ -50,9 +54,14 @@ namespace SlimeGround.Menu.Boosts
 	        _boostBuyWindow.Initialize(boostAmountProvider, walletProvider, rewardedAdProvider);
 	    }
 
-	    private Boost FindBoost(IEnumerable<Boost> boosts, BoostType boostType)
-	    {
-	        return boosts.FirstOrDefault(boost => boost.Type == boostType);
-	    }
+		public void Dispose()
+		{
+			_boostSoundPlayer.Dispose();
+			_boostAvailabilityUpdater.Dispose();
+			_boostAnimator.Dispose();
+		}
+
+		private Boost FindBoost(IEnumerable<Boost> boosts, BoostType boostType) =>
+						boosts.FirstOrDefault(boost => boost.Type == boostType);
 	}
 }

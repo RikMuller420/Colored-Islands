@@ -24,6 +24,12 @@ namespace SlimeGround.Menu.Ads
 	        _collDownProvider.CoolDownFinished += OnCoolDownFinished;
 	    }
 
+		public void Dispose()
+		{
+			_collDownProvider.CoolDownStarted -= OnCoolDownStarted;
+			_collDownProvider.CoolDownFinished -= OnCoolDownFinished;
+		}
+
 	    private void OnCoolDownStarted()
 	    {
 	        _aviableText.gameObject.SetActive(false);

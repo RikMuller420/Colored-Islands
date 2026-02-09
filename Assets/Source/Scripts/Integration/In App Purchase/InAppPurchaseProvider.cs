@@ -12,6 +12,11 @@ namespace SlimeGround.Integration.InAppPurchase
 
 		public event Action<string> SuccessPurchased;
 
+		public void Dispose()
+		{
+			YG2.onPurchaseSuccess -= OnSuccessPurchased;
+		}
+
 		public void BuyInApp(string id)
 	    {
 	        YG2.BuyPayments(id);

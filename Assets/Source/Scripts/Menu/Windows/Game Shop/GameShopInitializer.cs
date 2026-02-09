@@ -21,18 +21,26 @@ namespace SlimeGround.Menu.Windows.GameShop
 	    [SerializeField] private WalletView _walletView;
 	    [SerializeField] private InGameShopInitializer _inGameShopInitializer;
 
-	    public void Initialize(UpgradesProvider upgradesProvider, RewardedAdProvider rewardedAdProvider,
+		private InAppPurchaseProvider _inAppPurchaseProvider;
+
+		public void Initialize(UpgradesProvider upgradesProvider, RewardedAdProvider rewardedAdProvider,
 	                           BoostAmountProvider boostAmountProvider, RemoveAdsProvider removeAdsProvider, WalletProvider walletProvider)
 	    {
 	        var inAppByAddViewProvider = new InAppByAddViewProvider(_playerData, _inAppSettings);
 	        var stickyAdProvider = new StickyAdProvider();
-	        var inAppPurchaseProvider = new InAppPurchaseProvider();
+			_inAppPurchaseProvider = new InAppPurchaseProvider();
 
 	        _walletView.Initialize(walletProvider);
 
 	        _inGameShopInitializer.Initialize(upgradesProvider, boostAmountProvider, walletProvider);
-	        _inAppPurchaseInitializer.Initialize(walletProvider, boostAmountProvider, removeAdsProvider, inAppPurchaseProvider,
+	        _inAppPurchaseInitializer.Initialize(walletProvider, boostAmountProvider, removeAdsProvider, _inAppPurchaseProvider,
 	                                             inAppByAddViewProvider, rewardedAdProvider, stickyAdProvider);
 	    }
+
+		public void Dispose()
+		{
+			_inAppPurchaseProvider.Dispose();
+			_inAppPurchaseInitializer.Dispose();
+		}
 	}
 }

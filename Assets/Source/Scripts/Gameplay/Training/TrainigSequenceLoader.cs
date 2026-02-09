@@ -42,6 +42,11 @@ namespace SlimeGround.Gameplay.Training
 	        _levelLoader.LevelChanged += OnLevelChanged;
 	    }
 
+		public void Dispose()
+		{
+			_levelLoader.LevelChanged -= OnLevelChanged;
+		}
+
 	    public void TryLoadTrainingLevel()
 	    {
 	        if (_playerData.LastAvailableLevelId <= _levelSettings.LastTrainingLevel)

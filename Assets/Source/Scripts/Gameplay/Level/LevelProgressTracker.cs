@@ -88,6 +88,11 @@ namespace SlimeGround.Gameplay.Levels
 	        enabled = true;
 	    }
 
+		public void Dispose()
+		{
+			_angryTracker.Dispose();
+		}
+
 	    public void PauseTracking()
 	    {
 	        _isTrackingLevel = false;

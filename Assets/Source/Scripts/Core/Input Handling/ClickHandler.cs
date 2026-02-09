@@ -9,24 +9,29 @@ namespace SlimeGround.Core.InputHandling
 	{
 	    private Camera _camera;
 	    private DefaultClickHandler _defaultClickBehaviour;
-
-	    private ClickBehaviour _currentClickBehaviour;
+		private InputHandler _inputHandler;
+		private ClickBehaviour _currentClickBehaviour;
 
 	    public ClickHandler(UnitMover unitMover, InputHandler inputHandler,
 	                        Camera camera, LayerMask allIslandsAndUnitsLayer,
 	                        out IUnitsSelectedEvent unitsSelectedEvent)
 	    {
 	        _camera = camera;
-
-	        _defaultClickBehaviour = new DefaultClickHandler(unitMover, allIslandsAndUnitsLayer);
+			_inputHandler = inputHandler;
+			_defaultClickBehaviour = new DefaultClickHandler(unitMover, allIslandsAndUnitsLayer);
 
 	        SetDeafultClickHandler();
-	        inputHandler.Clicked += OnClick;
+			_inputHandler.Clicked += OnClick;
 
 	        unitsSelectedEvent = _defaultClickBehaviour;
 	    }
 
-	    public void SetDeafultClickHandler()
+		public void Dispose()
+		{
+			_inputHandler.Clicked -= OnClick;
+		}
+
+		public void SetDeafultClickHandler()
 	    {
 	        SetClickBehaviour(_defaultClickBehaviour);
 	    }

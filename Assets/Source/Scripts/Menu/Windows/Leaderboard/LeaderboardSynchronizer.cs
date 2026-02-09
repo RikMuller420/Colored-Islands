@@ -34,7 +34,12 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	        enabled = true;
 	    }
 
-	    private IEnumerator Synchronizing()
+		public void Dispose()
+		{
+			_leaderboardProvider.LeaderboardReceived -= SynchronizeLeaderboard;
+		}
+
+		private IEnumerator Synchronizing()
 	    {
 	        while (enabled)
 	        {

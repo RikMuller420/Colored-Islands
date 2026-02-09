@@ -24,6 +24,16 @@ namespace SlimeGround.Gameplay.Boosts
 	        }
 	    }
 
+		public void Dispose()
+		{
+			_levelChangeEventTracker.LevelChanged -= OnLevelChanged;
+
+			foreach (var boostButton in _boostsButtons)
+			{
+				boostButton.Key.BoostApplyed -= OnBoostApplyed;
+			}
+		}
+
 	    private void OnBoostApplyed(Boost boost)
 	    {
 	        _boostsButtons[boost].DisableInteractable();

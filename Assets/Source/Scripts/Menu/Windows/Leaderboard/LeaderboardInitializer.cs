@@ -16,5 +16,11 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	        _leaderboardSynchronizer.Initialize(leaderboardProvider, _playerData);
 	        _leaderboardWindow.Initialize(leaderboardProvider, authorizationData);
 	    }
+
+		public void Dispose()
+		{
+			_leaderboardSynchronizer.Dispose();
+			_leaderboardWindow.Dispose();
+		}
 	}
 }

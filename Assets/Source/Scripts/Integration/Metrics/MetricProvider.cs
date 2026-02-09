@@ -4,7 +4,7 @@ namespace SlimeGround.Integration.Metrics
 {
 	public class MetricProvider
 	{
-	    private const string BuildName = "0.1";
+	    private const string BuildName = "0.2";
 
 	    public MetricProvider()
 	    {

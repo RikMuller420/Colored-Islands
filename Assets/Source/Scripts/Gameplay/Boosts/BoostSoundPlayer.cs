@@ -25,6 +25,16 @@ namespace SlimeGround.Gameplay.Boosts
 	        _outOfBoostWindow.MenuOpened += OutOfBoostWindowOpened;
 	    }
 
+		public void Dispose()
+		{
+			foreach (Boost boost in _boosts)
+			{
+				boost.BoostApplyed -= OnBoostApplyed;
+			}
+
+			_outOfBoostWindow.MenuOpened -= OutOfBoostWindowOpened;
+		}
+
 	    private void OutOfBoostWindowOpened()
 	    {
 	        _gameplaySoundPlayer.PlaySound(GameplaySoundType.OutOfBoost);

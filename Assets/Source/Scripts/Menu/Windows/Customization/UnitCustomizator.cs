@@ -63,6 +63,29 @@ namespace SlimeGround.Menu.Windows.Customization
 		public IEnumerable<FaceSelectButton> FaceSelectButtons => _faceSelectButtons;
 		public IEnumerable<HatSelectButton> HatSelectButtons => _hatSelectButtons;
 
+		public void Dispose()
+		{
+			foreach (UnitSelectButton unitSelectButton in _unitSelectButtons)
+			{
+				unitSelectButton.ButtonClicked -= ChangeCurrentPaint;
+			}
+
+			foreach (FaceSelectButton faceSelectButton in _faceSelectButtons)
+			{
+				faceSelectButton.ButtonClicked -= ChangeCurrentFace;
+			}
+
+			foreach (HatSelectButton hatSelectButton in _hatSelectButtons)
+			{
+				hatSelectButton.ButtonClicked -= ChangeCurrentHat;
+			}
+
+			foreach (ColorSelectButton colorSelectButton in _colorSelectButtons)
+			{
+				colorSelectButton.ButtonClicked -= ChangeCurrentColor;
+			}
+		}
+
 		private void ChangeCurrentPaint(UnitSelectButton button)
 	    {
 	        if (_currentUnitButton != null)

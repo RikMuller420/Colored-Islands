@@ -34,6 +34,16 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	        OnAuthorizationStatusChanged();
 	    }
 
+		public void Dispose()
+		{
+			foreach (LeaderboardTab leaderboardTab in _leaderboardTabs)
+			{
+				leaderboardTab.Dispose();
+			}
+
+			_authorizationData.AuthorizationStatusChanged -= OnAuthorizationStatusChanged;
+		}
+
 		public override void Open()
 		{
 			if (IsOpened)

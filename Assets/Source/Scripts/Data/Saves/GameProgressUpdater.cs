@@ -26,7 +26,12 @@ namespace SlimeGround.Data.Saves
 	        _progressTracker.LevelFinished += UpdateSavedProgress;
 	    }
 
-	    private void UpdateSavedProgress(ILevelData levelData)
+		public void Dispose()
+		{
+			_progressTracker.LevelFinished -= UpdateSavedProgress;
+		}
+
+		private void UpdateSavedProgress(ILevelData levelData)
 	    {
 	        LevelProgress savedLevel = _playerData.Levels
 	                                .FirstOrDefault(level => level.Id == levelData.LevelId);

@@ -27,5 +27,10 @@ namespace SlimeGround.Menu.Windows.Roulette
 	        _rouletteWindow.Initialize(_playerData);
 	        _roulette.Initialize(_playerData);
 	    }
+
+		public void Dispose()
+		{
+			_aviableSpinCountView.Dispose();
+		}
 	}
 }

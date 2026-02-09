@@ -31,6 +31,13 @@ namespace SlimeGround.Menu.Ads
 	        _rewardedAdProvider.RewardedAdClosed += ResetAdTimer;
 	    }
 
+		public void Dispose()
+		{
+			_levelChangeEventTracker.LevelChanged -= OnLevelChanged;
+			_interAdProvider.AdShowed -= OnInterAdOpened;
+			_rewardedAdProvider.RewardedAdClosed -= ResetAdTimer;
+		}
+
 	    private void OnLevelChanged(ILevelData levelData)
 	    {
 	        _currentLoadsWithoutAd++;

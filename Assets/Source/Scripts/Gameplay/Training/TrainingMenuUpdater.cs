@@ -23,6 +23,11 @@ namespace SlimeGround.Gameplay.Training
 	        UpdateMenuAvaliability();
 	    }
 
+		public void Dispose()
+		{
+			_playerData.TrainingFinished -= UpdateMenuAvaliability;
+		}
+
 	    private void UpdateMenuAvaliability()
 	    {
 	        if (_playerData.IsTrainingFinished)

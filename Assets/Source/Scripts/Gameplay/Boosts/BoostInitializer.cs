@@ -21,7 +21,8 @@ namespace SlimeGround.Gameplay.Boosts
 
 	    [SerializeField] private BoostViewInitializer _boostViewInitializer;
 
-	    public ObjectivesFreezeBoost ObjectivesFreezeBoost { get; private set; }
+		private IslandFinishBoost _islandFinishBoost;
+		private ObjectivesFreezeBoost _objectivesFreezeBoost;
 
 	    public void Initialize(UnitMover unitMover, ClickHandler clickHandler,
 	                           ILevelData currentLevelData, BoostAmountProvider boostAmountProvider,
@@ -30,12 +31,12 @@ namespace SlimeGround.Gameplay.Boosts
 	    {
 	        var islandInstantFinisher = new IslandFinishClickBehaviour(currentLevelData, _buferIslands, unitMover, _paintedIslands);
 
-	        var islandFinishBoost = new IslandFinishBoost(clickHandler, islandInstantFinisher,
+			_islandFinishBoost = new IslandFinishBoost(clickHandler, islandInstantFinisher,
 	                                                      _levelChangeEventTracker, boostAmountProvider);
 	        var bufferIslandBoost = new BufferIslandBoost(_buferIslands, boostAmountProvider);
 
-	        var objectivesFreezeBoost = new ObjectivesFreezeBoost(_levelProgressTracker, unitMover, _levelChangeEventTracker, boostAmountProvider);
-	        freezeBoostApplyed = objectivesFreezeBoost;
+			_objectivesFreezeBoost = new ObjectivesFreezeBoost(_levelProgressTracker, unitMover, _levelChangeEventTracker, boostAmountProvider);
+	        freezeBoostApplyed = _objectivesFreezeBoost;
 
 	        var paintAmountReduceBoost = new PaintAmountReduceBoost(currentLevelData, _buferIslands, boostAmountProvider,
 	                                                                _playerData, unitMover);
@@ -43,12 +44,19 @@ namespace SlimeGround.Gameplay.Boosts
 	        IEnumerable<Boost> boosts = new List<Boost>()
 	        {
 	            bufferIslandBoost,
-	            objectivesFreezeBoost,
+				_objectivesFreezeBoost,
 	            paintAmountReduceBoost,
-	            islandFinishBoost
-	        };
+				_islandFinishBoost
+			};
 
 	        _boostViewInitializer.Initialize(boosts, boostAmountProvider, walletProvider, islandInstantFinisher, rewardedAdProvider);
 	    }
+
+		public void Dispose()
+		{
+			_islandFinishBoost.Dispose();
+			_objectivesFreezeBoost.Dispose();
+			_boostViewInitializer.Dispose();
+		}
 	}
 }

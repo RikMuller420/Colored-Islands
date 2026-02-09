@@ -25,7 +25,8 @@ namespace SlimeGround.Gameplay.Training
 	    private bool _isTrainingDone = false;
 	    private int _movesBeforeTraining = 2;
 	    private int _performedMoves = 0;
-	    private bool _isTrainingStarted = false;
+		private bool _isEventsSubscribed = false;
+		private bool _isTrainingStarted = false;
 	    private RectTransform _buttonRectTransform;
 
 	    private void Awake()
@@ -35,38 +36,50 @@ namespace SlimeGround.Gameplay.Training
 
 	    private void OnDestroy()
 	    {
-	        InGameMenu.MenuOpened -= OnMenuOpened;
-	        InGameMenu.MenuClosed -= OnMenuClosed;
-	        UnitMovedEvent.UnitsMoved -= OnUnitsMoved;
-	        ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
+			if (_isEventsSubscribed)
+			{
+				InGameMenu.MenuOpened -= OnMenuOpened;
+				InGameMenu.MenuClosed -= OnMenuClosed;
+				UnitMovedEvent.UnitsMoved -= OnUnitsMoved;
+				ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
 
-	        _islandForBoost.IslandFinished -= OnIslandForBoostFinished;
-	        _finishIslandBoostButton.TryBoostApplying -= OnTryApplyingFinishIslandBoost;
+				_islandForBoost.IslandFinished -= OnIslandForBoostFinished;
+				_finishIslandBoostButton.TryBoostApplying -= OnTryApplyingFinishIslandBoost;
+				_openCustomizationButton.onClick.RemoveListener(OpenCustomizationMenu);
+
+				_isEventsSubscribed = false;
+			}
+
 	        ResetLevelState();
 	    }
 
 	    public override void StartTraining()
 	    {
-	        BoostButtonActivator.DeactivateAllButtons();
-	        InGameMenu.MenuOpened += OnMenuOpened;
-	        InGameMenu.MenuClosed += OnMenuClosed;
-	        UnitMovedEvent.UnitsMoved += OnUnitsMoved;
-	        ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
-	        _islandForBoost.IslandFinished += OnIslandForBoostFinished;
-
 	        BoostButtonActivator.ActivateButtonImmediate(BoostType.GrowBuferIsland);
 	        BoostButtonActivator.SetButtonNonInteractible(BoostType.GrowBuferIsland);
 
 	        _finishIslandBoostButton = BoostButtonActivator.GetBoostButton(BoostType.FinishIsland);
-	        _finishIslandBoostButton.TryBoostApplying += OnTryApplyingFinishIslandBoost;
 	        _buttonRectTransform = BoostButtonActivator.GetBoostButtonRectTransform(BoostType.FinishIsland);
 
-	        if (PlayerData.LastAvailableLevelId <= CurrentLevelData.LevelId)
-	        {
-	            _customizationHint.Open();
-	            _openCustomizationButton.onClick.AddListener(OpenCustomizationMenu);
-	        }
-	    }
+			if (_isEventsSubscribed == false)
+			{
+				BoostButtonActivator.DeactivateAllButtons();
+				InGameMenu.MenuOpened += OnMenuOpened;
+				InGameMenu.MenuClosed += OnMenuClosed;
+				UnitMovedEvent.UnitsMoved += OnUnitsMoved;
+				ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
+				_finishIslandBoostButton.TryBoostApplying += OnTryApplyingFinishIslandBoost;
+				_islandForBoost.IslandFinished += OnIslandForBoostFinished;
+				_openCustomizationButton.onClick.AddListener(OpenCustomizationMenu);
+
+				_isEventsSubscribed = true;
+			}
+
+			if (PlayerData.LastAvailableLevelId <= CurrentLevelData.LevelId)
+			{
+				_customizationHint.Open();
+			}
+		}
 
 	    private void OpenCustomizationMenu()
 	    {

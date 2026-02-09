@@ -11,26 +11,39 @@ namespace SlimeGround.Gameplay.Training
 	{
 	    [SerializeField] private List<Level1TrainingMove> _trainingMoves = new();
 
-	    private int _currentMoveIndex;
+		private bool _isEventsSubscribed = false;
+		private int _currentMoveIndex;
 	    private Level1TrainingMove _currentTrainingMove;
 
 	    private void OnDestroy()
 	    {
-	        UnitsSelectedEvent.UnitsSelected -= OnUnitsSelected;
-	        UnitMovedEvent.UnitsMoved -= OnUnitsMoved;
-	        ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged;
+			if (_isEventsSubscribed)
+			{
+				UnitsSelectedEvent.UnitsSelected -= OnUnitsSelected;
+				UnitMovedEvent.UnitsMoved -= OnUnitsMoved;
+				ScreenSizeChangeTracker.ScreenSizeChanged -= OnScreenSizeChanged; 
+				
+				_isEventsSubscribed = false;
+			}
+
 	        ResetLevelState();
 	    }
 
 	    public override void StartTraining()
 	    {
-	        _currentMoveIndex = 0;
-	        BoostButtonActivator.DeactivateAllButtons();
-	        UnitsSelectedEvent.UnitsSelected += OnUnitsSelected;
-	        UnitMovedEvent.UnitsMoved += OnUnitsMoved;
-	        ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
+			BoostButtonActivator.DeactivateAllButtons();
 
-	        _currentTrainingMove = _trainingMoves[_currentMoveIndex];
+			if (_isEventsSubscribed == false)
+			{
+				UnitsSelectedEvent.UnitsSelected += OnUnitsSelected;
+				UnitMovedEvent.UnitsMoved += OnUnitsMoved;
+				ScreenSizeChangeTracker.ScreenSizeChanged += OnScreenSizeChanged;
+
+				_isEventsSubscribed = true;
+			}
+
+			_currentMoveIndex = 0;
+			_currentTrainingMove = _trainingMoves[_currentMoveIndex];
 	        ActivateTrainingMove();
 	    }
 

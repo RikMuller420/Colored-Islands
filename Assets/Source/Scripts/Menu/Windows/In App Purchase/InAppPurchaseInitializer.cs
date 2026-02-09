@@ -22,12 +22,14 @@ namespace SlimeGround.Menu.Windows.InAppPurchase
 	    [SerializeField] private List<InAppByAddViewOffer> _inAppByAddViewOffers = new();
 	    [SerializeField] private GoldRewardByWatñhAddVideo _goldRewardByWathAddOffer;
 
-	    public void Initialize(WalletProvider walletProvider, BoostAmountProvider boostProvider,
+		private InAppsProvider _inAppProvider;
+
+		public void Initialize(WalletProvider walletProvider, BoostAmountProvider boostProvider,
 	                           RemoveAdsProvider removeAdsProvider, InAppPurchaseProvider inAppPurchaseProvider,
 	                           InAppByAddViewProvider inAppByAddViewProvider, RewardedAdProvider rewardedAdProvider,
 	                           StickyAdProvider stickyAdProvider)
 	    {
-	        var inAppProvider = new InAppsProvider(_inAppSettings.InApps, walletProvider, boostProvider,
+			_inAppProvider = new InAppsProvider(_inAppSettings.InApps, walletProvider, boostProvider,
 	                                               removeAdsProvider, _inAppConfirmedWindow, inAppPurchaseProvider,
 	                                               inAppByAddViewProvider, _playerData);
 
@@ -35,7 +37,7 @@ namespace SlimeGround.Menu.Windows.InAppPurchase
 
 	        foreach (InAppOffer inAppOffer in _inAppOffers)
 	        {
-	            inAppOffer.Initialize(inAppProvider);
+	            inAppOffer.Initialize(_inAppProvider);
 	        }
 
 	        foreach (InAppByAddViewOffer inAppByAddViewOffer in _inAppByAddViewOffers)
@@ -45,5 +47,17 @@ namespace SlimeGround.Menu.Windows.InAppPurchase
 
 	        _goldRewardByWathAddOffer.Initialize(rewardedAdProvider, walletProvider, _collDownProvider);
 	    }
+
+		public void Dispose()
+		{
+			_inAppProvider.Dispose();
+
+			foreach (InAppByAddViewOffer inAppByAddViewOffer in _inAppByAddViewOffers)
+			{
+				inAppByAddViewOffer.Dispose();
+			}
+
+			_goldRewardByWathAddOffer.Dispose();
+		}
 	}
 }

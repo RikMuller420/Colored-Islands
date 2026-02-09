@@ -24,7 +24,12 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	        _leaderboardReader.LeaderboardReceived += OnLeaderboardReceived;
 	    }
 
-	    public override void Activate()
+		public void Dispose()
+		{
+			_leaderboardReader.LeaderboardReceived -= OnLeaderboardReceived;
+		}
+
+		public override void Activate()
 	    {
 	        base.Activate();
 

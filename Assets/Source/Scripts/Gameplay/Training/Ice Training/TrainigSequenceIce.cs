@@ -10,12 +10,27 @@ namespace SlimeGround.Gameplay.Training
 
 	    private float _appearTime = 0.7f;
 	    private float _disappearTime = 1.5f;
+		private bool _isEventsSubscribed = false;
 
-	    public override void StartTraining()
+		private void OnDestroy()
+		{
+			if (_isEventsSubscribed)
+			{
+				UnitMovedEvent.UnitsMoved -= OnUnitsMoved;
+				_isEventsSubscribed = false;
+			}
+		}	
+
+		public override void StartTraining()
 	    {
 	        _iceHint.DOFade(1f, _appearTime);
 	        _iceHint.transform.LookAt(MainCamera.transform);
-	        UnitMovedEvent.UnitsMoved += OnUnitsMoved;
+
+			if (_isEventsSubscribed == false)
+			{
+				UnitMovedEvent.UnitsMoved += OnUnitsMoved;
+				_isEventsSubscribed = true;
+			}
 	    }
 
 	    private void OnUnitsMoved(UnitsMoveInfo _)

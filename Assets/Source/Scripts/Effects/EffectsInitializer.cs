@@ -17,12 +17,22 @@ namespace SlimeGround.Effects
 	    [SerializeField] private AudioSource _unitMoveSound;
 	    [SerializeField] private GameplaySoundPlayer _gameplaySoundPlayer;
 
-	    public void Initialize(IUnitMovedEvent unitMover)
+		private IslandFinishParticlePlayer _islandFinishParticlePlayer;
+		private LevelEndSoundPlayer _levelEndSoundPlayer;
+
+		public void Initialize(IUnitMovedEvent unitMover)
 	    {
-	        var islandFinishParticlePlayer = new IslandFinishParticlePlayer(_levelProgressTracker, _islandFinishParticlePool);
+			_islandFinishParticlePlayer = new IslandFinishParticlePlayer(_levelProgressTracker, _islandFinishParticlePool);
 	        _backgroundMusicChanger.Initialize(_levelChangeEventTracker);
 	        _unitsMoveSoundPlayer.Initialize(unitMover, _unitMoveSound);
-	        var levelEndSoundPlayer = new LevelEndSoundPlayer(_levelProgressTracker, _gameplaySoundPlayer);
+			_levelEndSoundPlayer = new LevelEndSoundPlayer(_levelProgressTracker, _gameplaySoundPlayer);
 	    }
+
+		public void Dispose()
+		{
+			_islandFinishParticlePlayer.Dispose();
+			_unitsMoveSoundPlayer.Dispose();
+			_levelEndSoundPlayer.Dispose();
+		}
 	}
 }

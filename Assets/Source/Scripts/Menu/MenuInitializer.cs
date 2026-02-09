@@ -33,25 +33,44 @@ namespace SlimeGround.Menu
 	    [SerializeField] private TrainingMenuUpdater _trainingMenuUpdater;
 	    [SerializeField] private LanguageChanger _languageChanger;
 
-	    public void Initialize(UpgradesProvider upgradesProvider, AuthorizationProvider authorizationProvider,
+		private InterstitialAdProvider _interstitialAdProvider;
+		private RemoveAdsProvider _removeAdsProvider;
+		private InterstitialAdOpener _interstitialAdOpener;
+
+		public void Initialize(UpgradesProvider upgradesProvider, AuthorizationProvider authorizationProvider,
 	                            RewardedAdProvider rewardedAdProvider,
 	                            BoostAmountProvider boostAmountProvider, WalletProvider walletProvider,
 	                            IBoostStopApplyedEvent freezeBoostApplyedEvent)
 	    {
-			var interAdProvider = new InterstitialAdProvider();
-			var removeAdsProvider = new RemoveAdsProvider(_playerData);
-			var interAdOpener = new InterstitialAdOpener(_levelChangeEventTracker, removeAdsProvider, interAdProvider, rewardedAdProvider);
+			_interstitialAdProvider = new InterstitialAdProvider();
+			_removeAdsProvider = new RemoveAdsProvider(_playerData);
+			_interstitialAdOpener = new InterstitialAdOpener(_levelChangeEventTracker, _removeAdsProvider,
+															 _interstitialAdProvider, rewardedAdProvider);
 
 			_customizationWindowInitializer.Initialize();
 			_angryBarView.Initialize(boostAmountProvider, freezeBoostApplyedEvent);
 			_levelRewardWindow.Initialize(rewardedAdProvider, upgradesProvider);
 			_levelsWindow.Initialize(_playerData);
-			_gameShopInitializer.Initialize(upgradesProvider, rewardedAdProvider, boostAmountProvider, removeAdsProvider, walletProvider);
+			_gameShopInitializer.Initialize(upgradesProvider, rewardedAdProvider, boostAmountProvider,
+											_removeAdsProvider, walletProvider);
 			_settingsWindowInitializer.Initialize(authorizationProvider);
-			_rouletteWindowInitializer.Initialize(upgradesProvider, removeAdsProvider);
+			_rouletteWindowInitializer.Initialize(upgradesProvider, _removeAdsProvider);
 			_playButton.Initialize(_playerData);
 			_trainingMenuUpdater.Initilize(_playerData);
 			_languageChanger.Initialize();
 	    }
+
+		public void Dispose()
+		{
+			_interstitialAdProvider.Dispose();
+			_removeAdsProvider.Dispose();
+			_interstitialAdOpener.Dispose();
+
+			_customizationWindowInitializer.Dispose();
+			_angryBarView.Dispose();
+			_gameShopInitializer.Dispose();
+			_rouletteWindowInitializer.Dispose();
+			_trainingMenuUpdater.Dispose();
+		}
 	}
 }

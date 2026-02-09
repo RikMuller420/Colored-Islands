@@ -21,6 +21,11 @@ namespace SlimeGround.Integration.Leaderboards
 
 		public event Action<Leaderboard> LeaderboardReceived;
 
+		public void Dispose()
+		{
+			YG2.onGetLeaderboard -= OnGetLeaderboard;
+		}
+
 		public void SaveScore(string tableKey, int score)
 	    {
 	        YG2.SetLeaderboard(tableKey, score);

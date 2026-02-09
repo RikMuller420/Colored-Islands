@@ -17,7 +17,7 @@ namespace SlimeGround.Effects.Sound
 	        _mixers = mixers;
 	        _playerData = playerData;
 
-	        playerData.SoundEnabledChanged += OnSoundEnabledChanged;
+			_playerData.SoundEnabledChanged += OnSoundEnabledChanged;
 
 	        foreach (AudioMixerData mixer in _mixers.Mixers)
 	        {
@@ -29,7 +29,12 @@ namespace SlimeGround.Effects.Sound
 
 		public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _playerData.GetIsSoundOnStatus(audioGroup);
 
-	    public void SetAudioGroupVolume(AudioGroup audioGroup, bool isVolumeOn)
+		public void Dispose()
+		{
+			_playerData.SoundEnabledChanged -= OnSoundEnabledChanged;
+		}
+
+		public void SetAudioGroupVolume(AudioGroup audioGroup, bool isVolumeOn)
 	    {
 	        _playerData.SetSoundToggle(audioGroup, isVolumeOn);
 	        _playerData.Save();
