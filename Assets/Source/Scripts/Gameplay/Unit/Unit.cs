@@ -10,7 +10,7 @@ namespace SlimeGround.Gameplay.Units
 	    [SerializeField] private UnitRenderer _renderer;
 	    [SerializeField] private Transform _meshTransform;
 	    [SerializeField] private UnitAnimator _animator;
-	    [SerializeField] private Collider _collider;
+	    [SerializeField] private UnitCollider _collider;
 	    [SerializeField] private Transform _body;
 
 	    private UnitLookAtRotator _lookAtRotator;
@@ -56,13 +56,13 @@ namespace SlimeGround.Gameplay.Units
 	    public void Deactivate()
 	    {
 	        enabled = false;
-	        _collider.enabled = false;
+	        _collider.Deactivate();
 	    }
 
 	    public void Activate()
 	    {
 	        enabled = true;
-	        _collider.enabled = true;
+	        _collider.Activate();
 	        UnfreezeAnimation();
 	    }
 

@@ -97,8 +97,9 @@ namespace SlimeGround.Gameplay.Training
 	        DeactivateAllColliders();
 	        LevelProgressTracker.PauseTracking();
 	        BoostButtonActivator.ActivateButtonWithFade(BoostType.ReducePaints);
+			GameplayDimmer.Activate();
 
-	        yield return _wait;
+			yield return _wait;
 
 	        UpdatePointerPosition(_buttonRectTransform);
 	        ActivatePointer();
@@ -110,8 +111,9 @@ namespace SlimeGround.Gameplay.Training
 	        DeactivatePointer();
 	        ActivateAllColliders();
 	        LevelProgressTracker.ContinueTracking();
+			GameplayDimmer.Deactivate();
 
-	        _isTrainingDone = true;
+			_isTrainingDone = true;
 	    }
 
 	    private void OnMenuOpened()

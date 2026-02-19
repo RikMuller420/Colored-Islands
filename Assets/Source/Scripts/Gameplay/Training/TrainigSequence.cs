@@ -42,14 +42,15 @@ namespace SlimeGround.Gameplay.Training
 	    protected Image PointerImage => _pointerImage;
 	    protected float FadeDuration { get; private set; } = 0.55f;
 	    protected Canvas Canvas { get; private set; }
+		protected Dimmer GameplayDimmer { get; private set; }
 
-	    public void Initialize(ILevelData currentLevelData, BuferIslandsHolder buferIslandsHolder,
+		public void Initialize(ILevelData currentLevelData, BuferIslandsHolder buferIslandsHolder,
 	                           IUnitsSelectedEvent unitsSelectedEvent, IUnitMovedEvent unitMovedEvent, Camera mainCamera,
 	                           BoostButtonActivator boostButtonActivator, LevelProgressTracker levelProgressTracker,
 	                           UIOrientationChanger uIOrientationChanger, PlayerDataProvider playerData,
 	                           MenuWindow inGameMenu, FinalScoreWindow finalScoreWindow, MenuTrainigSequence menuTrainigSequence,
 	                           ScreenSizeChangeTracker screenSizeChangeTracker, Canvas canvas, LevelLoader levelLoader,
-	                           CustomizationWindow customizationMenu)
+	                           CustomizationWindow customizationMenu, Dimmer dimmer)
 	    {
 	        CurrentLevelData = currentLevelData;
 	        BuferIslandsHolder = buferIslandsHolder;
@@ -67,7 +68,9 @@ namespace SlimeGround.Gameplay.Training
 	        Canvas = canvas;
 	        LevelLoader = levelLoader;
 	        CustomizationMenu = customizationMenu;
-	        _wait = new WaitForEndOfFrame();
+			GameplayDimmer = dimmer;
+
+			_wait = new WaitForEndOfFrame();
 	    }
 
 	    public void StartTrainingNextFrame()
@@ -81,9 +84,10 @@ namespace SlimeGround.Gameplay.Training
 	    {
 	        BoostButtonActivator.ActivateAllButtons();
 	        ActivateAllColliders();
-	    }
+			GameplayDimmer.Deactivate();
+		}
 
-	    protected void ActivatePointer()
+		protected void ActivatePointer()
 	    {
 	        DOTween.Sequence().Append(PointerImage.DOFade(1f, FadeDuration)
 	                              .SetEase(Ease.InOutQuad));

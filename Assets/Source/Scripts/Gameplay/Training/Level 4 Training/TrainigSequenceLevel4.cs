@@ -47,6 +47,9 @@ namespace SlimeGround.Gameplay.Training
 
 	    public override void StartTraining()
 	    {
+			_freezeObjectivesBoostButton = BoostButtonActivator.GetBoostButton(BoostType.FreezeObjectives);
+			_buttonRectTransform = BoostButtonActivator.GetBoostButtonRectTransform(BoostType.FreezeObjectives);
+
 			if (_isEventsSubscribed == false)
 			{
 				BoostButtonActivator.DeactivateAllButtons();
@@ -65,9 +68,6 @@ namespace SlimeGround.Gameplay.Training
 	        BoostButtonActivator.SetButtonNonInteractible(BoostType.GrowBuferIsland);
 	        BoostButtonActivator.ActivateButtonImmediate(BoostType.FinishIsland);
 	        BoostButtonActivator.SetButtonNonInteractible(BoostType.FinishIsland);
-
-	        _freezeObjectivesBoostButton = BoostButtonActivator.GetBoostButton(BoostType.FreezeObjectives);
-	        _buttonRectTransform = BoostButtonActivator.GetBoostButtonRectTransform(BoostType.FreezeObjectives);
 
 	        StartCoroutine(OpenAngyBarHintInDelay());
 	    }
@@ -106,6 +106,7 @@ namespace SlimeGround.Gameplay.Training
 	    {
 	        LevelProgressTracker.PauseTracking();
 	        DeactivateAllColliders();
+			GameplayDimmer.Activate();
 
 	        BoostButtonActivator.ActivateButtonWithFade(BoostType.FreezeObjectives);
 
@@ -152,7 +153,8 @@ namespace SlimeGround.Gameplay.Training
 	        }
 
 	        DeactivatePointer();
-	        _isTrainingDone = true;
+			GameplayDimmer.Deactivate();
+			_isTrainingDone = true;
 	    }
 	}
 }

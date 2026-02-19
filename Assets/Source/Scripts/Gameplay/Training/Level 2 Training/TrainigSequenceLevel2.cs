@@ -80,6 +80,7 @@ namespace SlimeGround.Gameplay.Training
 
 	        UpdatePointerPosition(_buttonRectTransform);
 	        ActivatePointer();
+			GameplayDimmer.Activate();
 	    }
 
 	    private void OnTryApplyingBoost()
@@ -87,7 +88,8 @@ namespace SlimeGround.Gameplay.Training
 	        AddBost(BoostType.GrowBuferIsland);
 	        ActivateAllColliders();
 	        DeactivatePointer();
-	        _isTrainingDone = true;
+			GameplayDimmer.Deactivate();
+			_isTrainingDone = true;
 	    }
 	}
 }

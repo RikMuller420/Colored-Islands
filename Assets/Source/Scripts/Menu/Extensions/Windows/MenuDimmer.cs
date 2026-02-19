@@ -1,61 +1,32 @@
-using DG.Tweening;
-using GameAnalyticsSDK;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace SlimeGround.Menu.Extensions.Windows
 {
-	public class MenuDimmer : MonoBehaviour
+	public class MenuDimmer : Dimmer
 	{
-	    [SerializeField] private CanvasGroup _backgroundDim;
 	    [SerializeField] private Button _button;
 
 	    private MenuWindow _openedMenu;
 
-	    private float _dimFadeDuration = 0.3f;
-	    private float _maxDimAlpha = 1f;
-	    private float _minDimAlpha = 0f;
-
 	    private void OnEnable()
 	    {
-	        _button.onClick.AddListener(CloseOpenedWindow);
+	        _button.onClick.AddListener(CloseLinkedWindow);
 	    }
 
 	    private void OnDisable()
 	    {
-	        _button.onClick.RemoveListener(CloseOpenedWindow);
+	        _button.onClick.RemoveListener(CloseLinkedWindow);
 	    }
 
 	    public void Activate(MenuWindow menu, bool isAbleToCloseWindow)
 	    {
 	        _openedMenu = menu;
 	        _button.enabled = isAbleToCloseWindow;
-
-	        _backgroundDim.DOKill();
-	        _backgroundDim.blocksRaycasts = true;
-	        _backgroundDim
-	            .DOFade(_maxDimAlpha, _dimFadeDuration)
-	            .SetEase(Ease.OutQuad)
-	            .SetUpdate(true);
+			Activate();
 	    }
 
-	    public void Deactivate()
-	    {
-	        _backgroundDim.DOKill();
-	        _backgroundDim.blocksRaycasts = false;
-	        _backgroundDim
-	            .DOFade(_minDimAlpha, _dimFadeDuration)
-	            .SetEase(Ease.InQuad)
-	            .SetUpdate(true)
-	            .OnComplete(StopBlockDimRaycasts);
-	    }
-
-	    private void StopBlockDimRaycasts()
-	    {
-	        _backgroundDim.blocksRaycasts = false;
-	    }
-
-	    private void CloseOpenedWindow()
+	    private void CloseLinkedWindow()
 	    {
 	        _openedMenu.Close();
 	    }

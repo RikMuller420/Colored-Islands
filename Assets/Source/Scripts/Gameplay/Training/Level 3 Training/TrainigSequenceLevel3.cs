@@ -107,6 +107,7 @@ namespace SlimeGround.Gameplay.Training
 	    {
 	        DeactivateAllColliders();
 	        BoostButtonActivator.ActivateButtonWithFade(BoostType.FinishIsland);
+			GameplayDimmer.Activate();
 
 	        yield return _wait;
 
@@ -121,9 +122,10 @@ namespace SlimeGround.Gameplay.Training
 	        BoostButtonActivator.SetButtonNonInteractible(BoostType.FinishIsland);
 	        _islandForBoost.Collider.enabled = true;
 	        ActivateIslandPointer();
-	    }
+			GameplayDimmer.Deactivate();
+		}
 
-	    private void OnIslandForBoostFinished(Island island)
+		private void OnIslandForBoostFinished(Island island)
 	    {
 	        ActivateAllColliders();
 	        DeactivateColliders(island);

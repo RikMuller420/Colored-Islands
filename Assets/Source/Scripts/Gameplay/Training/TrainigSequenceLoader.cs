@@ -30,8 +30,9 @@ namespace SlimeGround.Gameplay.Training
 	    [SerializeField] private ScreenSizeChangeTracker _screenSizeChangeTracker;
 	    [SerializeField] private Canvas _canvas;
 	    [SerializeField] private CustomizationWindow _customizationMenu;
+		[SerializeField] private Dimmer _gameplayDimmer;
 
-	    private IUnitMovedEvent _unitMovedEvent;
+		private IUnitMovedEvent _unitMovedEvent;
 	    private IUnitsSelectedEvent _unitsSelectedEvent;
 
 	    public void Initilize(IUnitsSelectedEvent unitsSelectedEvent, IUnitMovedEvent unitMovedEvent)
@@ -67,7 +68,7 @@ namespace SlimeGround.Gameplay.Training
 	            trainigSequence.Initialize(levelData, _buferIslandsHolder, _unitsSelectedEvent, _unitMovedEvent, _mainCamera,
 	                                       _boostButtonActivator, _levelProgressTracker, _uIOrientationChanger, _playerData,
 	                                       _inGameMenu, _finalScoreWindow, _menuTrainigSequence, _screenSizeChangeTracker,
-	                                       _canvas, _levelLoader, _customizationMenu);
+	                                       _canvas, _levelLoader, _customizationMenu, _gameplayDimmer);
 	            trainigSequence.StartTrainingNextFrame();
 	        }
 	    }
