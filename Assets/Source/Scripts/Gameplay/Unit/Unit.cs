@@ -20,7 +20,6 @@ namespace SlimeGround.Gameplay.Units
 	    public BaseIsland Island { get; private set; }
 	    public Transform MeshTransform => _meshTransform;
 	    public UnitAnimator Animator => _animator;
-	    public Collider Collider => _collider;
 
 	    public void ActivateOutline() => _renderer.ActivateOutline();
 	    public void DeactivateOutline() => _renderer.DeactivateOutline();

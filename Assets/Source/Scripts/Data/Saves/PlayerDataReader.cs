@@ -12,7 +12,7 @@ namespace SlimeGround.Data.Saves
 {
 	public class PlayerDataReader
 	{
-	    public const string SaveSignatureKey = "TestVersion3";
+	    public const string SaveSignatureKey = "TestVersion4";
 
 	    private LevelSettings _levelSettings;
 	    private UnitsFaceSettings _unitsFaceSettings;

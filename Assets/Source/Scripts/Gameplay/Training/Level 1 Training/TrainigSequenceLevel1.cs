@@ -49,14 +49,15 @@ namespace SlimeGround.Gameplay.Training
 
 	    private void ActivateTrainingMove()
 	    {
-	        DeactivateColliders();
+	        DeactivateAllColliders();
 
-	        DOTween.Sequence().Append(PointerImage.DOFade(0f, FadeDuration)
-	                  .SetEase(Ease.InOutQuad))
-	                  .AppendCallback(UpdatePointerPosition)
-	                  .Append(PointerImage.DOFade(1f, FadeDuration)
-	                  .SetEase(Ease.InOutQuad))
-	                  .OnComplete(ActivateTrainingMoveColliders);
+	        DOTween.Sequence()
+				.Append(PointerImage.DOFade(0f, FadeDuration)
+				.SetEase(Ease.InOutQuad))
+				.AppendCallback(UpdatePointerPosition)
+				.Append(PointerImage.DOFade(1f, FadeDuration)
+				.SetEase(Ease.InOutQuad))
+				.OnComplete(ActivateTrainingMoveColliders);
 	    }
 
 	    private void OnScreenSizeChanged(Vector2 _) => UpdatePointerPosition();
@@ -69,9 +70,11 @@ namespace SlimeGround.Gameplay.Training
 
 	    private void ActivateTrainingMoveColliders()
 	    {
-	        BaseIsland targetIsland = _currentTrainingMove.IsUseBufferIsland ? BuferIslandsHolder.CurrentIsland : _currentTrainingMove.Island;
+	        BaseIsland targetIsland = _currentTrainingMove.IsUseBufferIsland
+									? BuferIslandsHolder.CurrentIsland
+									: _currentTrainingMove.Island;
 
-	        switch (_currentTrainingMove.Type)
+			switch (_currentTrainingMove.Type)
 	        {
 	            case Level1TrainingMoveType.SelectUnits:
 	                ActivateUnitsColliders(targetIsland, _currentTrainingMove.UnitsSlot);
@@ -117,11 +120,11 @@ namespace SlimeGround.Gameplay.Training
 
 	    private void ActivateUnitsColliders(BaseIsland island, UnitSlotType unitsSlot)
 	    {
-	        foreach (IslandPoint islandPoint in island.Points)
+			foreach (IslandPoint islandPoint in island.Points)
 	        {
 	            if (islandPoint.IsFree == false && islandPoint.OccupiedUnit.Slot == unitsSlot)
 	            {
-	                islandPoint.OccupiedUnit.Collider.enabled = true;
+					islandPoint.OccupiedUnit.Activate();
 	            }
 	        }
 	    }

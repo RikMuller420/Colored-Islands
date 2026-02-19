@@ -66,7 +66,23 @@ namespace SlimeGround
 	        _trainigLoader.TryLoadTrainingLevel();
 	    }
 
-		private void OnDestroy() => Dispose();
+		private void OnDestroy()
+		{
+			_boostAmountProvider.Dispose();
+			_walletProvider.Dispose();
+			_leaderboardProvider.Dispose();
+			_rewardedAdProvider.Dispose();
+			_authorizationProvider.Dispose();
+
+			_clickHandler.Dispose();
+			_gameplayInitializer.Dispose();
+			_levelLoader.Dispose();
+			_boostInitializer.Dispose();
+			_menuInitializer.Dispose();
+			_trainigLoader.Dispose();
+			_effectsInitializer.Dispose();
+			_leaderboardInitializer.Dispose();
+		}
 
 		private void InitializeGame()
 	    {
@@ -105,23 +121,5 @@ namespace SlimeGround
 	        _cameraPositionChanger.Initialize(levelDataHolder);
 	        _leaderboardInitializer.Initialize(_leaderboardProvider, _authorizationProvider);
 	    }
-
-		private void Dispose()
-		{
-			_boostAmountProvider.Dispose();
-			_walletProvider.Dispose();
-			_leaderboardProvider.Dispose();
-			_rewardedAdProvider.Dispose();
-			_authorizationProvider.Dispose();
-
-			_clickHandler.Dispose();
-			_gameplayInitializer.Dispose();
-			_levelLoader.Dispose();
-			_boostInitializer.Dispose();
-			_menuInitializer.Dispose();
-			_trainigLoader.Dispose();
-			_effectsInitializer.Dispose();
-			_leaderboardInitializer.Dispose();
-		}
 	}
 }

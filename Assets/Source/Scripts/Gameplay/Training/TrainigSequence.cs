@@ -105,7 +105,7 @@ namespace SlimeGround.Gameplay.Training
 	        ActivateColliders(BuferIslandsHolder.CurrentIsland);
 	    }
 
-	    protected void DeactivateColliders()
+	    protected void DeactivateAllColliders()
 	    {
 	        foreach (Island island in CurrentLevelData.Islands)
 	        {
@@ -126,7 +126,7 @@ namespace SlimeGround.Gameplay.Training
 	                continue;
 	            }
 
-	            islandPoint.OccupiedUnit.Collider.enabled = false;
+				islandPoint.OccupiedUnit.Deactivate();
 	        }
 	    }
 
@@ -156,7 +156,7 @@ namespace SlimeGround.Gameplay.Training
 	                continue;
 	            }
 
-	            islandPoint.OccupiedUnit.Collider.enabled = true;
+	            islandPoint.OccupiedUnit.Activate();
 	        }
 	    }
 

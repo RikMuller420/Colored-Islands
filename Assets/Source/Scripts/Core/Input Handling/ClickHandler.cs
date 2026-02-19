@@ -48,23 +48,23 @@ namespace SlimeGround.Core.InputHandling
 
 	    private void OnClick(Vector2 clickPosition)
 	    {
-	        bool isPaused = Time.timeScale == 0;
+			bool isPaused = Time.timeScale == 0;
 
-	        if (isPaused)
+			if (isPaused)
 	        {
-	            return;
+				return;
 	        }
 
 	        Ray ray = _camera.ScreenPointToRay(clickPosition);
 
 	        if (IsPointerOverUI(clickPosition))
 	        {
-	            return;
+				return;
 	        }
 
-	        if (Physics.Raycast(ray, out RaycastHit hit, _currentClickBehaviour.MaxClickDistance, _currentClickBehaviour.LayerMask))
+			if (Physics.Raycast(ray, out RaycastHit hit, _currentClickBehaviour.MaxClickDistance, _currentClickBehaviour.LayerMask))
 	        {
-	            _currentClickBehaviour.HandleClick(hit);
+				_currentClickBehaviour.HandleClick(hit);
 	        }
 	    }
 

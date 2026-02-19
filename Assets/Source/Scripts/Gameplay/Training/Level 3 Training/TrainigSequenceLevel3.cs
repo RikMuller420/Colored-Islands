@@ -105,7 +105,7 @@ namespace SlimeGround.Gameplay.Training
 
 	    private IEnumerator StartFirstTrainingMove()
 	    {
-	        DeactivateColliders();
+	        DeactivateAllColliders();
 	        BoostButtonActivator.ActivateButtonWithFade(BoostType.FinishIsland);
 
 	        yield return _wait;

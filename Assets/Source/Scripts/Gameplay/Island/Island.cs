@@ -31,15 +31,15 @@ namespace SlimeGround.Gameplay.Islands
 	        UnitAdded -= TryFinish;
 	    }
 
-	    public void Initialize(List<IslandPoint> placementPoints, UnitSlotType paint, ColorSample colorSample,
-	                            ColorSampleMaterials paintMaterials)
+	    public void Initialize(List<IslandPoint> placementPoints, UnitSlotType unitSlot,
+							ColorSample colorSample, ColorSampleMaterials paintMaterials)
 	    {
 	        Initialize(placementPoints);
 
 	        _points = Points.Select(point => point.Point).ToList().AsReadOnly();
 	        _renderer = new IslandRenderer(MeshRenderer, paintMaterials);
 
-	        SetRequredUnitSlot(paint, colorSample);
+	        SetRequredUnitSlot(unitSlot, colorSample);
 	    }
 
 	    public void SetRequredUnitSlot(UnitSlotType unitSlot, ColorSample colorSample)
