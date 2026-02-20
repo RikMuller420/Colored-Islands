@@ -6,6 +6,7 @@ using SlimeGround.Data.ScriptableObjects.Hats;
 using SlimeGround.Data.ScriptableObjects.Levels;
 using SlimeGround.Data.ScriptableObjects.Paints;
 using SlimeGround.Data.ScriptableObjects.UnitFaces;
+using SlimeGround.Effects.Weather;
 using SlimeGround.Gameplay.Islands;
 using SlimeGround.Gameplay.Units;
 using SlimeGround.Integration.Metrics;
@@ -62,11 +63,11 @@ namespace SlimeGround.Gameplay.Levels
 	        _currentLevelData.SetLevelData(null, _levelSettings.MainMenuSettings);
 
 	        LevelChanged?.Invoke(_currentLevelData);
-	    }
+		}
 
-	    public void LoadLevel(int levelId)
+		public void LoadLevel(int levelId)
 	    {
-	        LevelStartChanging?.Invoke();
+			LevelStartChanging?.Invoke();
 
 	        LevelSettingsData levelData = _levelSettings.Levels.FirstOrDefault(level => level.Id == levelId);
 

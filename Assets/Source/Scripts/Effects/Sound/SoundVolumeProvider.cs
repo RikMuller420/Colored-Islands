@@ -9,6 +9,8 @@ namespace SlimeGround.Effects.Sound
 {
 	public class SoundVolumeProvider
 	{
+		private const float MaxVolume = 0.3f;
+
 	    private AudioMixers _mixers;
 	    private PlayerDataProvider _playerData;
 
@@ -45,7 +47,7 @@ namespace SlimeGround.Effects.Sound
 	    private void UpdateAudioGroupVolume(AudioGroup audioGroup)
 	    {
 	        bool isVolumeOn = GetIsSoundOnStatus(audioGroup);
-	        float volume = GetDbFromNormalizedValue(isVolumeOn ? 1 : 0);
+	        float volume = GetDbFromNormalizedValue(isVolumeOn ? MaxVolume : 0);
 	        AudioMixerGroup mixer = _mixers.Mixers.FirstOrDefault(mixer => mixer.AudioGroup == audioGroup).Mixer;
 	        mixer.audioMixer.SetFloat(audioGroup.ToString(), volume);
 	    }

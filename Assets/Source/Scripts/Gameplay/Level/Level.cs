@@ -4,6 +4,7 @@ using System.Linq;
 using SlimeGround.Core.CameraSystem;
 using SlimeGround.Data.Saves;
 using SlimeGround.Data.ScriptableObjects.Paints;
+using SlimeGround.Effects.Weather;
 using SlimeGround.Gameplay.Islands;
 using SlimeGround.Gameplay.Units;
 using SlimeGround.Menu.Windows.Customization;
@@ -21,6 +22,7 @@ namespace SlimeGround.Gameplay.Levels
 	    [SerializeField] private CameraTargets _cameraTargetsVertical;
 	    [SerializeField] private CameraTargets _cameraTargetsHorizontal;
 
+		[SerializeField] private WeatherType _weather;
 	    [SerializeField] private MeshRenderer _levelBounds;
 	    [SerializeField] private float _unitScale = 2f;
 	    [SerializeField] private List<IslandInitializer> _islands = new List<IslandInitializer>();
@@ -34,7 +36,8 @@ namespace SlimeGround.Gameplay.Levels
 	    public CameraTargets CameraTargetsVertical => _cameraTargetsVertical;
 	    public CameraTargets CameraTargetsHorizontal => _cameraTargetsHorizontal;
 
-	    public MeshRenderer LevelBounds => _levelBounds;
+		public WeatherType Weather => _weather;
+		public MeshRenderer LevelBounds => _levelBounds;
 	    public IReadOnlyCollection<Island> Islands => _islands.Select(initializer => initializer.Island).ToList().AsReadOnly();
 
 	    public void Initialize(Func<Unit> createUnit, ColorSampleMaterials materials, Transform unitsLookAtPoint,

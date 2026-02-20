@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using SlimeGround.Core.CameraSystem;
 using SlimeGround.Data.ScriptableObjects.Levels;
+using SlimeGround.Effects.Weather;
 using SlimeGround.Gameplay.Islands;
 using UnityEngine;
 
@@ -21,7 +22,8 @@ namespace SlimeGround.Gameplay.Levels
 	    public IEnumerable<Island> Islands => Level?.Islands;
 	    public CameraTargets VerticalCameraTargets => Level?.CameraTargetsVertical;
 	    public CameraTargets HorizontalCameraTargets => Level?.CameraTargetsHorizontal;
-	    public MeshRenderer LevelBounds => Level?.LevelBounds;
+		public WeatherType Weather => Level == null ? WeatherType.Sun : Level.Weather;
+		public MeshRenderer LevelBounds => Level?.LevelBounds;
 
 	    public int LevelId => _levelSettings.Id;
 	    public int ExtraStarMoveCount => Level.ExtraStarMoveCount;

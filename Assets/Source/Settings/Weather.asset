@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6971ff0fcc93d79489624f27fb9da136, type: 3}
+  m_Name: Weather
+  m_EditorClassIdentifier: 
+  _weathers:
+  - _weatherType: 0
+    _waterColor: {r: 0.21960784, g: 0.74509805, b: 0.7921569, a: 1}
+    _waterChoppiness: 0.013
+    _isRainActive: 0
+    _sunRotation: {x: 48, y: -32, z: -41}
+    _sunIntesivity: 1
+    _windSpeed: 2
+    _windColor: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 0.4392157}
+    _isFallingStartsActive: 0
+  - _weatherType: 1
+    _waterColor: {r: 0.09803922, g: 0.6666667, b: 0.7176471, a: 1}
+    _waterChoppiness: 0.023
+    _isRainActive: 1
+    _sunRotation: {x: 47, y: -42, z: 10}
+    _sunIntesivity: 0.5
+    _windSpeed: 10
+    _windColor: {r: 0.25013348, g: 0.57160383, b: 0.6886792, a: 0.29803923}
+    _isFallingStartsActive: 0
+  - _weatherType: 2
+    _waterColor: {r: 0.14404595, g: 0.7304453, b: 0.7830189, a: 1}
+    _waterChoppiness: 0.02
+    _isRainActive: 0
+    _sunRotation: {x: 48, y: -32, z: -41}
+    _sunIntesivity: 1
+    _windSpeed: 10
+    _windColor: {r: 1, g: 0.9858491, b: 0.9858491, a: 0.5058824}
+    _isFallingStartsActive: 1
