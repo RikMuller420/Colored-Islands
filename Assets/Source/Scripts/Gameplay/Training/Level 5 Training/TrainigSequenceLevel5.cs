@@ -156,7 +156,9 @@ namespace SlimeGround.Gameplay.Training
 
 	    private void GoToMenuTraining()
 	    {
-	        DOTween.Sequence().Append(_fullDimImage.DOFade(1f, FadeDuration)
+			_lastStepButton.interactable = false;
+
+			DOTween.Sequence().Append(_fullDimImage.DOFade(1f, FadeDuration)
 	                          .SetEase(Ease.InOutQuad))
 	                          .OnComplete(() => MenuTrainigSequence.StartTraining());
 	    }
