@@ -35,7 +35,7 @@ namespace SlimeGround.Gameplay.Islands
 	        {
 	            if (point.IsFree == false)
 	            {
-	                point.OccupiedUnit.FreezeAnimation();
+	                point.OccupiedUnit.Animator.FreezeAnimation();
 	            }
 	        }
 
@@ -58,7 +58,15 @@ namespace SlimeGround.Gameplay.Islands
 	        if (_movesCount == _movesToDeactivate)
 	        {
 	            _island.Activate();
-	            _iceView.Deactivate();
+				_iceView.Deactivate();
+
+				foreach (IslandPoint point in _island.Points)
+				{
+					if (point.IsFree == false)
+					{
+						point.OccupiedUnit.Animator.UnfreezeAnimation();
+					}
+				}
 	        }
 	    }
 	}

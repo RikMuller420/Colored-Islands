@@ -24,9 +24,6 @@ namespace SlimeGround.Gameplay.Units
 	    public void ActivateOutline() => _renderer.ActivateOutline();
 	    public void DeactivateOutline() => _renderer.DeactivateOutline();
 
-	    public void FreezeAnimation() => _animator.FreezeAnimation();
-	    private void UnfreezeAnimation() => _animator.UnfreezeAnimation();
-
 	    public void Initialize(CustomizationSettingsHolder customizationSettings)
 	    {
 	        if (_isInitialized == false)
@@ -63,7 +60,6 @@ namespace SlimeGround.Gameplay.Units
 	    {
 	        enabled = true;
 	        _collider.Activate();
-	        UnfreezeAnimation();
 	    }
 
 	    public void LookToTarget(Transform target, UnitsMoveInfo unitsMoveInfo) => 

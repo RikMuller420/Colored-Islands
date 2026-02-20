@@ -74,8 +74,8 @@ namespace SlimeGround.Gameplay.Islands
 	            if (point.IsFree == false)
 	            {
 	                point.OccupiedUnit.Deactivate();
-	            }
-	        }
+				}
+			}
 	    }
 
 	    public void Activate()
@@ -88,8 +88,8 @@ namespace SlimeGround.Gameplay.Islands
 	            if (point.IsFree == false)
 	            {
 	                point.OccupiedUnit.Activate();
-	            }
-	        }
+				}
+			}
 	    }
 
 	#if UNITY_EDITOR

@@ -58,7 +58,9 @@ namespace SlimeGround.Core.InputHandling
 	        foreach (IslandPoint point in wrongUnitPoints)
 	        {
 	            BaseIsland freeIsland = FindFreeIsland();
-	            _unitMover.MoveUnit(point.OccupiedUnit, freeIsland);
+				Unit wrongUnit = point.OccupiedUnit;
+				_unitMover.MoveUnit(wrongUnit, freeIsland);
+
 	            MoveAnySuitableUnit(island);
 
 	            if (usedIslands.Contains(freeIsland) == false)
@@ -76,8 +78,9 @@ namespace SlimeGround.Core.InputHandling
 	    private void MoveAnySuitableUnit(Island targetIsland)
 	    {
 	        Unit suitableUnit = FindSutableUnit(targetIsland);
-	        _unitMover.MoveUnit(suitableUnit, targetIsland);
-	    }
+			suitableUnit.Activate();
+			_unitMover.MoveUnit(suitableUnit, targetIsland);
+		}
 
 	    private BaseIsland FindFreeIsland()
 	    {

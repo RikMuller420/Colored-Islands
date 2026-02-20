@@ -56,10 +56,11 @@ namespace SlimeGround.Gameplay.Islands
 	        List<IslandPoint> aviablePoints = Points.Where(p => p.IsFree).ToList();
 	        placementPoint = IslandPaintDistributor.ClosestPoint(unit.transform.position, aviablePoints);
 	        placementPoint.SetUnit(unit);
-	        UnitAdded?.Invoke();
-	    }
 
-	    public void AddStartUnit(Unit unit, out IslandPoint placementPoint)
+			OnUnitAdded(unit);
+		}
+
+		public void AddStartUnit(Unit unit, out IslandPoint placementPoint)
 	    {
 	        List<IslandPoint> aviablePoints = Points.Where(p => p.IsFree).ToList();
 	        placementPoint = Points.FirstOrDefault(point => point.IsFree == false && point.OccupiedUnit.Slot == unit.Slot);
@@ -70,9 +71,9 @@ namespace SlimeGround.Gameplay.Islands
 	            IslandPoint closestPoint = IslandPaintDistributor.ClosestPoint(startPoint.Transform.position, aviablePoints);
 	            placementPoint = closestPoint;
 	            closestPoint.SetUnit(unit);
-	            UnitAdded?.Invoke();
+				OnUnitAdded(unit);
 
-	            return;
+				return;
 	        }
 
 	        placementPoint = Points.FirstOrDefault(point => point.IsFree);
@@ -80,13 +81,29 @@ namespace SlimeGround.Gameplay.Islands
 	        if (placementPoint != null)
 	        {
 	            placementPoint.SetUnit(unit);
-	            UnitAdded?.Invoke();
+				OnUnitAdded(unit);
 
 	            return;
 	        }
 
 	        throw new InvalidOperationException("No available free placement points");
 	    }
+
+		private void OnUnitAdded(Unit unit)
+		{
+			if (enabled)
+			{
+				unit.Activate();
+				unit.Animator.UnfreezeAnimation();
+			}
+			else
+			{
+				unit.Deactivate();
+				unit.Animator.FreezeAnimation();
+			}
+
+			UnitAdded?.Invoke();
+		}
 
 	    protected virtual void OnValidate()
 	    {
