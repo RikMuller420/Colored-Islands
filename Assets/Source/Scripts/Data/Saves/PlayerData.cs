@@ -21,7 +21,8 @@ namespace SlimeGround.Data.Saves
 	    [JsonProperty] public bool IsAdsRemoved;
 	    [JsonProperty] public bool IsLanguageSaved;
 	    [JsonProperty] public Language Language;
-	    [JsonProperty] public bool IsTrainingFinished;
+		[JsonProperty] public bool IsCustomizationWindowWasOpened;
+		[JsonProperty] public bool IsTrainingFinished;
 	    [JsonProperty] public int AviableSpinCount;
 	    [JsonProperty] public Dictionary<BoostType, int> BoostsAmounts;
 	    [JsonProperty] public Dictionary<UpgradeType, int> UpgradeStages;

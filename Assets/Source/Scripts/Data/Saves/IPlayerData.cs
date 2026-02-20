@@ -26,7 +26,8 @@ namespace SlimeGround.Data.Saves
 
 		public int LastAvailableLevelId { get; }
 	    public LevelProgress FirstUnfinishedLevel { get; }
-	    public bool IsTrainingFinished { get; }
+		public bool IsCustomizationWindowWasOpened { get; }
+		public bool IsTrainingFinished { get; }
 	    public IReadOnlyCollection<LevelProgress> Levels { get; }
 	    public int GoldAmount { get; }
 	    public int ScoreAmount { get; }

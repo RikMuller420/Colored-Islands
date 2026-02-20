@@ -75,7 +75,7 @@ namespace SlimeGround.Gameplay.Training
 				_isEventsSubscribed = true;
 			}
 
-			if (PlayerData.LastAvailableLevelId <= CurrentLevelData.LevelId)
+			if (PlayerData.IsCustomizationWindowWasOpened == false)
 			{
 				_customizationHint.Open();
 			}

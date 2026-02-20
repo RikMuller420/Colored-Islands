@@ -44,6 +44,7 @@ namespace SlimeGround.Data.Saves
 
 	    public LevelProgress FirstUnfinishedLevel => Levels.FirstOrDefault(level => level.IsDone == false);
 		public int LastAvailableLevelId => Levels.FirstOrDefault(level => level.IsDone == false)?.Id ?? Levels.Max(level => level.Id);
+		public bool IsCustomizationWindowWasOpened => _playerData.IsCustomizationWindowWasOpened;
 		public bool IsTrainingFinished => _playerData.IsTrainingFinished;
 	    public IReadOnlyCollection<LevelProgress> Levels => _playerData.Levels;
 	    public int GoldAmount => _playerData.GoldAmount;
@@ -132,7 +133,12 @@ namespace SlimeGround.Data.Saves
 	        SpinCountChanged?.Invoke();
 	    }
 
-	    public void SetTrainingFinished()
+		public void SetCustomizationWindowWasOpened()
+		{
+			_playerData.IsCustomizationWindowWasOpened = true;
+		}
+
+		public void SetTrainingFinished()
 	    {
 	        _playerData.IsTrainingFinished = true;
 	        TrainingFinished?.Invoke();
