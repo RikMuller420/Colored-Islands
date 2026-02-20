@@ -8,7 +8,7 @@ namespace SlimeGround.Core.InputHandling
 	public class ClickHandler
 	{
 	    private Camera _camera;
-	    private DefaultClickHandler _defaultClickBehaviour;
+	    private GameplayClickHandler _gameplayClickBehaviour;
 		private InputHandler _inputHandler;
 		private ClickBehaviour _currentClickBehaviour;
 
@@ -18,12 +18,12 @@ namespace SlimeGround.Core.InputHandling
 	    {
 	        _camera = camera;
 			_inputHandler = inputHandler;
-			_defaultClickBehaviour = new DefaultClickHandler(unitMover, allIslandsAndUnitsLayer);
+			_gameplayClickBehaviour = new GameplayClickHandler(unitMover, allIslandsAndUnitsLayer);
 
-	        SetDeafultClickHandler();
+	        ActivateGameplayClickHandler();
 			_inputHandler.Clicked += OnClick;
 
-	        unitsSelectedEvent = _defaultClickBehaviour;
+	        unitsSelectedEvent = _gameplayClickBehaviour;
 	    }
 
 		public void Dispose()
@@ -31,9 +31,9 @@ namespace SlimeGround.Core.InputHandling
 			_inputHandler.Clicked -= OnClick;
 		}
 
-		public void SetDeafultClickHandler()
+		public void ActivateGameplayClickHandler()
 	    {
-	        SetClickBehaviour(_defaultClickBehaviour);
+	        SetClickBehaviour(_gameplayClickBehaviour);
 	    }
 
 	    public void SetClickBehaviour(ClickBehaviour clickBehaviour)

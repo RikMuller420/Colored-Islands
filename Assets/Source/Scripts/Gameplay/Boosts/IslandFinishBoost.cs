@@ -58,7 +58,7 @@ namespace SlimeGround.Gameplay.Boosts
 
 	    private void StopBoostApplying()
 	    {
-	        _clickHandler.SetDeafultClickHandler();
+	        _clickHandler.ActivateGameplayClickHandler();
 	        _isBoostApplying = false;
 	        BoostStopApplyed?.Invoke();
 	    }
