@@ -1,54 +1,57 @@
 using System.Collections;
 using UnityEngine;
 
-public class WaterRipplesPlayer : MonoBehaviour
+namespace SlimeGround.Effects.Particles
 {
-	[SerializeField] private WaterRipplesParticlePool _ripplePool;
-	[SerializeField] private MeshFilter _rippleZone;
-
-	private float _minIntervalTime = 3.5f;
-	private float _maxIntervalTime = 7f;
-
-	private void Start()
+	public class WaterRipplesPlayer : MonoBehaviour
 	{
-		StartCoroutine(PlayRipples());
-	}
+		[SerializeField] private ParticlePool _ripplePool;
+		[SerializeField] private MeshFilter _rippleZone;
 
-	private IEnumerator PlayRipples()
-	{
-		while (enabled)
+		private float _minIntervalTime = 3.5f;
+		private float _maxIntervalTime = 7f;
+
+		private void Start()
 		{
-			float awaitTime = Random.Range(_minIntervalTime, _maxIntervalTime);
-
-			yield return new WaitForSeconds(awaitTime);
-
-			PlayRipple();
+			StartCoroutine(PlayRipples());
 		}
-	}
 
-	private void PlayRipple()
-	{
-		GameObject ripple = _ripplePool.GetSmallRipple();
-		ripple.transform.position = GetRandomRipplePosition();
-		ripple.SetActive(true);
-	}
+		private IEnumerator PlayRipples()
+		{
+			while (enabled)
+			{
+				float awaitTime = Random.Range(_minIntervalTime, _maxIntervalTime);
 
-	private Vector3 GetRandomRipplePosition()
-	{
-		Bounds bounds = _rippleZone.sharedMesh.bounds;
+				yield return new WaitForSeconds(awaitTime);
 
-		float minX = bounds.min.x;
-		float maxX = bounds.max.x;
-		float minZ = bounds.min.z;
-		float maxZ = bounds.max.z;
+				PlayRipple();
+			}
+		}
 
-		Vector3 localPoint = new Vector3
-		(
-			Random.Range(minX, maxX),
-			_rippleZone.transform.position.y,
-			Random.Range(minZ, maxZ)
-		);
+		private void PlayRipple()
+		{
+			GameObject ripple = _ripplePool.GetParticle();
+			ripple.transform.position = GetRandomRipplePosition();
+			ripple.SetActive(true);
+		}
 
-		return _rippleZone.transform.TransformPoint(localPoint);
+		private Vector3 GetRandomRipplePosition()
+		{
+			Bounds bounds = _rippleZone.sharedMesh.bounds;
+
+			float minX = bounds.min.x;
+			float maxX = bounds.max.x;
+			float minZ = bounds.min.z;
+			float maxZ = bounds.max.z;
+
+			Vector3 localPoint = new Vector3
+			(
+				Random.Range(minX, maxX),
+				_rippleZone.transform.position.y,
+				Random.Range(minZ, maxZ)
+			);
+
+			return _rippleZone.transform.TransformPoint(localPoint);
+		}
 	}
 }

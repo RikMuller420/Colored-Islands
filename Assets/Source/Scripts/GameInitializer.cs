@@ -4,6 +4,7 @@ using SlimeGround.Data.Saves;
 using SlimeGround.Data.ScriptableObjects.Levels;
 using SlimeGround.Data.ScriptableObjects.Upgrades;
 using SlimeGround.Effects;
+using SlimeGround.Effects.Particles;
 using SlimeGround.Gameplay;
 using SlimeGround.Gameplay.Boosts;
 using SlimeGround.Gameplay.Levels;
@@ -27,9 +28,10 @@ namespace SlimeGround
 	    [Header("Settings")]
 	    [SerializeField] private LevelSettings _levelSettings;
 	    [SerializeField] private UpgradeSettings _upgradeSettings;
-	    [SerializeField] private LayerMask _allIslandsAndUnitsLayer;
+	    [SerializeField] private LayerMask _gameplayClickableLayer;
+		[SerializeField] private LayerMask _menuClickableLayer;
 
-	    [Header("Component Initializers")]
+		[Header("Component Initializers")]
 	    [SerializeField] private MetricInitializer _metricInitializer;
 	    [SerializeField] private BoostInitializer _boostInitializer;
 	    [SerializeField] private LeaderboardInitializer _leaderboardInitializer;
@@ -41,7 +43,9 @@ namespace SlimeGround
 	    [Header("Gameplay")]
 	    [SerializeField] private PlayerDataProvider _playerData;
 	    [SerializeField] private InputHandler _inputHandler;
-	    [SerializeField] private LevelLoader _levelLoader;
+		[SerializeField] private ParticlePool _splashParticlePool;
+		[SerializeField] private ParticlePool _leavesParticleHitPool;
+		[SerializeField] private LevelLoader _levelLoader;
 	    [SerializeField] private Camera _camera;
 	    [SerializeField] private Transform _unitsLookAtPoint;
 	    [SerializeField] private CameraPositionChanger _cameraPositionChanger;
@@ -96,11 +100,13 @@ namespace SlimeGround
 			_leaderboardProvider = new LeaderboardProvider();
 
 	        var levelDataHolder = new LevelDataHolder(_levelSettings.MainMenuSettings);
-
 	        var unitMover = new UnitMover(_unitsLookAtPoint);
-			_clickHandler = new ClickHandler(unitMover, _inputHandler, _camera,
-	                                         _allIslandsAndUnitsLayer,
-	                                         out IUnitsSelectedEvent unitsSelectedEvent);
+			var gameplayClickBehaviour = new GameplayClickHandler(unitMover, _gameplayClickableLayer);
+			var menuClickBehaviour = new MenuClickBehaviour(_splashParticlePool, _leavesParticleHitPool,
+															_menuClickableLayer);
+
+			_clickHandler = new ClickHandler(_levelLoader, gameplayClickBehaviour, menuClickBehaviour,
+											_inputHandler, _camera);
 
 	        _gameplayInitializer.Initialize(upgradesProvider, _leaderboardProvider,
 	                                        levelDataHolder, unitMover);
@@ -114,7 +120,7 @@ namespace SlimeGround
 	        _menuInitializer.Initialize(upgradesProvider, _authorizationProvider, _rewardedAdProvider,
 										_boostAmountProvider, _walletProvider, freezeBoostApplyedEvent);
 
-	        _trainigLoader.Initilize(unitsSelectedEvent, unitMover);
+	        _trainigLoader.Initilize(gameplayClickBehaviour, unitMover);
 	        _deviceStyleChangeInitializer.Initialize();
 	        _metricInitializer.Initilize(levelDataHolder);
 	        _effectsInitializer.Initialize(unitMover);

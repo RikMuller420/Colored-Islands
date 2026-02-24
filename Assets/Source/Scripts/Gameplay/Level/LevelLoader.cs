@@ -6,7 +6,6 @@ using SlimeGround.Data.ScriptableObjects.Hats;
 using SlimeGround.Data.ScriptableObjects.Levels;
 using SlimeGround.Data.ScriptableObjects.Paints;
 using SlimeGround.Data.ScriptableObjects.UnitFaces;
-using SlimeGround.Effects.Weather;
 using SlimeGround.Gameplay.Islands;
 using SlimeGround.Gameplay.Units;
 using SlimeGround.Integration.Metrics;

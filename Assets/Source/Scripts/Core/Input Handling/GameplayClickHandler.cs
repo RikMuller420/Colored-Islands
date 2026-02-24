@@ -30,7 +30,7 @@ namespace SlimeGround.Core.InputHandling
 
 	    public override void ResetBehaviour() => ResetSelection();
 
-	    public void Select(ISelectable selectable)
+		private void Select(ISelectable selectable)
 	    {
 	        switch (selectable)
 	        {

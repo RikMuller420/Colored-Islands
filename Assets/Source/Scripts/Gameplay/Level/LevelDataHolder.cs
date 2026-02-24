@@ -9,11 +9,13 @@ namespace SlimeGround.Gameplay.Levels
 {
 	public class LevelDataHolder : ILevelData
 	{
-		private LevelSettingsData _levelSettings;
+		private LevelSettingsData _currentLevel;
+		private LevelSettingsData _menuLevel;
 
-		public LevelDataHolder(LevelSettingsData levelData)
+		public LevelDataHolder(LevelSettingsData menuLevel)
 		{
-			SetLevelData(null, levelData);
+			_menuLevel = menuLevel;
+			SetLevelData(null, menuLevel);
 		}
 
 		public Level Level { get; private set; }
@@ -25,8 +27,9 @@ namespace SlimeGround.Gameplay.Levels
 		public WeatherType Weather => Level == null ? WeatherType.Sun : Level.Weather;
 		public MeshRenderer LevelBounds => Level?.LevelBounds;
 
-	    public int LevelId => _levelSettings.Id;
-	    public int ExtraStarMoveCount => Level.ExtraStarMoveCount;
+	    public int LevelId => _currentLevel.Id;
+		public bool IsMenuLevel => _menuLevel.Id == _currentLevel.Id;
+		public int ExtraStarMoveCount => Level.ExtraStarMoveCount;
 	    public float ExtraScoreTime => Level.ExtraScoreTime;
 	    public int BuferIslandSize => Level.BuferIslandSize;
 	    public float AngryBarSpeed => Level.AngryBarSpeed;
@@ -34,7 +37,7 @@ namespace SlimeGround.Gameplay.Levels
 	    public void SetLevelData(Level level, LevelSettingsData levelData)
 	    {
 	        Level = level;
-	        _levelSettings = levelData;
+	        _currentLevel = levelData;
 	    }
 	}
 }

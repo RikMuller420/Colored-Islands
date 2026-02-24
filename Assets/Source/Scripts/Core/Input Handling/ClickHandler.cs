@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using SlimeGround.Gameplay.Units;
+using SlimeGround.Gameplay.Levels;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -9,25 +9,30 @@ namespace SlimeGround.Core.InputHandling
 	{
 	    private Camera _camera;
 	    private GameplayClickHandler _gameplayClickBehaviour;
+		private MenuClickBehaviour _menuClickBehaviour;
 		private InputHandler _inputHandler;
+		private LevelLoader _levelLoader;
+
 		private ClickBehaviour _currentClickBehaviour;
 
-	    public ClickHandler(UnitMover unitMover, InputHandler inputHandler,
-	                        Camera camera, LayerMask allIslandsAndUnitsLayer,
-	                        out IUnitsSelectedEvent unitsSelectedEvent)
+		public ClickHandler(LevelLoader levelLoader, GameplayClickHandler gameplayClickBehaviour,
+							MenuClickBehaviour menuClickBehaviour, InputHandler inputHandler,
+	                        Camera camera)
 	    {
 	        _camera = camera;
 			_inputHandler = inputHandler;
-			_gameplayClickBehaviour = new GameplayClickHandler(unitMover, allIslandsAndUnitsLayer);
+			_levelLoader = levelLoader;
+			_menuClickBehaviour = menuClickBehaviour;
+			_gameplayClickBehaviour = gameplayClickBehaviour;
 
-	        ActivateGameplayClickHandler();
+			SetClickBehaviour(_menuClickBehaviour);
+			_levelLoader.LevelChanged += OnLevelChanged;
 			_inputHandler.Clicked += OnClick;
-
-	        unitsSelectedEvent = _gameplayClickBehaviour;
 	    }
 
 		public void Dispose()
 		{
+			_levelLoader.LevelChanged -= OnLevelChanged;
 			_inputHandler.Clicked -= OnClick;
 		}
 
@@ -37,8 +42,8 @@ namespace SlimeGround.Core.InputHandling
 	    }
 
 	    public void SetClickBehaviour(ClickBehaviour clickBehaviour)
-	    {
-	        if (_currentClickBehaviour != null)
+		{
+			if (_currentClickBehaviour != null)
 	        {
 	            _currentClickBehaviour.ResetBehaviour();
 	        }
@@ -46,7 +51,19 @@ namespace SlimeGround.Core.InputHandling
 	        _currentClickBehaviour = clickBehaviour;
 	    }
 
-	    private void OnClick(Vector2 clickPosition)
+		private void OnLevelChanged(ILevelData levelData)
+		{
+			if (levelData.IsMenuLevel)
+			{
+				SetClickBehaviour(_menuClickBehaviour);
+			}
+			else
+			{
+				SetClickBehaviour(_gameplayClickBehaviour);
+			}
+		}
+
+		private void OnClick(Vector2 clickPosition)
 	    {
 			bool isPaused = Time.timeScale == 0;
 
@@ -62,7 +79,9 @@ namespace SlimeGround.Core.InputHandling
 				return;
 	        }
 
-			if (Physics.Raycast(ray, out RaycastHit hit, _currentClickBehaviour.MaxClickDistance, _currentClickBehaviour.LayerMask))
+			if (Physics.Raycast(ray, out RaycastHit hit,
+								_currentClickBehaviour.MaxClickDistance,
+								_currentClickBehaviour.LayerMask))
 	        {
 				_currentClickBehaviour.HandleClick(hit);
 	        }

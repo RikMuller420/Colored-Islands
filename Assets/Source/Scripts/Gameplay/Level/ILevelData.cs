@@ -16,7 +16,8 @@ namespace SlimeGround.Gameplay.Levels
 		public MeshRenderer LevelBounds { get; }
 
 	    public int LevelId { get; }
-	    public int ExtraStarMoveCount { get; }
+		public bool IsMenuLevel { get; }
+		public int ExtraStarMoveCount { get; }
 	    public float ExtraScoreTime { get; }
 	    public int BuferIslandSize { get; }
 	    public float AngryBarSpeed { get; }
