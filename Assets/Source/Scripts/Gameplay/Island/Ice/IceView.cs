@@ -9,8 +9,9 @@ namespace SlimeGround.Gameplay.Islands
 	    [SerializeField] private MeshRenderer _iceMeshRenderer;
 	    [SerializeField] private CanvasGroup _movesCountGroup;
 	    [SerializeField] private TextMeshProUGUI _movesToDeactivateText;
+		[SerializeField] private GameObject _breackParticle;
 
-	    private Material _iceMaterial;
+		private Material _iceMaterial;
 	    private float _fadeDuration = 1f;
 
 	    private void Awake()
@@ -29,13 +30,15 @@ namespace SlimeGround.Gameplay.Islands
 
 	    public void Deactivate()
 	    {
-	        DOTween.Sequence()
+			_breackParticle.SetActive(true);
+
+			DOTween.Sequence()
 	                .Append(_iceMaterial.DOFade(0f, _fadeDuration).SetEase(Ease.OutQuad))
 	                .Join(_movesCountGroup.DOFade(0f, _fadeDuration).SetEase(Ease.OutQuad))
 	                .OnComplete(() =>
 	                {
 	                    _iceMeshRenderer.enabled = false;
-	                });
+					});
 	    }
 
 	    public void SetMovesToDeactivateText(int movesCount)
