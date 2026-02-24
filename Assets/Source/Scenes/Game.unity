@@ -967,7 +967,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 0.9765538, b: 0.8160377, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -14608,6 +14608,10 @@ PrefabInstance:
       value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 8937321888322716560, guid: d3dc2ad7603d1e3488d70c7829148714, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3c5e17ea09883d942a443fa69e459e03, type: 2}
+    - target: {fileID: 8937321888322716560, guid: d3dc2ad7603d1e3488d70c7829148714, type: 3}
       propertyPath: m_SelectedEditorRenderState
       value: 2
       objectReference: {fileID: 0}
@@ -26740,6 +26744,7 @@ MonoBehaviour:
   _fallingStars: {fileID: 1894372465}
   _wind: {fileID: 1140018656}
   _waterMaterial: {fileID: 2100000, guid: 7d9ce3d8669e1fa49a3f3e7c053efd1b, type: 2}
+  _menuIslandMaterial: {fileID: 2100000, guid: 3c5e17ea09883d942a443fa69e459e03, type: 2}
   _sunLight: {fileID: 35013658}
 --- !u!4 &1126164186
 Transform:
@@ -34218,37 +34223,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1506596505}
   m_CullTransparentMesh: 1
---- !u!1 &1507675790
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1507675791}
-  m_Layer: 0
-  m_Name: Enviroment
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1507675791
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1507675790}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.3759384, y: -7.7623515, z: 13.646645}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1521446706
 GameObject:
   m_ObjectHideFlags: 0
@@ -53931,6 +53905,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 8117561617744506543, guid: 9f873eb3479078846ba699caecd69cb2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3c5e17ea09883d942a443fa69e459e03, type: 2}
     - target: {fileID: 8807466236726998297, guid: 9f873eb3479078846ba699caecd69cb2, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -60221,6 +60199,10 @@ PrefabInstance:
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9034930376879813423, guid: 5c304f1a659cc8a4ca4b221ee6117785, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3c5e17ea09883d942a443fa69e459e03, type: 2}
     - target: {fileID: 9037095543417218409, guid: 5c304f1a659cc8a4ca4b221ee6117785, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
@@ -61014,6 +60996,10 @@ PrefabInstance:
       propertyPath: m_Alpha
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3742811392092902095, guid: af734404a4dd4c547859a124e6645fd5, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3c5e17ea09883d942a443fa69e459e03, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -62289,5 +62275,4 @@ SceneRoots:
   - {fileID: 1764623566}
   - {fileID: 669737581}
   - {fileID: 894807441}
-  - {fileID: 1507675791}
   - {fileID: 1993551966}

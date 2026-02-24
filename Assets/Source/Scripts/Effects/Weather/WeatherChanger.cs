@@ -14,6 +14,7 @@ namespace SlimeGround.Effects.Weather
 		[SerializeField] private GameObject _fallingStars;
 		[SerializeField] private ParticleSystem _wind;
 		[SerializeField] private Material _waterMaterial;
+		[SerializeField] private Material _menuIslandMaterial;
 		[SerializeField] private Light _sunLight;
 
 		private void OnEnable()
@@ -38,7 +39,9 @@ namespace SlimeGround.Effects.Weather
 			_rain.SetActive(settings.IsRainActive);
 			_fallingStars.SetActive(settings.IsFallingStartsActive);
 			_waterMaterial.SetColor("_WaterColor", settings.WaterColor);
+			_waterMaterial.SetColor("_DarkFoamColor", settings.WaterFoamColor);
 			_waterMaterial.SetFloat("_Choppiness", settings.WaterChoppiness);
+			_menuIslandMaterial.SetFloat("_MaxLight", settings.ToonMaxLight);
 			_sunLight.intensity = settings.SunIntesivity;
 			_sunLight.transform.localEulerAngles = settings.SunRotation;
 
