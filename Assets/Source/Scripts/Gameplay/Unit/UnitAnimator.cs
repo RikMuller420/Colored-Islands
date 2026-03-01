@@ -10,16 +10,20 @@ namespace SlimeGround.Gameplay.Units
 	    private const string WalkBoolName = "Walk";
 
 	    [SerializeField] private Animator _animator;
+		[SerializeField] private float _minIdleDelay = 3f;
+		[SerializeField] private float _maxIdleDelay = 9f;
 
-	    private int _walkAnimationHash;
-	    private float _minIdleDelay = 3f;
-	    private float _maxIdleDelay = 9f;
+		private int _walkAnimationHash;
+		private float _jumpDuration = 1f;
+		private bool _isJumpAviable = true;
+		private WaitForSeconds _jumpWait;
 
 	    private void OnEnable()
 	    {
 	        StartCoroutine(PlayAnimationWithRandomDelay());
 	        _walkAnimationHash = Animator.StringToHash(WalkBoolName);
-	    }
+			_jumpWait = new WaitForSeconds(_jumpDuration);
+		}
 
 	    public void FreezeAnimation()
 	    {
@@ -31,10 +35,15 @@ namespace SlimeGround.Gameplay.Units
 	        _animator.speed = 1;
 	    }
 
-	    public void Jump()
+	    public void TryJump()
 	    {
-	        _animator.SetTrigger(JumpTriggerName);
-	    }
+			if (_isJumpAviable)
+			{
+				_animator.SetTrigger(JumpTriggerName);
+				_isJumpAviable = false;
+				StartCoroutine(EnableJumpInDelay());
+			}
+		}
 
 	    public void StartWalk()
 	    {
@@ -46,7 +55,14 @@ namespace SlimeGround.Gameplay.Units
 	        _animator.SetBool(_walkAnimationHash, false);
 	    }
 
-	    private IEnumerator PlayAnimationWithRandomDelay()
+		private IEnumerator EnableJumpInDelay()
+		{
+			yield return _jumpWait;
+
+			_isJumpAviable = true;
+		}
+
+		private IEnumerator PlayAnimationWithRandomDelay()
 	    {
 	        bool isFirstAnimation = true;
 

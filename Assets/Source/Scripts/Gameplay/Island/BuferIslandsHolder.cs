@@ -60,7 +60,7 @@ namespace SlimeGround.Gameplay.Islands
 	        {
 	            if (point.IsFree == false)
 	            {
-	                point.OccupiedUnit.Animator.Jump();
+	                point.OccupiedUnit.Animator.TryJump();
 	            }
 	        }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace SlimeGround.Gameplay.Units
 {
 	[RequireComponent(typeof(CapsuleCollider))]
-	public class UnitCollider : MonoBehaviour, ISelectable
+	public class UnitCollider : MonoBehaviour, ISelectable, IMenuClickable
 	{
 		[SerializeField] private CapsuleCollider _collider;
 		[SerializeField] private Unit _unit;

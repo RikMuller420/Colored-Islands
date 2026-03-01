@@ -57,7 +57,7 @@ namespace SlimeGround.Gameplay.Islands
 
 	        foreach (IslandPoint point in Points)
 	        {
-	            point.OccupiedUnit.Animator.Jump();
+	            point.OccupiedUnit.Animator.TryJump();
 	        }
 
 	        Deactivate();

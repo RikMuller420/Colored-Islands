@@ -10,8 +10,6 @@ namespace SlimeGround.Core.CameraSystem
 {
 	public class CameraPositionChanger : MonoBehaviour
 	{
-	    [SerializeField] private LevelSettings _levelSettings;
-
 	    [SerializeField] private LevelChangeEventTracker _levelChangeEventTracker;
 	    [SerializeField] private BuferIslandsHolder _buferIslands;
 	    [SerializeField] private UIOrientationChanger _uIOrientationChanger;
@@ -37,7 +35,7 @@ namespace SlimeGround.Core.CameraSystem
 	    private WaitForSeconds _waitUpdatePosition;
 	    private WaitForSeconds _waitFoVUpdate;
 
-	    private float _cameraSqrTreshold = 0.05f;
+	    private float _cameraSqrTreshold = 3f;
 
 	    private void OnEnable()
 	    {
@@ -69,7 +67,7 @@ namespace SlimeGround.Core.CameraSystem
 
 	    private void UpdateCameraPosition(ILevelData levelData)
 	    {
-	        if (levelData.LevelId == _levelSettings.MainMenuSettings.Id)
+	        if (levelData.IsMenuLevel)
 	        {
 	            SetMenuCameraPosition();
 

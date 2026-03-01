@@ -1,4 +1,5 @@
 using SlimeGround.Effects.Particles;
+using SlimeGround.Gameplay.Units;
 using UnityEngine;
 
 namespace SlimeGround.Core.InputHandling
@@ -36,6 +37,10 @@ namespace SlimeGround.Core.InputHandling
 				case LeavesHitZone leavesHit:
 					PlayParticle(_leavesHitPool, hit);
 					break;
+
+				case UnitCollider unitCollider:
+					PlayUnitJumpAnimation(unitCollider.Unit);
+					break;
 			}
 		}
 
@@ -44,6 +49,11 @@ namespace SlimeGround.Core.InputHandling
 			GameObject particle = pool.GetParticle();
 			particle.transform.position = hit.point;
 			particle.gameObject.SetActive(true);
+		}
+
+		private void PlayUnitJumpAnimation(Unit unit)
+		{
+			unit.Animator.TryJump();
 		}
 	}
 }
