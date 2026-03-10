@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4713903928236143526}
   - component: {fileID: 6973452445508873751}
   - component: {fileID: 8711354384367023697}
+  - component: {fileID: 5762172075095150076}
   m_Layer: 5
   m_Name: Moves Count View
   m_TagString: Untagged
@@ -36,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.0036231875, y: 0.17855102}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &4713903928236143526
@@ -102,6 +103,27 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!95 &5762172075095150076
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602951657857065271}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d8294727d2a5afe4d9728f4e1f82a17f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1416092686963495361
 GameObject:
   m_ObjectHideFlags: 0
@@ -2519,6 +2541,7 @@ GameObject:
   - component: {fileID: 7869917565502976825}
   - component: {fileID: 6142270867078223954}
   - component: {fileID: 7409526278172084279}
+  - component: {fileID: 8967899643491973661}
   m_Layer: 0
   m_Name: Island Ice
   m_TagString: Untagged
@@ -2575,6 +2598,28 @@ MonoBehaviour:
   _island: {fileID: 0}
   _movesToDeactivate: 10
   _iceView: {fileID: 6142270867078223954}
+  _animator: {fileID: 8967899643491973661}
+--- !u!95 &8967899643491973661
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3172922163535965583}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c866a73ca3969e347ab4d13b23dd725e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4422406798031996967
 GameObject:
   m_ObjectHideFlags: 0

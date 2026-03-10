@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -7,25 +8,39 @@ namespace SlimeGround.Gameplay.Islands
 	public class IceView : MonoBehaviour
 	{
 	    [SerializeField] private MeshRenderer _iceMeshRenderer;
-	    [SerializeField] private CanvasGroup _movesCountGroup;
+		[SerializeField] private CanvasGroup _movesCountGroup;
 	    [SerializeField] private TextMeshProUGUI _movesToDeactivateText;
 		[SerializeField] private GameObject _breackParticle;
 
 		private Material _iceMaterial;
-	    private float _fadeDuration = 1f;
 
-	    private void Awake()
+		private float _fadeDuration = 1f;
+		private float _cameraTrackDuration = 4f;
+
+		private Coroutine _rotateCoroutine;
+		private WaitForEndOfFrame _waitForEndOfFrame;
+
+		private void Awake()
 	    {
-	        _iceMaterial = new Material(_iceMeshRenderer.material);
-	        _iceMeshRenderer.material = _iceMaterial;
-	    }
+			SetMaterialDublicate(ref _iceMaterial, _iceMeshRenderer);
 
-	    public void Activate(Transform cameraTransform)
+			_waitForEndOfFrame = new WaitForEndOfFrame();
+		}
+
+		private void OnDisable()
+		{
+			if (_rotateCoroutine != null)
+			{
+				StopCoroutine(_rotateCoroutine);
+			}
+		}
+
+		public void Activate(Transform cameraTransform)
 	    {
-	        UpdateTextRotation(cameraTransform);
+			_rotateCoroutine = StartCoroutine(RotateTextPanel(cameraTransform));
 
-	        DOTween.Sequence()
-	                .Append(_movesCountGroup.DOFade(1f, _fadeDuration).SetEase(Ease.OutQuad));
+			DOTween.Sequence()
+				   .Append(_movesCountGroup.DOFade(1f, _fadeDuration).SetEase(Ease.OutQuad));
 	    }
 
 	    public void Deactivate()
@@ -51,9 +66,28 @@ namespace SlimeGround.Gameplay.Islands
 	        _movesToDeactivateText.text = movesCount.ToString();
 	    }
 
-	    private void UpdateTextRotation(Transform lookAtPoint)
-	    {
-	        _movesCountGroup.transform.LookAt(lookAtPoint);
-	    }
+		private IEnumerator RotateTextPanel(Transform lookAtPoint)
+		{
+			float time = 0f;
+			
+			while (enabled)
+			{
+				yield return _waitForEndOfFrame;
+
+				time += Time.deltaTime;
+				_movesCountGroup.transform.LookAt(lookAtPoint);
+
+				if (time > _cameraTrackDuration)
+				{
+					break;
+				}
+			}
+		}
+
+		private void SetMaterialDublicate(ref Material material, MeshRenderer meshRenderer)
+		{
+			material = new Material(meshRenderer.material);
+			meshRenderer.material = material;
+		}
 	}
 }

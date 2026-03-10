@@ -12,8 +12,8 @@ namespace SlimeGround.Core.CameraSystem
 	    private Camera _mainCamera;
 	    private CinemachineVirtualCamera _virtualCamera;
 
-	    private float _menuVerticalCameraFoV = 45f;
-	    private float _menuHorizontalCameraFoV = 35f;
+	    private float _menuVerticalCameraFoV = 60f;
+	    private float _menuHorizontalCameraFoV = 40f;
 
 	    private float _minFOV = 20f;
 	    private float _maxFOV = 100f;

@@ -39,7 +39,7 @@ namespace SlimeGround.Core.InputHandling
 					break;
 
 				case UnitCollider unitCollider:
-					PlayUnitJumpAnimation(unitCollider.Unit);
+					PlayUnitAnimation(unitCollider.Unit);
 					break;
 			}
 		}
@@ -51,7 +51,7 @@ namespace SlimeGround.Core.InputHandling
 			particle.gameObject.SetActive(true);
 		}
 
-		private void PlayUnitJumpAnimation(Unit unit)
+		private void PlayUnitAnimation(Unit unit)
 		{
 			unit.Animator.TryJump();
 		}
