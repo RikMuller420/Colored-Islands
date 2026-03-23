@@ -6,6 +6,7 @@ using SlimeGround.Data.Saves;
 using SlimeGround.Data.ScriptableObjects.Hats;
 using SlimeGround.Data.ScriptableObjects.Paints;
 using SlimeGround.Data.ScriptableObjects.UnitFaces;
+using SlimeGround.Gameplay.Units;
 using UnityEngine;
 
 namespace SlimeGround.Menu.Windows.Customization
@@ -78,11 +79,25 @@ namespace SlimeGround.Menu.Windows.Customization
 	            unitMaterial,
 	            selectedUnitMaterial,
 	            hatData,
-	            materialData.HatMaterial,
-	            materialData.SelectedHatMaterial,
+				CreateHatMaterials(materialData.HatMaterial),
+				CreateHatMaterials(materialData.SelectedHatMaterial),
 	            materialData.UnitUiColor
 	        );
 	    }
+
+		private Dictionary<HatTextureType, Material> CreateHatMaterials(Material referenceMaterial)
+		{
+			Dictionary<HatTextureType, Material> hatMaterials = new ();
+
+			foreach (HatTextureType textureType in Enum.GetValues(typeof(HatTextureType)))
+			{
+				Material material = new Material(referenceMaterial);
+				material.mainTexture = _hatSettings.HatTextures.First(hatTexture => hatTexture.Type == textureType).Texture;
+				hatMaterials.Add(textureType, material);
+			}
+
+			return hatMaterials;
+		}
 
 	    private void PrepareUnitMaterial(Material material, UnitFaceData faceData)
 	    {

@@ -272,6 +272,7 @@ MonoBehaviour:
   _cameraTargetsHorizontal:
     _lookAtPoint: {fileID: 8491698904949721788}
     _followPoint: {fileID: 3192942050375969599}
+  _weather: 0
   _levelBounds: {fileID: 1590850527812114386}
   _unitScale: 2
   _islands:
@@ -521,11 +522,9 @@ MonoBehaviour:
   - {fileID: 3915509205743235270}
   - {fileID: 8418885855059611763}
   _startUnits:
-  - _paint: 1
-    _slot: 1
+  - _slot: 1
     _amount: 1
-  - _paint: 3
-    _slot: 3
+  - _slot: 3
     _amount: 3
 --- !u!1001 &914710302439532526
 PrefabInstance:
@@ -714,11 +713,9 @@ MonoBehaviour:
   - {fileID: 7361526712567351380}
   - {fileID: 3031482116785071439}
   _startUnits:
-  - _paint: 0
-    _slot: 0
+  - _slot: 0
     _amount: 1
-  - _paint: 3
-    _slot: 3
+  - _slot: 3
     _amount: 4
 --- !u!64 &4704330545835890310 stripped
 MeshCollider:
@@ -1155,20 +1152,15 @@ MonoBehaviour:
   - {fileID: 5874999198676587989}
   - {fileID: 2048798277325296661}
   _startUnits:
-  - _paint: 2
-    _slot: 2
+  - _slot: 2
     _amount: 1
-  - _paint: 0
-    _slot: 0
+  - _slot: 0
     _amount: 2
-  - _paint: 1
-    _slot: 1
+  - _slot: 1
     _amount: 5
-  - _paint: 3
-    _slot: 3
+  - _slot: 3
     _amount: 8
-  - _paint: 4
-    _slot: 4
+  - _slot: 4
     _amount: 5
 --- !u!23 &2033036602868015975 stripped
 MeshRenderer:
@@ -1486,7 +1478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431b6ef66b8e61649ab23175deb6ea5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unitSlot: 4
+  _unitSlot: 1
   _island: {fileID: 1225948985686148352}
   _rootOfPoints: {fileID: 1224860213354489065}
   _points:
@@ -1498,14 +1490,11 @@ MonoBehaviour:
   - {fileID: 7445238644144424200}
   - {fileID: 1612831829341414164}
   _startUnits:
-  - _paint: 2
-    _slot: 2
+  - _slot: 2
     _amount: 1
-  - _paint: 1
-    _slot: 1
+  - _slot: 1
     _amount: 1
-  - _paint: 3
-    _slot: 3
+  - _slot: 3
     _amount: 5
 --- !u!212 &1612831829341414164 stripped
 SpriteRenderer:
@@ -1730,11 +1719,9 @@ MonoBehaviour:
   - {fileID: 5356173154177840811}
   - {fileID: 3816072385081550917}
   _startUnits:
-  - _paint: 0
-    _slot: 0
+  - _slot: 0
     _amount: 1
-  - _paint: 3
-    _slot: 3
+  - _slot: 3
     _amount: 1
 --- !u!4 &9144756629582633648 stripped
 Transform:

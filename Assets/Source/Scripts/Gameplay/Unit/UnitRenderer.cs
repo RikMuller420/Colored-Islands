@@ -42,7 +42,7 @@ namespace SlimeGround.Gameplay.Units
 	        }
 
 	        _hat = Instantiate(customizationSettings.HatData.Prefab, _hatHolder);
-			SetHatMaterial(customizationSettings.HatMaterial);
+			SetHatMaterial(customizationSettings.HatMaterials[_hat.TextureType]);
 	    }
 
 	    public void ActivateOutline()
@@ -52,7 +52,7 @@ namespace SlimeGround.Gameplay.Units
 
 	        if (_hat != null)
 	        {
-				SetHatMaterial(_unitCustomizationSettings.SelectedHatMaterial);
+				SetHatMaterial(_unitCustomizationSettings.SelectedHatMaterials[_hat.TextureType]);
 	        }
 	    }
 
@@ -62,13 +62,15 @@ namespace SlimeGround.Gameplay.Units
 
 	        if (_hat != null)
 	        {
-				SetHatMaterial(_unitCustomizationSettings.HatMaterial);
+				SetHatMaterial(_unitCustomizationSettings.HatMaterials[_hat.TextureType]);
 	        }
 	    }
 
 		private void SetHatMaterial(Material material)
 		{
-			_hat.MeshRenderer.sharedMaterials[0] = material;
+			Material[] materials = _hat.MeshRenderer.sharedMaterials;
+			materials[0] = material;
+			_hat.MeshRenderer.sharedMaterials = materials;
 		}
 
 	#if UNITY_EDITOR

@@ -8,8 +8,10 @@ namespace SlimeGround.Data.ScriptableObjects.Hats
 	{
 	    [SerializeField] private int _noHatId;
 	    [SerializeField] private UnitHatData[] _hats;
+		[SerializeField] private List<HatTexture> _hatTextures;
 
 	    public int NoHatId => _noHatId;
 	    public IReadOnlyCollection<UnitHatData> Hats => _hats;
+		public IReadOnlyCollection<HatTexture> HatTextures => _hatTextures;
 	}
 }
