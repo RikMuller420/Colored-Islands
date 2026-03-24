@@ -13,8 +13,9 @@ namespace SlimeGround.Menu.Windows.Customization
 	    [SerializeField] private Image _body;
 	    [SerializeField] private Image _face;
 	    [SerializeField] private Image _hat;
+		[SerializeField] private Image _hatOverlay;
 
-	    private ColorSampleMaterials _paintMaterials;
+		private ColorSampleMaterials _paintMaterials;
 	    private UnitsFaceSettings _unitsFaceSettings;
 	    private UnitsHatSettings _unitsHatSettings;
 
@@ -47,21 +48,31 @@ namespace SlimeGround.Menu.Windows.Customization
 	        if (hatId == _unitsHatSettings.NoHatId)
 	        {
 	            _hat.sprite = null;
-	            SetHatAlpha(0f);
-	        }
-	        else
+				_hatOverlay.sprite = null;
+				SetHatAlpha(0f);
+				SetHatOverlayAlpha(0f);
+			}
+			else
 	        {
 	            UnitHatData hatData = _unitsHatSettings.Hats.FirstOrDefault(hat => hat.Id == hatId);
 	            _hat.sprite = hatData.PreviewSprite;
 	            SetHatAlpha(1f);
-	        }
+
+				_hatOverlay.sprite = hatData.PreviewOverlaySprite;
+				float hatOverlayAlpha = hatData.PreviewOverlaySprite == null ? 0 : 1;
+				SetHatOverlayAlpha(hatOverlayAlpha);
+			}
 	    }
 
-	    private void SetHatAlpha(float alpha)
-	    {
-	        Color color = _hat.color;
-	        color.a = alpha;
-	        _hat.color = color;
-	    }
+		private void SetHatAlpha(float alpha) => SetImageAlpha(_hat, alpha);
+
+		private void SetHatOverlayAlpha(float alpha) => SetImageAlpha(_hatOverlay, alpha);
+
+		private void SetImageAlpha(Image image, float alpha)
+		{
+			Color color = image.color;
+			color.a = alpha;
+			image.color = color;
+		}
 	}
 }
