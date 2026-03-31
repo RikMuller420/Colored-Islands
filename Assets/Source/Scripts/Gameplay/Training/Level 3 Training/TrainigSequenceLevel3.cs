@@ -55,7 +55,8 @@ namespace SlimeGround.Gameplay.Training
 
 	    public override void StartTraining()
 	    {
-	        BoostButtonActivator.ActivateButtonImmediate(BoostType.GrowBuferIsland);
+			BoostButtonActivator.DeactivateAllButtons();
+			BoostButtonActivator.ActivateButtonImmediate(BoostType.GrowBuferIsland);
 	        BoostButtonActivator.SetButtonNonInteractible(BoostType.GrowBuferIsland);
 
 	        _finishIslandBoostButton = BoostButtonActivator.GetBoostButton(BoostType.FinishIsland);
@@ -63,7 +64,6 @@ namespace SlimeGround.Gameplay.Training
 
 			if (_isEventsSubscribed == false)
 			{
-				BoostButtonActivator.DeactivateAllButtons();
 				InGameMenu.MenuOpened += OnMenuOpened;
 				InGameMenu.MenuClosed += OnMenuClosed;
 				UnitMovedEvent.UnitsMoved += OnUnitsMoved;

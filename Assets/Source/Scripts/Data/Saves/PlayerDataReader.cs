@@ -6,13 +6,12 @@ using SlimeGround.Data.ScriptableObjects.Levels;
 using SlimeGround.Data.ScriptableObjects.UnitFaces;
 using SlimeGround.Integration.Saves;
 using SlimeGround.Menu.Windows.Customization;
-using UnityEngine.ProBuilder;
 
 namespace SlimeGround.Data.Saves
 {
 	public class PlayerDataReader
 	{
-	    public const string SaveSignatureKey = "TestVersion5";
+	    public const string SaveSignatureKey = "TestVersion6";
 
 	    private LevelSettings _levelSettings;
 	    private UnitsFaceSettings _unitsFaceSettings;
