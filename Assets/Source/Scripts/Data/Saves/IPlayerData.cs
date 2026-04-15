@@ -23,6 +23,7 @@ namespace SlimeGround.Data.Saves
 		public event Action TrainingFinished;
 		public event Action<int> FaceUnlocked;
 		public event Action SpinCountChanged;
+		public event Action ShadowActiveStatusChanged;
 
 		public int LastAvailableLevelId { get; }
 	    public LevelProgress FirstUnfinishedLevel { get; }
@@ -36,8 +37,10 @@ namespace SlimeGround.Data.Saves
 	    public IReadOnlyCollection<FaceAvailabilitie> FaceAvailabilities { get; }
 	    public bool IsLanguageSaved { get; }
 	    public Language Language { get; }
+		public bool IsShadowActiveOnMobile { get; }
+		public bool IsShadowActiveOnDesktop { get; }
 
-	    public bool IsHatUsed(int hatId);
+		public bool IsHatUsed(int hatId);
 	    public bool IsLevelRewardReceived(int levelId);
 	    public CustomizationPreferences GetCustomizationPreference(UnitSlotType slot);
 	    public int GetBoostAmount(BoostType boostType);

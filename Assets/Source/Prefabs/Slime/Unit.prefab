@@ -383,7 +383,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7944777279654735246, guid: 8b018b9a2a74a00488c7dfa56a9b5a64, type: 3}
       propertyPath: m_ReceiveShadows
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7944777279654735246, guid: 8b018b9a2a74a00488c7dfa56a9b5a64, type: 3}
       propertyPath: m_DynamicOccludee
@@ -510,6 +510,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 4799636387437531193}
+  _minIdleDelay: 3
+  _maxIdleDelay: 9
 --- !u!95 &4799636387437531193
 Animator:
   serializedVersion: 5

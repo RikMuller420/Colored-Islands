@@ -32,7 +32,9 @@ namespace SlimeGround.Gameplay.Units
 	            _lookAtRotator = new UnitLookAtRotator(_body);
 	            _isInitialized = true;
 	        }
-	    }
+
+			_renderer.UpdateShadowCastingMode();
+		}
 
 	    public void SetScale(float scale)
 	    {

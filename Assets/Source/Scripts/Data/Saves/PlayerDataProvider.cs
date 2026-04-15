@@ -41,8 +41,9 @@ namespace SlimeGround.Data.Saves
 	    public event Action TrainingFinished;
 	    public event Action<int> FaceUnlocked;
 	    public event Action SpinCountChanged;
+		public event Action ShadowActiveStatusChanged;
 
-	    public LevelProgress FirstUnfinishedLevel => Levels.FirstOrDefault(level => level.IsDone == false);
+		public LevelProgress FirstUnfinishedLevel => Levels.FirstOrDefault(level => level.IsDone == false);
 		public int LastAvailableLevelId => Levels.FirstOrDefault(level => level.IsDone == false)?.Id ?? Levels.Max(level => level.Id);
 		public bool IsCustomizationWindowWasOpened => _playerData.IsCustomizationWindowWasOpened;
 		public bool IsTrainingFinished => _playerData.IsTrainingFinished;
@@ -54,6 +55,8 @@ namespace SlimeGround.Data.Saves
 	    public IReadOnlyCollection<FaceAvailabilitie> FaceAvailabilities => _playerData.FaceAvailabilities;
 	    public bool IsLanguageSaved => _playerData.IsLanguageSaved;
 	    public Language Language => _playerData.Language;
+		public bool IsShadowActiveOnMobile => _playerData.IsShadowActiveOnMobile;
+		public bool IsShadowActiveOnDesktop => _playerData.IsShadowActiveOnDesktop;
 
 		public void Initialize()
 		{
@@ -117,7 +120,19 @@ namespace SlimeGround.Data.Saves
 	        _playerData.IsLanguageSaved = true;
 	    }
 
-	    public void SetScoreAmount(int amount)
+		public void SetIsShadowActiveOnMobile(bool value)
+		{
+			_playerData.IsShadowActiveOnMobile = value;
+			ShadowActiveStatusChanged?.Invoke();
+		}
+
+		public void SetIsShadowActiveOnDesktop(bool value)
+		{
+			_playerData.IsShadowActiveOnDesktop = value;
+			ShadowActiveStatusChanged?.Invoke();
+		}
+
+		public void SetScoreAmount(int amount)
 	    {
 	        if (amount < 0)
 	        {

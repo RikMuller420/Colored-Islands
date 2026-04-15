@@ -12,13 +12,13 @@ namespace SlimeGround.Effects.Sound
 
 	    private void OnEnable()
 	    {
-	        _toggle.EnableChanged += OnToggleChanged;
+	        _toggle.ValueChanged += OnToggleChanged;
 	        _soundVolumeProvider.SoundEnabledChanged += OnSoundEnabledChanged;
 	    }
 
 	    private void OnDisable()
 	    {
-	        _toggle.EnableChanged -= OnToggleChanged;
+	        _toggle.ValueChanged -= OnToggleChanged;
 	        _soundVolumeProvider.SoundEnabledChanged -= OnSoundEnabledChanged;
 	    }
 

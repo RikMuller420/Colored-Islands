@@ -7,7 +7,9 @@ using SlimeGround.Data.ScriptableObjects.Hats;
 using SlimeGround.Data.ScriptableObjects.Paints;
 using SlimeGround.Data.ScriptableObjects.UnitFaces;
 using SlimeGround.Gameplay.Units;
+using SlimeGround.Integration.DeviceInfo;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace SlimeGround.Menu.Windows.Customization
 {
@@ -15,12 +17,15 @@ namespace SlimeGround.Menu.Windows.Customization
 	{
 	    private const string UnitFaceTextureName = "_OverlayTex";
 
-	    private ColorSampleMaterials _paintMaterials;
+		public ShadowCastingMode ShadowCastingMode { get; private set; }
+
+		private ColorSampleMaterials _paintMaterials;
 	    private IPlayerData _playerData;
 	    private UnitsFaceSettings _faceSettings;
 	    private UnitsHatSettings _hatSettings;
 
-	    private List<UnitCustomizationSettings> _customizationSettings = new();
+		private DeviceInfoProvider _deviceInfoProvider = new DeviceInfoProvider();
+		private List<UnitCustomizationSettings> _customizationSettings = new();
 
 	    public CustomizationSettingsHolder(ColorSampleMaterials paintMaterials, IPlayerData playerData,
 	                                       UnitsFaceSettings faceSettings, UnitsHatSettings hatSettings)
@@ -30,13 +35,16 @@ namespace SlimeGround.Menu.Windows.Customization
 	        _faceSettings = faceSettings;
 	        _hatSettings = hatSettings;
 
-	        foreach (UnitSlotType slot in Enum.GetValues(typeof(UnitSlotType)))
+			SetShadowCastingMode();
+
+			foreach (UnitSlotType slot in Enum.GetValues(typeof(UnitSlotType)))
 	        {
 	            _customizationSettings.Add(CreateSettings(slot));
 	        }
 
 	        _playerData.CustomizationPreferenceChanged += OnCustomizationPreferenceChanged;
-	    }
+			_playerData.ShadowActiveStatusChanged += SetShadowCastingMode;
+		}
 
 		public void Dispose()
 		{
@@ -44,9 +52,20 @@ namespace SlimeGround.Menu.Windows.Customization
 		}
 
 		public UnitCustomizationSettings GetCustomizationSettings(UnitSlotType slot)
-	    {
-	        return _customizationSettings.FirstOrDefault(settings => settings.Slot == slot);
-	    }
+		{
+			return _customizationSettings.FirstOrDefault(settings => settings.Slot == slot);
+		}
+
+		private void SetShadowCastingMode()
+		{
+			Integration.DeviceInfo.DeviceType deviceType = _deviceInfoProvider.GetDeviceType();
+
+			bool isShadowActive = deviceType == Integration.DeviceInfo.DeviceType.Mobile ?
+									_playerData.IsShadowActiveOnMobile :
+									_playerData.IsShadowActiveOnDesktop;
+
+			ShadowCastingMode = isShadowActive ? ShadowCastingMode.On : ShadowCastingMode.Off;
+		}
 
 	    private void OnCustomizationPreferenceChanged(UnitSlotType slot)
 	    {

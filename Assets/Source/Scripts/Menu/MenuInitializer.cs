@@ -32,6 +32,7 @@ namespace SlimeGround.Menu
 	    [SerializeField] private PlayButton _playButton;
 	    [SerializeField] private TrainingMenuUpdater _trainingMenuUpdater;
 	    [SerializeField] private LanguageChanger _languageChanger;
+		[SerializeField] private ShadowsModeChanger _shadowsModeChanger;
 
 		private InterstitialAdProvider _interstitialAdProvider;
 		private RemoveAdsProvider _removeAdsProvider;
@@ -58,7 +59,8 @@ namespace SlimeGround.Menu
 			_playButton.Initialize(_playerData);
 			_trainingMenuUpdater.Initilize(_playerData);
 			_languageChanger.Initialize();
-	    }
+			_shadowsModeChanger.Initialize();
+		}
 
 		public void Dispose()
 		{

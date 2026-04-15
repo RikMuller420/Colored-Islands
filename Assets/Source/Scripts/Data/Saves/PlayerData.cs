@@ -32,8 +32,10 @@ namespace SlimeGround.Data.Saves
 	    [JsonProperty] public Dictionary<int, bool> IsHatsUsed;
 	    [JsonProperty] public Dictionary<int, bool> IsLevelRewardReceived;
 	    [JsonProperty] public List<FaceAvailabilitie> FaceAvailabilities;
+		[JsonProperty] public bool IsShadowActiveOnMobile;
+		[JsonProperty] public bool IsShadowActiveOnDesktop;
 
-	    public PlayerData()
+		public PlayerData()
 	    {
 	        SetDefaultValues();
 	    }
@@ -81,8 +83,10 @@ namespace SlimeGround.Data.Saves
 	        ScoreAmount = 0;
 	        GoldAmount = 0;
 	        IsAdsRemoved = false;
+			IsShadowActiveOnMobile = false;
+			IsShadowActiveOnDesktop = true;
 
-	        EarnInAppWithAddProgress = new Dictionary<InAppType, int>()
+			EarnInAppWithAddProgress = new Dictionary<InAppType, int>()
 	        {
 	            { InAppType.RemoveAds, 0 }
 	        };

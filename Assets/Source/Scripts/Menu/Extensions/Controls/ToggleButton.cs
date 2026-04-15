@@ -13,7 +13,7 @@ namespace SlimeGround.Menu.Extensions.Controls
 
 	    private bool _isOn;
 
-	    public event Action<bool> EnableChanged;
+	    public event Action<bool> ValueChanged;
 
 	    private void Awake()
 	    {
@@ -51,7 +51,7 @@ namespace SlimeGround.Menu.Extensions.Controls
 	    {
 	        _isOn = !_isOn;
 	        UpdateToggleView();
-	        EnableChanged?.Invoke(_isOn);
+	        ValueChanged?.Invoke(_isOn);
 	    }
 
 	    private void UpdateToggleView()

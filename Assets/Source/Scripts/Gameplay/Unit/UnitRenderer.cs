@@ -17,32 +17,25 @@ namespace SlimeGround.Gameplay.Units
 	    public void Initialize(CustomizationSettingsHolder customizationSettings)
 	    {
 	        _customizationSettings = customizationSettings;
-	    }
+		}
 
-	    public void SetPaint(UnitSlotType slot)
+		public void UpdateShadowCastingMode()
+		{
+			_renderer.shadowCastingMode = _customizationSettings.ShadowCastingMode;
+
+			if (_hat != null)
+			{
+				_hat.MeshRenderer.shadowCastingMode = _customizationSettings.ShadowCastingMode;
+			}
+		}
+
+		public void SetPaint(UnitSlotType slot)
 	    {
 	        _unitCustomizationSettings = _customizationSettings.GetCustomizationSettings(slot);
 
 	        _renderer.sharedMaterial = _unitCustomizationSettings.UnitMaterial;
 	        UpdateHat(_unitCustomizationSettings);
 	        _trail.startColor = _unitCustomizationSettings.TrailColor;
-	    }
-
-	    private void UpdateHat(UnitCustomizationSettings customizationSettings)
-	    {
-	        if (_hat != null)
-	        {
-	            Destroy(_hat.GameObject);
-	            _hat = null;
-	        }
-
-	        if (customizationSettings.IsHatEquiped == false)
-	        {
-	            return;
-	        }
-
-	        _hat = Instantiate(customizationSettings.HatData.Prefab, _hatHolder);
-			SetHatMaterial(customizationSettings.HatMaterials[_hat.TextureType]);
 	    }
 
 	    public void ActivateOutline()
@@ -66,6 +59,24 @@ namespace SlimeGround.Gameplay.Units
 	        }
 	    }
 
+		private void UpdateHat(UnitCustomizationSettings customizationSettings)
+		{
+			if (_hat != null)
+			{
+				Destroy(_hat.GameObject);
+				_hat = null;
+			}
+
+			if (customizationSettings.IsHatEquiped == false)
+			{
+				return;
+			}
+
+			_hat = Instantiate(customizationSettings.HatData.Prefab, _hatHolder);
+			SetHatMaterial(customizationSettings.HatMaterials[_hat.TextureType]);
+			UpdateShadowCastingMode();
+		}
+
 		private void SetHatMaterial(Material material)
 		{
 			Material[] materials = _hat.MeshRenderer.sharedMaterials;
@@ -73,11 +84,11 @@ namespace SlimeGround.Gameplay.Units
 			_hat.MeshRenderer.sharedMaterials = materials;
 		}
 
-	#if UNITY_EDITOR
-	    public void SetMaterial(Material material)
+#if UNITY_EDITOR
+		public void SetMaterial(Material material)
 	    {
 	        _renderer.sharedMaterial = material;
 	    }
-	#endif
+#endif
 	}
 }
