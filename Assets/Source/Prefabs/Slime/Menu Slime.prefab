@@ -82,6 +82,8 @@ GameObject:
   - component: {fileID: 5690426556144771784}
   - component: {fileID: 7369536960575473651}
   - component: {fileID: 3682324958373169220}
+  - component: {fileID: 5770010092070478131}
+  - component: {fileID: 8517734257406511775}
   m_Layer: 8
   m_Name: Menu Slime
   m_TagString: Untagged
@@ -137,6 +139,42 @@ MonoBehaviour:
   _renderer: {fileID: 3866427408711189298}
   _hatHolder: {fileID: 5523341627193887047}
   _trail: {fileID: 0}
+--- !u!114 &5770010092070478131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8305877545942004206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6416b1b657424b442890ab13fd475f6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 8517734257406511775}
+  _animationName: Idle
+  _layerIndex: 0
+--- !u!95 &8517734257406511775
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8305877545942004206}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a22769e0034170246a67aeac9c92a4a7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8452423289057105171
 GameObject:
   m_ObjectHideFlags: 0
