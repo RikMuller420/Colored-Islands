@@ -18,7 +18,7 @@ namespace SlimeGround.Data.Saves
 {
 	public class PlayerDataProvider : MonoBehaviour, IPlayerData
 	{
-	    public const string SaveSignatureKey = "TestVersion3";
+	    public const string SaveSignatureKey = "TestVersion7";
 
 	    [SerializeField] private LevelSettings _levelSettings;
 	    [SerializeField] private UnitsFaceSettings _unitsFaceSettings;
@@ -51,7 +51,7 @@ namespace SlimeGround.Data.Saves
 	    public int GoldAmount => _playerData.GoldAmount;
 	    public int ScoreAmount => _playerData.ScoreAmount;
 	    public bool IsAdsRemoved => _playerData.IsAdsRemoved;
-	    public int AviableSpinCount => _playerData.AviableSpinCount;
+		public int AviableSpinCount => _playerData.AviableSpinCount;
 	    public IReadOnlyCollection<FaceAvailabilitie> FaceAvailabilities => _playerData.FaceAvailabilities;
 	    public bool IsLanguageSaved => _playerData.IsLanguageSaved;
 	    public Language Language => _playerData.Language;

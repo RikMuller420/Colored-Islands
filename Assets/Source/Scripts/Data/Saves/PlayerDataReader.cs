@@ -11,7 +11,7 @@ namespace SlimeGround.Data.Saves
 {
 	public class PlayerDataReader
 	{
-	    public const string SaveSignatureKey = "TestVersion6";
+	    public const string SaveSignatureKey = "TestVersion5";
 
 	    private LevelSettings _levelSettings;
 	    private UnitsFaceSettings _unitsFaceSettings;
@@ -58,7 +58,7 @@ namespace SlimeGround.Data.Saves
 	            {
 	                playerData = JsonConvert.DeserializeObject<PlayerData>(json);
 
-	                if (playerData.SaveSignatureKey != SaveSignatureKey)
+					if (playerData.SaveSignatureKey != SaveSignatureKey)
 	                {
 	                    playerData = CreateNewSave();
 	                }

@@ -11,7 +11,8 @@ namespace SlimeGround.Menu.Windows.Roulette
 	public class RouletteWheel : MonoBehaviour
 	{
 	    [SerializeField] private RectTransform _wheel;
-	    [SerializeField] private List<Slot> _slots = new();
+		[SerializeField] private RouletteSoundPlayer _soundPLayer;
+		[SerializeField] private List<Slot> _slots = new();
 
 	    private int _maxFaceSlots = 4;
 	    private float _minSpinDuration = 3f;
@@ -92,13 +93,14 @@ namespace SlimeGround.Menu.Windows.Roulette
 
 	        _wheel.DORotate(new Vector3(0, 0, finalRotation), spinDuration, RotateMode.FastBeyond360)
 	              .SetEase(Ease.InOutQuad)
+				  .OnUpdate(() => _soundPLayer.TryPlayTickSound(_wheel.eulerAngles.z))
 	              .OnStart(() =>
 	              {
 	                  SpinStarted?.Invoke();
 	              })
 	              .OnComplete(() =>
 	              {
-	                  SpinFinished?.Invoke(winningSlot);
+					  SpinFinished?.Invoke(winningSlot);
 	              });
 	    }
 

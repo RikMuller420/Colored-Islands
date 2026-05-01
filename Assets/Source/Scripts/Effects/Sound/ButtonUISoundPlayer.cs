@@ -34,7 +34,10 @@ namespace SlimeGround.Effects.Sound
 
 	    private void PlaySound()
 	    {
-	        _uiSoundPlayer.PlaySound(_uiSoundType);
+			if (_uiSoundPlayer != null)
+			{
+				_uiSoundPlayer.PlaySound(_uiSoundType);			
+			}
 	    }
 	}
 }

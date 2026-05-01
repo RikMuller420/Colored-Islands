@@ -11,8 +11,9 @@ namespace SlimeGround.Menu.Windows.Roulette
 	{
 	    [SerializeField] private Slot _slot;
 	    [SerializeField] private Button _receiveButton;
+		[SerializeField] private AudioSource _openAudioSource;
 
-	    private PlayerDataProvider _playerDataProvider;
+		private PlayerDataProvider _playerDataProvider;
 	    private RemoveAdsProvider _removeAdsProvider;
 
 	    protected override void OnEnable()
@@ -52,7 +53,8 @@ namespace SlimeGround.Menu.Windows.Roulette
 	                break;
 	        }
 
-	        OpenUnclosableWindow();
+			_openAudioSource.Play();
+			OpenUnclosableWindow();
 	    }
 
 	    private void ReceiveReward()

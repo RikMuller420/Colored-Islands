@@ -6,7 +6,7 @@ namespace SlimeGround.Menu.Ads
 {
 	public class InterstitialAdOpener
 	{
-	    private int _adMinLevelId = 3;
+	    private int _adMinLevelId = 4;
 	    private int _loadsBeforeAd = 0;
 	    private float _adCooldownSeconds = 30f;
 

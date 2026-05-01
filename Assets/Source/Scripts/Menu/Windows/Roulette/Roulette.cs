@@ -16,14 +16,14 @@ namespace SlimeGround.Menu.Windows.Roulette
 	    [SerializeField] private RouletteRewardWindow _rouletteRewardWindow;
 
 	    private bool _isPrepared = false;
-	    private float _rewerdWindowDelay = 0.6f;
+	    private float _rewardWindowDelay = 0.6f;
 	    private WaitForSeconds _wait;
 
 	    private PlayerDataProvider _playerDataProvider;
 
 	    private void Awake()
 	    {
-	        _wait = new WaitForSeconds(_rewerdWindowDelay);
+	        _wait = new WaitForSeconds(_rewardWindowDelay);
 	    }
 
 	    private void OnEnable()

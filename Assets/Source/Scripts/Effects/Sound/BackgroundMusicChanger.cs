@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using SlimeGround.Data.ScriptableObjects.Levels;
 using SlimeGround.Gameplay.Levels;
 using UnityEngine;
@@ -14,8 +15,11 @@ namespace SlimeGround.Effects.Sound
 
 	    private LevelChangeEventTracker _levelChangeEventTracker;
 
-	    private float _fadeDuration = 3f;
-	    private Coroutine _fadeCoroutine;
+		private BackgroundMusicTheme _currentTheme;
+		private float _fadeDuration = 3f;
+	    private Coroutine _fadeInCoroutine;
+		private Coroutine _fadeOutCoroutine;
+		private Dictionary<BackgroundMusicTheme, AudioSource> _themeAudios;
 
 	    private void OnEnable()
 	    {
@@ -29,7 +33,13 @@ namespace SlimeGround.Effects.Sound
 
 	    public void Initialize(LevelChangeEventTracker levelChangeEventTracker)
 	    {
-	        _levelChangeEventTracker = levelChangeEventTracker;
+			_themeAudios = new Dictionary<BackgroundMusicTheme, AudioSource>()
+			{
+				{ BackgroundMusicTheme.MainMenu, _menuMusic },
+				{ BackgroundMusicTheme.Gameplay, _gameplayMusic }
+			};
+
+			_levelChangeEventTracker = levelChangeEventTracker;
 	        enabled = true;
 	    }
 
@@ -37,72 +47,68 @@ namespace SlimeGround.Effects.Sound
 	    {
 	        if (levelData.LevelId == _levelSettings.MainMenuSettings.Id)
 	        {
-	            PlayMenuMusic();   
-	        }
-	        else
+				PlayTheme(BackgroundMusicTheme.MainMenu);
+			}
+			else
 	        {
-	            PlayGameplayMusic();
+				PlayTheme(BackgroundMusicTheme.Gameplay);
 	        }
 	    }
 
-	    private void PlayMenuMusic()
+		private void PlayTheme(BackgroundMusicTheme theme)
+		{
+			if (_currentTheme == theme)
+			{
+				return;
+			}
+
+			TryStopFadeCoroutine();
+
+			AudioSource currentAudio = _themeAudios[_currentTheme];
+			AudioSource targetAudio = _themeAudios[theme];
+			_fadeOutCoroutine = StartCoroutine(FadeMusic(currentAudio, 0));
+			_fadeInCoroutine = StartCoroutine(FadeMusic(targetAudio, 1));
+			_currentTheme = theme;
+		}
+
+		private void TryStopFadeCoroutine()
 	    {
-	        if (_menuMusic.isPlaying && _menuMusic.volume > 0f)
+	        if (_fadeOutCoroutine != null)
 	        {
-	            return;
+	            StopCoroutine(_fadeOutCoroutine);
 	        }
 
-	        TryStopFadeCoroutine();
-	        _fadeCoroutine = StartCoroutine(FadeMusic(_gameplayMusic, _menuMusic));
-	    }
-
-	    private void PlayGameplayMusic()
-	    {
-	        if (_gameplayMusic.isPlaying && _gameplayMusic.volume > 0f)
+			if (_fadeInCoroutine != null)
 	        {
-	            return;
-	        }
-
-	        TryStopFadeCoroutine();
-	        _fadeCoroutine = StartCoroutine(FadeMusic(_menuMusic, _gameplayMusic));
-	    }
-
-	    private void TryStopFadeCoroutine()
-	    {
-	        if (_fadeCoroutine != null)
-	        {
-	            StopCoroutine(_fadeCoroutine);
+	            StopCoroutine(_fadeInCoroutine);
 	        }
 	    }
 
-	    private IEnumerator FadeMusic(AudioSource fadeOutMusic, AudioSource fadeInMusic)
-	    {
-	        if (fadeInMusic.isPlaying == false)
-	        {
-	            fadeInMusic.volume = 0f;
-	            fadeInMusic.Play();
-	        }
+		private IEnumerator FadeMusic(AudioSource music, float targetVolume)
+		{
+			if (music.isPlaying == false && targetVolume != 0)
+			{
+				music.Play();
+			}
 
-	        float time = 0f;
-	        float startVolumeFadeOut = fadeOutMusic.volume;
-	        float startVolumeFadeIn = fadeInMusic.volume;
+			float time = 0f;
+			float startVolume = music.volume;
 
-	        while (time < _fadeDuration)
-	        {
-	            time += Time.deltaTime;
-	            float normalizedTime = time / _fadeDuration;
+			while (time < _fadeDuration)
+			{
+				time += Time.deltaTime;
+				float normalizedTime = time / _fadeDuration;
+				music.volume = Mathf.Lerp(startVolume, targetVolume, normalizedTime);
 
-	            fadeOutMusic.volume = Mathf.Lerp(startVolumeFadeOut, 0f, normalizedTime);
-	            fadeInMusic.volume = Mathf.Lerp(startVolumeFadeIn, 1f, normalizedTime);
+				yield return null;
+			}
 
-	            yield return null;
-	        }
+			music.volume = targetVolume;
 
-	        fadeOutMusic.volume = 0f;
-	        fadeInMusic.volume = 1f;
-	        fadeOutMusic.Stop();
-
-	        _fadeCoroutine = null;
-	    }
+			if (targetVolume == 0)
+			{
+				music.Stop();
+			}
+		}
 	}
 }
