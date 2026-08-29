@@ -182,6 +182,11 @@ MonoBehaviour:
         extraData: 
   Localization:
     setLanguageMod: 0
+  Metrica:
+    enable: 1
+    metricaCounterID: 111985267
+    log: 1
+    useYandexMetrica: 1
   Payments:
     durationPayPanel: 1
     testBuyFail: 0
@@ -242,21 +247,26 @@ MonoBehaviour:
     platform: {fileID: 11400000, guid: c2a303d33a9fd394bae4c4b88b9a1c44, type: 2}
     autoApplySettings: 0
     autoPauseGame: 1
+    editTimeScale: 1
     editEventSystem: 1
     autoGRA: 1
-    logInEditor: 0
+    logInEditor: 1
     archivingBuild: 1
+    autoDefineSymbols: 1
     syncInitSDK: 0
     loadSceneIfSDKLate: 0
     loadSceneIndex: 0
-    simulationLoadScene: 0
+    initDelaySimulation: 0
+    buildNumber: 0
   Simulation:
     device: 0
     language: ru
+    enableInterAdv: 1
     advIntervalSimulation: 60
     durationAdv: 0.5
     loadAdv: 0
     testFailAds: 0
+    pauseOnFocusGame: 0
   Templates:
     logoImageFormat: 3
     backgroundImgFormat: 3
@@ -293,6 +303,9 @@ MonoBehaviour:
     showFirstAdv: 0
     interAdvInterval: 0
     postponeCallByFail: 0
+    setLanguageMod: 0
+    useYandexMetrica: 1
+    metricaCounterID: 1
     skipInterAdvAfterReward: 0
     saveLocal: 0
     saveCloud: 0

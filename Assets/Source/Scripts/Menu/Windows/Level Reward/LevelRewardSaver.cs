@@ -30,7 +30,6 @@ namespace SlimeGround.Menu.Windows.LevelReward
 	            int spinCount = reward.RouletteSpinAmount * multiplier;
 	            int newSpinAmount = _playerData.AviableSpinCount + spinCount;
 	            _playerData.SetSpinCount(newSpinAmount);
-	            MetricSaver.GetRouleteSpin(spinCount);
 	        }
 
 	        if (reward.BoostAmount > 0)

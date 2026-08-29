@@ -23,7 +23,7 @@ namespace SlimeGround.Gameplay.Boosts
 	    {
 	        BoostApplyed?.Invoke(this);
 	        _boostAmountProvider.SpendBoost(boostType);
-	        MetricSaver.SpentBoost(boostType);
+	        MetricSaver.SpendBoost(boostType);
 	    }
 	}
 }

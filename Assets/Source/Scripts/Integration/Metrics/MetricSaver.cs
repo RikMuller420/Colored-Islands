@@ -1,24 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Source.Scripts.Metrics;
-using GameAnalyticsSDK;
 using SlimeGround.Data;
 using SlimeGround.Data.Saves;
 using SlimeGround.Gameplay.Boosts;
 using SlimeGround.Gameplay.Levels;
 using SlimeGround.Menu.Windows.GameShop.Upgrades;
 using SlimeGround.Menu.Windows.InAppPurchase;
+using YG;
 
 namespace SlimeGround.Integration.Metrics
 {
 	public class MetricSaver
 	{
-		private const string CustomizationWindowKey = "CustomizationWindow";
-	    private const string BoostCurrency = "Boost";
-	    private const string UpgradeCurrency = "Upgrade";
-	    private const string SpinCurrency = "Spin";
-
 		private static MetricSaver s_instance;
 
 		private readonly ILevelData _levelData;
@@ -26,33 +20,29 @@ namespace SlimeGround.Integration.Metrics
 
 	    public MetricSaver(ILevelData currentLevelData, IPlayerData playerData)
 	    {
+			s_instance = this;
 	        _levelData = currentLevelData;
 	        _playerData = playerData;
-	        s_instance = this;
 	    }
 
-		public static void SpentBoost(BoostType type)
+		public static void SpendBoost(BoostType type)
 	    {
 	        int levelId = s_instance._levelData.LevelId;
+			YG2.MetricaSend(MetricKeys.BoostSpended, type.ToString(), s_instance._levelData.LevelId.ToString());
+		}
 
-	        GameAnalytics.NewResourceEvent(GAResourceFlowType.Sink, BoostCurrency, 1, type.ToString(), levelId.ToString());
-	    }
-
-	    public static void OpenLeaderboardWindow()
+		public static void OpenLeaderboardWindow()
 	    {
-	        GameAnalytics.NewDesignEvent("Leaderboard");
-	    }
+			YG2.MetricaSend(MetricKeys.OpenLeaderboard);
+		}
 
-	    public static void OpenCustomizationWindow()
+		public static void OpenCustomizationWindow()
 	    {
-	        GameAnalytics.StartTimer(CustomizationWindowKey);
-	        GameAnalytics.NewDesignEvent(CustomizationWindowKey);
-	    }
+			YG2.MetricaSend(MetricKeys.OpenCustomization);
+		}
 
-	    public static void CloseCustomizationWindow()
+		public static void CloseCustomizationWindow(float spendedSeconds)
 	    {
-	        GameAnalytics.StopTimer(CustomizationWindowKey);
-
 	        IEnumerable<UnitSlotType> slotCollection = Enum.GetValues(typeof(UnitSlotType)).Cast<UnitSlotType>();
 	        Dictionary<string, object> slimeSlots = new Dictionary<string, object>();
 
@@ -60,83 +50,80 @@ namespace SlimeGround.Integration.Metrics
 	        {
 	            CustomizationPreferences slimePreference = s_instance._playerData.GetCustomizationPreference(slot);
 
-	            SlimeSlot slimeSlot = new SlimeSlot()
-	            {
-	                ColorId = slimePreference.ColorSample.ToString(),
-	                FaceId = slimePreference.FaceId.ToString(),
-	                HatId = slimePreference.HatId.ToString()
-	            };
+				string slotName = $"{MetricKeys.Slime}_{(int)slot}";
 
-	            slimeSlots.Add(((int)slot).ToString(), slimeSlot);
+				var slotPrefrence = new Dictionary<string, object>
+				{
+					{ MetricKeys.Color, slimePreference.ColorSample.ToString() },
+					{ MetricKeys.Face, slimePreference.FaceId.ToString() },
+					{ MetricKeys.Hat, slimePreference.HatId.ToString() }
+				};
+
+				slimeSlots.Add(slotName, slotPrefrence);
 	        }
 
-	        GameAnalytics.NewDesignEvent("avatar:preferences:snapshot", slimeSlots.Count, slimeSlots);
-	    }
+			YG2.MetricaSend(MetricKeys.CustomizationChanged, slimeSlots);
+			YG2.MetricaSend(MetricKeys.TimeSpentInWindow, MetricKeys.Customization, spendedSeconds.ToString());
+		}
 
-	    public static void StartLevel()
+		public static void StartLevel()
 	    {
-	        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, s_instance._levelData.LevelId.ToString());
-	    }
+			YG2.MetricaSend(MetricKeys.LevelStarted, MetricKeys.Level, s_instance._levelData.LevelId.ToString());
+		}
 
-	    public static void FinishLevel()
+		public static void FinishLevel()
 	    {
-	        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, s_instance._levelData.LevelId.ToString());
-	    }
-
-	    public static void GetRouleteSpin(int spinCount)
-	    {
-	        GameAnalytics.NewResourceEvent(GAResourceFlowType.Source, SpinCurrency, spinCount, SpinCurrency, SpinCurrency);
-	    }
+			YG2.MetricaSend(MetricKeys.LevelFinished, MetricKeys.Level, s_instance._levelData.LevelId.ToString());
+		}
 
 	    public static void SpinRoulete()
 	    {
-	        GameAnalytics.NewResourceEvent(GAResourceFlowType.Sink, SpinCurrency, 1, SpinCurrency, SpinCurrency);
-	    }
+			YG2.MetricaSend(MetricKeys.RouletteSpinned);
+		}
 
-	    public static void BuyUpgrade(UpgradeType type)
+		public static void BuyUpgrade(UpgradeType type)
 	    {
-	        GameAnalytics.NewResourceEvent(GAResourceFlowType.Source, UpgradeCurrency, 1, type.ToString(), type.ToString());
-	    }
+			YG2.MetricaSend(MetricKeys.InGamePurchase, MetricKeys.Upgrade, type.ToString());
+		}
 
-	    public static void BuyBoost(BoostType type)
+		public static void BuyBoost(BoostType type)
 	    {
-	        GameAnalytics.NewResourceEvent(GAResourceFlowType.Source, BoostCurrency, 1, type.ToString(), type.ToString());
-	    }
+			YG2.MetricaSend(MetricKeys.InGamePurchase, MetricKeys.Boost, type.ToString());
+		}
 
-	    public static void TrackAngryBarFailed()
+		public static void TrackAngryBarFailed()
 	    {
-	        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "Angry Bar " + s_instance._levelData.LevelId);
-	    }
+			YG2.MetricaSend(MetricKeys.LevelTaskFailed, MetricKeys.AngryBar, s_instance._levelData.LevelId.ToString());
+		}
 
-	    public static void TrackMoveLimitFailed()
+		public static void TrackMoveLimitFailed()
 	    {
-	        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "Move Limit " + s_instance._levelData.LevelId);
-	    }
+			YG2.MetricaSend(MetricKeys.LevelTaskFailed, MetricKeys.MoveLimit, s_instance._levelData.LevelId.ToString());
+		}
 
-	    public static void GetInAppViaWathAdd(InAppType inAppType)
+		public static void GetInAppViaWathAdd(InAppType inAppType)
 	    {
-	        GameAnalytics.NewAdEvent(GAAdAction.Clicked, GAAdType.Video, inAppType.ToString(), "UI");
-	    }
+			YG2.MetricaSend(MetricKeys.AdShowed, MetricKeys.InAppViaWathAdd, inAppType.ToString());
+		}
 
-	    public static void ShowGetFreeGoldAdd()
+		public static void ShowGetFreeGoldAdd()
 	    {
-	        GameAnalytics.NewAdEvent(GAAdAction.Clicked, GAAdType.Video, "Free Gold", "UI");
-	    }
+			YG2.MetricaSend(MetricKeys.AdShowed, MetricKeys.FreeGold, MetricKeys.Blank);
+		}
 
-	    public static void ReceiveStandartLevelReward()
+		public static void ReceiveStandartLevelReward()
 	    {
-	        GameAnalytics.NewDesignEvent("Receive Standart Level Reward");
+			YG2.MetricaSend(MetricKeys.StandartLevelRewardReceived);
 	    }
 
 	    public static void ReceiveMultiplayedLevelRewardWithAdd()
 	    {
-	        GameAnalytics.NewDesignEvent("Receive Multiplied Level Reward");
-	        GameAnalytics.NewAdEvent(GAAdAction.Clicked, GAAdType.Video, "Multiply Level Rewards", "Level Reward");
+			YG2.MetricaSend(MetricKeys.MultipliedLevelRewardReceived);
 	    }
 
 	    public static void ShowGetFreeBoostAdd(BoostType type)
 	    {
-	        GameAnalytics.NewAdEvent(GAAdAction.Show, GAAdType.RewardedVideo, "Boost", type.ToString());
-	    }
+			YG2.MetricaSend(MetricKeys.AdShowed, MetricKeys.Boost, type.ToString());
+		}	
 	}
 }

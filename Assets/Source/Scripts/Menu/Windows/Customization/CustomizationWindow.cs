@@ -1,3 +1,4 @@
+using System;
 using SlimeGround.Data.Saves;
 using SlimeGround.Integration.Metrics;
 using SlimeGround.Menu.Extensions.Windows;
@@ -8,6 +9,8 @@ namespace SlimeGround.Menu.Windows.Customization
 	public class CustomizationWindow : MenuWindow
 	{
 		[SerializeField] private PlayerDataProvider _dataProvider;
+
+		private DateTime _lastOpenTime;
 
 		public override void Open()
 	    {
@@ -24,6 +27,7 @@ namespace SlimeGround.Menu.Windows.Customization
 				_dataProvider.Save();
 			}
 
+			_lastOpenTime = DateTime.Now;
 			MetricSaver.OpenCustomizationWindow();
 	    }
 
@@ -35,7 +39,9 @@ namespace SlimeGround.Menu.Windows.Customization
 	        }
 
 	        base.Close();
-	        MetricSaver.CloseCustomizationWindow();
+
+			float spendedSeconds = (float)(DateTime.Now - _lastOpenTime).TotalSeconds;
+	        MetricSaver.CloseCustomizationWindow(spendedSeconds);
 	    }
 	}
 }

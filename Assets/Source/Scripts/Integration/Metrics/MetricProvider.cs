@@ -1,15 +1,16 @@
-using GameAnalyticsSDK;
+using YG;
 
 namespace SlimeGround.Integration.Metrics
 {
 	public class MetricProvider
 	{
-	    private const string BuildName = "0.2";
+		private const string EventName = "LevelStarted";
+		private const string MetricVersion = "0.2";
 
-	    public MetricProvider()
+		public MetricProvider()
 	    {
-	        GameAnalytics.SetBuildAllPlatforms(BuildName);
-	        GameAnalytics.Initialize();
-	    }
+			string className = GetType().Name;
+			YG2.MetricaSend(EventName, className, MetricVersion);
+		}
 	}
 }
