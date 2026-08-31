@@ -1,6 +1,6 @@
-Shader "Simple Toon/SToon Outline"
+﻿Shader "Source/Shaders/SToon Default"
 {
-	Properties
+    Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
 
@@ -22,10 +22,6 @@ Shader "Simple Toon/SToon Outline"
         _MinLight ("Min Light", Range(0,1)) = 0
         _MaxLight ("Max Light", Range(0,1)) = 1
         _Lumin ("Luminocity", Range(0,2)) = 0
-
-		[Header(Outline)][Space(5)]  //outline
-		_OtlColor ("Color", COLOR) = (0,0,0,1)
-		_OtlWidth ("Width", Range(0,6)) = 1
 
         [Header(Shine)][Space(5)]  //shine
 		[HDR] _ShnColor ("Color", COLOR) = (1,1,0,1)
@@ -66,7 +62,7 @@ Shader "Simple Toon/SToon Outline"
                 LIGHTING_COORDS(0,1)
                 float2 uv : TEXCOORD0;
                 float4 pos : SV_POSITION;
-                half3 worldNormal : NORMAL;
+                float3 worldNormal : NORMAL;
 				float3 viewDir : TEXCOORD2;
             };
 
@@ -82,7 +78,7 @@ Shader "Simple Toon/SToon Outline"
                 return o;
             }
 
-			fixed4 frag (v2f i) : SV_Target
+            fixed4 frag (v2f i) : SV_Target
             {
                 _MaxLight = max(_MinLight, _MaxLight);
                 _Steps = _Segmented ? _Steps : 1;
@@ -166,7 +162,7 @@ Shader "Simple Toon/SToon Outline"
                 return o;
             }
 
-			fixed4 frag (v2f i) : SV_Target
+            fixed4 frag (v2f i) : SV_Target
             {
 				_MaxLight = max(_MinLight, _MaxLight);
                 _Steps = _Segmented ? _Steps : 1;
@@ -203,52 +199,6 @@ Shader "Simple Toon/SToon Outline"
             ENDCG
         }
 
-		UsePass "Legacy Shaders/VertexLit/SHADOWCASTER"
-
-		Pass
-        {
-			Tags { "RenderType" = "Opaque" "LightMode" = "ForwardBase" }
-			Blend Off
-            Cull Front
-
-            CGPROGRAM
-            #pragma vertex vert
- 			#pragma fragment frag
-
-			#include "UnityCG.cginc"
-			#include "STCore.cginc"
-
-			float4 _OtlColor;
-            float _OtlWidth;
-
-            struct appdata
-            {
-				float4 vertex : POSITION;
-				float3 normal : NORMAL;
-			};
-
-			struct v2f
-			{
-				float4 pos : SV_POSITION;
-			};
-
-            v2f vert (appdata v)
-            {
-                v2f o;
-			    o.pos = v.vertex;
-			    o.pos.xyz += normalize(v.normal.xyz) * _OtlWidth * 0.008;
-			    o.pos = UnityObjectToClipPos(o.pos);
-
-			    return o;
-            }
-
-            fixed4 frag(v2f i) : SV_Target
-			{
-				clip(-negz(_OtlWidth));
-		    	return _OtlColor;
-			}
-
-            ENDCG
-        }
+        UsePass "Legacy Shaders/VertexLit/SHADOWCASTER"
     }
 }

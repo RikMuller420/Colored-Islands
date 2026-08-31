@@ -1,4 +1,4 @@
-﻿Shader "Simple Toon/SToon Default"
+﻿Shader "Source/Shaders/SToon Default With Tattoo"
 {
     Properties
     {
@@ -30,6 +30,9 @@
         _ShnIntense ("Intensity", Range(0,1)) = 0
         _ShnRange ("Range", Range(0,1)) = 0.15
         _ShnSmooth ("Smoothness", Range(0,1)) = 0
+
+        [Header(Tattoo Overlay)][Space(5)]  //tattoo overlay
+        _OverlayTex ("Overlay Texture", 2D) = "white" {}
     }
 
     SubShader
@@ -50,6 +53,9 @@
             #include "AutoLight.cginc"
             #include "STCore.cginc"
 
+            sampler2D _OverlayTex;
+            float4 _OverlayTex_ST;
+
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -64,6 +70,7 @@
                 float4 pos : SV_POSITION;
                 float3 worldNormal : NORMAL;
 				float3 viewDir : TEXCOORD2;
+                float2 uvOverlay : TEXCOORD3;
             };
 
             v2f vert (appdata v)
@@ -71,6 +78,7 @@
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uvOverlay = TRANSFORM_TEX(v.uv, _OverlayTex);
                 o.worldNormal = UnityObjectToWorldNormal(v.normal);
 				o.viewDir = WorldSpaceViewDir(v.vertex);
 
@@ -105,6 +113,9 @@
 				fixed4 litcol = ColorBlend(_Color, _LightColor0, _AmbientCol);
 				fixed4 texcol = tex2D(_MainTex, i.uv) * litcol * _ColIntense + _ColBright;
 
+                fixed4 overlay = tex2D(_OverlayTex, i.uvOverlay);
+                texcol.rgb = lerp(texcol.rgb, overlay.rgb, overlay.a);
+
 				float4 blendCol = ColorBlend(shadecol, texcol, toon);
 				float4 postCol = PostEffects(blendCol, toon, atten, NdotL, NdotH, VdotN, FdotV);
 
@@ -132,6 +143,9 @@
             #include "AutoLight.cginc"
             #include "STCore.cginc"
 
+            sampler2D _OverlayTex;
+            float4 _OverlayTex_ST;
+
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -147,6 +161,7 @@
                 float3 worldPos : WORLD;
                 half3 worldNormal : NORMAL;
 				float3 viewDir : TEXCOORD2;
+                float2 uvOverlay : TEXCOORD4;
             };
 
             v2f vert (appdata v)
@@ -154,6 +169,7 @@
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uvOverlay = TRANSFORM_TEX(v.uv, _OverlayTex); 
                 o.worldNormal = UnityObjectToWorldNormal(v.normal);
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex);
 				o.viewDir = WorldSpaceViewDir(v.vertex);
@@ -188,6 +204,9 @@
 				fixed4 shadecol = _DarkColor;
 				fixed4 litcol = ColorBlend(_Color, _LightColor0, _AmbientCol);
 				fixed4 texcol = tex2D(_MainTex, i.uv) * litcol * _ColIntense + _ColBright;
+
+                fixed4 overlay = tex2D(_OverlayTex, i.uvOverlay);
+                texcol.rgb = lerp(texcol.rgb, overlay.rgb, overlay.a);
 
 				float4 blendCol = ColorBlend(shadecol, texcol, toon);
 				float4 postCol = PostEffects(blendCol, toon, atten, NdotL, NdotH, VdotN, FdotV);

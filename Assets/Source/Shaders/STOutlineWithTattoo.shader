@@ -1,4 +1,4 @@
-Shader "Simple Toon/SToon Outline With Tattoo"
+Shader "Source/Shaders/SToon Outline With Tattoo"
 {
 	Properties
     {

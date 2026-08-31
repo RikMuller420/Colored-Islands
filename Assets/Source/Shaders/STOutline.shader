@@ -1,4 +1,4 @@
-﻿Shader "Simple Toon/SToon Transparent"
+Shader "Source/Shaders/SToon Outline"
 {
 	Properties
     {
@@ -23,6 +23,10 @@
         _MaxLight ("Max Light", Range(0,1)) = 1
         _Lumin ("Luminocity", Range(0,2)) = 0
 
+		[Header(Outline)][Space(5)]  //outline
+		_OtlColor ("Color", COLOR) = (0,0,0,1)
+		_OtlWidth ("Width", Range(0,6)) = 1
+
         [Header(Shine)][Space(5)]  //shine
 		[HDR] _ShnColor ("Color", COLOR) = (1,1,0,1)
         [Toggle] _ShnOverlap ("Overlap", Float) = 0
@@ -34,18 +38,10 @@
 
     SubShader
     {
-		Tags { "Queue" = "Transparent" "RenderType" = "Transparent" }
-		Blend SrcAlpha OneMinusSrcAlpha
-
-        Pass  //full transparency
-		{
-			LOD 300
-			ColorMask 0
-        }
-
+        Tags { "RenderType" = "Opaque" "LightMode" = "ForwardBase" }
         Pass
         {
-            Tags { "LightMode" = "ForwardBase" }
+            Name "DirectLight"
             LOD 80
 
             CGPROGRAM
@@ -86,7 +82,7 @@
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+			fixed4 frag (v2f i) : SV_Target
             {
                 _MaxLight = max(_MinLight, _MaxLight);
                 _Steps = _Segmented ? _Steps : 1;
@@ -116,17 +112,18 @@
 				float4 blendCol = ColorBlend(shadecol, texcol, toon);
 				float4 postCol = PostEffects(blendCol, toon, atten, NdotL, NdotH, VdotN, FdotV);
 
-				postCol.a = _Color.a;
-				return postCol;
+				postCol.a = 1.;
+				return _LightColor0.a > 0 ? postCol : 0;
             }
 
             ENDCG
         }
 
+        Tags { "RenderType" = "Opaque" "LightMode" = "ForwardAdd" }
         Pass
         {
-            Tags { "LightMode" = "ForwardAdd" }
-			BlendOp Max
+            Name "SpotLight"
+            BlendOp Max
             LOD 100
 
             CGPROGRAM
@@ -169,9 +166,9 @@
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+			fixed4 frag (v2f i) : SV_Target
             {
-                _MaxLight = max(_MinLight, _MaxLight);
+				_MaxLight = max(_MinLight, _MaxLight);
                 _Steps = _Segmented ? _Steps : 1;
                 _StpSmooth = _Segmented ? _StpSmooth : 1;
 
@@ -199,13 +196,59 @@
 				float4 blendCol = ColorBlend(shadecol, texcol, toon);
 				float4 postCol = PostEffects(blendCol, toon, atten, NdotL, NdotH, VdotN, FdotV);
 
-				postCol *= _Color.a;
+				postCol.a = 1.;
 				return postCol;
             }
 
             ENDCG
         }
 
-        UsePass "Legacy Shaders/VertexLit/SHADOWCASTER"
+		UsePass "Legacy Shaders/VertexLit/SHADOWCASTER"
+
+		Pass
+        {
+			Tags { "RenderType" = "Opaque" "LightMode" = "ForwardBase" }
+			Blend Off
+            Cull Front
+
+            CGPROGRAM
+            #pragma vertex vert
+ 			#pragma fragment frag
+
+			#include "UnityCG.cginc"
+			#include "STCore.cginc"
+
+			float4 _OtlColor;
+            float _OtlWidth;
+
+            struct appdata
+            {
+				float4 vertex : POSITION;
+				float3 normal : NORMAL;
+			};
+
+			struct v2f
+			{
+				float4 pos : SV_POSITION;
+			};
+
+            v2f vert (appdata v)
+            {
+                v2f o;
+			    o.pos = v.vertex;
+			    o.pos.xyz += normalize(v.normal.xyz) * _OtlWidth * 0.008;
+			    o.pos = UnityObjectToClipPos(o.pos);
+
+			    return o;
+            }
+
+            fixed4 frag(v2f i) : SV_Target
+			{
+				clip(-negz(_OtlWidth));
+		    	return _OtlColor;
+			}
+
+            ENDCG
+        }
     }
 }
