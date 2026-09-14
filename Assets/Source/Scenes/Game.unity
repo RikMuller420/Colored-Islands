@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 9db1704bf17a80e4ab114d1085dc4266, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 617d9be015db68348a623b01ea51a8c5, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -1829,9 +1829,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 73097527}
+  - component: {fileID: 73097528}
   - component: {fileID: 73097530}
   - component: {fileID: 73097529}
-  - component: {fileID: 73097528}
   - component: {fileID: 73097531}
   m_Layer: 9
   m_Name: Splash Zone
@@ -9957,7 +9957,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.05, y: 0.3}
   m_AnchorMax: {x: 0.95, y: 0.7}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &459918605
@@ -43810,6 +43810,7 @@ Transform:
   - {fileID: 2126273972}
   - {fileID: 876377097}
   - {fileID: 73097527}
+  - {fileID: 2032063570}
   m_Father: {fileID: 1264464071}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1791350012
@@ -46918,7 +46919,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 738453366958059896, guid: 747848c04aabeb8438e1046c547b7750, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -6.2848816
+      value: -6.284912
       objectReference: {fileID: 0}
     - target: {fileID: 738453366958059896, guid: 747848c04aabeb8438e1046c547b7750, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -51878,6 +51879,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8a171d1d7b14a24bb6c5a1736698644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2032063569
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2032063570}
+  - component: {fileID: 2032063571}
+  m_Layer: 0
+  m_Name: Sky Cloud Rotator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2032063570
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032063569}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1790867880}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2032063571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032063569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79207801b1bc0234facee132f61464b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _skyboxMaterial: {fileID: 2100000, guid: 617d9be015db68348a623b01ea51a8c5, type: 2}
+  _rotationSpeed: -2
 --- !u!1 &2035992726 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5633653005446823467, guid: 629489266f9fc3643b31e330c0d76bbf, type: 3}
@@ -58500,7 +58547,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8837312691095868949, guid: 081bf37c91e328c4894c1db85fc7e0cf, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -29.440002
+      value: -29.439941
       objectReference: {fileID: 0}
     - target: {fileID: 8837312691095868949, guid: 081bf37c91e328c4894c1db85fc7e0cf, type: 3}
       propertyPath: m_AnchoredPosition.y
