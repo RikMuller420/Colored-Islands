@@ -74,8 +74,11 @@ namespace SlimeGround.Gameplay.Islands
 			{
 				yield return _waitForEndOfFrame;
 
+				Vector3 direction = lookAtPoint.position - _movesCountGroup.transform.position;
+				direction.x = 0f;
+				_movesCountGroup.transform.rotation = Quaternion.LookRotation(direction);
+
 				time += Time.deltaTime;
-				_movesCountGroup.transform.LookAt(lookAtPoint);
 
 				if (time > _cameraTrackDuration)
 				{
