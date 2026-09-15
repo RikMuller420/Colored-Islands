@@ -44,6 +44,18 @@ namespace SlimeGround.Gameplay.Training
 	    protected Canvas Canvas { get; private set; }
 		protected Dimmer GameplayDimmer { get; private set; }
 
+		private bool _isGameClosing = false;
+
+		private void OnEnable()
+		{
+			Application.quitting += OnGameClose;
+		}
+
+		private void OnDisable()
+		{
+			Application.quitting -= OnGameClose;
+		}
+
 		public void Initialize(ILevelData currentLevelData, BuferIslandsHolder buferIslandsHolder,
 	                           IUnitsSelectedEvent unitsSelectedEvent, IUnitMovedEvent unitMovedEvent, Camera mainCamera,
 	                           BoostButtonActivator boostButtonActivator, LevelProgressTracker levelProgressTracker,
@@ -82,6 +94,11 @@ namespace SlimeGround.Gameplay.Training
 
 	    protected void ResetLevelState()
 	    {
+			if (_isGameClosing)
+			{
+				return;
+			}
+
 	        BoostButtonActivator.ActivateAllButtons();
 	        ActivateAllColliders();
 			GameplayDimmer.Deactivate();
@@ -149,7 +166,12 @@ namespace SlimeGround.Gameplay.Training
 	        Pointer.localEulerAngles = buttonRectTransform.localEulerAngles;
 	    }
 
-	    private void ActivateColliders(BaseIsland island)
+		private void OnGameClose()
+		{
+			_isGameClosing = true;
+		}
+
+		private void ActivateColliders(BaseIsland island)
 	    {
 	        island.Collider.enabled = true;
 
