@@ -7,7 +7,6 @@ namespace SlimeGround.Menu.Extensions.TextAnimator
 	public class NumberTextGrowAnimator : MonoBehaviour
 	{
 	    [SerializeField] private TextMeshProUGUI _text;
-	    [SerializeField] private string _textPrefix = "+";
 
 	    private TextGrowAnimatorSettings _settings;
 
@@ -27,7 +26,7 @@ namespace SlimeGround.Menu.Extensions.TextAnimator
 
 	    public void SetValueImediatly(int value)
 	    {
-	        _text.text = CalculateText(value);
+	        _text.text = value.ToString();
 	    }
 
 	    private void ShowTextValueGrowAnimation(int resultValue, int startValue)
@@ -40,7 +39,7 @@ namespace SlimeGround.Menu.Extensions.TextAnimator
 					newValue =>
 					{
 						value = newValue;
-						_text.text = CalculateText(value);
+						_text.text = value.ToString();
 					},
 					resultValue,
 					_settings.GrowAnimationDuration
@@ -56,11 +55,6 @@ namespace SlimeGround.Menu.Extensions.TextAnimator
 	            .SetLoops(_settings.PulseCycles, LoopType.Yoyo)
 	            .SetEase(Ease.InOutSine)
 	            .SetDelay(_settings.AnimationDelay);
-	    }
-
-	    private string CalculateText(int value)
-	    {
-	        return $"{_textPrefix}{value}";
 	    }
 	}
 }
