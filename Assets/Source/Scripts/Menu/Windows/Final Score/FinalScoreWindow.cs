@@ -73,8 +73,8 @@ namespace SlimeGround.Menu.Windows.FinalScore
 	    private void OnLevelFinished(ILevelData levelData)
 	    {
 	        int currentLevelId = levelData.LevelId;
-	        LevelProgress nextLevel = _playerData.Levels.FirstOrDefault(level => level.Id > currentLevelId);
-	        bool isNextLevelExist = _playerData.FirstUnfinishedLevel != null;
+	        LevelProgress nextLevel = _playerData.Progress.Levels.FirstOrDefault(level => level.Id > currentLevelId);
+	        bool isNextLevelExist = _playerData.Progress.FirstUnfinishedLevel != null;
 	        _nextLevelButton.gameObject.SetActive(nextLevel != null);
 	        _boostButtonZone.Close();
 
@@ -149,7 +149,7 @@ namespace SlimeGround.Menu.Windows.FinalScore
 	    {
 	        int currentLevelId = levelData.LevelId;
 	        LevelRewardData reward = _levelRewardSettings.LevelRewards.FirstOrDefault(reward => reward.LevelId == currentLevelId);
-	        bool wasRewardReceived = _playerData.IsLevelRewardReceived(currentLevelId);
+	        bool wasRewardReceived = _playerData.Progress.IsLevelRewardReceived(currentLevelId);
 
 	        if (reward != null && wasRewardReceived == false)
 	        {

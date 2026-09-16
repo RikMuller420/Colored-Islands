@@ -92,11 +92,11 @@ namespace SlimeGround.Gameplay.Islands
 			}
 	    }
 
-	#if UNITY_EDITOR
+#if UNITY_EDITOR
 	    public void SetCenterPoint(Transform centerPoint)
 	    {
 	        _centerPoint = centerPoint;
 	    }
-	#endif
+#endif
 	}
 }

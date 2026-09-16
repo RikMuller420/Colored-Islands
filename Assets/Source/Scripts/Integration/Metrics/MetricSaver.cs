@@ -48,7 +48,7 @@ namespace SlimeGround.Integration.Metrics
 
 	        foreach (UnitSlotType slot in slotCollection)
 	        {
-	            CustomizationPreferences slimePreference = s_instance._playerData.GetCustomizationPreference(slot);
+	            CustomizationPreferences slimePreference = s_instance._playerData.Customization.GetCustomizationPreference(slot);
 
 				string slotName = $"{MetricKeys.Slime}_{(int)slot}";
 

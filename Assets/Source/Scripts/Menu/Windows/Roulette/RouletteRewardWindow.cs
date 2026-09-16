@@ -62,11 +62,11 @@ namespace SlimeGround.Menu.Windows.Roulette
 	        switch (_slot.RouletteRewardType)
 	        {
 	            case RouletteRewardType.Gold:
-	                _playerDataProvider.SetGoldAmount(_playerDataProvider.GoldAmount + _slot.GoldAmount);
+	                _playerDataProvider.Resources.SetGoldAmount(_playerDataProvider.Resources.GoldAmount + _slot.GoldAmount);
 	                break;
 
 	            case RouletteRewardType.Face:
-	                _playerDataProvider.UnlockFace(_slot.FaceID);
+	                _playerDataProvider.Customization.UnlockFace(_slot.FaceID);
 	                break;
 
 	            case RouletteRewardType.RemoveAds:

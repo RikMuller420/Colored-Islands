@@ -48,12 +48,12 @@ namespace SlimeGround.Menu.LevelNavigation
 	            UpdateStarSprites();
 	        }
 
-	        _playerData.LevelProgressChanged += OnLevelProgressChanged;
+	        _playerData.Progress.LevelProgressChanged += OnLevelProgressChanged;
 	    }
 
 	    private void UpdateButtonAviability()
 	    {
-	        _isLevelAviable = _levelId <= _playerData.LastAvailableLevelId;
+	        _isLevelAviable = _levelId <= _playerData.Progress.LastAvailableLevelId;
 	        _starsHolder.SetActive(_isLevelAviable);
 	        _button.interactable = _isLevelAviable;
 	        _lockIcon.SetActive(!_isLevelAviable);
@@ -61,7 +61,7 @@ namespace SlimeGround.Menu.LevelNavigation
 
 	    private void UpdateStarSprites()
 	    {
-	        LevelProgress levelProgress = _playerData.Levels.FirstOrDefault(level => level.Id == _levelId);
+	        LevelProgress levelProgress = _playerData.Progress.Levels.FirstOrDefault(level => level.Id == _levelId);
 	        int starsCount = levelProgress.GetStarsCount();
 
 	        for (int i = 0; i < starsCount; i++)

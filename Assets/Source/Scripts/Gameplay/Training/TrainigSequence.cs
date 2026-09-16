@@ -153,9 +153,9 @@ namespace SlimeGround.Gameplay.Training
 
 	    protected void AddBost(BoostType boostType)
 	    {
-	        int boostAmount = PlayerData.GetBoostAmount(boostType);
+	        int boostAmount = PlayerData.Resources.GetBoostAmount(boostType);
 	        boostAmount++;
-	        PlayerData.SetBoostAmount(boostType, boostAmount);
+	        PlayerData.Resources.SetBoostAmount(boostType, boostAmount);
 	        PlayerData.Save();
 	    }
 

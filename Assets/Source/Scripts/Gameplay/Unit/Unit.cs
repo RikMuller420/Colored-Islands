@@ -69,11 +69,11 @@ namespace SlimeGround.Gameplay.Units
 
 	    public void ResetRotation() => _lookAtRotator.ResetRotation();
 
-	#if UNITY_EDITOR
+#if UNITY_EDITOR
 	    public void SetMaterial(Material material)
 	    {
 	        _renderer.SetMaterial(material);
 	    }
-	#endif
+#endif
 	}
 }

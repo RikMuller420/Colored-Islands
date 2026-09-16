@@ -30,7 +30,7 @@ namespace SlimeGround.Menu.LevelNavigation
 
 	    private void LoadLastAvailableLevel()
 	    {
-	        _levelLoader.LoadLevel(_playerData.LastAvailableLevelId);
+	        _levelLoader.LoadLevel(_playerData.Progress.LastAvailableLevelId);
 	    }
 	}
 }

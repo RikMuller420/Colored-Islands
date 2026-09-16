@@ -75,7 +75,7 @@ namespace SlimeGround.Gameplay.Training
 				_isEventsSubscribed = true;
 			}
 
-			if (PlayerData.IsCustomizationWindowWasOpened == false)
+			if (PlayerData.Progress.IsCustomizationWindowWasOpened == false)
 			{
 				_customizationHint.Open();
 			}

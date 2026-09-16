@@ -61,8 +61,8 @@ namespace SlimeGround.Menu.Windows.Roulette
 	        _spinButton.interactable = false;
 	        _spinButtonAnimator.SetBool(SpinButtonEnableBool, false);
 
-	        int newSpinCount = _playerDataProvider.AviableSpinCount - 1;
-	        _playerDataProvider.SetSpinCount(newSpinCount);
+	        int newSpinCount = _playerDataProvider.Resources.AviableSpinCount - 1;
+	        _playerDataProvider.Resources.SetSpinCount(newSpinCount);
 	        _playerDataProvider.Save();
 	        MetricSaver.SpinRoulete();
 	    }

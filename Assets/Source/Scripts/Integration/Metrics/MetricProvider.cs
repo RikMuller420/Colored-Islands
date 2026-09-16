@@ -4,8 +4,8 @@ namespace SlimeGround.Integration.Metrics
 {
 	public class MetricProvider
 	{
-		private const string EventName = "LevelStarted";
-		private const string MetricVersion = "0.2";
+		private const string EventName = "MetricProviderStarted";
+		private const string MetricVersion = "1.0";
 
 		public MetricProvider()
 	    {

@@ -29,11 +29,11 @@ namespace SlimeGround.Menu.Windows.Settings
 
 			if (_deviceType == Integration.DeviceInfo.DeviceType.Mobile)
 			{
-				_toggle.SetToggle(_playerData.IsShadowActiveOnMobile);
+				_toggle.SetToggle(_playerData.Settings.IsShadowActiveOnMobile);
 			}
 			else
 			{
-				_toggle.SetToggle(_playerData.IsShadowActiveOnDesktop);
+				_toggle.SetToggle(_playerData.Settings.IsShadowActiveOnDesktop);
 			}
 
 			enabled = true;
@@ -43,11 +43,11 @@ namespace SlimeGround.Menu.Windows.Settings
 		{
 			if (_deviceType == Integration.DeviceInfo.DeviceType.Mobile)
 			{
-				_playerData.SetIsShadowActiveOnMobile(isOn);
+				_playerData.Settings.SetIsShadowActiveOnMobile(isOn);
 			}
 			else
 			{
-				_playerData.SetIsShadowActiveOnDesktop(isOn);
+				_playerData.Settings.SetIsShadowActiveOnDesktop(isOn);
 			}
 
 			_playerData.Save();

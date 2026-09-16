@@ -28,7 +28,6 @@ namespace SlimeGround.Gameplay.Islands
 	    public void Initialize(Func<Unit> createUnit, ColorSampleMaterials paintMaterials, Transform unitsLookAtPoint,
 	                          CustomizationSettingsHolder customizationSettings, ColorSample colorSample, float unitScale)
 	    {
-	        FindRequireComponents();
 	        List<IslandPoint> placementPoints = new List<IslandPoint>();
 
 	        foreach (SpriteRenderer point in _points)
@@ -57,7 +56,8 @@ namespace SlimeGround.Gameplay.Islands
 	        }
 	    }
 
-	    public void SetStartUnits(List<IslandStartUnits> startUnits)
+#if UNITY_EDITOR
+		public void SetStartUnits(List<IslandStartUnits> startUnits)
 	    {
 	        _startUnits = startUnits;
 	    }
@@ -85,5 +85,6 @@ namespace SlimeGround.Gameplay.Islands
 	    {
 	        FillPoints(_rootOfPoints);
 	    }
+#endif
 	}
 }

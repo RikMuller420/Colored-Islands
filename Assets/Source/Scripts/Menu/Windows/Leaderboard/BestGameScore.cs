@@ -10,7 +10,7 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 
 	    private int CalculateScore()
 	    {
-	        return PlayerData.Levels
+	        return PlayerData.Progress.Levels
 	                .Where(level => level.IsDone)
 	                .Sum(level => level.BestScore);
 	    }

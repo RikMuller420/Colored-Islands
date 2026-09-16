@@ -46,7 +46,7 @@ namespace SlimeGround.Gameplay.Levels
 	    {
 	        foreach (IslandInitializer island in _islands)
 	        {
-	            CustomizationPreferences customizationPreferences = playerData.GetCustomizationPreference(island.UnitSlot);
+	            CustomizationPreferences customizationPreferences = playerData.Customization.GetCustomizationPreference(island.UnitSlot);
 	            island.Initialize(createUnit, materials, unitsLookAtPoint, customizationSettings,
 	                              customizationPreferences.ColorSample, _unitScale);
 	        }
@@ -57,7 +57,7 @@ namespace SlimeGround.Gameplay.Levels
 	        }
 	    }
 
-	#if UNITY_EDITOR
+#if UNITY_EDITOR
 	    public void SetIslands(List<IslandInitializer> islands)
 	    {
 	        _islands = islands;
@@ -73,6 +73,6 @@ namespace SlimeGround.Gameplay.Levels
 	        _cameraTargetsVertical = cameraTargetsVertical;
 	        _cameraTargetsHorizontal = cameraTargetsHorizontal;
 	    }
-	#endif
+#endif
 	}
 }

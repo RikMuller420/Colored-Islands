@@ -12,17 +12,17 @@ namespace SlimeGround.Gameplay.Boosts
 	    public BoostAmountProvider(PlayerDataProvider playerData)
 	    {
 	        _playerData = playerData;
-	        _playerData.BoostsAmountChanged += OnBoostsAmountInSavedProgressChanged;
+	        _playerData.Resources.BoostsAmountChanged += OnBoostsAmountInSavedProgressChanged;
 	    }
 
 		public event Action<BoostType> BoostsAmountChanged;
 		public event Action<BoostType> BoostApplyed;
 
-		public int BoostAmount(BoostType boostType) => _playerData.GetBoostAmount(boostType);
+		public int BoostAmount(BoostType boostType) => _playerData.Resources.GetBoostAmount(boostType);
 
 		public void Dispose()
 		{
-			_playerData.BoostsAmountChanged -= OnBoostsAmountInSavedProgressChanged;
+			_playerData.Resources.BoostsAmountChanged -= OnBoostsAmountInSavedProgressChanged;
 		}
 
 		public void SpendBoost(BoostType boostType)
@@ -35,7 +35,7 @@ namespace SlimeGround.Gameplay.Boosts
 	        }
 
 	        boostAmount--;
-	        _playerData.SetBoostAmount(boostType, boostAmount);
+	        _playerData.Resources.SetBoostAmount(boostType, boostAmount);
 	        _playerData.Save();
 	        BoostApplyed?.Invoke(boostType);
 	    }
@@ -44,7 +44,7 @@ namespace SlimeGround.Gameplay.Boosts
 	    {
 	        int boostAmount = BoostAmount(boostType);
 	        boostAmount++;
-	        _playerData.SetBoostAmount(boostType, boostAmount);
+	        _playerData.Resources.SetBoostAmount(boostType, boostAmount);
 	        _playerData.Save();
 	    }
 
@@ -57,7 +57,7 @@ namespace SlimeGround.Gameplay.Boosts
 	        {
 	            int boostAmount = BoostAmount(boostType);
 	            boostAmount += amount;
-	            _playerData.SetBoostAmount(boostType, boostAmount);
+	            _playerData.Resources.SetBoostAmount(boostType, boostAmount);
 	            _playerData.Save();
 	        }
 	    }

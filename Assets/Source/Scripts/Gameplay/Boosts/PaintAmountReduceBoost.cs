@@ -51,7 +51,7 @@ namespace SlimeGround.Gameplay.Boosts
 
 	            if (island.RequredUnitSlot == oldUnitSlot)
 	            {
-	                CustomizationPreferences preference = _playerData.GetCustomizationPreference(newUnitSlot);
+	                CustomizationPreferences preference = _playerData.Customization.GetCustomizationPreference(newUnitSlot);
 	                island.SetRequredUnitSlot(newUnitSlot, preference.ColorSample);
 	            }
 

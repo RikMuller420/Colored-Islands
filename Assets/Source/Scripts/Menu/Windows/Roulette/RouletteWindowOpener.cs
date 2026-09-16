@@ -28,13 +28,13 @@ namespace SlimeGround.Menu.Windows.Roulette
 	    public void Initialize(IPlayerData playerData)
 	    {
 	        _playerData = playerData;
-	        _playerData.SpinCountChanged += UpdateButtonAviability;
+	        _playerData.Resources.SpinCountChanged += UpdateButtonAviability;
 	        UpdateButtonAviability();
 	    }
 
 	    private void UpdateButtonAviability()
 	    {
-	        bool isAvailable = _playerData.AviableSpinCount > 0;
+	        bool isAvailable = _playerData.Resources.AviableSpinCount > 0;
 
 	        if (isAvailable == _isAvailable)
 	        {

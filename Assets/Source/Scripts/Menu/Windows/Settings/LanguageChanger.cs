@@ -26,11 +26,11 @@ namespace SlimeGround.Menu.Windows.Settings
 	        _languages = _localizationSettings.Languages.Select(language => language.Name).ToList().AsReadOnly();
 	        int languageIndex = 0;
 
-	        if (_playerData.IsLanguageSaved)
+	        if (_playerData.Settings.IsLanguageSaved)
 	        {
 	            languageIndex = _localizationSettings.Languages
 	                                            .Select((language, index) => new { language.Language, Index = index })
-	                                            .Where(language => language.Language == _playerData.Language)
+	                                            .Where(language => language.Language == _playerData.Settings.Language)
 	                                            .Select(language => language.Index)
 	                                            .FirstOrDefault();
 	        }
@@ -41,7 +41,7 @@ namespace SlimeGround.Menu.Windows.Settings
 	                                            .Where(language => language.Key == localizationProvider.GetLanguageKey())
 	                                            .Select(language => language.Index)
 	                                            .FirstOrDefault();
-	            _playerData.SetLanguage(_localizationSettings.Languages[languageIndex].Language);
+	            _playerData.Settings.SetLanguage(_localizationSettings.Languages[languageIndex].Language);
 	            _playerData.Save();
 	        }
 
@@ -75,7 +75,7 @@ namespace SlimeGround.Menu.Windows.Settings
 	    {
 	        Language language = _localizationSettings.Languages[value].Language;
 	        LeanLocalization.SetCurrentLanguageAll(language.ToString());
-	        _playerData.SetLanguage(language);
+	        _playerData.Settings.SetLanguage(language);
 	        _playerData.Save();
 	    }
 	}

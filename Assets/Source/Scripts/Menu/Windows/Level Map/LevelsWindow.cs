@@ -36,7 +36,7 @@ namespace SlimeGround.Menu.Windows.LevelMap
 
 	        base.Open();
 
-	        int tabIndex = (_playerData.LastAvailableLevelId - 1) / _levelPerTab;
+	        int tabIndex = (_playerData.Progress.LastAvailableLevelId - 1) / _levelPerTab;
 
 	        if (tabIndex < 0)
 	        {

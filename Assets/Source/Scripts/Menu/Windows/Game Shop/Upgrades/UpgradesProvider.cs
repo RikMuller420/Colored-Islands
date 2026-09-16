@@ -18,7 +18,7 @@ namespace SlimeGround.Menu.Windows.GameShop.Upgrades
 
 		public event Action<UpgradeType> Upgraded;
 
-		public int UpgradeStage(UpgradeType upgradeType) => _playerData.GetUpgradeStage(upgradeType);
+		public int UpgradeStage(UpgradeType upgradeType) => _playerData.Resources.GetUpgradeStage(upgradeType);
 
 	    public int CalculateUpgradedGoldAmount(int baseGold) =>
 	                (int)(baseGold * UpgradeStageValue(UpgradeType.IncreaseRewards));
@@ -27,14 +27,14 @@ namespace SlimeGround.Menu.Windows.GameShop.Upgrades
 	    {
 	        int upgradeStage = UpgradeStage(upgradeType);
 	        upgradeStage++;
-	        _playerData.SetUpgradeStage(upgradeType, upgradeStage);
+	        _playerData.Resources.SetUpgradeStage(upgradeType, upgradeStage);
 	        _playerData.Save();
 	        Upgraded?.Invoke(upgradeType);
 	    }
 
 	    public float UpgradeStageValue(UpgradeType upgradeType)
 	    {
-	        int upgradeStage = _playerData.GetUpgradeStage(upgradeType);
+	        int upgradeStage = _playerData.Resources.GetUpgradeStage(upgradeType);
 	        UpgradeSettingsData upgrade = _upgradeSettings.Upgrades.FirstOrDefault(upgrade => upgrade.Type == upgradeType);
 
 	        return (upgradeStage == 0) ?

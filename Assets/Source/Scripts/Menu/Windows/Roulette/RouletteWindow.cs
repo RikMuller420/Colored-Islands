@@ -44,7 +44,7 @@ namespace SlimeGround.Menu.Windows.Roulette
 
 	    private void OnRewardReciewed()
 	    {
-	        if (_playerData.AviableSpinCount == 0)
+	        if (_playerData.Resources.AviableSpinCount == 0)
 	        {
 	            Close();
 	        }

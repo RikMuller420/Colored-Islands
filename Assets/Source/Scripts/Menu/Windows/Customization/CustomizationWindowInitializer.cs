@@ -83,8 +83,8 @@ namespace SlimeGround.Menu.Windows.Customization
 	        foreach (UnitHatData hatData in _unitsHatSettings.Hats)
 	        {
 	            HatSelectButton hatButton = Instantiate(_hatPrefab, _hatParent);
-	            bool isHatAviable = playerData.LastAvailableLevelId > hatData.RequredLevel;
-	            bool wasHatUsed = playerData.IsHatUsed(hatData.Id);
+	            bool isHatAviable = playerData.Progress.LastAvailableLevelId > hatData.RequredLevel;
+	            bool wasHatUsed = playerData.Customization.IsHatUsed(hatData.Id);
 	            hatButton.Initialize(hatData.Id, hatData.SelectSprite, hatData.RequredLevel, isHatAviable, wasHatUsed);
 	            hatSelectButtons.Add(hatButton);
 	        }
@@ -99,7 +99,7 @@ namespace SlimeGround.Menu.Windows.Customization
 	        foreach (UnitFaceData faceData in _unitsFaceSettings.Faces)
 	        {
 	            FaceSelectButton faceButton = Instantiate(_facePrefab, _facesParent);
-	            FaceAvailabilitie face = playerData.FaceAvailabilities.FirstOrDefault(face => face.FaceId == faceData.Id);
+	            FaceAvailabilitie face = playerData.Customization.FaceAvailabilities.FirstOrDefault(face => face.FaceId == faceData.Id);
 	            faceButton.Initialize(faceData.Id, faceData.Sprite, face.IsAviable, face.WasUsed);
 	            faceSelectButtons.Add(faceButton);
 	        }

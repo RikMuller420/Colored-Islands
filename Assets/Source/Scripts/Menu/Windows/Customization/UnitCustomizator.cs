@@ -35,7 +35,7 @@ namespace SlimeGround.Menu.Windows.Customization
 	        foreach (UnitSelectButton unitSelectButton in _unitSelectButtons)
 	        {
 	            unitSelectButton.ButtonClicked += ChangeCurrentPaint;
-	            CustomizationPreferences preferences = _playerData.GetCustomizationPreference(unitSelectButton.Slot);
+	            CustomizationPreferences preferences = _playerData.Customization.GetCustomizationPreference(unitSelectButton.Slot);
 	            unitSelectButton.SetColor(preferences.ColorSample);
 	        }
 
@@ -97,7 +97,7 @@ namespace SlimeGround.Menu.Windows.Customization
 	        _currentUnitButton = button;
 	        _currentUnitButton.SetSelectdStyle();
 
-	        CustomizationPreferences preferences = _playerData.GetCustomizationPreference(_currentSlot);
+	        CustomizationPreferences preferences = _playerData.Customization.GetCustomizationPreference(_currentSlot);
 	        _unitCustomizationView.SetColor(preferences.ColorSample);
 
 	        FaceSelectButton faceSelectButton = _faceSelectButtons.Find(button => button.FaceId == preferences.FaceId);
@@ -137,7 +137,7 @@ namespace SlimeGround.Menu.Windows.Customization
 	    {
 	        foreach (UnitSlotType slot in (UnitSlotType[])Enum.GetValues(typeof(UnitSlotType)))
 	        {
-	            CustomizationPreferences preferences = _playerData.GetCustomizationPreference(slot);
+	            CustomizationPreferences preferences = _playerData.Customization.GetCustomizationPreference(slot);
 
 	            if (preferences.ColorSample == colorSample)
 	            {
@@ -152,8 +152,8 @@ namespace SlimeGround.Menu.Windows.Customization
 	    {
 	        ApplyNewFace(faceButton);
 	        faceButton.DeactivateUnusedMark();
-	        _playerData.ChangeCustomizationPreferenceFace(_currentSlot, faceButton.FaceId);
-	        _playerData.MarkFaceUsed(faceButton.FaceId);
+	        _playerData.Customization.ChangeCustomizationPreferenceFace(_currentSlot, faceButton.FaceId);
+	        _playerData.Customization.MarkFaceUsed(faceButton.FaceId);
 	        _playerData.Save();
 	        FaceUsed?.Invoke();
 	    }
@@ -162,8 +162,8 @@ namespace SlimeGround.Menu.Windows.Customization
 	    {
 	        ApplyNewHat(hatButton);
 	        hatButton.DeactivateUnusedMark();
-	        _playerData.ChangeCustomizationPreferenceHat(_currentSlot, hatButton.HatId);
-	        _playerData.MarkHatUsed(hatButton.HatId);
+	        _playerData.Customization.ChangeCustomizationPreferenceHat(_currentSlot, hatButton.HatId);
+	        _playerData.Customization.MarkHatUsed(hatButton.HatId);
 	        _playerData.Save();
 	        HatUsed?.Invoke();
 	    }
@@ -171,7 +171,7 @@ namespace SlimeGround.Menu.Windows.Customization
 	    private void ChangeCurrentColor(ColorSelectButton colorButton)
 	    {
 	        ApplyNewColor(colorButton);
-	        _playerData.ChangeCustomizationPreferenceColor(_currentSlot, colorButton.ColorSample);
+	        _playerData.Customization.ChangeCustomizationPreferenceColor(_currentSlot, colorButton.ColorSample);
 	        _playerData.Save();
 	    }
 

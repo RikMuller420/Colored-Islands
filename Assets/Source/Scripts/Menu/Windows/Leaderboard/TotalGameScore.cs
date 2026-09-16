@@ -6,6 +6,6 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	{
 	    public TotalGameScore(IPlayerData playerData) : base(playerData) { }
 
-	    public override int Score => PlayerData.ScoreAmount;
+	    public override int Score => PlayerData.Progress.ScoreAmount;
 	}
 }

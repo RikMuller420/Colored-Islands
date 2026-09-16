@@ -15,25 +15,25 @@ namespace SlimeGround.Gameplay.Training
 	    {
 	        _playerData = playerData;
 
-	        _playerData.TrainingFinished += UpdateMenuAvaliability;
+	        _playerData.Progress.TrainingFinished += UpdateMenuAvaliability;
 	        UpdateMenuAvaliability();
 	    }
 
 		public void Dispose()
 		{
-			_playerData.TrainingFinished -= UpdateMenuAvaliability;
+			_playerData.Progress.TrainingFinished -= UpdateMenuAvaliability;
 		}
 
 	    private void UpdateMenuAvaliability()
 	    {
 	        foreach (GameObject panel in _trainingDummyPanels)
 	        {
-	            panel.SetActive(_playerData.IsTrainingFinished == false);
+	            panel.SetActive(_playerData.Progress.IsTrainingFinished == false);
 	        }
 
 	        foreach (GameObject panel in _unlockedPanels)
 	        {
-	            panel.SetActive(_playerData.IsTrainingFinished);
+	            panel.SetActive(_playerData.Progress.IsTrainingFinished);
 	        }
 	    }
 	}

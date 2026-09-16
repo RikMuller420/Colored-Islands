@@ -13,18 +13,18 @@ namespace SlimeGround.Menu.Windows.Roulette
 	    public void Initialize(IPlayerData playerData)
 	    {
 	        _playerData = playerData;
-	        _playerData.SpinCountChanged += UpdateViewText;
+	        _playerData.Resources.SpinCountChanged += UpdateViewText;
 	        UpdateViewText();
 	    }
 
 		public void Dispose()
 		{
-			_playerData.SpinCountChanged -= UpdateViewText;
+			_playerData.Resources.SpinCountChanged -= UpdateViewText;
 		}
 
 		private void UpdateViewText()
 	    {
-	        _text.text = _playerData.AviableSpinCount.ToString();
+	        _text.text = _playerData.Resources.AviableSpinCount.ToString();
 	    }
 	}
 }

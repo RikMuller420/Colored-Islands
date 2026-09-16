@@ -24,7 +24,7 @@ namespace SlimeGround.Gameplay.Score
 
 	    public int CalculateLevelGold(bool isAngryTaskDone, bool isMoveTaskDone)
 	    {
-	        LevelProgress savedProgress = _playerData.Levels
+	        LevelProgress savedProgress = _playerData.Progress.Levels
 	                                    .FirstOrDefault(level => level.Id == _currentLevelData.LevelId);
 	        int gold = 0;
 	        gold += savedProgress.IsDone ? _goldPerReEarnedStar : _goldPerNewStar;

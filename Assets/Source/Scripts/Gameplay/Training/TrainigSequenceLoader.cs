@@ -50,9 +50,9 @@ namespace SlimeGround.Gameplay.Training
 
 	    public void TryLoadTrainingLevel()
 	    {
-	        if (_playerData.LastAvailableLevelId <= _levelSettings.LastTrainingLevel)
+	        if (_playerData.Progress.LastAvailableLevelId <= _levelSettings.LastTrainingLevel)
 	        {
-	            _levelLoader.LoadLevel(_playerData.LastAvailableLevelId);
+	            _levelLoader.LoadLevel(_playerData.Progress.LastAvailableLevelId);
 	        }
 	    }
 

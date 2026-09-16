@@ -10,16 +10,16 @@ namespace SlimeGround.Menu
 	    public WalletProvider(PlayerDataProvider playerData)
 	    {
 	        _playerData = playerData;
-	        _playerData.GoldAmountChanged += OnGoldAmountChanged;
+	        _playerData.Resources.GoldAmountChanged += OnGoldAmountChanged;
 	    }
 
 	    public event Action<int> GoldAmountChanged;
 	    
-	    public int GoldAmount => _playerData.GoldAmount;
+	    public int GoldAmount => _playerData.Resources.GoldAmount;
 
 		public void Dispose()
 		{
-			_playerData.GoldAmountChanged -= OnGoldAmountChanged;
+			_playerData.Resources.GoldAmountChanged -= OnGoldAmountChanged;
 		}
 
 	    public void AddGold(int amount)
@@ -30,7 +30,7 @@ namespace SlimeGround.Menu
 	        }
 
 	        int newGoldAmount = GoldAmount + amount;
-	        _playerData.SetGoldAmount(newGoldAmount);
+	        _playerData.Resources.SetGoldAmount(newGoldAmount);
 	        _playerData.Save();
 	    }
 
@@ -47,7 +47,7 @@ namespace SlimeGround.Menu
 	        }
 
 	        int newGoldAmount = GoldAmount - amount;
-	        _playerData.SetGoldAmount(newGoldAmount);
+	        _playerData.Resources.SetGoldAmount(newGoldAmount);
 	        _playerData.Save();
 	    }
 

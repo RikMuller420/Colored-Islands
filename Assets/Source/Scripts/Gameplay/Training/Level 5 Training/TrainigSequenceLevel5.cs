@@ -134,7 +134,7 @@ namespace SlimeGround.Gameplay.Training
 
 	    private void OnFinalScoreShowed()
 	    {
-	        if (PlayerData.IsTrainingFinished)
+	        if (PlayerData.Progress.IsTrainingFinished)
 	        {
 	            return;
 	        }
@@ -148,9 +148,9 @@ namespace SlimeGround.Gameplay.Training
 	        AddBost(BoostType.FinishIsland);
 	        AddBost(BoostType.FreezeObjectives);
 	        AddBost(BoostType.ReducePaints);
-	        PlayerData.SetSpinCount(PlayerData.AviableSpinCount + 1);
+	        PlayerData.Resources.SetSpinCount(PlayerData.Resources.AviableSpinCount + 1);
 
-	        PlayerData.SetTrainingFinished();
+	        PlayerData.Progress.SetTrainingFinished();
 	        PlayerData.Save();
 	    }
 

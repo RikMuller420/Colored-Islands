@@ -21,24 +21,24 @@ namespace SlimeGround.Menu.Windows.LevelReward
 	        if (reward.GoldAmount > 0)
 	        {
 	            int goldReward = _upgradesProvider.CalculateUpgradedGoldAmount(reward.GoldAmount);
-	            int newGoldAmount = _playerData.GoldAmount + goldReward;
-	            _playerData.SetGoldAmount(newGoldAmount);
+	            int newGoldAmount = _playerData.Resources.GoldAmount + goldReward;
+	            _playerData.Resources.SetGoldAmount(newGoldAmount);
 	        }
 
 	        if (reward.RouletteSpinAmount > 0)
 	        {
 	            int spinCount = reward.RouletteSpinAmount * multiplier;
-	            int newSpinAmount = _playerData.AviableSpinCount + spinCount;
-	            _playerData.SetSpinCount(newSpinAmount);
+	            int newSpinAmount = _playerData.Resources.AviableSpinCount + spinCount;
+	            _playerData.Resources.SetSpinCount(newSpinAmount);
 	        }
 
 	        if (reward.BoostAmount > 0)
 	        {
-	            int boostAmount = _playerData.GetBoostAmount(reward.BoostType) + (reward.BoostAmount * multiplier);
-	            _playerData.SetBoostAmount(reward.BoostType, boostAmount);
+	            int boostAmount = _playerData.Resources.GetBoostAmount(reward.BoostType) + (reward.BoostAmount * multiplier);
+	            _playerData.Resources.SetBoostAmount(reward.BoostType, boostAmount);
 	        }
 
-	        _playerData.MarkLevelRewardReceived(reward.LevelId);
+	        _playerData.Progress.MarkLevelRewardReceived(reward.LevelId);
 	        _playerData.Save();
 	    }
 	}

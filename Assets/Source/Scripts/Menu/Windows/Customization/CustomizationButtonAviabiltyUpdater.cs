@@ -22,7 +22,7 @@ namespace SlimeGround.Menu.Windows.Customization
 	        _faceSelectButtons = faceSelectButtons;
 
 	        _levelProgressTracker.LevelFinished += UpdateHatAviability;
-	        _playerData.FaceUnlocked += UpdateFaceAviability;
+	        _playerData.Customization.FaceUnlocked += UpdateFaceAviability;
 	    }
 
 		public event Action HatButtonUnlocked;
@@ -31,7 +31,7 @@ namespace SlimeGround.Menu.Windows.Customization
 		public void Dispose()
 		{
 			_levelProgressTracker.LevelFinished -= UpdateHatAviability;
-			_playerData.FaceUnlocked -= UpdateFaceAviability;
+			_playerData.Customization.FaceUnlocked -= UpdateFaceAviability;
 		}
 
 		private void UpdateFaceAviability(int faceId)
@@ -46,11 +46,11 @@ namespace SlimeGround.Menu.Windows.Customization
 	    {
 	        foreach (HatSelectButton hatButton in _hatSelectButtons)
 	        {
-	            if (hatButton.RequredLevel < _playerData.LastAvailableLevelId)
+	            if (hatButton.RequredLevel < _playerData.Progress.LastAvailableLevelId)
 	            {
 	                hatButton.SetUnlockedStyle();
 
-	                if (_playerData.IsHatUsed(hatButton.HatId) == false)
+	                if (_playerData.Customization.IsHatUsed(hatButton.HatId) == false)
 	                {
 	                    hatButton.ActivateUnusedMark();
 	                }

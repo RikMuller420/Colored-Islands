@@ -19,13 +19,13 @@ namespace SlimeGround.Menu.Windows.InAppPurchase
 		public event Action<InAppType> ProgressChanged;
 		public event Action<string> InAppProgressFinished;
 
-		public int EarnedInAppWithAddProgress(InAppType inAppType) => _playerData.GetEarnedInAppWithAddProgress(inAppType);
+		public int EarnedInAppWithAddProgress(InAppType inAppType) => _playerData.Resources.GetEarnedInAppWithAddProgress(inAppType);
 
 	    public void AddUpgradeStage(InAppType inAppType)
 	    {
 	        int upgradeStage = EarnedInAppWithAddProgress(inAppType);
 	        upgradeStage++;
-	        _playerData.SetEarnInAppWithAddProgress(inAppType, upgradeStage);
+	        _playerData.Resources.SetEarnInAppWithAddProgress(inAppType, upgradeStage);
 	        _playerData.Save();
 	        ProgressChanged?.Invoke(inAppType);
 

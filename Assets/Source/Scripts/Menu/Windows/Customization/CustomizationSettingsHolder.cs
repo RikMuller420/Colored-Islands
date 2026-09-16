@@ -42,13 +42,13 @@ namespace SlimeGround.Menu.Windows.Customization
 	            _customizationSettings.Add(CreateSettings(slot));
 	        }
 
-	        _playerData.CustomizationPreferenceChanged += OnCustomizationPreferenceChanged;
-			_playerData.ShadowActiveStatusChanged += SetShadowCastingMode;
+	        _playerData.Customization.CustomizationPreferenceChanged += OnCustomizationPreferenceChanged;
+			_playerData.Settings.ShadowActiveStatusChanged += SetShadowCastingMode;
 		}
 
 		public void Dispose()
 		{
-			_playerData.CustomizationPreferenceChanged -= OnCustomizationPreferenceChanged;
+			_playerData.Customization.CustomizationPreferenceChanged -= OnCustomizationPreferenceChanged;
 		}
 
 		public UnitCustomizationSettings GetCustomizationSettings(UnitSlotType slot)
@@ -61,8 +61,8 @@ namespace SlimeGround.Menu.Windows.Customization
 			Integration.DeviceInfo.DeviceType deviceType = _deviceInfoProvider.GetDeviceType();
 
 			bool isShadowActive = deviceType == Integration.DeviceInfo.DeviceType.Mobile ?
-									_playerData.IsShadowActiveOnMobile :
-									_playerData.IsShadowActiveOnDesktop;
+									_playerData.Settings.IsShadowActiveOnMobile :
+									_playerData.Settings.IsShadowActiveOnDesktop;
 
 			ShadowCastingMode = isShadowActive ? ShadowCastingMode.On : ShadowCastingMode.Off;
 		}
@@ -75,7 +75,7 @@ namespace SlimeGround.Menu.Windows.Customization
 
 	    private UnitCustomizationSettings CreateSettings(UnitSlotType slot)
 	    {
-	        CustomizationPreferences preference = _playerData.GetCustomizationPreference(slot);
+	        CustomizationPreferences preference = _playerData.Customization.GetCustomizationPreference(slot);
 	        int faceId = preference.FaceId;
 	        int hatId = preference.HatId;
 	        ColorSample colorSample = preference.ColorSample;

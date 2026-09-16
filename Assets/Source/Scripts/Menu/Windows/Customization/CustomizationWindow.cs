@@ -21,9 +21,9 @@ namespace SlimeGround.Menu.Windows.Customization
 
 	        base.Open();
 
-			if (_dataProvider.IsCustomizationWindowWasOpened == false)
+			if (_dataProvider.Progress.IsCustomizationWindowWasOpened == false)
 			{
-				_dataProvider.SetCustomizationWindowWasOpened();
+				_dataProvider.Progress.SetCustomizationWindowWasOpened();
 				_dataProvider.Save();
 			}
 

@@ -108,7 +108,7 @@ namespace SlimeGround.Menu.Windows.Roulette
 	    {
 	        _wheel.localRotation = _whellStartLocalRotation;
 
-	        bool isRemoveAdsSlotAviable = _playerData.IsAdsRemoved == false;
+	        bool isRemoveAdsSlotAviable = _playerData.Resources.IsAdsRemoved == false;
 	        List<int> faceIds = AviableFaceIds();
 	        List<Slot> unusedSlots = new List<Slot>(_slots);
 
@@ -137,7 +137,7 @@ namespace SlimeGround.Menu.Windows.Roulette
 
 	    private List<int> AviableFaceIds()
 	    {
-	        List<int> lockedFaceIds = _playerData.FaceAvailabilities
+	        List<int> lockedFaceIds = _playerData.Customization.FaceAvailabilities
 	                                                .Where(face => !face.IsAviable)
 	                                                .Select(face => face.FaceId)
 	                                                .ToList();

@@ -33,22 +33,22 @@ namespace SlimeGround.Data.Saves
 
 		private void UpdateSavedProgress(ILevelData levelData)
 	    {
-	        LevelProgress savedLevel = _playerData.Levels
+	        LevelProgress savedLevel = _playerData.Progress.Levels
 	                                .FirstOrDefault(level => level.Id == levelData.LevelId);
 
 	        bool isAngryTaskDone = _progressTracker.IsAngryTaskDone || savedLevel.IsAngryStarEarned;
 	        bool isMoveTaskDone = _progressTracker.IsMoveTaskDone || savedLevel.IsMovesStarEarned;
 
-	        int newGoldAmount = _playerData.GoldAmount + _progressTracker.ReachedGold;
-	        int newScoreAmount = _playerData.ScoreAmount + _progressTracker.ReachedScore;
+	        int newGoldAmount = _playerData.Resources.GoldAmount + _progressTracker.ReachedGold;
+	        int newScoreAmount = _playerData.Progress.ScoreAmount + _progressTracker.ReachedScore;
 	        bool isNewTopScore = _progressTracker.ReachedScore > savedLevel.BestScore;
 	        int levelScore = isNewTopScore ? _progressTracker.ReachedScore : savedLevel.BestScore;
 	        LevelProgress updatedProgress = new LevelProgress(savedLevel.Id, true,
 	                                                          isMoveTaskDone, isAngryTaskDone, levelScore);
 
-	        _playerData.SetGoldAmount(newGoldAmount);
-	        _playerData.SetScoreAmount(newScoreAmount);
-	        _playerData.UpdateLevelProgress(updatedProgress);
+	        _playerData.Resources.SetGoldAmount(newGoldAmount);
+	        _playerData.Progress.SetScoreAmount(newScoreAmount);
+	        _playerData.Progress.UpdateLevelProgress(updatedProgress);
 	        _playerData.Save();
 
 	        int totalScore = _playerScoreCalculator.GetScore(LeaderboardType.TotalGameScore);
