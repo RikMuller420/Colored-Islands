@@ -8,11 +8,7 @@ namespace SlimeGround.Gameplay.AngryBar
 {
 	public class AngryTracker
 	{
-	    private ILevelData _currentLevelData;
-	    private AngryTrackerBalancer _balancer;
-	    private IUpgradesData _upgradesData;
-
-	    private float _angryValue = 0f;
+		private float _angryValue = 0f;
 
 	    private float _angryLimit = 1000f;
 	    private float _angryByIslandFinish = 6f;
@@ -30,6 +26,10 @@ namespace SlimeGround.Gameplay.AngryBar
 
 	        _upgradesData.Upgraded += UpdateUpgradeMultiplier;
 	    }
+
+		private ILevelData _currentLevelData { get; }
+		private AngryTrackerBalancer _balancer { get; }
+		private IUpgradesData _upgradesData { get; }
 
 		public float AngryValue => _angryValue / _angryLimit;
 

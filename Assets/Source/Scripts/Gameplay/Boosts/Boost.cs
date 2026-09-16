@@ -6,12 +6,12 @@ namespace SlimeGround.Gameplay.Boosts
 	[Serializable]
 	public abstract class Boost 
 	{
-	    private BoostAmountProvider _boostAmountProvider;
-
-	    public Boost(BoostAmountProvider boostAmountProvider)
+		public Boost(BoostAmountProvider boostAmountProvider)
 	    {
 	        _boostAmountProvider = boostAmountProvider;
 	    }
+
+	    private BoostAmountProvider _boostAmountProvider { get; }
 
 		public event Action<Boost> BoostApplyed;
 

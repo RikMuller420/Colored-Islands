@@ -13,12 +13,7 @@ namespace SlimeGround.Menu.Ads
 	    private int _currentLoadsWithoutAd = 0;
 	    private DateTime _lastAdTime;
 
-	    private LevelChangeEventTracker _levelChangeEventTracker;
-	    private RemoveAdsProvider _removeAdsProvider;
-	    private InterstitialAdProvider _interAdProvider;
-	    private RewardedAdProvider _rewardedAdProvider;
-
-	    public InterstitialAdOpener(LevelChangeEventTracker levelChangeEventTracker, RemoveAdsProvider removeAdsProvider,
+		public InterstitialAdOpener(LevelChangeEventTracker levelChangeEventTracker, RemoveAdsProvider removeAdsProvider,
 	                              InterstitialAdProvider interAdProvider, RewardedAdProvider rewardedAdProvider)
 	    {
 	        _levelChangeEventTracker = levelChangeEventTracker;
@@ -30,6 +25,11 @@ namespace SlimeGround.Menu.Ads
 	        _interAdProvider.AdShowed += OnInterAdOpened;
 	        _rewardedAdProvider.RewardedAdClosed += ResetAdTimer;
 	    }
+
+		private LevelChangeEventTracker _levelChangeEventTracker { get; }
+		private RemoveAdsProvider _removeAdsProvider { get; }
+		private InterstitialAdProvider _interAdProvider { get; }
+		private RewardedAdProvider _rewardedAdProvider { get; }
 
 		public void Dispose()
 		{

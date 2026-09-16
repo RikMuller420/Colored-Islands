@@ -25,7 +25,7 @@ namespace SlimeGround.Gameplay.Levels
 
 	    [SerializeField] private UnitsPool _unitsPool;
 	    [SerializeField] private UIZoneSwitcher _uiZoneActivator;
-	    [SerializeField] private BuferIslandsHolder _buferIslands;
+	    [SerializeField] private BuferIslands _buferIslands;
 	    [SerializeField] private LeanToken _currentLevelNumberToken;
 	    [SerializeField] private Transform _unitsLookAtPoint;
 	    [SerializeField] private GameObject _mainMenuIslands;

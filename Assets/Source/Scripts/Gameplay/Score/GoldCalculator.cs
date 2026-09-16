@@ -10,11 +10,7 @@ namespace SlimeGround.Gameplay.Score
 	    private int _goldPerNewStar = 50;
 	    private int _goldPerReEarnedStar = 5;
 
-	    private IPlayerData _playerData;
-	    private IUpgradesData _upgradesData;
-	    private ILevelData _currentLevelData;
-
-	    public GoldCalculator(IPlayerData playerData, IUpgradesData upgradesData,
+		public GoldCalculator(IPlayerData playerData, IUpgradesData upgradesData,
 	                          ILevelData currentLevelData)
 	    {
 	        _playerData = playerData;
@@ -22,7 +18,11 @@ namespace SlimeGround.Gameplay.Score
 	        _currentLevelData = currentLevelData;
 	    }
 
-	    public int CalculateLevelGold(bool isAngryTaskDone, bool isMoveTaskDone)
+		private IPlayerData _playerData { get; }
+		private IUpgradesData _upgradesData { get; }
+		private ILevelData _currentLevelData { get; }
+
+		public int CalculateLevelGold(bool isAngryTaskDone, bool isMoveTaskDone)
 	    {
 	        LevelProgress savedProgress = _playerData.Progress.Levels
 	                                    .FirstOrDefault(level => level.Id == _currentLevelData.LevelId);

@@ -9,6 +9,7 @@ namespace SlimeGround.Effects
 		[SerializeField] private RenderTexture _cookie;
 
 		[SerializeField] private LevelChangeEventTracker _levelChangeEventTracker;
+
 		private void OnEnable()
 		{
 			_levelChangeEventTracker.LevelChanged += UpdateCameraPosition;

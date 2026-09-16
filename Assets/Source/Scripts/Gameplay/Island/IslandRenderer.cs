@@ -7,16 +7,16 @@ namespace SlimeGround.Gameplay.Islands
 {
 	public class IslandRenderer
 	{
-	    private ColorSampleMaterials _paintMaterials;
-	    private MeshRenderer _renderer;
-
-	    public IslandRenderer(MeshRenderer renderer, ColorSampleMaterials paintMaterials)
+		public IslandRenderer(MeshRenderer renderer, ColorSampleMaterials paintMaterials)
 	    {
 	        _renderer = renderer;
 	        _paintMaterials = paintMaterials;
 	    }
 
-	    public void SetPaint(ColorSample colorSample, IReadOnlyCollection<SpriteRenderer> points)
+		private ColorSampleMaterials _paintMaterials { get; }
+		private MeshRenderer _renderer { get; }
+
+		public void SetPaint(ColorSample colorSample, IReadOnlyCollection<SpriteRenderer> points)
 	    {
 	        foreach (ColorSampleMaterialData materials in _paintMaterials.Materials)
 	        {

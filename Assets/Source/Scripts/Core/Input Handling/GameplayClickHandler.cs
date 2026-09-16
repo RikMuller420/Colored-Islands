@@ -9,16 +9,16 @@ namespace SlimeGround.Core.InputHandling
 	{
 		private Unit _selectedUnit;
 
-		private UnitMover _unitMover;
-	    private UnitHighlighter _unitHighlighter;
+		public event Action UnitsSelected;
 
-	    public GameplayClickHandler(UnitMover unitMover, LayerMask layerMask) : base(layerMask)
+		public GameplayClickHandler(UnitMover unitMover, LayerMask layerMask) : base(layerMask)
 	    {
 	        _unitMover = unitMover;
 	        _unitHighlighter = new UnitHighlighter();
 	    }
 
-		public event Action UnitsSelected;
+		private UnitMover _unitMover { get; }
+		private UnitHighlighter _unitHighlighter { get; }
 
 	    public override void HandleClick(RaycastHit hit)
 	    {

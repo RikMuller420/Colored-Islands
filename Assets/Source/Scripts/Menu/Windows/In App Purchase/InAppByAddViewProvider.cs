@@ -7,14 +7,14 @@ namespace SlimeGround.Menu.Windows.InAppPurchase
 {
 	public class InAppByAddViewProvider
 	{
-	    private PlayerDataProvider _playerData;
-	    private InAppSettings _inAppSettings;
-
-	    public InAppByAddViewProvider(PlayerDataProvider playerData, InAppSettings inAppSettings)
+		public InAppByAddViewProvider(PlayerDataProvider playerData, InAppSettings inAppSettings)
 	    {
 	        _playerData = playerData;
 	        _inAppSettings = inAppSettings;
 	    }
+
+		private PlayerDataProvider _playerData { get; }
+		private InAppSettings _inAppSettings { get; }
 
 		public event Action<InAppType> ProgressChanged;
 		public event Action<string> InAppProgressFinished;

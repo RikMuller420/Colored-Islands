@@ -7,16 +7,16 @@ namespace SlimeGround.Gameplay.Boosts
 	{
 	    private const int ExtraSize = 2;
 
-	    private BuferIslandsHolder _buferIslandsHolder;
-
-	    public BufferIslandBoost(BuferIslandsHolder buferIslandsHolder,
+		public BufferIslandBoost(BuferIslands buferIslandsHolder,
 	                             BoostAmountProvider boostAmountProvider)
 								 : base(boostAmountProvider)
 	    {
 	        _buferIslandsHolder = buferIslandsHolder;
 	    }
 
-	    public override BoostType Type => BoostType.GrowBuferIsland;
+		private BuferIslands _buferIslandsHolder { get; }
+
+		public override BoostType Type => BoostType.GrowBuferIsland;
 
 	    public override void TryApplyBoost()
 	    {

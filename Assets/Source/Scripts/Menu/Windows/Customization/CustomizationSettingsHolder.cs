@@ -19,14 +19,6 @@ namespace SlimeGround.Menu.Windows.Customization
 
 		public ShadowCastingMode ShadowCastingMode { get; private set; }
 
-		private ColorSampleMaterials _paintMaterials;
-	    private IPlayerData _playerData;
-	    private UnitsFaceSettings _faceSettings;
-	    private UnitsHatSettings _hatSettings;
-
-		private DeviceInfoProvider _deviceInfoProvider = new DeviceInfoProvider();
-		private List<UnitCustomizationSettings> _customizationSettings = new();
-
 	    public CustomizationSettingsHolder(ColorSampleMaterials paintMaterials, IPlayerData playerData,
 	                                       UnitsFaceSettings faceSettings, UnitsHatSettings hatSettings)
 	    {
@@ -45,6 +37,13 @@ namespace SlimeGround.Menu.Windows.Customization
 	        _playerData.Customization.CustomizationPreferenceChanged += OnCustomizationPreferenceChanged;
 			_playerData.Settings.ShadowActiveStatusChanged += SetShadowCastingMode;
 		}
+
+		private ColorSampleMaterials _paintMaterials { get; }
+		private IPlayerData _playerData { get; }
+		private UnitsFaceSettings _faceSettings { get; }
+		private UnitsHatSettings _hatSettings { get; }
+		private DeviceInfoProvider _deviceInfoProvider { get; } = new();
+		private List<UnitCustomizationSettings> _customizationSettings { get; } = new();
 
 		public void Dispose()
 		{

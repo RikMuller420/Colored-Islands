@@ -53,7 +53,7 @@ namespace SlimeGround.Menu.LevelNavigation
 
 	    private void UpdateButtonAviability()
 	    {
-	        _isLevelAviable = _levelId <= _playerData.Progress.LastAvailableLevelId;
+	        _isLevelAviable = _levelId <= _playerData.Progress.GetLastAvailableLevelId();
 	        _starsHolder.SetActive(_isLevelAviable);
 	        _button.interactable = _isLevelAviable;
 	        _lockIcon.SetActive(!_isLevelAviable);

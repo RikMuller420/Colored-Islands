@@ -19,15 +19,15 @@ namespace SlimeGround.Gameplay.AngryBar
 	    private float _freezeImageMaxAlpha = 0.7f;
 	    private float _freezeImageFadeDuration = 1f;
 	    private BoostAmountProvider _boostAmountProvider;
-	    private IBoostStopApplyedEvent _freezeBoostApplyed;
+	    private IBoostStopApplyedEvent _angryBarBoostApplyed;
 
-	    public void Initialize(BoostAmountProvider boostAmountProvider, IBoostStopApplyedEvent freezeBoostApplyed)
+	    public void Initialize(BoostAmountProvider boostAmountProvider, IBoostStopApplyedEvent angryBarBoostApplyed)
 	    {
 	        _boostAmountProvider = boostAmountProvider;
-	        _freezeBoostApplyed = freezeBoostApplyed;
+	        _angryBarBoostApplyed = angryBarBoostApplyed;
 
 	        _boostAmountProvider.BoostApplyed += OnBoostApplyed;
-	        _freezeBoostApplyed.StopApplyed += OnFreezeBoostStoppedApplyed;
+	        _angryBarBoostApplyed.StopApplyed += OnAngryBarBoostStoppedApplyed;
 	        _levelProgressTracker.AngryChanged += OnAngyValueChanged;
 	        _levelProgressTracker.LevelFinished += OnLevelFinished;
 	        _levelProgressTracker.AngryTaskFailed += OnAngryTaskFailed;
@@ -39,7 +39,7 @@ namespace SlimeGround.Gameplay.AngryBar
 		public void Dispose()
 		{
 			_boostAmountProvider.BoostApplyed -= OnBoostApplyed;
-			_freezeBoostApplyed.StopApplyed -= OnFreezeBoostStoppedApplyed;
+			_angryBarBoostApplyed.StopApplyed -= OnAngryBarBoostStoppedApplyed;
 			_levelProgressTracker.AngryChanged -= OnAngyValueChanged;
 			_levelProgressTracker.LevelFinished -= OnLevelFinished;
 			_levelProgressTracker.AngryTaskFailed -= OnAngryTaskFailed;
@@ -85,7 +85,7 @@ namespace SlimeGround.Gameplay.AngryBar
 	        }
 	    }
 
-	    private void OnFreezeBoostStoppedApplyed()
+	    private void OnAngryBarBoostStoppedApplyed()
 	    {
 	        _emojiAnimator.StopFreezeBoostAnimation();
 	        _freezeImage.DOFade(0, _freezeImageFadeDuration);

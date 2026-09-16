@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace SlimeGround.Gameplay.Islands
 {
-	public class BuferIslandsHolder : MonoBehaviour
+	public class BuferIslands : MonoBehaviour
 	{
 	    [SerializeField] private LevelSettings _levelSettings;
 

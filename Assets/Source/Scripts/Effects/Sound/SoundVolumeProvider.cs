@@ -11,10 +11,9 @@ namespace SlimeGround.Effects.Sound
 	{
 		private const float MaxVolume = 0.3f;
 
-	    private AudioMixers _mixers;
-	    private PlayerDataProvider _playerData;
+		public event Action<AudioGroup> SoundEnabledChanged;
 
-	    public SoundVolumeProvider(AudioMixers mixers, PlayerDataProvider playerData)
+		public SoundVolumeProvider(AudioMixers mixers, PlayerDataProvider playerData)
 	    {
 	        _mixers = mixers;
 	        _playerData = playerData;
@@ -27,7 +26,8 @@ namespace SlimeGround.Effects.Sound
 	        }
 	    }
 
-		public event Action<AudioGroup> SoundEnabledChanged;
+		private AudioMixers _mixers { get; }
+		private PlayerDataProvider _playerData { get; }
 
 		public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _playerData.Settings.GetIsSoundOnStatus(audioGroup);
 

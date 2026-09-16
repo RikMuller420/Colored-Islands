@@ -1,6 +1,5 @@
 using System.Collections;
 using Cinemachine;
-using SlimeGround.Data.ScriptableObjects.Levels;
 using SlimeGround.Gameplay.Islands;
 using SlimeGround.Gameplay.Levels;
 using SlimeGround.Menu.OrientationChanger;
@@ -11,7 +10,7 @@ namespace SlimeGround.Core.CameraSystem
 	public class CameraPositionChanger : MonoBehaviour
 	{
 	    [SerializeField] private LevelChangeEventTracker _levelChangeEventTracker;
-	    [SerializeField] private BuferIslandsHolder _buferIslands;
+	    [SerializeField] private BuferIslands _buferIslands;
 	    [SerializeField] private UIOrientationChanger _uIOrientationChanger;
 	    [SerializeField] private ScreenSizeChangeTracker _screenSizeChangeTracker;
 

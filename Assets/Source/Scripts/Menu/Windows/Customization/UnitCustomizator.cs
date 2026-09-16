@@ -7,14 +7,7 @@ namespace SlimeGround.Menu.Windows.Customization
 {
 	public class UnitCustomizator
 	{
-	    private List<UnitSelectButton> _unitSelectButtons;
-	    private List<HatSelectButton> _hatSelectButtons;
-	    private List<FaceSelectButton> _faceSelectButtons;
-	    private List<ColorSelectButton> _colorSelectButtons;
-	    private UnitCustomizationView _unitCustomizationView;
-	    private PlayerDataProvider _playerData;
-
-	    private UnitSelectButton _currentUnitButton;
+		private UnitSelectButton _currentUnitButton;
 	    private FaceSelectButton _currentFaceButton;
 	    private HatSelectButton _currentHatButton;
 	    private ColorSelectButton _currentColorButton;
@@ -56,6 +49,13 @@ namespace SlimeGround.Menu.Windows.Customization
 
 	        ChangeCurrentPaint(_unitSelectButtons[0]);
 	    }
+
+		private List<UnitSelectButton> _unitSelectButtons { get; }
+		private List<HatSelectButton> _hatSelectButtons { get; }
+		private List<FaceSelectButton> _faceSelectButtons { get; }
+		private List<ColorSelectButton> _colorSelectButtons { get; }
+		private UnitCustomizationView _unitCustomizationView { get; }
+		private PlayerDataProvider _playerData { get; }
 
 		public event Action FaceUsed;
 		public event Action HatUsed;

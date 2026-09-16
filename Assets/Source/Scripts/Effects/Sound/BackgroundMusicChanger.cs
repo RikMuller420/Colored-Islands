@@ -9,7 +9,6 @@ namespace SlimeGround.Effects.Sound
 	public class BackgroundMusicChanger : MonoBehaviour
 	{
 	    [SerializeField] private LevelSettings _levelSettings;
-
 	    [SerializeField] private AudioSource _menuMusic;
 	    [SerializeField] private AudioSource _gameplayMusic;
 

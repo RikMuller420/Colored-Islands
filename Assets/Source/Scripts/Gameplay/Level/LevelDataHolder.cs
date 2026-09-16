@@ -10,15 +10,16 @@ namespace SlimeGround.Gameplay.Levels
 	public class LevelDataHolder : ILevelData
 	{
 		private LevelSettingsData _currentLevel;
-		private LevelSettingsData _menuLevel;
 
 		public LevelDataHolder(LevelSettingsData menuLevel)
 		{
 			_menuLevel = menuLevel;
 			SetLevelData(null, menuLevel);
 		}
-
+		
 		public Level Level { get; private set; }
+
+		private LevelSettingsData _menuLevel { get; }
 
 	    public Transform IslandsParent => Level?.transform;
 	    public IEnumerable<Island> Islands => Level?.Islands;

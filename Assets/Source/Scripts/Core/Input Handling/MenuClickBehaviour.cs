@@ -6,15 +6,15 @@ namespace SlimeGround.Core.InputHandling
 {
 	public class MenuClickBehaviour : ClickBehaviour
 	{
-		private ParticlePool _splashPool;
-		private ParticlePool _leavesHitPool;
-
 		public MenuClickBehaviour(ParticlePool splashPool, ParticlePool leavesHitPool,
 								  LayerMask layerMask) : base(layerMask)
 		{
 			_splashPool = splashPool;
 			_leavesHitPool = leavesHitPool;
 		}
+
+		private ParticlePool _splashPool { get; }
+		private ParticlePool _leavesHitPool { get; }
 
 		public override void HandleClick(RaycastHit hit)
 		{

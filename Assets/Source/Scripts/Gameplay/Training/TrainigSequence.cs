@@ -26,7 +26,7 @@ namespace SlimeGround.Gameplay.Training
 		protected LevelLoader LevelLoader { get; private set; }
 	    protected CustomizationWindow CustomizationMenu { get; private set; }
 	    protected ILevelData CurrentLevelData { get; private set; }
-	    protected BuferIslandsHolder BuferIslandsHolder { get; private set; }
+	    protected BuferIslands BuferIslandsHolder { get; private set; }
 	    protected IUnitsSelectedEvent UnitsSelectedEvent { get; private set; }
 	    protected IUnitMovedEvent UnitMovedEvent { get; private set; }
 	    protected Camera MainCamera { get; private set; }
@@ -56,7 +56,7 @@ namespace SlimeGround.Gameplay.Training
 			Application.quitting -= OnGameClose;
 		}
 
-		public void Initialize(ILevelData currentLevelData, BuferIslandsHolder buferIslandsHolder,
+		public void Initialize(ILevelData currentLevelData, BuferIslands buferIslandsHolder,
 	                           IUnitsSelectedEvent unitsSelectedEvent, IUnitMovedEvent unitMovedEvent, Camera mainCamera,
 	                           BoostButtonActivator boostButtonActivator, LevelProgressTracker levelProgressTracker,
 	                           UIOrientationChanger uIOrientationChanger, PlayerDataProvider playerData,

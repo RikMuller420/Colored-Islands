@@ -21,7 +21,7 @@ namespace SlimeGround.Gameplay
 
 	    [SerializeField] private PlayerDataProvider _playerData;
 	    [SerializeField] private LevelProgressTracker _levelProgressTracker;
-	    [SerializeField] private BuferIslandsHolder _buferIslands;
+	    [SerializeField] private BuferIslands _buferIslands;
 
 		private GameProgressUpdater _gameProgressUpdater;
 

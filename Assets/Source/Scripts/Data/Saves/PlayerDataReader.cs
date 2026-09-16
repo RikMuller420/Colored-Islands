@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Newtonsoft.Json;
 using SlimeGround.Data.ScriptableObjects.Hats;
@@ -13,13 +14,7 @@ namespace SlimeGround.Data.Saves
 	{
 	    public const string SaveSignatureKey = "TestVersion5";
 
-	    private LevelSettings _levelSettings;
-	    private UnitsFaceSettings _unitsFaceSettings;
-	    private UnitsHatSettings _unitsHatSettings;
-	    private LevelRewardSettings _levelRewardSettings;
-	    private SaveProvider _saveProvider;
-
-	    public PlayerDataReader(LevelSettings levelSettings, UnitsFaceSettings unitsFaceSettings,
+		public PlayerDataReader(LevelSettings levelSettings, UnitsFaceSettings unitsFaceSettings,
 	                            UnitsHatSettings unitsHatSettings, LevelRewardSettings levelRewardSettings,
 	                            SaveProvider saveProvider)
 	    {
@@ -30,7 +25,13 @@ namespace SlimeGround.Data.Saves
 	        _saveProvider = saveProvider;
 	    }
 
-	    public PlayerData GetData()
+		private LevelSettings _levelSettings { get; }
+		private UnitsFaceSettings _unitsFaceSettings { get; }
+		private UnitsHatSettings _unitsHatSettings { get; }
+		private LevelRewardSettings _levelRewardSettings { get; }
+		private SaveProvider _saveProvider { get; }
+
+		public PlayerData GetData()
 	    {
 	        PlayerData playerData = LoadSavedProgress();
 
@@ -79,22 +80,22 @@ namespace SlimeGround.Data.Saves
 
 	        foreach (LevelSettingsData level in _levelSettings.Levels)
 	        {
-	            playerData.AddLevel(new LevelProgress(level.Id));
+	            AddLevel(playerData, new LevelProgress(level.Id));
 	        }
 
 	        foreach (UnitFaceData unitFace in _unitsFaceSettings.Faces)
 	        {
-	            playerData.AddFace(unitFace.Id, unitFace.IsAviableOnStart, unitFace.IsAviableOnStart);
+	            AddFace(playerData, unitFace.Id, unitFace.IsAviableOnStart, unitFace.IsAviableOnStart);
 	        }
 
 	        foreach (UnitHatData unitHat in _unitsHatSettings.Hats)
 	        {
-	            playerData.AddHat(unitHat.Id, false);
+	            AddHat(playerData, unitHat.Id, false);
 	        }
 
 	        foreach (LevelRewardData reward in _levelRewardSettings.LevelRewards)
 	        {
-	            playerData.AddLevelReward(reward.LevelId, false);
+	            AddLevelReward(playerData, reward.LevelId, false);
 	        }
 
 	        return playerData;
@@ -108,7 +109,7 @@ namespace SlimeGround.Data.Saves
 
 	            if (isLevelSaved == false)
 	            {
-	                playerData.AddLevel(new LevelProgress(actualLevel.Id));
+	                AddLevel(playerData, new LevelProgress(actualLevel.Id));
 	            }
 	        }
 	    }
@@ -121,7 +122,7 @@ namespace SlimeGround.Data.Saves
 
 	            if (savedFace == null)
 	            {
-	                playerData.AddFace(actualFace.Id, actualFace.IsAviableOnStart, actualFace.IsAviableOnStart);
+	                AddFace(playerData, actualFace.Id, actualFace.IsAviableOnStart, actualFace.IsAviableOnStart);
 	            }
 	            else
 	            {
@@ -143,7 +144,7 @@ namespace SlimeGround.Data.Saves
 
 	            if (isHatSaved == false)
 	            {
-	                playerData.AddHat(actualHat.Id, false);
+	                AddHat(playerData, actualHat.Id, false);
 	            }
 	        }
 	    }
@@ -156,7 +157,7 @@ namespace SlimeGround.Data.Saves
 
 	            if (isRewardSaved == false)
 	            {
-	                playerData.AddLevelReward(actualReward.LevelId, false);
+	                AddLevelReward(playerData, actualReward.LevelId, false);
 	            }
 	        }
 	    }
@@ -171,5 +172,30 @@ namespace SlimeGround.Data.Saves
 	            playerData.IsTrainingFinished = true;
 	        }
 	    }
+
+		private void AddFace(PlayerData playerData, int faceId, bool isAviable, bool wasUsed)
+		{
+			playerData.FaceAvailabilities.Add(new FaceAvailabilitie(faceId, isAviable, wasUsed));
+		}
+
+		private void AddLevelReward(PlayerData playerData, int levelId, bool wasReceived)
+		{
+			playerData.IsLevelRewardReceived.Add(levelId, wasReceived);
+		}
+
+		private void AddHat(PlayerData playerData, int hatId, bool wasUsed)
+		{
+			playerData.IsHatsUsed.Add(hatId, wasUsed);
+		}
+
+		private void AddLevel(PlayerData playerData, LevelProgress levelProgress)
+		{
+			if (levelProgress == null)
+			{
+				throw new ArgumentNullException(nameof(levelProgress));
+			}
+
+			playerData.Levels.Add(levelProgress);
+		}
 	}
 }

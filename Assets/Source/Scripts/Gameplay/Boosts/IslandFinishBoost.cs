@@ -7,11 +7,7 @@ namespace SlimeGround.Gameplay.Boosts
 {
 	public class IslandFinishBoost : Boost
 	{
-	    private ClickHandler _clickHandler;
-	    private IslandFinishClickBehaviour _islandFinishBehaviour;
-	    private LevelChangeEventTracker _levelChangeEventTracker;
-
-	    private bool _isBoostApplying = false;
+		private bool _isBoostApplying = false;
 
 	    public IslandFinishBoost(ClickHandler clickHandler,
 	                             IslandFinishClickBehaviour islandInstantFinisher,
@@ -25,6 +21,10 @@ namespace SlimeGround.Gameplay.Boosts
 	        _islandFinishBehaviour.IslandFinished += OnIslandFinished;
 	        _levelChangeEventTracker.LevelChanged += OnLevelChanged;
 	    }
+
+		private ClickHandler _clickHandler { get; }
+		private IslandFinishClickBehaviour _islandFinishBehaviour { get; }
+		private LevelChangeEventTracker _levelChangeEventTracker { get; }
 
 		public event Action BoostStartApplyed;
 		public event Action BoostStopApplyed;

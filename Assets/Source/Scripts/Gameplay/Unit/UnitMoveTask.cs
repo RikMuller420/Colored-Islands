@@ -6,11 +6,6 @@ namespace SlimeGround.Gameplay.Units
 {
 	public class UnitMoveTask
 	{
-	    private Tween _pathTween;
-	    private Transform _unitsLookAtTarget;
-		private IslandPoint _targetPoint;
-		private Unit _unit;
-
 		private bool _isMoveAnimationActive;
 	    private float _deactivateMoveAnimationPercent = 0.5f;
 
@@ -46,7 +41,12 @@ namespace SlimeGround.Gameplay.Units
 	        _isMoveAnimationActive = true;
 	    }
 
-	    private Vector3 CurrentPosition => _unit.transform.position;
+		private Tween _pathTween { get; }
+		private Transform _unitsLookAtTarget { get; }
+		private IslandPoint _targetPoint { get; }
+		private Unit _unit { get; }
+
+		private Vector3 CurrentPosition => _unit.transform.position;
 	    private Vector3 TargetPosition => _targetPoint.Transform.position;
 
 	    private void OnMoveUpdate()

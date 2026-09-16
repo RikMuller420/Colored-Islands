@@ -115,10 +115,10 @@ namespace SlimeGround
 
 	        _boostInitializer.Initialize(unitMover, _clickHandler, levelDataHolder,
 										 _boostAmountProvider, _walletProvider, _rewardedAdProvider,
-	                                     out IBoostStopApplyedEvent freezeBoostApplyedEvent);
+	                                     out IBoostStopApplyedEvent angryBarBoostApplyed);
 
 	        _menuInitializer.Initialize(upgradesProvider, _authorizationProvider, _rewardedAdProvider,
-										_boostAmountProvider, _walletProvider, freezeBoostApplyedEvent);
+										_boostAmountProvider, _walletProvider, angryBarBoostApplyed);
 
 	        _trainigLoader.Initilize(gameplayClickBehaviour, unitMover);
 	        _deviceStyleChangeInitializer.Initialize();

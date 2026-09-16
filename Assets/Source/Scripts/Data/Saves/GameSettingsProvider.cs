@@ -6,8 +6,6 @@ namespace SlimeGround.Data.Saves
 {
 	public class GameSettingsProvider
 	{
-		private PlayerData _playerData;
-
 		public event Action ShadowActiveStatusChanged;
 		public event Action<AudioGroup> SoundEnabledChanged;
 
@@ -15,6 +13,8 @@ namespace SlimeGround.Data.Saves
 		{
 			_playerData = playerData;
 		}
+
+		private PlayerData _playerData { get; }
 
 		public bool IsLanguageSaved => _playerData.IsLanguageSaved;
 		public Language Language => _playerData.Language;

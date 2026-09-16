@@ -18,7 +18,7 @@ namespace SlimeGround.Gameplay.Training
 	    [SerializeField] private LevelSettings _levelSettings;
 
 	    [SerializeField] private LevelLoader _levelLoader;
-	    [SerializeField] private BuferIslandsHolder _buferIslandsHolder;
+	    [SerializeField] private BuferIslands _buferIslandsHolder;
 	    [SerializeField] private Camera _mainCamera;
 	    [SerializeField] private BoostButtonActivator _boostButtonActivator;
 	    [SerializeField] private LevelProgressTracker _levelProgressTracker;
@@ -50,9 +50,11 @@ namespace SlimeGround.Gameplay.Training
 
 	    public void TryLoadTrainingLevel()
 	    {
-	        if (_playerData.Progress.LastAvailableLevelId <= _levelSettings.LastTrainingLevel)
+			int lastAvailableLevelId = _playerData.Progress.GetLastAvailableLevelId();
+
+			if (lastAvailableLevelId <= _levelSettings.LastTrainingLevel)
 	        {
-	            _levelLoader.LoadLevel(_playerData.Progress.LastAvailableLevelId);
+	            _levelLoader.LoadLevel(lastAvailableLevelId);
 	        }
 	    }
 

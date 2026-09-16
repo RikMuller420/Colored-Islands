@@ -6,11 +6,7 @@ namespace SlimeGround.Gameplay.Boosts
 {
 	public class BoostAvailabilityUpdater
 	{
-	    private LevelChangeEventTracker _levelChangeEventTracker;
-	    
-	    private Dictionary<Boost, BoostButton> _boostsButtons;
-
-	    public BoostAvailabilityUpdater(Dictionary<Boost, BoostButton> boostsButtons,
+		public BoostAvailabilityUpdater(Dictionary<Boost, BoostButton> boostsButtons,
 	                                    LevelChangeEventTracker levelChangeEventTracker)
 	    {
 	        _boostsButtons = boostsButtons;
@@ -23,6 +19,8 @@ namespace SlimeGround.Gameplay.Boosts
 	            boostButton.Key.BoostApplyed += OnBoostApplyed;
 	        }
 	    }
+		private LevelChangeEventTracker _levelChangeEventTracker { get; }
+		private Dictionary<Boost, BoostButton> _boostsButtons { get; }
 
 		public void Dispose()
 		{

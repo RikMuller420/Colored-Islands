@@ -4,15 +4,15 @@ namespace SlimeGround.Effects.Sound
 {
 	public class LevelEndSoundPlayer
 	{
-	    private LevelProgressTracker _progressTracker;
-	    private GameplaySoundPlayer _gameplaySoundPlayer;
-
-	    public LevelEndSoundPlayer(LevelProgressTracker progressTracker, GameplaySoundPlayer gameplaySoundPlayer)
+		public LevelEndSoundPlayer(LevelProgressTracker progressTracker, GameplaySoundPlayer gameplaySoundPlayer)
 	    {
 	        _progressTracker = progressTracker;
 	        _gameplaySoundPlayer = gameplaySoundPlayer;
 	        _progressTracker.LevelFinished += PlayWinSound;
 	    }
+
+		private LevelProgressTracker _progressTracker { get; }
+		private GameplaySoundPlayer _gameplaySoundPlayer { get; }
 
 		public void Dispose()
 		{

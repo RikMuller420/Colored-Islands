@@ -45,31 +45,6 @@ namespace SlimeGround.Data.Saves
 	        SetDefaultValues(unitsHatSettings.NoHatId);
 	    }
 
-	    public void AddFace(int faceId, bool isAviable, bool wasUsed)
-	    {
-	        FaceAvailabilities.Add(new FaceAvailabilitie(faceId, isAviable, wasUsed));
-	    }
-
-	    public void AddLevelReward(int levelId, bool wasReceived)
-	    {
-	        IsLevelRewardReceived.Add(levelId, wasReceived);
-	    }
-
-	    public void AddHat(int hatId, bool wasUsed)
-	    {
-	        IsHatsUsed.Add(hatId, wasUsed);
-	    }
-
-	    public void AddLevel(LevelProgress levelProgress)
-	    {
-	        if (levelProgress == null)
-	        {
-	            throw new ArgumentNullException(nameof(levelProgress));
-	        }
-
-	        Levels.Add(levelProgress);
-	    }
-
 	    private void SetDefaultValues(int noHatId = 0)
 	    {
 	        Levels = new List<LevelProgress>();

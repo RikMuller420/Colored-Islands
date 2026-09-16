@@ -4,17 +4,13 @@ using SlimeGround.Gameplay.Units;
 
 namespace SlimeGround.Gameplay.Boosts
 {
-	public class ObjectivesFreezeBoost : Boost, IBoostStopApplyedEvent
+	public class AngryBarFreezeBoost : Boost, IBoostStopApplyedEvent
 	{
-	    private LevelProgressTracker _levelProgressTracker;
-	    private LevelChangeEventTracker _levelChangeEventTracker;
-		private UnitMover _unitMover;
-
 		private int _usedMoves = 0;
 	    private int _maxMoves = 7;
 	    private bool _isBoostApplying = false;
 
-	    public ObjectivesFreezeBoost(LevelProgressTracker levelProgressTracker, UnitMover unitMover,
+	    public AngryBarFreezeBoost(LevelProgressTracker levelProgressTracker, UnitMover unitMover,
 	                                LevelChangeEventTracker levelChangeEventTracker,
 									BoostAmountProvider boostAmountProvider) : base(boostAmountProvider)       
 	    {
@@ -25,6 +21,10 @@ namespace SlimeGround.Gameplay.Boosts
 			_unitMover.UnitsMoved += OnUnitMoved;
 			_levelChangeEventTracker.LevelChanged += OnLevelChanged;
 	    }
+
+		private LevelProgressTracker _levelProgressTracker { get; }
+		private LevelChangeEventTracker _levelChangeEventTracker { get; }
+		private UnitMover _unitMover { get; }
 
 		public event Action StopApplyed;
 

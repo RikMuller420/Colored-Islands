@@ -83,7 +83,7 @@ namespace SlimeGround.Menu.Windows.Customization
 	        foreach (UnitHatData hatData in _unitsHatSettings.Hats)
 	        {
 	            HatSelectButton hatButton = Instantiate(_hatPrefab, _hatParent);
-	            bool isHatAviable = playerData.Progress.LastAvailableLevelId > hatData.RequredLevel;
+	            bool isHatAviable = playerData.Progress.GetLastAvailableLevelId() > hatData.RequredLevel;
 	            bool wasHatUsed = playerData.Customization.IsHatUsed(hatData.Id);
 	            hatButton.Initialize(hatData.Id, hatData.SelectSprite, hatData.RequredLevel, isHatAviable, wasHatUsed);
 	            hatSelectButtons.Add(hatButton);

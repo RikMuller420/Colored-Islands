@@ -9,14 +9,14 @@ namespace SlimeGround.Gameplay.Units
 {
 	public class UnitMover : IUnitMovedEvent
 	{
-	    private IslandPaintDistributor _islandSlotDistributor;
-	    private Transform _unitsLookAtTarget;
-
-	    public UnitMover(Transform unitsLookAtTarget)
+		public UnitMover(Transform unitsLookAtTarget)
 	    {
 	        _unitsLookAtTarget = unitsLookAtTarget;
 	        _islandSlotDistributor = new IslandPaintDistributor();
 	    }
+
+		private IslandPaintDistributor _islandSlotDistributor { get; }
+		private Transform _unitsLookAtTarget { get; }
 
 		public event Action<UnitsMoveInfo> UnitsMoved;
 

@@ -15,19 +15,19 @@ namespace SlimeGround.Gameplay.Boosts
 	{
 	    [SerializeField] private PlayerDataProvider _playerData;
 	    [SerializeField] private LayerMask _paintedIslands;
-	    [SerializeField] private BuferIslandsHolder _buferIslands;
+	    [SerializeField] private BuferIslands _buferIslands;
 	    [SerializeField] private LevelChangeEventTracker _levelChangeEventTracker;
 	    [SerializeField] private LevelProgressTracker _levelProgressTracker;
 
 	    [SerializeField] private BoostViewInitializer _boostViewInitializer;
 
 		private IslandFinishBoost _islandFinishBoost;
-		private ObjectivesFreezeBoost _objectivesFreezeBoost;
+		private AngryBarFreezeBoost _angryBarFreezeBoost;
 
 	    public void Initialize(UnitMover unitMover, ClickHandler clickHandler,
 	                           ILevelData currentLevelData, BoostAmountProvider boostAmountProvider,
 	                           WalletProvider walletProvider,
-	                           RewardedAdProvider rewardedAdProvider, out IBoostStopApplyedEvent freezeBoostApplyed)
+	                           RewardedAdProvider rewardedAdProvider, out IBoostStopApplyedEvent angryBarBoostApplyed)
 	    {
 	        var islandInstantFinisher = new IslandFinishClickBehaviour(currentLevelData, _buferIslands, unitMover, _paintedIslands);
 
@@ -35,8 +35,8 @@ namespace SlimeGround.Gameplay.Boosts
 	                                                      _levelChangeEventTracker, boostAmountProvider);
 	        var bufferIslandBoost = new BufferIslandBoost(_buferIslands, boostAmountProvider);
 
-			_objectivesFreezeBoost = new ObjectivesFreezeBoost(_levelProgressTracker, unitMover, _levelChangeEventTracker, boostAmountProvider);
-	        freezeBoostApplyed = _objectivesFreezeBoost;
+			_angryBarFreezeBoost = new AngryBarFreezeBoost(_levelProgressTracker, unitMover, _levelChangeEventTracker, boostAmountProvider);
+	        angryBarBoostApplyed = _angryBarFreezeBoost;
 
 	        var paintAmountReduceBoost = new PaintAmountReduceBoost(currentLevelData, _buferIslands, boostAmountProvider,
 	                                                                _playerData, unitMover);
@@ -44,7 +44,7 @@ namespace SlimeGround.Gameplay.Boosts
 	        IEnumerable<Boost> boosts = new List<Boost>()
 	        {
 	            bufferIslandBoost,
-				_objectivesFreezeBoost,
+				_angryBarFreezeBoost,
 	            paintAmountReduceBoost,
 				_islandFinishBoost
 			};
@@ -55,7 +55,7 @@ namespace SlimeGround.Gameplay.Boosts
 		public void Dispose()
 		{
 			_islandFinishBoost.Dispose();
-			_objectivesFreezeBoost.Dispose();
+			_angryBarFreezeBoost.Dispose();
 			_boostViewInitializer.Dispose();
 		}
 	}

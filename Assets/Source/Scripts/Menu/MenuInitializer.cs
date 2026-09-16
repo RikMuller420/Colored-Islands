@@ -41,7 +41,7 @@ namespace SlimeGround.Menu
 		public void Initialize(UpgradesProvider upgradesProvider, AuthorizationProvider authorizationProvider,
 	                            RewardedAdProvider rewardedAdProvider,
 	                            BoostAmountProvider boostAmountProvider, WalletProvider walletProvider,
-	                            IBoostStopApplyedEvent freezeBoostApplyedEvent)
+	                            IBoostStopApplyedEvent angryBarBoostApplyedEvent)
 	    {
 			_interstitialAdProvider = new InterstitialAdProvider();
 			_removeAdsProvider = new RemoveAdsProvider(_playerData);
@@ -49,7 +49,7 @@ namespace SlimeGround.Menu
 															 _interstitialAdProvider, rewardedAdProvider);
 
 			_customizationWindowInitializer.Initialize();
-			_angryBarView.Initialize(boostAmountProvider, freezeBoostApplyedEvent);
+			_angryBarView.Initialize(boostAmountProvider, angryBarBoostApplyedEvent);
 			_levelRewardWindow.Initialize(rewardedAdProvider, upgradesProvider);
 			_levelsWindow.Initialize(_playerData);
 			_gameShopInitializer.Initialize(upgradesProvider, rewardedAdProvider, boostAmountProvider,

@@ -5,10 +5,7 @@ namespace SlimeGround.Gameplay.AngryBar
 {
 	public class AngryTrackerBalancer
 	{
-	    private LevelProgressTracker _progressTracker;
-	    private LevelChangeEventTracker _levelChangeEventTracker;
-
-	    private float _angryValueLimit = 0.3f;
+		private float _angryValueLimit = 0.3f;
 	    private bool _isCurrentLevelFinished = false;
 
 	    private float _step = 0.2f;
@@ -27,6 +24,9 @@ namespace SlimeGround.Gameplay.AngryBar
 	        _progressTracker.LevelFinished += RecordWin;
 	        _levelChangeEventTracker.LevelStartChanging += OnLevelStartChanging;
 	    }
+
+		private LevelProgressTracker _progressTracker { get; }
+		private LevelChangeEventTracker _levelChangeEventTracker { get; }
 
 		public float Value { get; private set; } = 1f;
 

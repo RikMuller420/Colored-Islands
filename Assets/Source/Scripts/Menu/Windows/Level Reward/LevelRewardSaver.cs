@@ -7,16 +7,16 @@ namespace SlimeGround.Menu.Windows.LevelReward
 {
 	public class LevelRewardSaver
 	{
-	    private PlayerDataProvider _playerData;
-	    private UpgradesProvider _upgradesProvider;
-
-	    public LevelRewardSaver(PlayerDataProvider playerData, UpgradesProvider upgradesProvider)
+		public LevelRewardSaver(PlayerDataProvider playerData, UpgradesProvider upgradesProvider)
 	    {
 	        _playerData = playerData;
 	        _upgradesProvider = upgradesProvider;
 	    }
 
-	    public void AddReward(LevelRewardData reward, int multiplier = 1)
+		private PlayerDataProvider _playerData { get; }
+		private UpgradesProvider _upgradesProvider { get; }
+
+		public void AddReward(LevelRewardData reward, int multiplier = 1)
 	    {
 	        if (reward.GoldAmount > 0)
 	        {
