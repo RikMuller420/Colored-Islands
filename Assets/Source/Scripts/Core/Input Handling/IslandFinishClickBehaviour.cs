@@ -11,7 +11,9 @@ namespace SlimeGround.Core.InputHandling
 {
 	public class IslandFinishClickBehaviour : ClickBehaviour, IIslandFinishEvent
 	{
-		public event Action<Island> IslandFinished;
+		private readonly UnitMover _unitMover;
+		private readonly ILevelData _currentLevelData;
+		private readonly BuferIslands _buferIslands;
 
 		public IslandFinishClickBehaviour(ILevelData currentLevelData, BuferIslands buferIslands,
 	                                      UnitMover unitMover, LayerMask layerMask) : base(layerMask)
@@ -20,9 +22,8 @@ namespace SlimeGround.Core.InputHandling
 	        _unitMover = unitMover;
 	        _buferIslands = buferIslands;
 	    }
-		private UnitMover _unitMover { get; }
-		private ILevelData _currentLevelData { get; }
-		private BuferIslands _buferIslands { get; }
+
+		public event Action<Island> IslandFinished;
 
 		public override void HandleClick(RaycastHit hit)
 	    {

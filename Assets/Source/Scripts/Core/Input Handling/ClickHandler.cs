@@ -7,6 +7,12 @@ namespace SlimeGround.Core.InputHandling
 {
 	public class ClickHandler
 	{
+		private readonly Camera _camera;
+		private readonly GameplayClickHandler _gameplayClickBehaviour;
+		private readonly MenuClickBehaviour _menuClickBehaviour;
+		private readonly InputHandler _inputHandler;
+		private readonly LevelLoader _levelLoader;
+
 		private ClickBehaviour _currentClickBehaviour;
 
 		public ClickHandler(LevelLoader levelLoader, GameplayClickHandler gameplayClickBehaviour,
@@ -23,12 +29,6 @@ namespace SlimeGround.Core.InputHandling
 			_levelLoader.LevelChanged += OnLevelChanged;
 			_inputHandler.Clicked += OnClick;
 	    }
-
-		private Camera _camera { get; }
-		private GameplayClickHandler _gameplayClickBehaviour { get; }
-		private MenuClickBehaviour _menuClickBehaviour { get; }
-		private InputHandler _inputHandler { get; }
-		private LevelLoader _levelLoader { get; }
 
 		public void Dispose()
 		{

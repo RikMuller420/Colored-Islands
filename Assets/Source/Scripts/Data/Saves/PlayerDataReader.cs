@@ -12,7 +12,13 @@ namespace SlimeGround.Data.Saves
 {
 	public class PlayerDataReader
 	{
-	    public const string SaveSignatureKey = "TestVersion5";
+		private const string SaveSignatureKey = "TestVersion5";
+
+		private readonly LevelSettings _levelSettings;
+		private readonly UnitsFaceSettings _unitsFaceSettings;
+		private readonly UnitsHatSettings _unitsHatSettings;
+		private readonly LevelRewardSettings _levelRewardSettings;
+		private readonly SaveProvider _saveProvider;
 
 		public PlayerDataReader(LevelSettings levelSettings, UnitsFaceSettings unitsFaceSettings,
 	                            UnitsHatSettings unitsHatSettings, LevelRewardSettings levelRewardSettings,
@@ -24,12 +30,6 @@ namespace SlimeGround.Data.Saves
 	        _levelRewardSettings = levelRewardSettings;
 	        _saveProvider = saveProvider;
 	    }
-
-		private LevelSettings _levelSettings { get; }
-		private UnitsFaceSettings _unitsFaceSettings { get; }
-		private UnitsHatSettings _unitsHatSettings { get; }
-		private LevelRewardSettings _levelRewardSettings { get; }
-		private SaveProvider _saveProvider { get; }
 
 		public PlayerData GetData()
 	    {

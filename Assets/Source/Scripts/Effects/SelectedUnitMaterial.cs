@@ -6,12 +6,11 @@ namespace SlimeGround.Effects
 	public class SelectedUnitMaterial
 	{
 	    private const string WidthName = "_OtlWidth";
+		private const float AppearDuration = 0.3f;
+		private const float MinWidth = 0f;
+		private const float MaxWidth = 6f;
 
-	    private Tween _alphaTween;
-
-	    private float _appearDuration = 0.3f;
-	    private float _maxWidth = 6f;
-	    private float _minWidth = 0f;
+		private Tween _alphaTween;
 
 	    public SelectedUnitMaterial(Material material)
 	    {
@@ -25,13 +24,13 @@ namespace SlimeGround.Effects
 	    {
 	        _alphaTween?.Kill();
 
-	        SetWidth(_minWidth);
+	        SetWidth(MinWidth);
 
 	        _alphaTween = DOTween.To(
 	            () => Material.GetFloat(WidthName),
 	            width => { Material.SetFloat(WidthName, width); },
-	            _maxWidth,
-	            _appearDuration
+	            MaxWidth,
+	            AppearDuration
 	        )
 	        .SetEase(Ease.OutQuad);
 	    }

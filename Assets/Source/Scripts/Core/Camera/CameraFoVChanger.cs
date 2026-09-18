@@ -9,22 +9,22 @@ namespace SlimeGround.Core.CameraSystem
 {
 	public class CameraFoVChanger
 	{
-	    private Camera _mainCamera;
-	    private CinemachineVirtualCamera _virtualCamera;
+		private const float MinFOV = 20f;
+		private const float MaxFOV = 100f;
+		private const float FovChangeDuration = 1.2f;
 
-	    private float _menuVerticalCameraFoV = 60f;
-	    private float _menuHorizontalCameraFoV = 40f;
+		private const float MenuVerticalCameraFoV = 60f;
+		private const float MenuHorizontalCameraFoV = 40f;
 
-	    private float _minFOV = 20f;
-	    private float _maxFOV = 100f;
-	    private float _fovChangeDuration = 1.2f;
+		private const float VerticalOrientationPadding = 0.2f;
+		private const float HorizontalOrientationPadding = 0;
+		private const float MinCornerDistance = 0.01f;
 
-	    private float _verticalOrientationPadding = 0.2f;
-	    private float _horizontalOrientationPadding = 0;
+		private readonly Camera _mainCamera;
+		private readonly CinemachineVirtualCamera _virtualCamera;
+		private readonly ILevelData _currentLevelData;
+		private readonly UIOrientationChanger _uIOrientationChanger;
 
-	    private float _minCornerDistance = 0.01f;
-	    private ILevelData _currentLevelData;
-	    private UIOrientationChanger _uIOrientationChanger;
 	    private List<MeshRenderer> _objectsToFitInCamera = new List<MeshRenderer>();
 
 	    public CameraFoVChanger(ILevelData currentLevelData, UIOrientationChanger uIOrientationChanger,
@@ -38,13 +38,13 @@ namespace SlimeGround.Core.CameraSystem
 
 	    public void SetMenuCameraFoV()
 	    {
-	        float targetFoV = _uIOrientationChanger.IsVertical ? _menuVerticalCameraFoV : _menuHorizontalCameraFoV;
+	        float targetFoV = _uIOrientationChanger.IsVertical ? MenuVerticalCameraFoV : MenuHorizontalCameraFoV;
 
 	        DOTween.To(
 	            () => _virtualCamera.m_Lens.FieldOfView,
 	            value => _virtualCamera.m_Lens.FieldOfView = value,
 	            targetFoV,
-	            _fovChangeDuration
+	            FovChangeDuration
 	        ).SetEase(Ease.InOutSine);
 	    }
 
@@ -59,14 +59,14 @@ namespace SlimeGround.Core.CameraSystem
 
 	        Bounds combinedBounds = GetCombinedBounds(_objectsToFitInCamera);
 	        float requiredFOV = CalculateRequiredFOV(combinedBounds);
-	        float fieldOfView = Mathf.Clamp(requiredFOV, _minFOV, _maxFOV);
+	        float fieldOfView = Mathf.Clamp(requiredFOV, MinFOV, MaxFOV);
 
 	        DOTween.To
 			(
 	            () => _virtualCamera.m_Lens.FieldOfView,
 	            value => _virtualCamera.m_Lens.FieldOfView = value,
 	            fieldOfView,
-	            _fovChangeDuration
+	            FovChangeDuration
 	        )
 			.SetEase(Ease.InOutSine);
 	    }
@@ -119,7 +119,7 @@ namespace SlimeGround.Core.CameraSystem
 	            Vector3 toCorner = corner - cameraPos;
 	            float distance = toCorner.magnitude;
 
-	            if (distance < _minCornerDistance)
+	            if (distance < MinCornerDistance)
 	            {
 	                continue;
 	            }
@@ -136,7 +136,7 @@ namespace SlimeGround.Core.CameraSystem
 	            float verticalAngle = Mathf.Acos(Vector3.Dot(verticalProjection.normalized, forward)) * Mathf.Rad2Deg;
 
 	            float verticalFOVHalf = verticalAngle;
-	            float verticalPadding = _uIOrientationChanger.IsVertical ? _verticalOrientationPadding : _horizontalOrientationPadding;
+	            float verticalPadding = _uIOrientationChanger.IsVertical ? VerticalOrientationPadding : HorizontalOrientationPadding;
 	            float verticalPaddingFactor = 1f - verticalPadding;
 
 	            if (verticalPaddingFactor > 0)

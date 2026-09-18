@@ -7,6 +7,12 @@ namespace SlimeGround.Data.Saves
 {
 	public class PlayerResourcesProvider
 	{
+		private readonly PlayerData _playerData;
+
+		public PlayerResourcesProvider(PlayerData playerData)
+		{
+			_playerData = playerData;
+		}
 
 		public event Action GoldAmountChanged;
 		public event Action<BoostType> BoostsAmountChanged;
@@ -14,13 +20,6 @@ namespace SlimeGround.Data.Saves
 		public event Action<InAppType> EarnInAppWithAddProgressUpdated;
 		public event Action RemoveAdsStateChanged;
 		public event Action SpinCountChanged;
-
-		public PlayerResourcesProvider(PlayerData playerData)
-		{
-			_playerData = playerData;
-		}
-
-		private PlayerData _playerData { get; }
 
 		public int GoldAmount => _playerData.GoldAmount;
 		public bool IsAdsRemoved => _playerData.IsAdsRemoved;

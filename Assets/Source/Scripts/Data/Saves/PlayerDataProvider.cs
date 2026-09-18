@@ -9,8 +9,6 @@ namespace SlimeGround.Data.Saves
 {
 	public class PlayerDataProvider : MonoBehaviour, IPlayerData
 	{
-	    public const string SaveSignatureKey = "TestVersion7";
-
 	    [SerializeField] private LevelSettings _levelSettings;
 	    [SerializeField] private UnitsFaceSettings _unitsFaceSettings;
 	    [SerializeField] private UnitsHatSettings _unitsHatSettings;

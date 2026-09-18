@@ -6,15 +6,16 @@ namespace SlimeGround.Effects.Sound
 {
 	public class UnitsMoveSoundPlayer : MonoBehaviour
 	{
-	    private IUnitMovedEvent _unitMover;
+		private const float AwakeDelay = 0.1f;
+
+		private IUnitMovedEvent _unitMover;
 	    private AudioSource _moveSound;
 
 	    private WaitForSeconds _wait;
-	    private float _delay = 0.1f;
 
 	    private void Awake()
 	    {
-	        _wait = new WaitForSeconds(_delay);
+	        _wait = new WaitForSeconds(AwakeDelay);
 	    }
 
 	    public void Initialize(IUnitMovedEvent unitMover, AudioSource moveSound)

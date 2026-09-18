@@ -8,14 +8,15 @@ namespace SlimeGround.Effects.Sound
 {
 	public class BackgroundMusicChanger : MonoBehaviour
 	{
-	    [SerializeField] private LevelSettings _levelSettings;
+		private const float FadeDuration = 3f;
+
+		[SerializeField] private LevelSettings _levelSettings;
 	    [SerializeField] private AudioSource _menuMusic;
 	    [SerializeField] private AudioSource _gameplayMusic;
 
 	    private LevelChangeEventTracker _levelChangeEventTracker;
 
 		private BackgroundMusicTheme _currentTheme;
-		private float _fadeDuration = 3f;
 	    private Coroutine _fadeInCoroutine;
 		private Coroutine _fadeOutCoroutine;
 		private Dictionary<BackgroundMusicTheme, AudioSource> _themeAudios;
@@ -93,10 +94,10 @@ namespace SlimeGround.Effects.Sound
 			float time = 0f;
 			float startVolume = music.volume;
 
-			while (time < _fadeDuration)
+			while (time < FadeDuration)
 			{
 				time += Time.deltaTime;
-				float normalizedTime = time / _fadeDuration;
+				float normalizedTime = time / FadeDuration;
 				music.volume = Mathf.Lerp(startVolume, targetVolume, normalizedTime);
 
 				yield return null;

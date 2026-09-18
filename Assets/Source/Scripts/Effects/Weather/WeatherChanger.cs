@@ -7,6 +7,11 @@ namespace SlimeGround.Effects.Weather
 { 
 	public class WeatherChanger : MonoBehaviour
 	{
+		private const string WaterColorName = "_WaterColor";
+		private const string FoamColorName = "_DarkFoamColor";
+		private const string ChoppinessName = "_Choppiness";
+		private const string MaxLightName = "_MaxLight";
+
 		[SerializeField] private WeatherSettings _settings;
 		[SerializeField] private LevelLoader _levelLoader;
 
@@ -27,27 +32,27 @@ namespace SlimeGround.Effects.Weather
 			_levelLoader.LevelChanged -= OnLevelChanged;
 		}
 
-		private void OnLevelChanged(ILevelData levelData)
-		{
-			SetWeather(levelData.Weather);
-		}
-
 		public void SetWeather(WeatherType type)
 		{
 			WeatherSettingsData settings = _settings.Weathers.FirstOrDefault(weather => weather.Type == type);
 
 			_rain.SetActive(settings.IsRainActive);
 			_fallingStars.SetActive(settings.IsFallingStartsActive);
-			_waterMaterial.SetColor("_WaterColor", settings.WaterColor);
-			_waterMaterial.SetColor("_DarkFoamColor", settings.WaterFoamColor);
-			_waterMaterial.SetFloat("_Choppiness", settings.WaterChoppiness);
-			_menuIslandMaterial.SetFloat("_MaxLight", settings.ToonMaxLight);
+			_waterMaterial.SetColor(WaterColorName, settings.WaterColor);
+			_waterMaterial.SetColor(FoamColorName, settings.WaterFoamColor);
+			_waterMaterial.SetFloat(ChoppinessName, settings.WaterChoppiness);
+			_menuIslandMaterial.SetFloat(MaxLightName, settings.ToonMaxLight);
 			_sunLight.intensity = settings.SunIntesivity;
 			_sunLight.transform.localEulerAngles = settings.SunRotation;
 
 			ParticleSystem.MainModule wind = _wind.main;
 			wind.startSpeed = settings.WindSpeed;
 			wind.startColor = settings.WindColor;
+		}
+
+		private void OnLevelChanged(ILevelData levelData)
+		{
+			SetWeather(levelData.Weather);
 		}
 	}
 }

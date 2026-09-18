@@ -4,18 +4,19 @@ namespace SlimeGround.Core.CameraSystem
 {
 	public class AspectRatioLimiter : MonoBehaviour
 	{
-	    [SerializeField] private ScreenSizeChangeTracker _screenSizeChangeTracker;
+		private const float MaxAspectX = 20f;
+		private const float MaxAspectY = 9f;
+
+		[SerializeField] private ScreenSizeChangeTracker _screenSizeChangeTracker;
 	    [SerializeField] private RectTransform _mainUi;
 	    [SerializeField] private RectTransform _letterboxLeft;
 	    [SerializeField] private RectTransform _letterboxRight;
 
-	    private float _maxAspectX = 20f;
-	    private float _maxAspectY = 9f;
 	    private float _maxAspectRatio;
 
 	    private void Start()
 	    {
-	        _maxAspectRatio = _maxAspectX / _maxAspectY;
+	        _maxAspectRatio = MaxAspectX / MaxAspectY;
 	        UpdateViewport(new Vector2(Screen.width, Screen.height));
 	    }
 

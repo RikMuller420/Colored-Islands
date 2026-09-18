@@ -5,11 +5,11 @@ namespace SlimeGround.Effects.Particles
 {
 	public class WaterRipplesPlayer : MonoBehaviour
 	{
+		private const float MinIntervalTime = 3.5f;
+		private const float MaxIntervalTime = 7f;
+
 		[SerializeField] private ParticlePool _ripplePool;
 		[SerializeField] private MeshFilter _rippleZone;
-
-		private float _minIntervalTime = 3.5f;
-		private float _maxIntervalTime = 7f;
 
 		private void Start()
 		{
@@ -20,7 +20,7 @@ namespace SlimeGround.Effects.Particles
 		{
 			while (enabled)
 			{
-				float awaitTime = Random.Range(_minIntervalTime, _maxIntervalTime);
+				float awaitTime = Random.Range(MinIntervalTime, MaxIntervalTime);
 
 				yield return new WaitForSeconds(awaitTime);
 

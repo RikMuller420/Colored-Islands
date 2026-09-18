@@ -8,17 +8,18 @@ namespace SlimeGround.Data.Saves
 {
 	public class PlayerDataSaver : MonoBehaviour
 	{
-	    private SaveProvider _saveProvider;
+		private const float RefreshRate = 0.5f;
+		private const float SaveCooldown = 3f;
 
+		private SaveProvider _saveProvider;
 	    private DateTime _lastSaveTime;
-	    private float _saveCooldown = 3f;
 	    private Coroutine _saveCorutine;
-	    private WaitForEndOfFrame _waitForEndOfFrame;
+	    private WaitForSeconds _wait;
 
 	    public void Initialize(SaveProvider saveProvider)
 	    {
 	        _lastSaveTime = DateTime.Now;
-	        _waitForEndOfFrame = new WaitForEndOfFrame();
+			_wait = new WaitForSeconds(RefreshRate);
 	        _saveProvider = saveProvider;
 
 	        enabled = true;
@@ -41,7 +42,7 @@ namespace SlimeGround.Data.Saves
 	    {
 	        while (enabled)
 	        {
-	            yield return _waitForEndOfFrame;
+	            yield return _wait;
 
 	            if (IsAbleToSave())
 	            {
@@ -62,7 +63,7 @@ namespace SlimeGround.Data.Saves
 
 	    private bool IsAbleToSave()
 	    {
-	        return (DateTime.Now - _lastSaveTime).TotalSeconds > _saveCooldown;
+	        return (DateTime.Now - _lastSaveTime).TotalSeconds > SaveCooldown;
 	    }
 
 	    private void Save(PlayerData playerData)

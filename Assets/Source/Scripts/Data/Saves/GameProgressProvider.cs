@@ -6,15 +6,15 @@ namespace SlimeGround.Data.Saves
 {
 	public class GameProgressProvider
 	{
-		public event Action<int> LevelProgressChanged;
-		public event Action TrainingFinished;
+		private readonly PlayerData _playerData;
 
 		public GameProgressProvider(PlayerData playerData)
 		{
 			_playerData = playerData;
 		}
 
-		private PlayerData _playerData { get; }
+		public event Action<int> LevelProgressChanged;
+		public event Action TrainingFinished;
 
 		public LevelProgress FirstUnfinishedLevel => Levels.FirstOrDefault(level => level.IsDone == false);
 		public bool IsCustomizationWindowWasOpened => _playerData.IsCustomizationWindowWasOpened;
@@ -23,7 +23,6 @@ namespace SlimeGround.Data.Saves
 
 		public void MarkLevelRewardReceived(int levelId) => _playerData.IsLevelRewardReceived[levelId] = true;
 		public int ScoreAmount => _playerData.ScoreAmount;
-
 
 		public int GetLastAvailableLevelId()
 		{

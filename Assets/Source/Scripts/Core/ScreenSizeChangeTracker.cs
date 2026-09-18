@@ -6,15 +6,16 @@ namespace SlimeGround.Core
 {
 	public class ScreenSizeChangeTracker : MonoBehaviour
 	{
+	    private const  float RefreshRate = 0.1f;
+
 	    private Vector2 _lastScreenSize = Vector2.zero;
-	    private float _resizeCheckInterval = 0.1f;
 	    private WaitForSeconds _wait;
 
 	    public event Action<Vector2> ScreenSizeChanged;
 
 	    private void Start()
 	    {
-	        _wait = new WaitForSeconds(_resizeCheckInterval);
+	        _wait = new WaitForSeconds(RefreshRate);
 	        StartCoroutine(CheckScreenSize());
 	    }
 	    

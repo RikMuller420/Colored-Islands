@@ -9,9 +9,12 @@ namespace SlimeGround.Effects.Sound
 {
 	public class SoundVolumeProvider
 	{
+		private const float LogToDbRatio = 20;
+		private const float MinDbVolume = -80f;
 		private const float MaxVolume = 0.3f;
 
-		public event Action<AudioGroup> SoundEnabledChanged;
+		private readonly AudioMixers _mixers;
+		private readonly PlayerDataProvider _playerData;
 
 		public SoundVolumeProvider(AudioMixers mixers, PlayerDataProvider playerData)
 	    {
@@ -26,8 +29,7 @@ namespace SlimeGround.Effects.Sound
 	        }
 	    }
 
-		private AudioMixers _mixers { get; }
-		private PlayerDataProvider _playerData { get; }
+		public event Action<AudioGroup> SoundEnabledChanged;
 
 		public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _playerData.Settings.GetIsSoundOnStatus(audioGroup);
 
@@ -56,10 +58,10 @@ namespace SlimeGround.Effects.Sound
 	    {
 	        if (value == 0)
 	        {
-	            return Constants.MinDbVolume;
+	            return MinDbVolume;
 	        }
 
-	        return Mathf.Log10(value) * Constants.LogToDbRatio;
+	        return Mathf.Log10(value) * LogToDbRatio;
 	    }
 
 	    private void OnSoundEnabledChanged(AudioGroup audioGroup)

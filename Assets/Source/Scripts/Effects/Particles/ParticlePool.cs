@@ -8,19 +8,19 @@ namespace SlimeGround.Effects.Particles
 	{
 		[SerializeField] private ParticleSystem _prefab;
 
-		private List<GameObject> _collection = new();
+		private List<GameObject> _particles = new();
 
 		public GameObject GetParticle()
 		{
-			GameObject freeRipple = _collection.FirstOrDefault(ripple => ripple.activeSelf == false);
+			GameObject freeParticle = _particles.FirstOrDefault(ripple => ripple.activeSelf == false);
 
-			if (freeRipple == null)
+			if (freeParticle == null)
 			{
-				freeRipple = Instantiate(_prefab.gameObject, transform);
-				_collection.Add(freeRipple);
+				freeParticle = Instantiate(_prefab.gameObject, transform);
+				_particles.Add(freeParticle);
 			}
 
-			return freeRipple;
+			return freeParticle;
 		}
 	}
 }

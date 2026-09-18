@@ -9,7 +9,13 @@ namespace SlimeGround.Core.CameraSystem
 {
 	public class CameraPositionChanger : MonoBehaviour
 	{
-	    [SerializeField] private LevelChangeEventTracker _levelChangeEventTracker;
+		private const float MinVerticalAspectRatio = 0.8f;
+		private const float MaxHorizontalAspectRatio = 1.3f;
+		private const float RefreshRate = 0.1f;
+		private const float FoVUpdateDelay = 0.2f;
+		private const float CameraSqrTreshold = 3f;
+
+		[SerializeField] private LevelChangeEventTracker _levelChangeEventTracker;
 	    [SerializeField] private BuferIslands _buferIslands;
 	    [SerializeField] private UIOrientationChanger _uIOrientationChanger;
 	    [SerializeField] private ScreenSizeChangeTracker _screenSizeChangeTracker;
@@ -21,20 +27,13 @@ namespace SlimeGround.Core.CameraSystem
 	    [SerializeField] private CameraTargets _menuVerticalTargets;
 	    [SerializeField] private CameraTargets _menuHorizontalTargets;
 
-	    private float _minVerticalAspectRatio = 0.8f;
-	    private float _maxHorizontalAspectRatio = 1.3f;
-
-	    private ILevelData _currentLevelData;
-
+		private ILevelData _currentLevelData;
 	    private CameraFoVChanger _cameraFoVChanger;
-	    private float _refreshRate = 0.1f;
-	    private float _foVUpdateDelay = 0.2f;
-	    private Coroutine _updateFoVInDelayCorutine;
 
+	    private Coroutine _updateFoVInDelayCorutine;
 	    private WaitForSeconds _waitUpdatePosition;
 	    private WaitForSeconds _waitFoVUpdate;
 
-	    private float _cameraSqrTreshold = 3f;
 
 	    private void OnEnable()
 	    {
@@ -53,8 +52,8 @@ namespace SlimeGround.Core.CameraSystem
 	        _currentLevelData = currentLevelData;
 	        _cameraFoVChanger = new CameraFoVChanger(_currentLevelData, _uIOrientationChanger, 
 													 _mainCamera, _virtualCamera);
-	        _waitUpdatePosition = new WaitForSeconds(_refreshRate);
-	        _waitFoVUpdate = new WaitForSeconds(_foVUpdateDelay);
+	        _waitUpdatePosition = new WaitForSeconds(RefreshRate);
+	        _waitFoVUpdate = new WaitForSeconds(FoVUpdateDelay);
 	        UpdateCameraPosition();
 
 	        enabled = true;
@@ -83,19 +82,19 @@ namespace SlimeGround.Core.CameraSystem
 	        Vector3 lookAtPosition;
 	        Vector3 followTargetPosition;
 
-	        if (aspectRatio <= _minVerticalAspectRatio)
+	        if (aspectRatio <= MinVerticalAspectRatio)
 	        {
 	            lookAtPosition = levelData.VerticalCameraTargets.LookAtPoint.position;
 	            followTargetPosition = levelData.VerticalCameraTargets.FollowPoint.position;
 	        }
-	        else if (aspectRatio >= _maxHorizontalAspectRatio)
+	        else if (aspectRatio >= MaxHorizontalAspectRatio)
 	        {
 	            lookAtPosition = levelData.HorizontalCameraTargets.LookAtPoint.position;
 	            followTargetPosition = levelData.HorizontalCameraTargets.FollowPoint.position;
 	        }
 	        else
 	        {
-	            float scale = (aspectRatio - _minVerticalAspectRatio) / (_maxHorizontalAspectRatio - _minVerticalAspectRatio);
+	            float scale = (aspectRatio - MinVerticalAspectRatio) / (MaxHorizontalAspectRatio - MinVerticalAspectRatio);
 
 	            lookAtPosition = Vector3.Lerp
 	            (
@@ -149,7 +148,7 @@ namespace SlimeGround.Core.CameraSystem
 	        {
 	            float cameraSqrOffset = (_cameraFollowTarget.position - _mainCamera.transform.position).sqrMagnitude;
 
-	            if (cameraSqrOffset < _cameraSqrTreshold)
+	            if (cameraSqrOffset < CameraSqrTreshold)
 	            {
 	                break;
 	            }

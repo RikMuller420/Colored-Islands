@@ -6,15 +6,15 @@ namespace SlimeGround.Data.Saves
 {
 	public class CustomizationDataProvider
 	{
-		public event Action<UnitSlotType> CustomizationPreferenceChanged;
-		public event Action<int> FaceUnlocked;
+		private readonly PlayerData _playerData;
 
 		public CustomizationDataProvider(PlayerData playerData)
 		{
 			_playerData = playerData;
 		}
 
-		private PlayerData _playerData { get; }
+		public event Action<UnitSlotType> CustomizationPreferenceChanged;
+		public event Action<int> FaceUnlocked;
 
 		public bool IsCustomizationPreferencesTrackedInMetrics => _playerData.IsCustomizationPreferencesTrackedInMetrics;
 		public IReadOnlyCollection<FaceAvailabilitie> FaceAvailabilities => _playerData.FaceAvailabilities;

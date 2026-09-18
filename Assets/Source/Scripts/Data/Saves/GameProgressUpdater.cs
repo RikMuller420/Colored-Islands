@@ -9,6 +9,12 @@ namespace SlimeGround.Data.Saves
 {
 	public class GameProgressUpdater
 	{
+		private readonly LevelProgressTracker _progressTracker;
+		private readonly PlayerDataProvider _playerData;
+		private readonly LeaderboardProvider _leaderboardProvider;
+		private readonly LeaderboardSettings _leaderboardSettings;
+		private readonly PlayerScoreCalculator _playerScoreCalculator;
+
 		public GameProgressUpdater(LevelProgressTracker progressTracker, PlayerDataProvider playerData,
 	                               LeaderboardProvider leaderboardProvider, LeaderboardSettings leaderboardSettings)
 	    {
@@ -20,12 +26,6 @@ namespace SlimeGround.Data.Saves
 	        _playerScoreCalculator = new PlayerScoreCalculator(playerData);
 	        _progressTracker.LevelFinished += UpdateSavedProgress;
 	    }
-
-		private LevelProgressTracker _progressTracker { get; }
-		private PlayerDataProvider _playerData { get; }
-		private LeaderboardProvider _leaderboardProvider { get; }
-		private LeaderboardSettings _leaderboardSettings { get; }
-		private PlayerScoreCalculator _playerScoreCalculator { get; }
 
 		public void Dispose()
 		{

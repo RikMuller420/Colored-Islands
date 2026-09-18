@@ -7,9 +7,10 @@ namespace SlimeGround.Core.InputHandling
 {
 	public class GameplayClickHandler : ClickBehaviour, IUnitsSelectedEvent
 	{
-		private Unit _selectedUnit;
+		private readonly UnitMover _unitMover;
+		private readonly UnitHighlighter _unitHighlighter;
 
-		public event Action UnitsSelected;
+		private Unit _selectedUnit;
 
 		public GameplayClickHandler(UnitMover unitMover, LayerMask layerMask) : base(layerMask)
 	    {
@@ -17,8 +18,7 @@ namespace SlimeGround.Core.InputHandling
 	        _unitHighlighter = new UnitHighlighter();
 	    }
 
-		private UnitMover _unitMover { get; }
-		private UnitHighlighter _unitHighlighter { get; }
+		public event Action UnitsSelected;
 
 	    public override void HandleClick(RaycastHit hit)
 	    {
