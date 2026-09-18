@@ -61,13 +61,13 @@ namespace SlimeGround.Menu.Windows.LevelReward
 	    {
 	        _levelRewardSaver.AddReward(_currentReward);
 	        Close();
-	        MetricSaver.ReceiveStandartLevelReward();
+	        MetricSaver.TrackStandartLevelRewardReceived();
 	    }
 
 	    private void TryReceiveRewardWithAdd()
 	    {
 	        _rewardedAdProvider.ShowAdvReward(RewardedAddId, ReceiveRewardWithAdd);
-	        MetricSaver.ReceiveMultiplayedLevelRewardWithAdd();
+	        MetricSaver.TrackMultiplayedLevelRewardWithAddReceived();
 	    }
 
 	    private void ReceiveRewardWithAdd()

@@ -44,7 +44,7 @@ namespace SlimeGround.Menu.Windows.GameShop
 		{
 			WalletProvider.SpendGold(GoldPrice);
 			_spinAmountProvider.AddSpin();
-			MetricSaver.BuyRouletteSpin();
+			MetricSaver.TrackRouletteSpinPurchased();
 		}
 	}
 }

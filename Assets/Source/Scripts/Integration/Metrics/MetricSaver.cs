@@ -25,28 +25,23 @@ namespace SlimeGround.Integration.Metrics
 	        _playerData = playerData;
 	    }
 
-		public static void SpendBoost(BoostType type)
+		public static void TrackSpendBoost(BoostType type)
 	    {
 	        int levelId = s_instance._levelData.LevelId;
 			YG2.MetricaSend(MetricKeys.BoostSpended, type.ToString(), s_instance._levelData.LevelId.ToString());
 		}
 
-		public static void OpenLeaderboardWindow()
+		public static void TrackLeaderboardWindowOpened()
 	    {
 			YG2.MetricaSend(MetricKeys.OpenLeaderboard);
 		}
 
-		public static void OpenCustomizationWindow()
-	    {
-			YG2.MetricaSend(MetricKeys.OpenCustomization);
-		}
-
-		public static void CloseCustomizationWindow(float spendedSeconds)
+		public static void TrackCustomizationWindowClosed(float spendedSeconds)
 	    {
 			YG2.MetricaSend(MetricKeys.TimeSpentInWindow, MetricKeys.Customization, spendedSeconds.ToString());
 		}
 
-		public static void ChangeCustomizationPreferences()
+		public static void TrackCustomizationPreferencesChanged()
 		{
 			IEnumerable<UnitSlotType> slotCollection = Enum.GetValues(typeof(UnitSlotType)).Cast<UnitSlotType>();
 			Dictionary<string, object> slimeSlots = new Dictionary<string, object>();
@@ -70,32 +65,32 @@ namespace SlimeGround.Integration.Metrics
 			YG2.MetricaSend(MetricKeys.CustomizationChanged, slimeSlots);
 		}
 
-		public static void StartLevel()
+		public static void TrackLevelStarted()
 	    {
 			YG2.MetricaSend(MetricKeys.LevelStarted, MetricKeys.Level, s_instance._levelData.LevelId.ToString());
 		}
 
-		public static void FinishLevel()
+		public static void TrackLevelFinish()
 	    {
 			YG2.MetricaSend(MetricKeys.LevelFinished, MetricKeys.Level, s_instance._levelData.LevelId.ToString());
 		}
 
-	    public static void SpinRoulete()
+	    public static void TrackRouleteSpinned()
 	    {
 			YG2.MetricaSend(MetricKeys.RouletteSpinned);
 		}
 
-		public static void BuyUpgrade(UpgradeType type)
+		public static void TrackUpgradePurchased(UpgradeType type)
 	    {
 			YG2.MetricaSend(MetricKeys.InGamePurchase, MetricKeys.Upgrade, type.ToString());
 		}
 
-		public static void BuyBoost(BoostType type)
+		public static void TrackBoostPurchased(BoostType type)
 	    {
 			YG2.MetricaSend(MetricKeys.InGamePurchase, MetricKeys.Boost, type.ToString());
 		}
 
-		public static void BuyRouletteSpin()
+		public static void TrackRouletteSpinPurchased()
 		{
 			YG2.MetricaSend(MetricKeys.InGamePurchase, MetricKeys.RouletteSpin, MetricKeys.Blank);
 		}
@@ -110,27 +105,27 @@ namespace SlimeGround.Integration.Metrics
 			YG2.MetricaSend(MetricKeys.LevelTaskFailed, MetricKeys.MoveLimit, s_instance._levelData.LevelId.ToString());
 		}
 
-		public static void GetInAppViaWathAdd(InAppType inAppType)
+		public static void TrackInAppViaAddWatched(InAppType inAppType)
 	    {
 			YG2.MetricaSend(MetricKeys.AdShowed, MetricKeys.InAppViaWathAdd, inAppType.ToString());
 		}
 
-		public static void ShowGetFreeGoldAdd()
+		public static void TrackFreeGoldAddWatched()
 	    {
 			YG2.MetricaSend(MetricKeys.AdShowed, MetricKeys.FreeGold, MetricKeys.Blank);
 		}
 
-		public static void ReceiveStandartLevelReward()
+		public static void TrackStandartLevelRewardReceived()
 	    {
 			YG2.MetricaSend(MetricKeys.StandartLevelRewardReceived);
 	    }
 
-	    public static void ReceiveMultiplayedLevelRewardWithAdd()
+	    public static void TrackMultiplayedLevelRewardWithAddReceived()
 	    {
 			YG2.MetricaSend(MetricKeys.MultipliedLevelRewardReceived);
 	    }
 
-	    public static void ShowGetFreeBoostAdd(BoostType type)
+	    public static void TrackGetFreeBoostAddWatched(BoostType type)
 	    {
 			YG2.MetricaSend(MetricKeys.AdShowed, MetricKeys.Boost, type.ToString());
 		}	

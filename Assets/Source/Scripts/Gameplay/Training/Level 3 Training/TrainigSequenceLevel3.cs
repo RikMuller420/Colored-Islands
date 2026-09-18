@@ -105,7 +105,7 @@ namespace SlimeGround.Gameplay.Training
 
 	    private IEnumerator StartFirstTrainingMove()
 	    {
-	        DeactivateAllColliders();
+	        DeactivateLevelColliders();
 	        BoostButtonActivator.ActivateButtonWithFade(BoostType.FinishIsland);
 			GameplayDimmer.Activate();
 
@@ -127,8 +127,8 @@ namespace SlimeGround.Gameplay.Training
 
 		private void OnIslandForBoostFinished(Island island)
 	    {
-	        ActivateAllColliders();
-	        DeactivateColliders(island);
+	        ActivateLevelColliders();
+	        DeactivateIslandColliders(island);
 	        DOTween.Sequence().Append(_worldSpacePointerImage.DOFade(0f, FadeDuration)
 	                                  .SetEase(Ease.InOutQuad));
 	        _isTrainingDone = true;

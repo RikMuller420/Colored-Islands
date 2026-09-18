@@ -41,7 +41,7 @@ namespace SlimeGround.Menu.Windows.GameShop
 	    private void TryBuy()
 	    {
 	        _rewardedAdProvider.ShowAdvReward(RewardVideoId, AddGold);
-	        MetricSaver.ShowGetFreeGoldAdd();
+	        MetricSaver.TrackFreeGoldAddWatched();
 	    }
 
 	    private void AddGold()

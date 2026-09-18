@@ -87,7 +87,7 @@ namespace SlimeGround.Gameplay.Levels
 	        _buferIslands.LoadIsland(islandSize);
 
 	        LevelChanged?.Invoke(_currentLevelData);
-	        MetricSaver.StartLevel();
+	        MetricSaver.TrackLevelStarted();
 	    }
 
 	    public void ReloadLastLevel()

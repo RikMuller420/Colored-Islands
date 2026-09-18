@@ -11,7 +11,7 @@ namespace SlimeGround.Gameplay.Training
 	{
 	    [SerializeField] private List<Level1TrainingMove> _trainingMoves = new();
 
-		private bool _isEventsSubscribed = false;
+		private bool _isEventsSubscribed;
 		private int _currentMoveIndex;
 	    private Level1TrainingMove _currentTrainingMove;
 
@@ -49,7 +49,7 @@ namespace SlimeGround.Gameplay.Training
 
 	    private void ActivateTrainingMove()
 	    {
-	        DeactivateAllColliders();
+	        DeactivateLevelColliders();
 
 	        DOTween.Sequence()
 				.Append(PointerImage.DOFade(0f, FadeDuration)

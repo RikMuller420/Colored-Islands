@@ -52,7 +52,7 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 			}
 
 			base.Open();
-			MetricSaver.OpenLeaderboardWindow();
+			MetricSaver.TrackLeaderboardWindowOpened();
 		}
 
 		private void OnAuthorizationStatusChanged()

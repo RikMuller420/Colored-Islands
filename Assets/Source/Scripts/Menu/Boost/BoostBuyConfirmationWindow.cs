@@ -86,13 +86,13 @@ namespace SlimeGround.Menu.Boosts
 	        _walletProvider.SpendGold(_currentBoostPrice);
 	        _boostAmountProvider.AddBoost(_currentBoostType);
 	        Close();
-	        MetricSaver.BuyBoost(_currentBoostType);
+	        MetricSaver.TrackBoostPurchased(_currentBoostType);
 	    }
 
 	    private void BuyBoostWithAdd()
 	    {
 	        _rewardedAdProvider.ShowAdvReward(RewardVideoId, AddBoost);
-	        MetricSaver.ShowGetFreeBoostAdd(_currentBoostType);
+	        MetricSaver.TrackGetFreeBoostAddWatched(_currentBoostType);
 	    }
 
 	    private void AddBoost()

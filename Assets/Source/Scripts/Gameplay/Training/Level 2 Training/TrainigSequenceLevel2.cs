@@ -37,7 +37,7 @@ namespace SlimeGround.Gameplay.Training
 	    public override void StartTraining()
 	    {
 			BoostButtonActivator.DeactivateAllButtons();
-	        DeactivateAllColliders();
+	        DeactivateLevelColliders();
 	        
 	        _boostButton = BoostButtonActivator.GetBoostButton(BoostType.GrowBuferIsland);
 	        BoostButtonActivator.ActivateButtonImmediate(BoostType.GrowBuferIsland);
@@ -86,7 +86,7 @@ namespace SlimeGround.Gameplay.Training
 	    private void OnTryApplyingBoost()
 	    {
 	        AddBost(BoostType.GrowBuferIsland);
-	        ActivateAllColliders();
+	        ActivateLevelColliders();
 	        DeactivatePointer();
 			GameplayDimmer.Deactivate();
 			_isTrainingDone = true;

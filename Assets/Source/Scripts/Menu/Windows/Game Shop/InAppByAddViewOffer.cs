@@ -58,7 +58,7 @@ namespace SlimeGround.Menu.Windows.GameShop
 	    private void TryBuy()
 	    {
 	        _rewardedAdProvider.ShowAdvReward(_inAppType.ToString(), AddEarnProgress);
-	        MetricSaver.GetInAppViaWathAdd(_inAppType);
+	        MetricSaver.TrackInAppViaAddWatched(_inAppType);
 	    }
 
 	    private void AddEarnProgress()

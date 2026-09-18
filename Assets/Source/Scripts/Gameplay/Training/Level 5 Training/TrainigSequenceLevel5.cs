@@ -94,7 +94,7 @@ namespace SlimeGround.Gameplay.Training
 
 	    private IEnumerator StartTrainingMove()
 	    {
-	        DeactivateAllColliders();
+	        DeactivateLevelColliders();
 	        LevelProgressTracker.PauseTracking();
 	        BoostButtonActivator.ActivateButtonWithFade(BoostType.ReducePaints);
 			GameplayDimmer.Activate();
@@ -109,7 +109,7 @@ namespace SlimeGround.Gameplay.Training
 	    {
 	        AddBost(BoostType.ReducePaints);
 	        DeactivatePointer();
-	        ActivateAllColliders();
+	        ActivateLevelColliders();
 	        LevelProgressTracker.ContinueTracking();
 			GameplayDimmer.Deactivate();
 

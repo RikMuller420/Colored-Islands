@@ -21,7 +21,7 @@ namespace SlimeGround.Gameplay.Training
 	    [SerializeField] private RectTransform _pointer;
 	    [SerializeField] private Image _pointerImage;
 
-		private WaitForEndOfFrame _wait;
+		private WaitForEndOfFrame _waitNextFrame;
 
 		protected LevelLoader LevelLoader { get; private set; }
 	    protected CustomizationWindow CustomizationMenu { get; private set; }
@@ -82,7 +82,7 @@ namespace SlimeGround.Gameplay.Training
 	        CustomizationMenu = customizationMenu;
 			GameplayDimmer = dimmer;
 
-			_wait = new WaitForEndOfFrame();
+			_waitNextFrame = new WaitForEndOfFrame();
 	    }
 
 	    public void StartTrainingNextFrame()
@@ -100,7 +100,7 @@ namespace SlimeGround.Gameplay.Training
 			}
 
 	        BoostButtonActivator.ActivateAllButtons();
-	        ActivateAllColliders();
+	        ActivateLevelColliders();
 			GameplayDimmer.Deactivate();
 		}
 
@@ -116,27 +116,27 @@ namespace SlimeGround.Gameplay.Training
 	                              .SetEase(Ease.InOutQuad));
 	    }
 
-	    protected void ActivateAllColliders()
+	    protected void ActivateLevelColliders()
 	    {
 	        foreach (Island island in CurrentLevelData.Islands)
 	        {
-	            ActivateColliders(island);
+	            ActivateIslandColliders(island);
 	        }
 
-	        ActivateColliders(BuferIslandsHolder.CurrentIsland);
+	        ActivateIslandColliders(BuferIslandsHolder.CurrentIsland);
 	    }
 
-	    protected void DeactivateAllColliders()
+	    protected void DeactivateLevelColliders()
 	    {
 	        foreach (Island island in CurrentLevelData.Islands)
 	        {
-	            DeactivateColliders(island);
+	            DeactivateIslandColliders(island);
 	        }
 
-	        DeactivateColliders(BuferIslandsHolder.CurrentIsland);
+	        DeactivateIslandColliders(BuferIslandsHolder.CurrentIsland);
 	    }
 
-	    protected void DeactivateColliders(BaseIsland island)
+	    protected void DeactivateIslandColliders(BaseIsland island)
 	    {
 	        island.Collider.enabled = false;
 
@@ -171,7 +171,7 @@ namespace SlimeGround.Gameplay.Training
 			_isGameClosing = true;
 		}
 
-		private void ActivateColliders(BaseIsland island)
+		private void ActivateIslandColliders(BaseIsland island)
 	    {
 	        island.Collider.enabled = true;
 
@@ -188,7 +188,7 @@ namespace SlimeGround.Gameplay.Training
 
 	    private IEnumerator StartingTrainingNextFrame()
 	    {
-	        yield return _wait;
+	        yield return _waitNextFrame;
 
 	        StartTraining();
 	    }

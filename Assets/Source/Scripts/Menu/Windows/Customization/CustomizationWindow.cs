@@ -28,7 +28,6 @@ namespace SlimeGround.Menu.Windows.Customization
 			}
 
 			_lastOpenTime = DateTime.Now;
-			MetricSaver.OpenCustomizationWindow();
 	    }
 
 	    public override void Close()
@@ -41,7 +40,7 @@ namespace SlimeGround.Menu.Windows.Customization
 	        base.Close();
 
 			float spendedSeconds = (float)(DateTime.Now - _lastOpenTime).TotalSeconds;
-	        MetricSaver.CloseCustomizationWindow(spendedSeconds);
+	        MetricSaver.TrackCustomizationWindowClosed(spendedSeconds);
 	    }
 	}
 }

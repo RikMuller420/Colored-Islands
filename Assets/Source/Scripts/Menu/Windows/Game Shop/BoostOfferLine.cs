@@ -54,7 +54,7 @@ namespace SlimeGround.Menu.Windows.GameShop
 	    {
 	        WalletProvider.SpendGold(GoldPrice);
 	        _boostAmountProvider.AddBoost(_boostType);
-	        MetricSaver.BuyBoost(_boostType);
+	        MetricSaver.TrackBoostPurchased(_boostType);
 	    }
 	}
 }

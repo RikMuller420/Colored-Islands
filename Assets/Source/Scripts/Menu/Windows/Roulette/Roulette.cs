@@ -64,7 +64,7 @@ namespace SlimeGround.Menu.Windows.Roulette
 	        int newSpinCount = _playerDataProvider.Resources.AviableSpinCount - 1;
 	        _playerDataProvider.Resources.SetSpinCount(newSpinCount);
 	        _playerDataProvider.Save();
-	        MetricSaver.SpinRoulete();
+	        MetricSaver.TrackRouleteSpinned();
 	    }
 
 	    private void OnSpinFinished(Slot winnedSlot)

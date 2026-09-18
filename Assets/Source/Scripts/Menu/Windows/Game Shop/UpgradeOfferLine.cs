@@ -86,7 +86,7 @@ namespace SlimeGround.Menu.Windows.GameShop
 	    {
 	        _walletProvider.SpendGold(_goldPrice);
 	        _upgradesProvider.AddUpgradeStage(_upgradeType);
-	        MetricSaver.BuyUpgrade(_upgradeType);
+	        MetricSaver.TrackUpgradePurchased(_upgradeType);
 	    }
 
 	    private void UpdatePrice()

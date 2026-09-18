@@ -105,7 +105,7 @@ namespace SlimeGround.Gameplay.Training
 	    private IEnumerator StartBoostTraining()
 	    {
 	        LevelProgressTracker.PauseTracking();
-	        DeactivateAllColliders();
+	        DeactivateLevelColliders();
 			GameplayDimmer.Activate();
 
 	        BoostButtonActivator.ActivateButtonWithFade(BoostType.FreezeObjectives);
@@ -145,11 +145,11 @@ namespace SlimeGround.Gameplay.Training
 	    private void OnTryApplyingBoost()
 	    {
 	        AddBost(BoostType.FreezeObjectives);
-	        ActivateAllColliders();
+	        ActivateLevelColliders();
 
 	        foreach (BaseIsland island in _finishedIslands)
 	        {
-	            DeactivateColliders(island);
+	            DeactivateIslandColliders(island);
 	        }
 
 	        DeactivatePointer();

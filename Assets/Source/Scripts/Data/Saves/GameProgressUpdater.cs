@@ -63,11 +63,11 @@ namespace SlimeGround.Data.Saves
 			if (_playerData.Customization.IsCustomizationPreferencesTrackedInMetrics == false)
 			{
 				_playerData.Customization.ResetTrackedPreferencesInMetrics();
-				MetricSaver.ChangeCustomizationPreferences();
+				MetricSaver.TrackCustomizationPreferencesChanged();
 			}
 
 			_playerData.Save();
-			MetricSaver.FinishLevel();
+			MetricSaver.TrackLevelFinish();
 		}
 	}
 }
