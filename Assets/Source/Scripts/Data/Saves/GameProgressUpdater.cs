@@ -2,6 +2,7 @@ using System.Linq;
 using SlimeGround.Data.ScriptableObjects.Leaderboard;
 using SlimeGround.Gameplay.Levels;
 using SlimeGround.Integration.Leaderboards;
+using SlimeGround.Integration.Metrics;
 using SlimeGround.Menu.Windows.Leaderboard;
 
 namespace SlimeGround.Data.Saves
@@ -49,7 +50,6 @@ namespace SlimeGround.Data.Saves
 	        _playerData.Resources.SetGoldAmount(newGoldAmount);
 	        _playerData.Progress.SetScoreAmount(newScoreAmount);
 	        _playerData.Progress.UpdateLevelProgress(updatedProgress);
-	        _playerData.Save();
 
 	        int totalScore = _playerScoreCalculator.GetScore(LeaderboardType.TotalGameScore);
 	        _leaderboardProvider.SaveScore(_leaderboardSettings.LeaderboardKey(LeaderboardType.TotalGameScore), totalScore);
@@ -59,6 +59,15 @@ namespace SlimeGround.Data.Saves
 	            int topResultScore = _playerScoreCalculator.GetScore(LeaderboardType.BestGameScore);
 	            _leaderboardProvider.SaveScore(_leaderboardSettings.LeaderboardKey(LeaderboardType.BestGameScore), topResultScore);
 	        }
-	    }
+
+			if (_playerData.Customization.IsCustomizationPreferencesTrackedInMetrics == false)
+			{
+				_playerData.Customization.ResetTrackedPreferencesInMetrics();
+				MetricSaver.ChangeCustomizationPreferences();
+			}
+
+			_playerData.Save();
+			MetricSaver.FinishLevel();
+		}
 	}
 }

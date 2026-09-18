@@ -23,13 +23,14 @@ namespace SlimeGround.Data.Saves
 	    [JsonProperty] public Language Language;
 		[JsonProperty] public bool IsCustomizationWindowWasOpened;
 		[JsonProperty] public bool IsTrainingFinished;
-	    [JsonProperty] public int AviableSpinCount;
+		[JsonProperty] public bool IsCustomizationPreferencesTrackedInMetrics;
+		[JsonProperty] public int AviableSpinCount;
 	    [JsonProperty] public Dictionary<BoostType, int> BoostsAmounts;
 	    [JsonProperty] public Dictionary<UpgradeType, int> UpgradeStages;
 	    [JsonProperty] public Dictionary<InAppType, int> EarnInAppWithAddProgress;
 	    [JsonProperty] public Dictionary<AudioGroup, bool> IsSoundOnStatus;
 	    [JsonProperty] public Dictionary<UnitSlotType, CustomizationPreferences> CustomizationPreferences;
-	    [JsonProperty] public Dictionary<int, bool> IsHatsUsed;
+		[JsonProperty] public Dictionary<int, bool> IsHatsUsed;
 	    [JsonProperty] public Dictionary<int, bool> IsLevelRewardReceived;
 	    [JsonProperty] public List<FaceAvailabilitie> FaceAvailabilities;
 		[JsonProperty] public bool IsShadowActiveOnMobile;
@@ -60,6 +61,7 @@ namespace SlimeGround.Data.Saves
 	        IsAdsRemoved = false;
 			IsShadowActiveOnMobile = false;
 			IsShadowActiveOnDesktop = true;
+			IsCustomizationPreferencesTrackedInMetrics = true;
 
 			EarnInAppWithAddProgress = new Dictionary<InAppType, int>()
 	        {

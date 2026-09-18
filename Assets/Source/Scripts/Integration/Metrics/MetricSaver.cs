@@ -43,12 +43,17 @@ namespace SlimeGround.Integration.Metrics
 
 		public static void CloseCustomizationWindow(float spendedSeconds)
 	    {
-	        IEnumerable<UnitSlotType> slotCollection = Enum.GetValues(typeof(UnitSlotType)).Cast<UnitSlotType>();
-	        Dictionary<string, object> slimeSlots = new Dictionary<string, object>();
+			YG2.MetricaSend(MetricKeys.TimeSpentInWindow, MetricKeys.Customization, spendedSeconds.ToString());
+		}
 
-	        foreach (UnitSlotType slot in slotCollection)
-	        {
-	            CustomizationPreferences slimePreference = s_instance._playerData.Customization.GetCustomizationPreference(slot);
+		public static void ChangeCustomizationPreferences()
+		{
+			IEnumerable<UnitSlotType> slotCollection = Enum.GetValues(typeof(UnitSlotType)).Cast<UnitSlotType>();
+			Dictionary<string, object> slimeSlots = new Dictionary<string, object>();
+
+			foreach (UnitSlotType slot in slotCollection)
+			{
+				CustomizationPreferences slimePreference = s_instance._playerData.Customization.GetCustomizationPreference(slot);
 
 				string slotName = $"{MetricKeys.Slime}_{(int)slot}";
 
@@ -60,10 +65,9 @@ namespace SlimeGround.Integration.Metrics
 				};
 
 				slimeSlots.Add(slotName, slotPrefrence);
-	        }
+			}
 
 			YG2.MetricaSend(MetricKeys.CustomizationChanged, slimeSlots);
-			YG2.MetricaSend(MetricKeys.TimeSpentInWindow, MetricKeys.Customization, spendedSeconds.ToString());
 		}
 
 		public static void StartLevel()

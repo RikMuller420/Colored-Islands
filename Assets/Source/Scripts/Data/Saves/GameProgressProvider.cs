@@ -67,6 +67,7 @@ namespace SlimeGround.Data.Saves
 			_playerData.IsTrainingFinished = true;
 			TrainingFinished?.Invoke();
 		}
+
 		public void SetCustomizationWindowWasOpened()
 		{
 			_playerData.IsCustomizationWindowWasOpened = true;

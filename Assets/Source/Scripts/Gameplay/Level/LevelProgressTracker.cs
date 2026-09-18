@@ -22,7 +22,7 @@ namespace SlimeGround.Gameplay.Levels
 	    private bool _firstMoveDone = false;
 	    private float _levelTime = 0f;
 	    private int _levelMoves = 0;
-	    private ILevelData _currentLevelData;
+		private ILevelData _currentLevelData;
 	    private GoldCalculator _goldCalculator;
 	    private LevelScoreCalculator _scoreCalculator;
 	    private UnitMover _unitMover;
@@ -79,7 +79,7 @@ namespace SlimeGround.Gameplay.Levels
 	    public void Initialize(ILevelData currentLevelData, UnitMover unitMover,
 	                           IUpgradesData upgradesData, IPlayerData playerData)
 	    {
-	        _currentLevelData = currentLevelData;
+			_currentLevelData = currentLevelData;
 	        _unitMover = unitMover;
 	        _angryTracker = new AngryTracker(currentLevelData, _levelProgressTracker, upgradesData, _levelChangeEventTracker);
 	        _goldCalculator = new GoldCalculator(playerData, upgradesData, currentLevelData);
@@ -199,8 +199,6 @@ namespace SlimeGround.Gameplay.Levels
 	        ReachedGold = _goldCalculator.CalculateLevelGold(IsAngryTaskDone, IsMoveTaskDone);
 	        ReachedScore = _scoreCalculator.CalculateScore(_levelTime, _levelMoves);
 	        LevelFinished?.Invoke(_currentLevelData);
-
-	        MetricSaver.FinishLevel();
-	    }
+		}
 	}
 }
