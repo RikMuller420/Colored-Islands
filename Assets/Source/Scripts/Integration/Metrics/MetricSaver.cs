@@ -91,6 +91,11 @@ namespace SlimeGround.Integration.Metrics
 			YG2.MetricaSend(MetricKeys.InGamePurchase, MetricKeys.Boost, type.ToString());
 		}
 
+		public static void BuyRouletteSpin()
+		{
+			YG2.MetricaSend(MetricKeys.InGamePurchase, MetricKeys.RouletteSpin, MetricKeys.Blank);
+		}
+
 		public static void TrackAngryBarFailed()
 	    {
 			YG2.MetricaSend(MetricKeys.LevelTaskFailed, MetricKeys.AngryBar, s_instance._levelData.LevelId.ToString());

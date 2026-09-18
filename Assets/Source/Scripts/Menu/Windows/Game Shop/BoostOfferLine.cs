@@ -4,49 +4,38 @@ using SlimeGround.Gameplay.Boosts;
 using SlimeGround.Integration.Metrics;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace SlimeGround.Menu.Windows.GameShop
 {
-	public class BoostOfferLine : MonoBehaviour
+	public class BoostOfferLine : OfferLine
 	{
 	    [SerializeField] private BoostType _boostType;
-	    [SerializeField] private TextMeshProUGUI _priceText;
 	    [SerializeField] private TextMeshProUGUI _boostAmountText;
-	    [SerializeField] private Button _buyButton;
 
 	    private BoostAmountProvider _boostAmountProvider;
-	    private WalletProvider _walletProvider;
-	    private int _goldPrice;
 
-	    private Color _ableToBuyColor = new Color(0.23f, 0.11f, 0.1f);
-	    private Color _notAbleToBuyColor = new Color(0.63f, 0.04f, 0.1f);
-
-	    private void OnEnable()
+		protected override void OnEnable()
 	    {
+			base.OnEnable();
 	        _boostAmountProvider.BoostsAmountChanged += OnBoostAmountChanged;
-	        _walletProvider.GoldAmountChanged += OnGoldAmountChanged;
-	        _buyButton.onClick.AddListener(BuyBoost);
-
-	        OnGoldAmountChanged(_walletProvider.GoldAmount);
+	        BuyButton.onClick.AddListener(BuyBoost);
 	    }
 
-	    private void OnDisable()
+		protected override void OnDisable()
 	    {
-	        _boostAmountProvider.BoostsAmountChanged -= OnBoostAmountChanged;
-	        _walletProvider.GoldAmountChanged -= OnGoldAmountChanged;
-	        _buyButton.onClick.RemoveListener(BuyBoost);
+			base.OnDisable();
+			_boostAmountProvider.BoostsAmountChanged -= OnBoostAmountChanged;
+			BuyButton.onClick.RemoveListener(BuyBoost);
 	    }
 
 	    public void Initialize(BoostAmountProvider boostAmountProvider, BoostSettings boostSettings,
 	                            WalletProvider walletProvider)
 	    {
+	        int goldPrice = boostSettings.Boosts.FirstOrDefault(boost => boost.Type == _boostType).GoldPrice;
+			Initialize(walletProvider, goldPrice);
+
 	        _boostAmountProvider = boostAmountProvider;
-	        _walletProvider = walletProvider;
-	        _goldPrice = boostSettings.Boosts.FirstOrDefault(boost => boost.Type == _boostType).GoldPrice;
-	        _priceText.text = _goldPrice.ToString();
 	        OnBoostAmountChanged(_boostType);
-	        OnGoldAmountChanged(walletProvider.GoldAmount);
 	        enabled = true;
 	    }
 
@@ -61,17 +50,9 @@ namespace SlimeGround.Menu.Windows.GameShop
 	        _boostAmountText.text = boostAmount.ToString();
 	    }
 
-	    private void OnGoldAmountChanged(int aviableGold)
-	    {
-	        bool isAbleToBuy = aviableGold >= _goldPrice;
-
-	        _priceText.color = isAbleToBuy ? _ableToBuyColor : _notAbleToBuyColor;
-	        _buyButton.interactable = isAbleToBuy;
-	    }
-
 	    private void BuyBoost()
 	    {
-	        _walletProvider.SpendGold(_goldPrice);
+	        WalletProvider.SpendGold(GoldPrice);
 	        _boostAmountProvider.AddBoost(_boostType);
 	        MetricSaver.BuyBoost(_boostType);
 	    }

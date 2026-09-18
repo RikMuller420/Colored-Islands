@@ -7,6 +7,7 @@ using SlimeGround.Menu.Ads;
 using SlimeGround.Menu.Wallet;
 using SlimeGround.Menu.Windows.GameShop.Upgrades;
 using SlimeGround.Menu.Windows.InAppPurchase;
+using SlimeGround.Menu.Windows.Roulette;
 using UnityEngine;
 
 namespace SlimeGround.Menu.Windows.GameShop
@@ -24,7 +25,8 @@ namespace SlimeGround.Menu.Windows.GameShop
 		private InAppPurchaseProvider _inAppPurchaseProvider;
 
 		public void Initialize(UpgradesProvider upgradesProvider, RewardedAdProvider rewardedAdProvider,
-	                           BoostAmountProvider boostAmountProvider, RemoveAdsProvider removeAdsProvider, WalletProvider walletProvider)
+	                           BoostAmountProvider boostAmountProvider, RouletteSpinProvider spinAmountProvider,
+							   RemoveAdsProvider removeAdsProvider, WalletProvider walletProvider)
 	    {
 	        var inAppByAddViewProvider = new InAppByAddViewProvider(_playerData, _inAppSettings);
 	        var stickyAdProvider = new StickyAdProvider();
@@ -32,9 +34,13 @@ namespace SlimeGround.Menu.Windows.GameShop
 
 	        _walletView.Initialize(walletProvider);
 
-	        _inGameShopInitializer.Initialize(upgradesProvider, boostAmountProvider, walletProvider);
-	        _inAppPurchaseInitializer.Initialize(walletProvider, boostAmountProvider, removeAdsProvider, _inAppPurchaseProvider,
-	                                             inAppByAddViewProvider, rewardedAdProvider, stickyAdProvider);
+	        _inGameShopInitializer.Initialize(upgradesProvider, boostAmountProvider,
+											  spinAmountProvider, walletProvider);
+
+	        _inAppPurchaseInitializer.Initialize(walletProvider, boostAmountProvider,
+												 removeAdsProvider, _inAppPurchaseProvider,
+	                                             inAppByAddViewProvider, rewardedAdProvider,
+												 stickyAdProvider);
 	    }
 
 		public void Dispose()

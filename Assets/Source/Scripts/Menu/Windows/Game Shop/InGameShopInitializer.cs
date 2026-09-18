@@ -3,6 +3,7 @@ using SlimeGround.Data.ScriptableObjects.Boosts;
 using SlimeGround.Data.ScriptableObjects.Upgrades;
 using SlimeGround.Gameplay.Boosts;
 using SlimeGround.Menu.Windows.GameShop.Upgrades;
+using SlimeGround.Menu.Windows.Roulette;
 using UnityEngine;
 
 namespace SlimeGround.Menu.Windows.GameShop
@@ -13,9 +14,10 @@ namespace SlimeGround.Menu.Windows.GameShop
 	    [SerializeField] private BoostSettings _boostSettings;
 	    [SerializeField] private List<UpgradeOfferLine> _upgradeOfferLines = new();
 	    [SerializeField] private List<BoostOfferLine> _boostOfferLines = new();
+		[SerializeField] private RouletteSpinOfferLine _rouletteSpinOfferLine;
 
-	    public void Initialize(UpgradesProvider upgradesProvider, BoostAmountProvider boostAmountProvider,
-	                            WalletProvider walletProvider)
+		public void Initialize(UpgradesProvider upgradesProvider, BoostAmountProvider boostAmountProvider,
+							   RouletteSpinProvider spinAmountProvider, WalletProvider walletProvider)
 	    {
 	        foreach (UpgradeOfferLine upgradeOfferLine in _upgradeOfferLines)
 	        {
@@ -26,6 +28,8 @@ namespace SlimeGround.Menu.Windows.GameShop
 	        {
 	            boostOfferLine.Initialize(boostAmountProvider, _boostSettings, walletProvider);
 	        }
-	    }
+
+			_rouletteSpinOfferLine.Initialize(spinAmountProvider, walletProvider);
+		}
 	}
 }

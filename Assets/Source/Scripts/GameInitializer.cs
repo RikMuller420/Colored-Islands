@@ -2,6 +2,7 @@ using SlimeGround.Core.CameraSystem;
 using SlimeGround.Core.InputHandling;
 using SlimeGround.Data.Saves;
 using SlimeGround.Data.ScriptableObjects.Levels;
+using SlimeGround.Data.ScriptableObjects.Roulette;
 using SlimeGround.Data.ScriptableObjects.Upgrades;
 using SlimeGround.Effects;
 using SlimeGround.Effects.Particles;
@@ -19,6 +20,7 @@ using SlimeGround.Menu;
 using SlimeGround.Menu.Extensions.DeviceStyle;
 using SlimeGround.Menu.Windows.GameShop.Upgrades;
 using SlimeGround.Menu.Windows.Leaderboard;
+using SlimeGround.Menu.Windows.Roulette;
 using UnityEngine;
 
 namespace SlimeGround
@@ -28,7 +30,9 @@ namespace SlimeGround
 	    [Header("Settings")]
 	    [SerializeField] private LevelSettings _levelSettings;
 	    [SerializeField] private UpgradeSettings _upgradeSettings;
-	    [SerializeField] private LayerMask _gameplayClickableLayer;
+		[SerializeField] private RouletteSettings _rouletteSettings;
+
+		[SerializeField] private LayerMask _gameplayClickableLayer;
 		[SerializeField] private LayerMask _menuClickableLayer;
 
 		[Header("Component Initializers")]
@@ -52,6 +56,7 @@ namespace SlimeGround
 	    [SerializeField] private TrainigSequenceLoader _trainigLoader;
 
 		private BoostAmountProvider _boostAmountProvider;
+		private RouletteSpinProvider _rouletteSpinProvider;
 		private WalletProvider _walletProvider;
 		private RewardedAdProvider _rewardedAdProvider;
 		private LeaderboardProvider _leaderboardProvider;
@@ -73,6 +78,7 @@ namespace SlimeGround
 		private void OnDestroy()
 		{
 			_boostAmountProvider.Dispose();
+			_rouletteSpinProvider.Dispose();
 			_walletProvider.Dispose();
 			_leaderboardProvider.Dispose();
 			_rewardedAdProvider.Dispose();
@@ -94,6 +100,7 @@ namespace SlimeGround
 
 	        var upgradesProvider = new UpgradesProvider(_playerData, _upgradeSettings);
 			_boostAmountProvider = new BoostAmountProvider(_playerData);
+			_rouletteSpinProvider = new RouletteSpinProvider(_playerData, _rouletteSettings);
 			_walletProvider = new WalletProvider(_playerData);
 			_rewardedAdProvider = new RewardedAdProvider();
 			_authorizationProvider = new AuthorizationProvider();
@@ -118,7 +125,8 @@ namespace SlimeGround
 	                                     out IBoostStopApplyedEvent angryBarBoostApplyed);
 
 	        _menuInitializer.Initialize(upgradesProvider, _authorizationProvider, _rewardedAdProvider,
-										_boostAmountProvider, _walletProvider, angryBarBoostApplyed);
+										_boostAmountProvider, _rouletteSpinProvider, _walletProvider,
+										angryBarBoostApplyed);
 
 	        _trainigLoader.Initilize(gameplayClickBehaviour, unitMover);
 	        _deviceStyleChangeInitializer.Initialize();

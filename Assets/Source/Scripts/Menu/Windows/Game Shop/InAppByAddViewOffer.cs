@@ -15,13 +15,13 @@ namespace SlimeGround.Menu.Windows.GameShop
 	    private InAppByAddViewProvider _inAppByAddViewProvider;
 	    private RewardedAdProvider _rewardedAdProvider;
 
-	    protected void OnEnable()
+		private void OnEnable()
 	    {
 	        _inAppByAddViewProvider.ProgressChanged += UpdateIndicator;
 	        _button.AviableClicked += TryBuy;
 	    }
 
-	    protected void OnDisable()
+		private void OnDisable()
 	    {
 	        _inAppByAddViewProvider.ProgressChanged -= UpdateIndicator;
 	        _button.AviableClicked -= TryBuy;

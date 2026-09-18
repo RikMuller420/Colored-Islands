@@ -2,6 +2,7 @@
 {
 	public class MetricKeys
 	{
+		public const string StartKey = "MetricStarted";
 		public const string AdShowed = "AdShowed";
 		public const string MultipliedLevelRewardReceived = "MultipliedLevelRewardReceived";
 		public const string StandartLevelRewardReceived = "StandartLevelRewardReceived";
@@ -22,6 +23,7 @@
 		public const string Level = "Level";
 		public const string Boost = "Boost";
 		public const string Upgrade = "Upgrade";
+		public const string RouletteSpin = "RouletteSpin";
 		public const string Color = "ColorId";
 		public const string Face = "FaceId";
 		public const string Hat = "HatId";

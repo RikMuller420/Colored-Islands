@@ -12,12 +12,12 @@ namespace SlimeGround.Menu.Windows.GameShop
 	    [SerializeField] private TextMeshProUGUI _priceText;
 	    [SerializeField] private InAppsProvider _inAppProvider;
 
-	    protected void OnEnable()
+		private void OnEnable()
 	    {
 	        _buyButton.onClick.AddListener(TryBuy);
 	    }
 
-	    protected void OnDisable()
+		private void OnDisable()
 	    {
 	        _buyButton.onClick.RemoveListener(TryBuy);
 	    }

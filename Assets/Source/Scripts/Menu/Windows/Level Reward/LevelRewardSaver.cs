@@ -1,6 +1,5 @@
 using SlimeGround.Data.Saves;
 using SlimeGround.Data.ScriptableObjects.LevelRewards;
-using SlimeGround.Integration.Metrics;
 using SlimeGround.Menu.Windows.GameShop.Upgrades;
 
 namespace SlimeGround.Menu.Windows.LevelReward

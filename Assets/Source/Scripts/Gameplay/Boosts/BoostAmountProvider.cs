@@ -12,6 +12,7 @@ namespace SlimeGround.Gameplay.Boosts
 	        _playerData = playerData;
 	        _playerData.Resources.BoostsAmountChanged += OnBoostsAmountInSavedProgressChanged;
 	    }
+
 		private PlayerDataProvider _playerData { get; }
 
 		public event Action<BoostType> BoostsAmountChanged;

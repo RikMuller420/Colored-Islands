@@ -15,12 +15,12 @@ namespace SlimeGround.Menu.Windows.GameShop
 	    private RewardedAdProvider _rewardedAdProvider;
 	    private WalletProvider _walletProvider;
 
-	    protected void OnEnable()
+		private void OnEnable()
 	    {
 	        _buyButton.AviableClicked += TryBuy;
 	    }
 
-	    protected void OnDisable()
+		private void OnDisable()
 	    {
 	        _buyButton.AviableClicked -= TryBuy;
 	    }
