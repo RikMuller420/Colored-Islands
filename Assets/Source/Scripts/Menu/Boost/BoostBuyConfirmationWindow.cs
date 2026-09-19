@@ -15,12 +15,13 @@ namespace SlimeGround.Menu.Boosts
 	{
 	    private const string RewardVideoId = "boost";
 
-	    [SerializeField] private BoostSettings _boostSettings;
+		private readonly Color _ableToBuyColor = new Color(0.23f, 0.11f, 0.1f);
+		private readonly Color _notAbleToBuyColor = new Color(0.63f, 0.04f, 0.1f);
 
+		[SerializeField] private BoostSettings _boostSettings;
 	    [SerializeField] private TextMeshProUGUI _priceText;
 	    [SerializeField] private Button _buyWithGoldButton;
 	    [SerializeField] private Button _buyWithAddButton;
-
 	    [SerializeField] private List<BoostIconData> _boostIcons;
 
 	    private BoostAmountProvider _boostAmountProvider;
@@ -29,9 +30,6 @@ namespace SlimeGround.Menu.Boosts
 
 	    private BoostType _currentBoostType;
 	    private int _currentBoostPrice;
-
-	    private Color _ableToBuyColor = new Color(0.23f, 0.11f, 0.1f);
-	    private Color _notAbleToBuyColor = new Color(0.63f, 0.04f, 0.1f);
 
 	    private new void OnEnable()
 	    {

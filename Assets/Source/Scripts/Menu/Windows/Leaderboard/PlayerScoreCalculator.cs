@@ -5,6 +5,8 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 {
 	public class PlayerScoreCalculator
 	{
+		private readonly Dictionary<LeaderboardType, GameScoreCalcualtor> _scoreCalcualtors;
+
 		public PlayerScoreCalculator(IPlayerData playerData)
 	    {
 	        _scoreCalcualtors = new Dictionary<LeaderboardType, GameScoreCalcualtor>()
@@ -13,8 +15,6 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	            { LeaderboardType.BestGameScore, new BestGameScore(playerData) }
 	        };
 	    }
-
-		private Dictionary<LeaderboardType, GameScoreCalcualtor> _scoreCalcualtors { get; }
 
 		public int GetScore(LeaderboardType type)
 	    {

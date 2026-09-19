@@ -6,35 +6,35 @@ namespace SlimeGround.Gameplay.Score
 {
 	public class LevelScoreCalculator
 	{
-	    private int _anyTryScore = 1500;
-	    private int _scorePerUnit = 100;
-	    private int _scorePerSavedSecond = 200;
-	    private int _scorePerSavedMove = 200;
+	    private const int AnyTryScore = 1500;
+	    private const int ScorePerUnit = 100;
+	    private const int ScorePerSavedSecond = 200;
+	    private const int ScorePerSavedMove = 200;
+
+		private readonly ILevelData _currentLevelData;
 
 		public LevelScoreCalculator(ILevelData currentLevelData)
 	    {
 	        _currentLevelData = currentLevelData;
 	    }
 
-		private ILevelData _currentLevelData { get; }
-
 		public int CalculateScore(float levelTime, int levelMoves)
 	    {
-	        int score = _anyTryScore;
+	        int score = AnyTryScore;
 
 	        foreach (Island island in _currentLevelData.Islands)
 	        {
-	            score += _scorePerUnit * island.Points.Count;
+	            score += ScorePerUnit * island.Points.Count;
 	        }
 
 	        if (levelTime < _currentLevelData.ExtraScoreTime)
 	        {
-	            score += (int)(_currentLevelData.ExtraScoreTime - levelTime) * _scorePerSavedSecond;
+	            score += (int)(_currentLevelData.ExtraScoreTime - levelTime) * ScorePerSavedSecond;
 	        }
 
 	        if (levelMoves < _currentLevelData.ExtraStarMoveCount)
 	        {
-	            score += (int)(_currentLevelData.ExtraStarMoveCount - levelMoves) * _scorePerSavedMove;
+	            score += (int)(_currentLevelData.ExtraStarMoveCount - levelMoves) * ScorePerSavedMove;
 	        }
 	        else
 	        {

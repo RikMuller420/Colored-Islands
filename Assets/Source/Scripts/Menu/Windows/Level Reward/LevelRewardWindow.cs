@@ -13,8 +13,9 @@ namespace SlimeGround.Menu.Windows.LevelReward
 	public class LevelRewardWindow : MenuWindow
 	{
 	    private const string RewardedAddId = "DoubleLevelReward";
+		private const int AdsMultiplier = 2;
 
-	    [SerializeField] private PlayerDataProvider _playerData;
+		[SerializeField] private PlayerDataProvider _playerData;
 	    [SerializeField] private UnitsHatSettings _hatSettings;
 	    [SerializeField] private LevelRewardView _levelRewardView;
 	    [SerializeField] private AddMultipliedRewardWindow _addMultipliedRewardWindow;
@@ -26,7 +27,6 @@ namespace SlimeGround.Menu.Windows.LevelReward
 	    private LevelRewardSaver _levelRewardSaver;
 
 	    private LevelRewardData _currentReward;
-	    private int _adsMultiplier = 2;
 
 	    protected override void OnEnable()
 	    {
@@ -72,9 +72,9 @@ namespace SlimeGround.Menu.Windows.LevelReward
 
 	    private void ReceiveRewardWithAdd()
 	    {
-	        _levelRewardSaver.AddReward(_currentReward, _adsMultiplier);
+	        _levelRewardSaver.AddReward(_currentReward, AdsMultiplier);
 	        Close();
-	        _addMultipliedRewardWindow.Open(_currentReward, _adsMultiplier);
+	        _addMultipliedRewardWindow.Open(_currentReward, AdsMultiplier);
 	    }
 	}
 }

@@ -3,18 +3,18 @@ using UnityEngine;
 
 public class Dimmer : MonoBehaviour
 {
-	[SerializeField] private CanvasGroup _backgroundDim;
+	private const float DimFadeDuration = 0.3f;
+	private const float MinDimAlpha = 0f;
+	private const float MaxDimAlpha = 1f;
 
-	private float _dimFadeDuration = 0.3f;
-	private float _maxDimAlpha = 1f;
-	private float _minDimAlpha = 0f;
+	[SerializeField] private CanvasGroup _backgroundDim;
 
 	public void Activate()
 	{
 		_backgroundDim.DOKill();
 		_backgroundDim.blocksRaycasts = true;
 		_backgroundDim
-			.DOFade(_maxDimAlpha, _dimFadeDuration)
+			.DOFade(MaxDimAlpha, DimFadeDuration)
 			.SetEase(Ease.OutQuad)
 			.SetUpdate(true);
 	}
@@ -24,7 +24,7 @@ public class Dimmer : MonoBehaviour
 		_backgroundDim.DOKill();
 		_backgroundDim.blocksRaycasts = false;
 		_backgroundDim
-			.DOFade(_minDimAlpha, _dimFadeDuration)
+			.DOFade(MinDimAlpha, DimFadeDuration)
 			.SetEase(Ease.InQuad)
 			.SetUpdate(true)
 			.OnComplete(DeactivateRaycasts);

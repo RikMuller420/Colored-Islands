@@ -10,33 +10,34 @@ namespace SlimeGround.Menu.Windows.Roulette
 {
 	public class RouletteWheel : MonoBehaviour
 	{
-	    [SerializeField] private RectTransform _wheel;
+		private const int MaxFaceSlots = 4;
+		private const float MinSpinDuration = 3f;
+		private const float MaxSpinDuration = 5f;
+		private const int MinRotations = 3;
+		private const int MaxRotations = 6;
+		private const float FullWheelRotation = 360f;
+		private const float MaxDinishAngleOffset = 10f;
+
+		private readonly int[] _goldInRewards = new int[8]
+		{
+			100,
+			200,
+			100,
+			200,
+			100,
+			500,
+			100,
+			1000
+		};
+
+		[SerializeField] private RectTransform _wheel;
 		[SerializeField] private RouletteSoundPlayer _soundPLayer;
 		[SerializeField] private List<Slot> _slots = new();
 
-	    private int _maxFaceSlots = 4;
-	    private float _minSpinDuration = 3f;
-	    private float _maxSpinDuration = 5f;
-	    private int _minRotations = 3;
-	    private int _maxRotations = 6;
-	    private float _slotRotation;
-	    private float _fullWheelRotation = 360f;
-	    private float _maxDinishAngleOffset = 10f;
-	    private int[] _goldInRewards = new int[8]
-	    {
-	        100,
-	        200,
-	        100,
-	        200,
-	        100,
-	        500,
-	        100,
-	        1000
-	    };
-	    private Quaternion _whellStartLocalRotation;
-
 	    private IPlayerData _playerData;
 	    private UpgradesProvider _upgradesProvider;
+		private float _slotRotation;
+		private Quaternion _whellStartLocalRotation;
 
 	    public event System.Action SpinStarted;
 	    public event System.Action<Slot> SpinFinished;
@@ -46,7 +47,7 @@ namespace SlimeGround.Menu.Windows.Roulette
 	    {
 	        _playerData = playerData;
 	        _upgradesProvider = upgradesProvider;
-	        _slotRotation = _fullWheelRotation / _slots.Count;
+	        _slotRotation = FullWheelRotation / _slots.Count;
 	        _whellStartLocalRotation = _wheel.localRotation;
 
 	        foreach (Slot slot in _slots)
@@ -83,13 +84,13 @@ namespace SlimeGround.Menu.Windows.Roulette
 	        }
 
 	        float slotAngle = winningIndex * _slotRotation;
-	        float randomOffset = Random.Range(-_maxDinishAngleOffset, _maxDinishAngleOffset);
+	        float randomOffset = Random.Range(-MaxDinishAngleOffset, MaxDinishAngleOffset);
 	        float targetRotation = slotAngle + randomOffset;
 
-	        float fullRotations = Random.Range(_minRotations, _maxRotations) * _fullWheelRotation;
+	        float fullRotations = Random.Range(MinRotations, MaxRotations) * FullWheelRotation;
 	        float finalRotation = -(targetRotation + fullRotations);
 
-	        float spinDuration = Random.Range(_minSpinDuration, _maxSpinDuration);
+	        float spinDuration = Random.Range(MinSpinDuration, MaxSpinDuration);
 
 	        _wheel.DORotate(new Vector3(0, 0, finalRotation), spinDuration, RotateMode.FastBeyond360)
 	              .SetEase(Ease.InOutQuad)
@@ -142,7 +143,7 @@ namespace SlimeGround.Menu.Windows.Roulette
 	                                                .Select(face => face.FaceId)
 	                                                .ToList();
 	        List<int> randomFaceIds = new List<int>();
-	        int count = Mathf.Min(_maxFaceSlots, lockedFaceIds.Count);
+	        int count = Mathf.Min(MaxFaceSlots, lockedFaceIds.Count);
 
 	        for (int i = 0; i < count; i++)
 	        {

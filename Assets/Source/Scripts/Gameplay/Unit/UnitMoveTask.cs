@@ -6,15 +6,20 @@ namespace SlimeGround.Gameplay.Units
 {
 	public class UnitMoveTask
 	{
-		private bool _isMoveAnimationActive;
-	    private float _deactivateMoveAnimationPercent = 0.5f;
+		private const float DeactivateMoveAnimationPercent = 0.5f;
+		private const float MaxMoveSpeed = 10f;
+		private const float MinMoveTime = 0.25f;
+		private const float MinArcPosition = 0.3f;
+		private const float MaxArcPosition = 0.7f;
+		private const float MinArcOffset = 0f;
+		private const float MaxArcOffset = 0.1f;
 
-	    private float _maxMoveSpeed = 10f;
-	    private float _minMoveTime = 0.25f;
-	    private float _minArcPosition = 0.3f;
-	    private float _maxArcPosition = 0.7f;
-	    private float _minArcOffset = 0f;
-	    private float _maxArcOffset = 0.1f;
+		private readonly Transform _unitsLookAtTarget;
+		private readonly IslandPoint _targetPoint;
+		private readonly Unit _unit;
+		private readonly Tween _pathTween;
+
+		private bool _isMoveAnimationActive;
 
 	    public UnitMoveTask(Unit unit, IslandPoint targetPoint, Transform unitsLookAtTarget)
 	    {
@@ -24,11 +29,11 @@ namespace SlimeGround.Gameplay.Units
 	        Vector3 intermediatePoint = CalculateIntermediatePoint(CurrentPosition, TargetPosition);
 	        Vector3[] path = { CurrentPosition, intermediatePoint, TargetPosition };
 
-	        float moveTime = (CurrentPosition - TargetPosition).magnitude / _maxMoveSpeed;
+	        float moveTime = (CurrentPosition - TargetPosition).magnitude / MaxMoveSpeed;
 
-	        if (moveTime < _minMoveTime)
+	        if (moveTime < MinMoveTime)
 	        {
-	            moveTime = _minMoveTime;
+	            moveTime = MinMoveTime;
 	        }
 
 	        unit.transform.DOKill();
@@ -41,11 +46,6 @@ namespace SlimeGround.Gameplay.Units
 	        _isMoveAnimationActive = true;
 	    }
 
-		private Tween _pathTween { get; }
-		private Transform _unitsLookAtTarget { get; }
-		private IslandPoint _targetPoint { get; }
-		private Unit _unit { get; }
-
 		private Vector3 CurrentPosition => _unit.transform.position;
 	    private Vector3 TargetPosition => _targetPoint.Transform.position;
 
@@ -53,7 +53,7 @@ namespace SlimeGround.Gameplay.Units
 	    {
 	        _unit.MeshTransform.LookAt(_unitsLookAtTarget);
 
-	        if (_pathTween.ElapsedPercentage() >= _deactivateMoveAnimationPercent && _isMoveAnimationActive)
+	        if (_pathTween.ElapsedPercentage() >= DeactivateMoveAnimationPercent && _isMoveAnimationActive)
 	        {
 	            _unit.Animator.StopWalk();
 	            _isMoveAnimationActive = false;
@@ -69,10 +69,10 @@ namespace SlimeGround.Gameplay.Units
 	    {
 	        float length = (endPoint - startPoint).magnitude;
 	        Vector3 direction = (endPoint - startPoint).normalized;
-	        Vector3 randomPoint = startPoint + (direction * (length * Random.Range(_minArcPosition, _maxArcPosition)));
+	        Vector3 randomPoint = startPoint + (direction * (length * Random.Range(MinArcPosition, MaxArcPosition)));
 
 	        Vector3 perpendicular = new Vector3(-direction.z, 0, direction.x).normalized;
-	        float arcOffset = (endPoint - startPoint).magnitude * Random.Range(_minArcOffset, _maxArcOffset);
+	        float arcOffset = (endPoint - startPoint).magnitude * Random.Range(MinArcOffset, MaxArcOffset);
 	        Vector3 intermediatePoint = randomPoint + (perpendicular * arcOffset);
 
 	        return intermediatePoint;

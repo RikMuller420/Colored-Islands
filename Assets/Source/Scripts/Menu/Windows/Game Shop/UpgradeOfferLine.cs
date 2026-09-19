@@ -10,7 +10,10 @@ namespace SlimeGround.Menu.Windows.GameShop
 {
 	public class UpgradeOfferLine : MonoBehaviour
 	{
-	    [SerializeField] private UpgradeType _upgradeType;
+		private readonly Color _ableToBuyColor = new Color(0.23f, 0.11f, 0.1f);
+		private readonly Color _notAbleToBuyColor = new Color(0.63f, 0.04f, 0.1f);
+
+		[SerializeField] private UpgradeType _upgradeType;
 	    [SerializeField] private TextMeshProUGUI _priceText;
 	    [SerializeField] private UpgradeIndicator _upgradeIndicator;
 	    [SerializeField] private Button _buyButton;
@@ -21,9 +24,6 @@ namespace SlimeGround.Menu.Windows.GameShop
 	    private WalletProvider _walletProvider;
 	    private UpgradeSettingsData _upgradeSettings;
 	    private int _goldPrice;
-
-	    private Color _ableToBuyColor = new Color(0.23f, 0.11f, 0.1f);
-	    private Color _notAbleToBuyColor = new Color(0.63f, 0.04f, 0.1f);
 
 	    private void OnEnable()
 	    {

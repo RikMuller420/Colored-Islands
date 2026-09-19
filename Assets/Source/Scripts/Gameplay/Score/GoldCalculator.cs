@@ -7,8 +7,12 @@ namespace SlimeGround.Gameplay.Score
 {
 	public class GoldCalculator
 	{
-	    private int _goldPerNewStar = 50;
-	    private int _goldPerReEarnedStar = 5;
+	    private const int GoldPerNewStar = 50;
+	    private const int GoldPerReEarnedStar = 5;
+
+		private readonly IPlayerData _playerData;
+		private readonly IUpgradesData _upgradesData;
+		private readonly ILevelData _currentLevelData;
 
 		public GoldCalculator(IPlayerData playerData, IUpgradesData upgradesData,
 	                          ILevelData currentLevelData)
@@ -18,25 +22,21 @@ namespace SlimeGround.Gameplay.Score
 	        _currentLevelData = currentLevelData;
 	    }
 
-		private IPlayerData _playerData { get; }
-		private IUpgradesData _upgradesData { get; }
-		private ILevelData _currentLevelData { get; }
-
 		public int CalculateLevelGold(bool isAngryTaskDone, bool isMoveTaskDone)
 	    {
 	        LevelProgress savedProgress = _playerData.Progress.Levels
 	                                    .FirstOrDefault(level => level.Id == _currentLevelData.LevelId);
 	        int gold = 0;
-	        gold += savedProgress.IsDone ? _goldPerReEarnedStar : _goldPerNewStar;
+	        gold += savedProgress.IsDone ? GoldPerReEarnedStar : GoldPerNewStar;
 
 	        if (isAngryTaskDone)
 	        {
-	            gold += savedProgress.IsAngryStarEarned ? _goldPerReEarnedStar : _goldPerNewStar;
+	            gold += savedProgress.IsAngryStarEarned ? GoldPerReEarnedStar : GoldPerNewStar;
 	        }
 
 	        if (isMoveTaskDone)
 	        {
-	            gold += savedProgress.IsMovesStarEarned ? _goldPerReEarnedStar : _goldPerNewStar;
+	            gold += savedProgress.IsMovesStarEarned ? GoldPerReEarnedStar : GoldPerNewStar;
 	        }
 
 	        return _upgradesData.CalculateUpgradedGoldAmount(gold);

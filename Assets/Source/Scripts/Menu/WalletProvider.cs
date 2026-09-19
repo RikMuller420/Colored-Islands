@@ -5,13 +5,13 @@ namespace SlimeGround.Menu
 {
 	public class WalletProvider
 	{
+		private readonly PlayerDataProvider _playerData;
+
 		public WalletProvider(PlayerDataProvider playerData)
 	    {
 	        _playerData = playerData;
 	        _playerData.Resources.GoldAmountChanged += OnGoldAmountChanged;
 	    }
-
-		private PlayerDataProvider _playerData { get; }
 
 		public event Action<int> GoldAmountChanged;
 	    

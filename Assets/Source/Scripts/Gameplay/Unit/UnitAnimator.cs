@@ -8,13 +8,13 @@ namespace SlimeGround.Gameplay.Units
 	    private const string IdleTriggerName = "Idle";
 	    private const string JumpTriggerName = "Jump";
 	    private const string WalkBoolName = "Walk";
+		private const float JumpDuration = 1f;
 
-	    [SerializeField] private Animator _animator;
+		[SerializeField] private Animator _animator;
 		[SerializeField] private float _minIdleDelay = 3f;
 		[SerializeField] private float _maxIdleDelay = 9f;
 
 		private int _walkAnimationHash;
-		private float _jumpDuration = 1f;
 		private bool _isJumpAviable = true;
 		private WaitForSeconds _jumpWait;
 
@@ -22,7 +22,7 @@ namespace SlimeGround.Gameplay.Units
 	    {
 	        StartCoroutine(PlayAnimationWithRandomDelay());
 	        _walkAnimationHash = Animator.StringToHash(WalkBoolName);
-			_jumpWait = new WaitForSeconds(_jumpDuration);
+			_jumpWait = new WaitForSeconds(JumpDuration);
 		}
 
 	    public void FreezeAnimation()

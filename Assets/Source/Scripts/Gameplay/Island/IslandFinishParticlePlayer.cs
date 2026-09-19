@@ -5,6 +5,9 @@ namespace SlimeGround.Gameplay.Islands
 {
 	public class IslandFinishParticlePlayer
 	{
+		private readonly LevelProgressTracker _levelProgressTracker;
+		private readonly IslandFinishParticlePool _particlePool;
+
 		public IslandFinishParticlePlayer(LevelProgressTracker levelProgressTracker, IslandFinishParticlePool particlePool)
 	    {
 	        _levelProgressTracker = levelProgressTracker;
@@ -12,9 +15,6 @@ namespace SlimeGround.Gameplay.Islands
 
 	        _levelProgressTracker.IslandFinished += OnIslandFinished;
 	    }
-
-		private LevelProgressTracker _levelProgressTracker { get; }
-		private IslandFinishParticlePool _particlePool { get; }
 
 		public void Dispose()
 		{

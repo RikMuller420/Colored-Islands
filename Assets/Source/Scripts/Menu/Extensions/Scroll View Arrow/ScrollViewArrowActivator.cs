@@ -6,6 +6,8 @@ namespace SlimeGround.Menu.Extensions.ScrollViewArrow
 {
 	public class ScrollViewArrowActivator : MonoBehaviour
 	{
+	    private const float Threshold = 0.02f;
+
 	    [SerializeField] private Scrollbar _scrollbar;
 	    [SerializeField] private GameObject _topArrow;
 	    [SerializeField] private GameObject _botArrow;
@@ -14,15 +16,14 @@ namespace SlimeGround.Menu.Extensions.ScrollViewArrow
 	    [SerializeField] private RectTransform _content;
 	    [SerializeField] private RectTransform _window;
 
-	    private float _thresholder = 0.02f;
 	    private float _topArrowValue;
 	    private float _botArrowValue;
 	    private bool _isUpdating = false;
 
 	    private void Awake()
 	    {
-	        _topArrowValue = 1f - _thresholder;
-	        _botArrowValue = 0f + _thresholder;
+	        _topArrowValue = 1f - Threshold;
+	        _botArrowValue = 0f + Threshold;
 	        UpdateArrowActivivty(_scrollbar.value);
 	    }
 
@@ -65,8 +66,8 @@ namespace SlimeGround.Menu.Extensions.ScrollViewArrow
 	            _topArrow.SetActive(scrollValue < _topArrowValue);
 	            _botArrow.SetActive(scrollValue > _botArrowValue);
 
-	            _shadowTop.alpha = Mathf.Lerp(1f, 0f, (scrollValue - _topArrowValue) / _thresholder);
-	            _shadowBot.alpha = Mathf.Lerp(0f, 1f, (scrollValue - _botArrowValue) / _thresholder);
+	            _shadowTop.alpha = Mathf.Lerp(1f, 0f, (scrollValue - _topArrowValue) / Threshold);
+	            _shadowBot.alpha = Mathf.Lerp(0f, 1f, (scrollValue - _botArrowValue) / Threshold);
 	        }
 
 	        _isUpdating = false;

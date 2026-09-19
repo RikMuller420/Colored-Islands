@@ -6,6 +6,8 @@ namespace SlimeGround.Menu.Windows.Roulette
 {
 	public class RouletteSpinProvider
 	{
+		private readonly PlayerDataProvider _playerData;
+
 		public RouletteSpinProvider(PlayerDataProvider playerData, RouletteSettings rouletteSettings)
 		{
 			_playerData = playerData;
@@ -13,10 +15,9 @@ namespace SlimeGround.Menu.Windows.Roulette
 			_playerData.Resources.SpinCountChanged += OnSpinAmountInSavedProgressChanged;
 		}
 
-		public RouletteSettings RouletteSettings { get; private set; }
-		private PlayerDataProvider _playerData { get; }
-
 		public event Action SpinAmountChanged;
+
+		public RouletteSettings RouletteSettings { get; private set; }
 
 		public int SpinAmount => _playerData.Resources.AviableSpinCount;
 

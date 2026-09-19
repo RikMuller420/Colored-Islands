@@ -6,10 +6,14 @@ namespace SlimeGround.Menu.Boosts
 {
 	public class ButtonAnimator
 	{
-		private Color _originalColor = Color.white;
-	    private Color _blinkColor = new Color(0.6f, 0.6f, 0.6f);
-	    private float _blinkDuration = 1f;
-	    private Tween _blinkSequence;
+	    private const float BlinkDuration = 1f;
+		private readonly Color _originalColor = Color.white;
+	    private readonly Color _blinkColor = new Color(0.6f, 0.6f, 0.6f);
+
+		private readonly Image _buttonBackground;
+		private readonly GameObject _glow;
+
+		private Tween _blinkSequence;
 
 	    public ButtonAnimator(Image buttonBackground, GameObject glow)
 	    {
@@ -17,15 +21,12 @@ namespace SlimeGround.Menu.Boosts
 	        _glow = glow;
 	    }
 
-		private Image _buttonBackground { get; }
-		private GameObject _glow { get; }
-
 		public void StartBlinking()
 	    {
 	        _glow.SetActive(true);
 	        _blinkSequence = DOTween.Sequence()
-	            .Append(_buttonBackground.DOColor(_blinkColor, _blinkDuration))
-	            .Append(_buttonBackground.DOColor(_originalColor, _blinkDuration))
+	            .Append(_buttonBackground.DOColor(_blinkColor, BlinkDuration))
+	            .Append(_buttonBackground.DOColor(_originalColor, BlinkDuration))
 	            .SetLoops(-1)
 	            .SetEase(Ease.InOutQuad);
 	    }

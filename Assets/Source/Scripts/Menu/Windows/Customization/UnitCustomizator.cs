@@ -7,6 +7,13 @@ namespace SlimeGround.Menu.Windows.Customization
 {
 	public class UnitCustomizator
 	{
+		private readonly List<UnitSelectButton> _unitSelectButtons;
+		private readonly List<HatSelectButton> _hatSelectButtons;
+		private readonly List<FaceSelectButton> _faceSelectButtons;
+		private readonly List<ColorSelectButton> _colorSelectButtons;
+		private readonly UnitCustomizationView _unitCustomizationView;
+		private readonly PlayerDataProvider _playerData;
+
 		private UnitSelectButton _currentUnitButton;
 	    private FaceSelectButton _currentFaceButton;
 	    private HatSelectButton _currentHatButton;
@@ -25,37 +32,15 @@ namespace SlimeGround.Menu.Windows.Customization
 	        _hatSelectButtons = hatSelectButtons;
 	        _colorSelectButtons = colorSelectButtons;
 
-	        foreach (UnitSelectButton unitSelectButton in _unitSelectButtons)
-	        {
-	            unitSelectButton.ButtonClicked += ChangeCurrentPaint;
-	            CustomizationPreferences preferences = _playerData.Customization.GetCustomizationPreference(unitSelectButton.Slot);
-	            unitSelectButton.SetColor(preferences.ColorSample);
-	        }
+			foreach (UnitSelectButton unitSelectButton in _unitSelectButtons)
+			{
+				CustomizationPreferences preferences = _playerData.Customization.GetCustomizationPreference(unitSelectButton.Slot);
+				unitSelectButton.SetColor(preferences.ColorSample);
+			}
 
-	        foreach (FaceSelectButton faceSelectButton in _faceSelectButtons)
-	        {
-	            faceSelectButton.ButtonClicked += ChangeCurrentFace;
-	        }
-
-	        foreach (HatSelectButton hatSelectButton in _hatSelectButtons)
-	        {
-	            hatSelectButton.ButtonClicked += ChangeCurrentHat;
-	        }
-
-	        foreach (ColorSelectButton colorSelectButton in _colorSelectButtons)
-	        {
-	            colorSelectButton.ButtonClicked += ChangeCurrentColor;
-	        }
-
-	        ChangeCurrentPaint(_unitSelectButtons[0]);
+			SubscribeButtons();
+			ChangeCurrentPaint(_unitSelectButtons[0]);
 	    }
-
-		private List<UnitSelectButton> _unitSelectButtons { get; }
-		private List<HatSelectButton> _hatSelectButtons { get; }
-		private List<FaceSelectButton> _faceSelectButtons { get; }
-		private List<ColorSelectButton> _colorSelectButtons { get; }
-		private UnitCustomizationView _unitCustomizationView { get; }
-		private PlayerDataProvider _playerData { get; }
 
 		public event Action FaceUsed;
 		public event Action HatUsed;
@@ -214,5 +199,28 @@ namespace SlimeGround.Menu.Windows.Customization
 	        _currentHatButton.SetSelectedStyle();
 	        _unitCustomizationView.SetHat(hatButton.HatId);
 	    }
+
+		private void SubscribeButtons()
+		{
+			foreach (UnitSelectButton unitSelectButton in _unitSelectButtons)
+			{
+				unitSelectButton.ButtonClicked += ChangeCurrentPaint;
+			}
+
+			foreach (FaceSelectButton faceSelectButton in _faceSelectButtons)
+			{
+				faceSelectButton.ButtonClicked += ChangeCurrentFace;
+			}
+
+			foreach (HatSelectButton hatSelectButton in _hatSelectButtons)
+			{
+				hatSelectButton.ButtonClicked += ChangeCurrentHat;
+			}
+
+			foreach (ColorSelectButton colorSelectButton in _colorSelectButtons)
+			{
+				colorSelectButton.ButtonClicked += ChangeCurrentColor;
+			}
+		}
 	}
 }

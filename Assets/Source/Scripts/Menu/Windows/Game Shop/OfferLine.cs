@@ -6,12 +6,11 @@ namespace SlimeGround.Menu.Windows.GameShop
 {
 	public abstract class OfferLine : MonoBehaviour
 	{
+		private readonly Color _ableToBuyColor = new Color(0.23f, 0.11f, 0.1f);
+		private readonly Color _notAbleToBuyColor = new Color(0.63f, 0.04f, 0.1f);
+
 		[SerializeField] private TextMeshProUGUI _priceText;
 		[SerializeField] private Button _buyButton;
-
-
-		private Color _ableToBuyColor = new Color(0.23f, 0.11f, 0.1f);
-		private Color _notAbleToBuyColor = new Color(0.63f, 0.04f, 0.1f);
 
 		protected Button BuyButton => _buyButton;
 		protected WalletProvider WalletProvider { get; private set; }

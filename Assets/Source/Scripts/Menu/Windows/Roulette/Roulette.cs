@@ -9,21 +9,20 @@ namespace SlimeGround.Menu.Windows.Roulette
 	public class Roulette : MonoBehaviour
 	{
 	    private const string SpinButtonEnableBool = "IsEnable";
+		private const float RewardWindowDelay = 0.6f;
 
-	    [SerializeField] private Button _spinButton;
+		[SerializeField] private Button _spinButton;
 	    [SerializeField] private Animator _spinButtonAnimator;
 	    [SerializeField] private RouletteWheel _rouletteWheel;
 	    [SerializeField] private RouletteRewardWindow _rouletteRewardWindow;
 
 	    private bool _isPrepared = false;
-	    private float _rewardWindowDelay = 0.6f;
 	    private WaitForSeconds _wait;
-
 	    private PlayerDataProvider _playerDataProvider;
 
 	    private void Awake()
 	    {
-	        _wait = new WaitForSeconds(_rewardWindowDelay);
+	        _wait = new WaitForSeconds(RewardWindowDelay);
 	    }
 
 	    private void OnEnable()

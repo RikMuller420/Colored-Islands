@@ -25,12 +25,14 @@ namespace SlimeGround.Gameplay.Islands
 	        _island.Initialize(placementPoints);
 	    }
 
-	    [ContextMenu("Fill Points")]
+#if UNITY_EDITOR
+		[ContextMenu("Fill Points")]
 	    public void FillPoints()
 	    {
 	        _points.Clear();
 	        _points.AddRange(_rootOfPoints.GetComponentsInChildren<SpriteRenderer>()
 	                .Where(transform => transform != _rootOfPoints));
 	    }
+#endif
 	}
 }

@@ -10,23 +10,24 @@ namespace SlimeGround.Gameplay.Training
 {
 	public class TrainigSequenceLevel5 : TrainigSequence
 	{
-	    [SerializeField] private CanvasGroup _finishTrainingPanel;
+		private const float WaitTime = 0.7f;
+		private const int MovesBeforeTraining = 2;
+
+		[SerializeField] private CanvasGroup _finishTrainingPanel;
 	    [SerializeField] private Button _lastStepButton;
 	    [SerializeField] private Image _fullDimImage;
 
-	    private float _waitTime = 0.7f;
 	    private WaitForSeconds _wait;
-	    private BoostButton _reducePaintsBoostButton;
 	    private bool _isTrainingDone = false;
-	    private int _movesBeforeTraining = 2;
 	    private int _performedMoves = 0;
 		private bool _isEventsSubscribed = false;
 	    private bool _isTrainingStarted = false;
-	    private RectTransform _buttonRectTransform;
+		private BoostButton _reducePaintsBoostButton;
+		private RectTransform _buttonRectTransform;
 
 	    private void Awake()
 	    {
-	        _wait = new WaitForSeconds(_waitTime);
+	        _wait = new WaitForSeconds(WaitTime);
 	    }
 
 	    private void OnDestroy()
@@ -84,7 +85,7 @@ namespace SlimeGround.Gameplay.Training
 	        {
 	            _performedMoves++;
 
-	            if (_performedMoves == _movesBeforeTraining)
+	            if (_performedMoves == MovesBeforeTraining)
 	            {
 	                StartCoroutine(StartTrainingMove());
 	                _isTrainingStarted = true;

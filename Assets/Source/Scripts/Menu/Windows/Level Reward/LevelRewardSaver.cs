@@ -6,14 +6,14 @@ namespace SlimeGround.Menu.Windows.LevelReward
 {
 	public class LevelRewardSaver
 	{
+		private readonly PlayerDataProvider _playerData;
+		private readonly UpgradesProvider _upgradesProvider;
+
 		public LevelRewardSaver(PlayerDataProvider playerData, UpgradesProvider upgradesProvider)
 	    {
 	        _playerData = playerData;
 	        _upgradesProvider = upgradesProvider;
 	    }
-
-		private PlayerDataProvider _playerData { get; }
-		private UpgradesProvider _upgradesProvider { get; }
 
 		public void AddReward(LevelRewardData reward, int multiplier = 1)
 	    {

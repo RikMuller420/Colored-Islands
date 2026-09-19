@@ -8,16 +8,17 @@ namespace SlimeGround.Menu.Windows.Roulette
 {
 	public class Slot : MonoBehaviour
 	{
-	    [SerializeField] private GameObject _goldIcon;
+		private const float FaceDropChance = 50;
+		private const float RemoveAddDropChance = 1;
+		private const float GoldPerCoinDropChance = 3000;
+
+		[SerializeField] private GameObject _goldIcon;
 	    [SerializeField] private TextMeshProUGUI _goldAmountText;
 	    [SerializeField] private GameObject _removeAdsIcon;
 	    [SerializeField] private GameObject _faceIcon;
 	    [SerializeField] private Image _faceImage;
 
 	    private UnitsFaceSettings _faceSettings;
-	    private float _faceDropChance = 50;
-	    private float _removeAddDropChance = 1;
-	    private float _goldPerCoinDropChance = 3000;
 
 	    public float DropChance { get; private set; }
 	    public RouletteRewardType RouletteRewardType { get; private set; }
@@ -36,7 +37,7 @@ namespace SlimeGround.Menu.Windows.Roulette
 	        _goldIcon.SetActive(true);
 	        _goldAmountText.gameObject.SetActive(true);
 	        _goldAmountText.text = amount.ToString();
-	        DropChance = _goldPerCoinDropChance / amount;
+	        DropChance = GoldPerCoinDropChance / amount;
 	        RouletteRewardType = RouletteRewardType.Gold;
 	        GoldAmount = amount;
 	    }
@@ -45,7 +46,7 @@ namespace SlimeGround.Menu.Windows.Roulette
 	    {
 	        DeactivateIcons();
 	        _removeAdsIcon.SetActive(true);
-	        DropChance = _removeAddDropChance;
+	        DropChance = RemoveAddDropChance;
 	        RouletteRewardType = RouletteRewardType.RemoveAds;
 	    }
 
@@ -55,7 +56,7 @@ namespace SlimeGround.Menu.Windows.Roulette
 	        _faceIcon.SetActive(true);
 	        Sprite faceSprite = _faceSettings.Faces.FirstOrDefault(face => face.Id == faceId).Sprite;
 	        _faceImage.sprite = faceSprite;
-	        DropChance = _faceDropChance;
+	        DropChance = FaceDropChance;
 	        RouletteRewardType = RouletteRewardType.Face;
 	        FaceID = faceId;
 	    }

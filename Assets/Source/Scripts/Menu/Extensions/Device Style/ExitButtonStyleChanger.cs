@@ -5,27 +5,27 @@ namespace SlimeGround.Menu.Extensions.DeviceStyle
 {
 	public class ExitButtonStyleChanger : MonoBehaviour, IDeviceStyleChanger
 	{
-	    [SerializeField] private RectTransform _rectTransform;
+		private const float DesctopScale = 1f;
+		private const float MobileScale = 1.2f;
+		private readonly Vector2 _desctopAnchor = new Vector2(0.95f, 0.82f);
+		private readonly Vector2 _mobileAnchor = new Vector2(0.05f, -0.02f);
+
+		[SerializeField] private RectTransform _rectTransform;
 	    [SerializeField] private Image _image;
 	    [SerializeField] private Sprite _desktopSprite;
 	    [SerializeField] private Sprite _mobileSprite;
-
-	    private Vector2 _desctopAnchor = new Vector2(0.95f, 0.82f);
-	    private Vector2 _mobileAnchor = new Vector2(0.05f, -0.02f);
-	    private float _desctopScale = 1f;
-	    private float _mobileScale = 1.2f;
 
 	    public void SetStyle(Integration.DeviceInfo.DeviceType deviceType)
 	    {
 	        if (deviceType == Integration.DeviceInfo.DeviceType.Desktop)
 	        {
 	            _image.sprite = _desktopSprite;
-	            SetButtonRectInfo(_desctopAnchor, _desctopScale);
+	            SetButtonRectInfo(_desctopAnchor, DesctopScale);
 	        }
 	        else
 	        {
 	            _image.sprite = _mobileSprite;
-	            SetButtonRectInfo(_mobileAnchor, _mobileScale);
+	            SetButtonRectInfo(_mobileAnchor, MobileScale);
 	        }
 	    }
 

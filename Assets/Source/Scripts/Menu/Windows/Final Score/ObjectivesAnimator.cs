@@ -5,13 +5,13 @@ namespace SlimeGround.Menu.Windows.FinalScore
 {
 	public class ObjectivesAnimator : MonoBehaviour
 	{
-	    [SerializeField] private ObjectiveAnimator _angryScoreObjective;
+		private const int PercentMultiplier = 100;
+
+		[SerializeField] private ObjectiveAnimator _angryScoreObjective;
 	    [SerializeField] private ObjectiveAnimator _movesObjective;
 	    [SerializeField] private ObjectiveAnimator _goldObjective;
 	    [SerializeField] private NumberTextGrowAnimator _goldTextAnimator;
 	    [SerializeField] private TextGrowAnimatorSettings _goldGrowSettings;
-
-	    private int _percentMultiplier = 100;
 
 	    public void ResetObjectives()
 	    {
@@ -24,7 +24,7 @@ namespace SlimeGround.Menu.Windows.FinalScore
 	    public void ShowAngryScoreAnimation(float angryValue, bool isCompleted, out float animationDuration)
 	    {
 	        animationDuration = _angryScoreObjective.AnimationDuration;
-	        int revercedAngryPercent = _percentMultiplier - (int)(angryValue * _percentMultiplier);
+	        int revercedAngryPercent = PercentMultiplier - (int)(angryValue * PercentMultiplier);
 	        _angryScoreObjective.ShowAppearAnimation($"{revercedAngryPercent}%", isCompleted);
 	    }
 

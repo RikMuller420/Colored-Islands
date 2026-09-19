@@ -11,7 +11,7 @@ namespace SlimeGround.Integration.Leaderboards
 	    private const int QuantityAround = 6;
 	    private const string PhotoSizeKey = "small";
 
-	    private LeaderboardConverter _leaderboardConverter;
+	    private readonly LeaderboardConverter _leaderboardConverter;
 
 	    public LeaderboardProvider()
 	    {

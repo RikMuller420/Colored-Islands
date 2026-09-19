@@ -18,7 +18,7 @@ namespace SlimeGround.Gameplay.Levels
 	    [SerializeField] private LevelProgressTracker _levelProgressTracker;
 
 	    private bool _isTrackingLevel = false;
-	    private bool _isTrackingAngryValue = false;
+	    private bool _isTrackingAngerValue = false;
 	    private bool _firstMoveDone = false;
 	    private float _levelTime = 0f;
 	    private int _levelMoves = 0;
@@ -26,19 +26,19 @@ namespace SlimeGround.Gameplay.Levels
 	    private GoldCalculator _goldCalculator;
 	    private LevelScoreCalculator _scoreCalculator;
 	    private UnitMover _unitMover;
-	    private AngryTracker _angryTracker;
+	    private AngerTracker _angerTracker;
 
 	    public event Action<Island> IslandFinished;
 	    public event Action<ILevelData> LevelFinished;
 	    public event Action<float> TimeChanged;
-	    public event Action<float> AngryChanged;
-	    public event Action AngryTaskFailed;
+	    public event Action<float> AngerChanged;
+	    public event Action AngerTaskFailed;
 	    public event Action TrackStopped;
 	    public event Action FirstMoveDone;
 
-	    public bool IsAngryTaskDone => _angryTracker.AngryValue < 1f;
+	    public bool IsAngryTaskDone => _angerTracker.AngryValue < 1f;
 	    public bool IsMoveTaskDone => _levelMoves <= _currentLevelData.ExtraStarMoveCount;
-	    public float AngryValue => _angryTracker.AngryValue;
+	    public float AngryValue => _angerTracker.AngryValue;
 	    public int ReachedGold { get; private set; }
 	    public int ReachedScore { get; private set; }
 
@@ -61,15 +61,15 @@ namespace SlimeGround.Gameplay.Levels
 	            _levelTime += Time.deltaTime;
 	            TimeChanged?.Invoke(_levelTime);
 
-	            if (_isTrackingAngryValue)
+	            if (_isTrackingAngerValue)
 	            {
-	                _angryTracker.AddAngryTick();
-	                AngryChanged?.Invoke(_angryTracker.AngryValue);
+	                _angerTracker.AddAngryTick();
+	                AngerChanged?.Invoke(_angerTracker.AngryValue);
 
-	                if (_angryTracker.AngryValue >= 1f)
+	                if (_angerTracker.AngryValue >= 1f)
 	                {
-	                    AngryTaskFailed?.Invoke();
-	                    _isTrackingAngryValue = false;
+	                    AngerTaskFailed?.Invoke();
+	                    _isTrackingAngerValue = false;
 	                    MetricSaver.TrackAngryBarFailed();
 	                }
 	            }
@@ -81,7 +81,7 @@ namespace SlimeGround.Gameplay.Levels
 	    {
 			_currentLevelData = currentLevelData;
 	        _unitMover = unitMover;
-	        _angryTracker = new AngryTracker(currentLevelData, _levelProgressTracker, upgradesData, _levelChangeEventTracker);
+	        _angerTracker = new AngerTracker(currentLevelData, _levelProgressTracker, upgradesData, _levelChangeEventTracker);
 	        _goldCalculator = new GoldCalculator(playerData, upgradesData, currentLevelData);
 	        _scoreCalculator = new LevelScoreCalculator(currentLevelData);
 
@@ -90,7 +90,7 @@ namespace SlimeGround.Gameplay.Levels
 
 		public void Dispose()
 		{
-			_angryTracker.Dispose();
+			_angerTracker.Dispose();
 		}
 
 	    public void PauseTracking()
@@ -128,11 +128,11 @@ namespace SlimeGround.Gameplay.Levels
 	        _levelTime = 0f;
 	        ReachedGold = 0;
 	        ReachedScore = 0;
-	        _angryTracker.ResetAngryValue();
+	        _angerTracker.ResetAngryValue();
 	        _isTrackingLevel = true;
-	        _isTrackingAngryValue = false;
+	        _isTrackingAngerValue = false;
 	        _firstMoveDone = false;
-	        AngryChanged?.Invoke(_angryTracker.AngryValue);
+	        AngerChanged?.Invoke(_angerTracker.AngryValue);
 	    }
 
 	    private void StopTracking(ILevelData levelData)
@@ -162,13 +162,13 @@ namespace SlimeGround.Gameplay.Levels
 	        {
 	            _firstMoveDone = true;
 	            FirstMoveDone?.Invoke();
-	            _isTrackingAngryValue = true;
+	            _isTrackingAngerValue = true;
 	        }
 
-	        if (_isTrackingAngryValue)
+	        if (_isTrackingAngerValue)
 	        {
-	            _angryTracker.AddUnitsMovedTick(unitsMoveInfo);
-	            AngryChanged?.Invoke(_angryTracker.AngryValue);
+	            _angerTracker.AddUnitsMovedTick(unitsMoveInfo);
+	            AngerChanged?.Invoke(_angerTracker.AngryValue);
 	        }
 	    }
 
@@ -176,10 +176,10 @@ namespace SlimeGround.Gameplay.Levels
 	    {
 	        IslandFinished?.Invoke(finishedIsland);
 
-	        if (_isTrackingLevel && _isTrackingAngryValue)
+	        if (_isTrackingLevel && _isTrackingAngerValue)
 	        {
-	            _angryTracker.AddIslandFinishedTick(finishedIsland);
-	            AngryChanged?.Invoke(_angryTracker.AngryValue);
+	            _angerTracker.AddIslandFinishedTick(finishedIsland);
+	            AngerChanged?.Invoke(_angerTracker.AngryValue);
 	        }
 
 	        foreach (Island island in _currentLevelData.Islands)

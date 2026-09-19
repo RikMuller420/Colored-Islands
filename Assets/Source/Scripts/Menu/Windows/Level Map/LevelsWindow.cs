@@ -9,10 +9,10 @@ namespace SlimeGround.Menu.Windows.LevelMap
 {
 	public class LevelsWindow : MenuWindow
 	{
-	    [SerializeField] private IPlayerData _playerData;
-	    [SerializeField] private TabSwitcher _tabSwitcher;
+		private const int LevelPerTab = 20;
 
-	    private int _levelPerTab = 20;
+		[SerializeField] private IPlayerData _playerData;
+	    [SerializeField] private TabSwitcher _tabSwitcher;
 
 	    [SerializeField] private LevelLoader _levelLoader;
 	    [SerializeField] private List<LevelTabInitializer> _levelTabInitializers;
@@ -37,7 +37,7 @@ namespace SlimeGround.Menu.Windows.LevelMap
 	        base.Open();
 
 			int lastLevelId = _playerData.Progress.GetLastAvailableLevelId();
-			int tabIndex = (lastLevelId - 1) / _levelPerTab;
+			int tabIndex = (lastLevelId - 1) / LevelPerTab;
 
 	        if (tabIndex < 0)
 	        {

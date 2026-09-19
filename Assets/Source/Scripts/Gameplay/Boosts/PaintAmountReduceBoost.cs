@@ -11,6 +11,11 @@ namespace SlimeGround.Gameplay.Boosts
 {
 	public class PaintAmountReduceBoost : Boost
 	{
+		private readonly ILevelData _currentLevelData;
+		private readonly BuferIslands _buferIslands;
+		private readonly UnitMover _unitMover;
+		private readonly IPlayerData _playerData;
+
 		private int _bestNewColorIndex = 2;
 
 	    public PaintAmountReduceBoost(ILevelData currentLevelData, BuferIslands buferIslands,
@@ -22,11 +27,6 @@ namespace SlimeGround.Gameplay.Boosts
 	        _unitMover = unitMover;
 	        _playerData = playerData;
 	    }
-
-		private ILevelData _currentLevelData { get; }
-		private BuferIslands _buferIslands { get; }
-		private UnitMover _unitMover { get; }
-		private IPlayerData _playerData { get; }
 
 		public override BoostType Type => BoostType.ReducePaints;
 

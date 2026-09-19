@@ -8,17 +8,17 @@ namespace SlimeGround.Menu.Windows.FinalScore
 {
 	public class StarsAnimator : MonoBehaviour
 	{
-	    [SerializeField] private List<Image> _stars;
+		private const float ScaleDurationGrow = 0.7f;
+		private const float ScaleDurationDecrease = 0.25f;
+		private const float FadeDuration = 0.5f;
+		private const float ScaleInGrow = 1.2f;
+		private const float FinalScale = 1f;
 
-	    private float _scaleDurationGrow = 0.7f;
-	    private float _scaleDurationDecrease = 0.25f;
-	    private float _fadeDuration = 0.5f;
-	    private float _scaleInGrow = 1.2f;
-	    private float _finalScale = 1f;
+		[SerializeField] private List<Image> _stars;
 
 	    private int _curentStar = 0;
 
-	    public float AnmationDuration { get => _scaleDurationGrow + _scaleDurationDecrease; }
+	    public float AnmationDuration { get => ScaleDurationGrow + ScaleDurationDecrease; }
 
 	    public void ResetStars()
 	    {
@@ -54,10 +54,10 @@ namespace SlimeGround.Menu.Windows.FinalScore
 	    {
 	        star.gameObject.SetActive(true);
 	        Sequence scaleSequence = DOTween.Sequence();
-	        scaleSequence.Append(star.transform.DOScale(_scaleInGrow, _scaleDurationGrow))
-	                     .Append(star.transform.DOScale(_finalScale, _scaleDurationDecrease));
+	        scaleSequence.Append(star.transform.DOScale(ScaleInGrow, ScaleDurationGrow))
+	                     .Append(star.transform.DOScale(FinalScale, ScaleDurationDecrease));
 
-	        star.DOFade(1f, _fadeDuration);
+	        star.DOFade(1f, FadeDuration);
 	    }
 	}
 }

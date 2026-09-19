@@ -7,12 +7,13 @@ namespace SlimeGround.Menu.Windows.Roulette
 {
 	public class RouletteWindowOpener : MonoBehaviour
 	{
-	    [SerializeField] private Button _button;
+		private const float FadeDuration = 1f;
+
+		[SerializeField] private Button _button;
 	    [SerializeField] private RouletteWindow _window;
 	    [SerializeField] private CanvasGroup _canvasGroup;
 
 	    private IPlayerData _playerData;
-	    private float _fadeDuration = 1f;
 	    private bool _isAvailable = false;
 
 	    private void OnEnable()
@@ -44,7 +45,7 @@ namespace SlimeGround.Menu.Windows.Roulette
 	        _isAvailable = isAvailable;
 	        _button.interactable = isAvailable;
 	        float alpha = isAvailable ? 1f : 0;
-	        _canvasGroup.DOFade(alpha, _fadeDuration)
+	        _canvasGroup.DOFade(alpha, FadeDuration)
 	                       .SetEase(Ease.OutQuad);
 	    }
 

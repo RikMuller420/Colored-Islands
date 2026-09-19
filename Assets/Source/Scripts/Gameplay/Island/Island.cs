@@ -45,7 +45,7 @@ namespace SlimeGround.Gameplay.Islands
 	    public void SetRequredUnitSlot(UnitSlotType unitSlot, ColorSample colorSample)
 	    {
 	        RequredUnitSlot = unitSlot;
-	        _renderer.SetPaint(colorSample, _points);
+	        _renderer.SetColorSample(colorSample, _points);
 	    }
 
 	    public void TryFinish()

@@ -7,13 +7,14 @@ namespace UI.TabSystem
 {
     public class TabButton : MonoBehaviour
     {
-        [SerializeField] private Button _button;
+		private readonly Color _activeTextColor = Color.white;
+		private readonly Color _inactiveTextColor = new Color(0.82f, 0.5f, 0.15f);
+
+		[SerializeField] private Button _button;
         [SerializeField] private Image _activeBackground;
         [SerializeField] private Image _inactiveBackground;
         [SerializeField] private TextMeshProUGUI _text;
 
-        private Color _activeTextColor = Color.white;
-        private Color _inactiveTextColor = new Color(0.82f, 0.5f, 0.15f);
         private bool _isActive = false;
 
         public event Action<TabButton> TabSelected;

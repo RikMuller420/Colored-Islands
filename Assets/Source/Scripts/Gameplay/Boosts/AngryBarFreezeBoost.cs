@@ -6,6 +6,10 @@ namespace SlimeGround.Gameplay.Boosts
 {
 	public class AngryBarFreezeBoost : Boost, IBoostStopApplyedEvent
 	{
+		private readonly LevelProgressTracker _levelProgressTracker;
+		private readonly LevelChangeEventTracker _levelChangeEventTracker;
+		private readonly UnitMover _unitMover;
+
 		private int _usedMoves = 0;
 	    private int _maxMoves = 7;
 	    private bool _isBoostApplying = false;
@@ -21,10 +25,6 @@ namespace SlimeGround.Gameplay.Boosts
 			_unitMover.UnitsMoved += OnUnitMoved;
 			_levelChangeEventTracker.LevelChanged += OnLevelChanged;
 	    }
-
-		private LevelProgressTracker _levelProgressTracker { get; }
-		private LevelChangeEventTracker _levelChangeEventTracker { get; }
-		private UnitMover _unitMover { get; }
 
 		public event Action StopApplyed;
 

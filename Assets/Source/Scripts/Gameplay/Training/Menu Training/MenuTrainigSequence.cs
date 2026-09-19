@@ -15,7 +15,11 @@ namespace SlimeGround.Gameplay.Training
 	    private const string ShopHintKey = "Shop Description";
 	    private const string FinalHintKey = "Final Training Hint";
 
-	    [SerializeField] private LevelLoader _levelLoader;
+		private const float StartDelay = 0.3f;
+		private const float FadeDuration = 1f;
+		private const float DescriptionTypingDuration = 1.7f;
+
+		[SerializeField] private LevelLoader _levelLoader;
 	    [SerializeField] private Image _fullDimImage;
 	    [SerializeField] private CustomizationWindow _customizationWindow;
 	    [SerializeField] private MenuWindow _shopWindow;
@@ -25,18 +29,14 @@ namespace SlimeGround.Gameplay.Training
 	    [SerializeField] private Button _dimButton;
 	    [SerializeField] private Button _goNextButton;
 
-	    private float _startDelay = 0.3f;
-	    private float _fadeDuration = 1f;
-	    private float _descriptionTypeDuration = 1.7f;
-
 	    public void StartTraining()
 	    {
 	        _fullDimImage.raycastTarget = true;
 	        _fullDimImage.color = Color.black;
 	        _levelLoader.LoadMainMenu();
 	        _customizationWindow.Open();
-	        DOTween.Sequence().Append(_fullDimImage.DOFade(0f, _fadeDuration)
-	                  .SetDelay(_startDelay)
+	        DOTween.Sequence().Append(_fullDimImage.DOFade(0f, FadeDuration)
+	                  .SetDelay(StartDelay)
 	                  .SetEase(Ease.InOutQuad))
 	                  .OnComplete(() => StartCustomizationTraining());
 	    }
@@ -44,7 +44,7 @@ namespace SlimeGround.Gameplay.Training
 	    private void StartCustomizationTraining()
 	    {
 	        _trainingHintGroup.blocksRaycasts = true;
-	        DOTween.Sequence().Append(_trainingHintGroup.DOFade(1f, _fadeDuration));
+	        DOTween.Sequence().Append(_trainingHintGroup.DOFade(1f, FadeDuration));
 	        PrintHint(CustomizationHintKey);
 
 	        _goNextButton.interactable = false;
@@ -58,7 +58,7 @@ namespace SlimeGround.Gameplay.Training
 	    {
 	        string description = LeanLocalization.GetTranslationText(key);
 	        _trainingHintText.text = "";
-	        DOTween.Sequence().Append(_trainingHintText.DOText(description, _descriptionTypeDuration)
+	        DOTween.Sequence().Append(_trainingHintText.DOText(description, DescriptionTypingDuration)
 	                          .SetEase(Ease.Linear))
 	                          .OnComplete(() =>
 	                          {
@@ -102,7 +102,7 @@ namespace SlimeGround.Gameplay.Training
 	        _goNextButton.onClick.RemoveListener(CloseTraining);
 	        _dimButton.onClick.RemoveListener(CloseTraining);
 
-	        DOTween.Sequence().Append(_trainingHintGroup.DOFade(0f, _fadeDuration));
+	        DOTween.Sequence().Append(_trainingHintGroup.DOFade(0f, FadeDuration));
 	        _trainingHintGroup.blocksRaycasts = false;
 	    }
 	}

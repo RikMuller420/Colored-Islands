@@ -7,18 +7,18 @@ namespace SlimeGround.Menu.Windows.FinalScore
 {
 	public class ResultButtons : MonoBehaviour
 	{
-	    [SerializeField] private List<Button> _buttons;
+		private const float MinScale = 1f;
+		private const float MaxScale = 1.15f;
+		private const float AnimationDuration = 0.25f;
 
-	    private float _minScale = 1f;
-	    private float _maxScale = 1.15f;
-	    private float _animationDuration = 0.25f;
+		[SerializeField] private List<Button> _buttons;
 
 	    public void ResetButtons()
 	    {
 	        foreach (Button button in _buttons)
 	        {
 	            button.enabled = false;
-	            button.transform.localScale = Vector3.one * _minScale;
+	            button.transform.localScale = Vector3.one * MinScale;
 	        }
 	    }
 
@@ -36,7 +36,7 @@ namespace SlimeGround.Menu.Windows.FinalScore
 	        int loops = 2;
 
 	        button
-	            .DOScale(_maxScale, _animationDuration)
+	            .DOScale(MaxScale, AnimationDuration)
 	            .SetEase(Ease.OutQuad)
 	            .SetLoops(loops, LoopType.Yoyo);
 	    }

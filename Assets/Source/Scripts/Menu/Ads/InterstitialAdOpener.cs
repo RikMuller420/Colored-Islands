@@ -6,15 +6,20 @@ namespace SlimeGround.Menu.Ads
 {
 	public class InterstitialAdOpener
 	{
-	    private int _adMinLevelId = 4;
-	    private int _loadsBeforeAd = 0;
-	    private float _adCooldownSeconds = 30f;
+	    private const int AddMinLevelId = 4;
+	    private const float AddCooldownSeconds = 30f;
+	    private const int LoadsBeforeAdd = 1;
 
-	    private int _currentLoadsWithoutAd = 0;
+		private readonly LevelChangeEventTracker _levelChangeEventTracker;
+		private readonly RemoveAdsProvider _removeAdsProvider;
+		private readonly InterstitialAdProvider _interAdProvider;
+		private readonly RewardedAdProvider _rewardedAdProvider;
+
+		private int _currentLoadsWithoutAdd = 0;
 	    private DateTime _lastAdTime;
 
 		public InterstitialAdOpener(LevelChangeEventTracker levelChangeEventTracker, RemoveAdsProvider removeAdsProvider,
-	                              InterstitialAdProvider interAdProvider, RewardedAdProvider rewardedAdProvider)
+	                                InterstitialAdProvider interAdProvider, RewardedAdProvider rewardedAdProvider)
 	    {
 	        _levelChangeEventTracker = levelChangeEventTracker;
 	        _removeAdsProvider = removeAdsProvider;
@@ -26,11 +31,6 @@ namespace SlimeGround.Menu.Ads
 	        _rewardedAdProvider.RewardedAdClosed += ResetAdTimer;
 	    }
 
-		private LevelChangeEventTracker _levelChangeEventTracker { get; }
-		private RemoveAdsProvider _removeAdsProvider { get; }
-		private InterstitialAdProvider _interAdProvider { get; }
-		private RewardedAdProvider _rewardedAdProvider { get; }
-
 		public void Dispose()
 		{
 			_levelChangeEventTracker.LevelChanged -= OnLevelChanged;
@@ -40,9 +40,9 @@ namespace SlimeGround.Menu.Ads
 
 	    private void OnLevelChanged(ILevelData levelData)
 	    {
-	        _currentLoadsWithoutAd++;
+	        _currentLoadsWithoutAdd++;
 
-	        if (levelData.LevelId < _adMinLevelId)
+	        if (levelData.LevelId < AddMinLevelId)
 	        {
 	            return;
 	        }
@@ -54,12 +54,12 @@ namespace SlimeGround.Menu.Ads
 
 	        float secondsFromLastAd = (float)(DateTime.Now - _lastAdTime).TotalSeconds;
 
-	        if (secondsFromLastAd < _adCooldownSeconds)
+	        if (secondsFromLastAd < AddCooldownSeconds)
 	        {
 	            return;
 	        }
 
-	        if (_currentLoadsWithoutAd > _loadsBeforeAd)
+	        if (_currentLoadsWithoutAdd > LoadsBeforeAdd)
 	        {
 	            _interAdProvider.ShowAd();
 	        }
@@ -67,7 +67,7 @@ namespace SlimeGround.Menu.Ads
 
 	    private void OnInterAdOpened()
 	    {
-	        _currentLoadsWithoutAd = 0;
+	        _currentLoadsWithoutAdd = 0;
 	        ResetAdTimer();
 	    }
 

@@ -9,9 +9,9 @@ namespace SlimeGround.Gameplay.Training
 {
 	public class BoostButtonActivator : MonoBehaviour
 	{
-	    [SerializeField] private List<BoostButtonContent> _boostButtons = new();
+	    private const float FadeDuration = 0.7f;
 
-	    private float _fadeDuration = 0.7f;
+	    [SerializeField] private List<BoostButtonContent> _boostButtons = new();
 
 	    public BoostButton GetBoostButton(BoostType boostType) =>
 	        _boostButtons.Find(button => button.Type == boostType).ButtonScript;
@@ -61,7 +61,7 @@ namespace SlimeGround.Gameplay.Training
 	            initialColor.a = 0f;
 	            image.color = initialColor;
 
-	            image.DOFade(1f, _fadeDuration).SetEase(Ease.InOutSine);
+	            image.DOFade(1f, FadeDuration).SetEase(Ease.InOutSine);
 	        }
 	    }
 	}

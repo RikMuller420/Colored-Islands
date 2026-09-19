@@ -12,7 +12,13 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 {
 	public class NewLeaderPositionView : MonoBehaviour
 	{
-	    [SerializeField] private CanvasGroup _canvasGroup;
+		private const int ShowCoolDownSeconds = 60;
+		private const int StartShowLevelId = 8;
+		private const float FadeDuration = 0.5f;
+		private const float TypingTextDuration = 1.5f;
+		private const float ShowDuration = 6f;
+
+		[SerializeField] private CanvasGroup _canvasGroup;
 	    [SerializeField] private TextMeshProUGUI _text;
 	    [SerializeField] private List<NewLeaderPositionData> _textDatas = new List<NewLeaderPositionData>();
 
@@ -22,14 +28,7 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 
 	    private Dictionary<LeaderboardType, int> _playerRanks = new();
 	    private Dictionary<LeaderboardType, int> _showedPlayerRanks = new();
-
 	    private DateTime _lastShowTime = DateTime.Now;
-
-	    private int _showCoolDownSeconds = 60;
-	    private int _startShowLevelId = 8;
-	    private float _fadeDuration = 0.5f;
-	    private float _typeTextDuration = 1.5f;
-	    private float _showDuration = 6f;
 
 	    private void OnEnable()
 	    {
@@ -61,8 +60,8 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	    {
 	        float secondsFromLastShow = (float)DateTime.Now.Subtract(_lastShowTime).TotalSeconds;
 
-	        if (levelData.LevelId < _startShowLevelId ||
-	            secondsFromLastShow < _showCoolDownSeconds ||
+	        if (levelData.LevelId < StartShowLevelId ||
+	            secondsFromLastShow < ShowCoolDownSeconds ||
 	            _playerRanks.Count == 0)
 	        {
 	            return;
@@ -84,13 +83,13 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	        textData.Token.SetValue(newRank);
 	        string fullText = LeanLocalization.GetTranslationText(textData.LeanTextKey);
 	        _text.text = "";
-	        _text.DOText(fullText, _typeTextDuration).SetEase(Ease.Linear);
+	        _text.DOText(fullText, TypingTextDuration).SetEase(Ease.Linear);
 
-	        _canvasGroup.DOFade(1f, _fadeDuration).OnComplete(() =>
+	        _canvasGroup.DOFade(1f, FadeDuration).OnComplete(() =>
 	        {
-	            DOVirtual.DelayedCall(_showDuration, () =>
+	            DOVirtual.DelayedCall(ShowDuration, () =>
 	            {
-	                _canvasGroup.DOFade(0f, _fadeDuration);
+	                _canvasGroup.DOFade(0f, FadeDuration);
 	            });
 	        });
 

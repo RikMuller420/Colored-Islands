@@ -7,13 +7,13 @@ namespace SlimeGround.Gameplay.Boosts
 {
 	public class BoostAmountProvider
 	{
+		private readonly PlayerDataProvider _playerData;
+
 		public BoostAmountProvider(PlayerDataProvider playerData)
 	    {
 	        _playerData = playerData;
 	        _playerData.Resources.BoostsAmountChanged += OnBoostsAmountInSavedProgressChanged;
 	    }
-
-		private PlayerDataProvider _playerData { get; }
 
 		public event Action<BoostType> BoostsAmountChanged;
 		public event Action<BoostType> BoostApplyed;

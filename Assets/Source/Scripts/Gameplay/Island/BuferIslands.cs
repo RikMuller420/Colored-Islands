@@ -9,13 +9,14 @@ namespace SlimeGround.Gameplay.Islands
 {
 	public class BuferIslands : MonoBehaviour
 	{
-	    [SerializeField] private LevelSettings _levelSettings;
+		private const float AppearDuration = 0.3f;
+		private readonly Vector3 _hidedPostion = new Vector3(0, -0.5f, -5.3f);
+		private readonly Vector3 _defaultPostion = new Vector3(0, 0, -5.3f);
+
+		[SerializeField] private LevelSettings _levelSettings;
 
 	    private UnitMover _unitMover;
-	    private Vector3 _hidedPostion = new Vector3(0, -0.5f, -5.3f);
-	    private Vector3 _defaultPostion = new Vector3(0, 0, -5.3f);
-	    private float _appearDuration = 0.3f;
-
+	
 	    public BaseIsland CurrentIsland { get; private set; }
 
 	    public void Initialize(UnitMover unitMover)
@@ -35,7 +36,7 @@ namespace SlimeGround.Gameplay.Islands
 	        CurrentIsland.gameObject.SetActive(true);
 
 	        islandInitializer.transform.position = _hidedPostion;
-	        islandInitializer.transform.DOMove(_defaultPostion, _appearDuration)
+	        islandInitializer.transform.DOMove(_defaultPostion, AppearDuration)
 	                                   .SetEase(Ease.InOutQuad)
 	                                   .OnComplete(() =>
 	                                   {
@@ -64,7 +65,7 @@ namespace SlimeGround.Gameplay.Islands
 	            }
 	        }
 
-	        CurrentIsland.transform.DOMove(_hidedPostion, _appearDuration)
+	        CurrentIsland.transform.DOMove(_hidedPostion, AppearDuration)
 	                               .SetEase(Ease.InOutQuad)
 	                               .OnComplete(() => 
 	                                {

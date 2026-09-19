@@ -8,6 +8,11 @@ namespace SlimeGround.Menu.Windows.Customization
 {
 	public class CustomizationButtonAviabiltyUpdater
 	{
+		private readonly LevelProgressTracker _levelProgressTracker;
+		private readonly IPlayerData _playerData;
+		private readonly List<HatSelectButton> _hatSelectButtons;
+		private readonly List<FaceSelectButton> _faceSelectButtons;
+
 		public CustomizationButtonAviabiltyUpdater(LevelProgressTracker levelProgressTracker, IPlayerData playerData,
 	                                List<HatSelectButton> hatSelectButtons, List<FaceSelectButton> faceSelectButtons)
 	    {
@@ -19,11 +24,6 @@ namespace SlimeGround.Menu.Windows.Customization
 	        _levelProgressTracker.LevelFinished += UpdateHatAviability;
 	        _playerData.Customization.FaceUnlocked += UpdateFaceAviability;
 	    }
-
-		private LevelProgressTracker _levelProgressTracker { get; }
-		private IPlayerData _playerData { get; }
-		private List<HatSelectButton> _hatSelectButtons { get; }
-		private List<FaceSelectButton> _faceSelectButtons { get; }
 
 		public event Action HatButtonUnlocked;
 		public event Action FaceButtonUnlocked;

@@ -8,9 +8,16 @@ namespace SlimeGround.Menu.Boosts
 {
 	public class BoostAnimator
 	{
-		private Vector3 _effectOffset = new Vector3(0, 1f, 0f);
+		private readonly Vector3 _effectOffset = new Vector3(0, 1f, 0f);
 
-	    public BoostAnimator(Dictionary<Boost, BoostButton> boostsButtons, IIslandFinishEvent islandFinishEvent,
+		private readonly Dictionary<Boost, BoostButton> _boostsButtons;
+		private readonly BoostButton _islandFinishBoostButton;
+		private readonly IIslandFinishEvent _islandFinishEvent;
+
+		private readonly GameObject _finishIslandEffect;
+		private readonly GameObject _reduceColorEffect;
+
+		public BoostAnimator(Dictionary<Boost, BoostButton> boostsButtons, IIslandFinishEvent islandFinishEvent,
 	                         GameObject finishIslandEffect, GameObject reduceColorEffect)
 	    {
 	        _boostsButtons = boostsButtons;
@@ -36,13 +43,6 @@ namespace SlimeGround.Menu.Boosts
 
 	        _islandFinishEvent.IslandFinished += OnIslandAutoFinished;
 	    }
-
-		private Dictionary<Boost, BoostButton> _boostsButtons { get; }
-		private BoostButton _islandFinishBoostButton { get; }
-		private IIslandFinishEvent _islandFinishEvent { get; }
-
-		private GameObject _finishIslandEffect { get; }
-		private GameObject _reduceColorEffect { get; }
 
 		public void Dispose()
 		{

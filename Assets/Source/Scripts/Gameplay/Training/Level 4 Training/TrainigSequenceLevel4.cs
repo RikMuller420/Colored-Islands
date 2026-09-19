@@ -11,14 +11,15 @@ namespace SlimeGround.Gameplay.Training
 {
 	public class TrainigSequenceLevel4 : TrainigSequence
 	{
-	    [SerializeField] private CanvasGroup _angyBarBubble;
+		private const float StartDelay = 1f;
+		private const float BubbleFadeDuration = 0.7f;
+		private const float PointerAppearDelay = 0.5f;
+		private const float DescriptionTypeDuration = 1.5f;
+		private const float AngryValueForStartTraining = 0.4f;
+
+		[SerializeField] private CanvasGroup _angyBarBubble;
 	    [SerializeField] private TextMeshProUGUI _angryBarDescription;
 
-	    private float _startDelay = 1f;
-	    private float _bubbleFadeDuration = 0.7f;
-	    private float _pointerAppearDelay = 0.5f;
-	    private float _descriptionTypeDuration = 1.5f;
-	    private float _angryValueForStartTraining = 0.4f;
 	    private BoostButton _freezeObjectivesBoostButton;
 		private bool _isEventsSubscribed = false;
 		private bool _isTrainingStarted = false;
@@ -35,7 +36,7 @@ namespace SlimeGround.Gameplay.Training
 				InGameMenu.MenuOpened -= OnMenuOpened;
 				InGameMenu.MenuClosed -= OnMenuClosed;
 				_freezeObjectivesBoostButton.TryBoostApplying -= OnTryApplyingBoost;
-				LevelProgressTracker.AngryChanged -= OnAngryValueChanged;
+				LevelProgressTracker.AngerChanged -= OnAngryValueChanged;
 				LevelProgressTracker.FirstMoveDone -= OnUnitSelected;
 				LevelProgressTracker.IslandFinished -= OnIslandFinished;
 
@@ -57,7 +58,7 @@ namespace SlimeGround.Gameplay.Training
 				InGameMenu.MenuOpened += OnMenuOpened;
 				InGameMenu.MenuClosed += OnMenuClosed;
 				_freezeObjectivesBoostButton.TryBoostApplying += OnTryApplyingBoost;
-				LevelProgressTracker.AngryChanged += OnAngryValueChanged;
+				LevelProgressTracker.AngerChanged += OnAngryValueChanged;
 				UnitsSelectedEvent.UnitsSelected += OnUnitSelected;
 				LevelProgressTracker.IslandFinished += OnIslandFinished;
 
@@ -86,7 +87,7 @@ namespace SlimeGround.Gameplay.Training
 	            return;
 	        }
 
-	        DOTween.Sequence().Append(_angyBarBubble.DOFade(0f, _bubbleFadeDuration));
+	        DOTween.Sequence().Append(_angyBarBubble.DOFade(0f, BubbleFadeDuration));
 	        _isHintHided = true;
 	    }
 
@@ -94,7 +95,7 @@ namespace SlimeGround.Gameplay.Training
 	    {
 	        if (_isTrainingStarted == false)
 	        {
-	            if (value > _angryValueForStartTraining)
+	            if (value > AngryValueForStartTraining)
 	            {
 	                StartCoroutine(StartBoostTraining());
 	                _isTrainingStarted = true;
@@ -110,7 +111,7 @@ namespace SlimeGround.Gameplay.Training
 
 	        BoostButtonActivator.ActivateButtonWithFade(BoostType.FreezeObjectives);
 
-	        yield return new WaitForSeconds(_pointerAppearDelay);
+	        yield return new WaitForSeconds(PointerAppearDelay);
 
 	        UpdatePointerPosition(_buttonRectTransform);
 	        ActivatePointer();
@@ -118,12 +119,12 @@ namespace SlimeGround.Gameplay.Training
 
 	    private IEnumerator OpenAngyBarHintInDelay()
 	    {
-	        yield return new WaitForSeconds(_startDelay);
+	        yield return new WaitForSeconds(StartDelay);
 
 	        string description = _angryBarDescription.text;
 	        _angryBarDescription.text = "";
-	        DOTween.Sequence().Append(_angyBarBubble.DOFade(1f, _bubbleFadeDuration))
-	                          .Join(_angryBarDescription.DOText(description, _descriptionTypeDuration).SetEase(Ease.Linear));
+	        DOTween.Sequence().Append(_angyBarBubble.DOFade(1f, BubbleFadeDuration))
+	                          .Join(_angryBarDescription.DOText(description, DescriptionTypeDuration).SetEase(Ease.Linear));
 	    }
 
 	    private void OnMenuOpened()

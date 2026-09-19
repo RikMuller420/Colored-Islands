@@ -32,6 +32,7 @@ namespace SlimeGround
 	    [SerializeField] private UpgradeSettings _upgradeSettings;
 		[SerializeField] private RouletteSettings _rouletteSettings;
 
+		[Header("Click Layers")]
 		[SerializeField] private LayerMask _gameplayClickableLayer;
 		[SerializeField] private LayerMask _menuClickableLayer;
 

@@ -3,20 +3,22 @@ using UnityEngine;
 
 namespace SlimeGround.Gameplay.AngryBar
 {
-	public class AngryTrackerBalancer
+	public class AngerTrackerBalancer
 	{
-		private float _angryValueLimit = 0.3f;
-	    private bool _isCurrentLevelFinished = false;
+		private const float AngryValueLimit = 0.3f;
+		private const float Step = 0.2f;
+		private const float MinValue = 0.2f;
+		private const float MaxValue = 1.8f;
+		private const float DefaultValue = 1f;
 
-	    private float _step = 0.2f;
-	    private float _minValue = 0.2f;
-	    private float _maxValue = 1.8f;
-	    private float _defaultValue = 1f;
+		private readonly LevelProgressTracker _progressTracker;
+		private readonly LevelChangeEventTracker _levelChangeEventTracker;
 
 	    private int _winStreak = 0;
 	    private int _loseStreak = 0;
+		private bool _isCurrentLevelFinished = false;
 
-	    public AngryTrackerBalancer(LevelProgressTracker progressTracker, LevelChangeEventTracker levelChangeEventTracker)
+	    public AngerTrackerBalancer(LevelProgressTracker progressTracker, LevelChangeEventTracker levelChangeEventTracker)
 	    {
 	        _progressTracker = progressTracker;
 	        _levelChangeEventTracker = levelChangeEventTracker;
@@ -25,10 +27,7 @@ namespace SlimeGround.Gameplay.AngryBar
 	        _levelChangeEventTracker.LevelStartChanging += OnLevelStartChanging;
 	    }
 
-		private LevelProgressTracker _progressTracker { get; }
-		private LevelChangeEventTracker _levelChangeEventTracker { get; }
-
-		public float Value { get; private set; } = 1f;
+		public float Value { get; private set; } = DefaultValue;
 
 		public void Dispose()
 		{
@@ -38,7 +37,7 @@ namespace SlimeGround.Gameplay.AngryBar
 
 		private void OnLevelStartChanging()
 	    {
-	        if (_isCurrentLevelFinished == false && _progressTracker.AngryValue > _angryValueLimit)
+	        if (_isCurrentLevelFinished == false && _progressTracker.AngryValue > AngryValueLimit)
 	        {
 	            RecordLose();
 	        }
@@ -51,12 +50,12 @@ namespace SlimeGround.Gameplay.AngryBar
 	        if (_winStreak != 0)
 	        {
 	            _winStreak = 0;
-	            Value = 1;
+	            Value = DefaultValue;
 	        }
 
 	        _loseStreak++;
 
-	        Value = _defaultValue - (_loseStreak * _step);
+	        Value = DefaultValue - (_loseStreak * Step);
 	        ClampValue();
 	    }
 
@@ -72,10 +71,10 @@ namespace SlimeGround.Gameplay.AngryBar
 	        _loseStreak = 0;
 	        _winStreak++;
 
-	        Value = _defaultValue + (_winStreak * _step);
+	        Value = DefaultValue + (_winStreak * Step);
 	        ClampValue();
 	    }
 
-	    private void ClampValue() => Value = Mathf.Clamp(Value, _minValue, _maxValue);
+	    private void ClampValue() => Value = Mathf.Clamp(Value, MinValue, MaxValue);
 	}
 }

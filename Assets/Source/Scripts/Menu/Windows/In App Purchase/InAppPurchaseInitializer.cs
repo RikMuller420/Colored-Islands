@@ -13,14 +13,13 @@ namespace SlimeGround.Menu.Windows.InAppPurchase
 	public class InAppPurchaseInitializer : MonoBehaviour
 	{
 	    [SerializeField] private InAppSettings _inAppSettings;
-
 	    [SerializeField] private PlayerDataProvider _playerData;
 	    [SerializeField] private FreeStuffCollDownProvider _collDownProvider;
 	    [SerializeField] private InAppConfirmedWindow _inAppConfirmedWindow;
 	    [SerializeField] private RemoveAdsAviabilityUpdater _removeAdsAviabilityUpdater;
+	    [SerializeField] private GoldRewardByWatñhAddVideo _goldRewardByWathAddOffer;
 	    [SerializeField] private List<InAppOffer> _inAppOffers = new();
 	    [SerializeField] private List<InAppByAddViewOffer> _inAppByAddViewOffers = new();
-	    [SerializeField] private GoldRewardByWatñhAddVideo _goldRewardByWathAddOffer;
 
 		private InAppsProvider _inAppProvider;
 

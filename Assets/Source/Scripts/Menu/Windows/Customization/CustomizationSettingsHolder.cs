@@ -17,7 +17,12 @@ namespace SlimeGround.Menu.Windows.Customization
 	{
 	    private const string UnitFaceTextureName = "_OverlayTex";
 
-		public ShadowCastingMode ShadowCastingMode { get; private set; }
+		private readonly ColorSampleMaterials _paintMaterials;
+		private readonly IPlayerData _playerData;
+		private readonly UnitsFaceSettings _faceSettings;
+		private readonly UnitsHatSettings _hatSettings;
+		private readonly DeviceInfoProvider _deviceInfoProvider = new();
+		private readonly List<UnitCustomizationSettings> _customizationSettings = new();
 
 	    public CustomizationSettingsHolder(ColorSampleMaterials paintMaterials, IPlayerData playerData,
 	                                       UnitsFaceSettings faceSettings, UnitsHatSettings hatSettings)
@@ -38,12 +43,7 @@ namespace SlimeGround.Menu.Windows.Customization
 			_playerData.Settings.ShadowActiveStatusChanged += SetShadowCastingMode;
 		}
 
-		private ColorSampleMaterials _paintMaterials { get; }
-		private IPlayerData _playerData { get; }
-		private UnitsFaceSettings _faceSettings { get; }
-		private UnitsHatSettings _hatSettings { get; }
-		private DeviceInfoProvider _deviceInfoProvider { get; } = new();
-		private List<UnitCustomizationSettings> _customizationSettings { get; } = new();
+		public ShadowCastingMode ShadowCastingMode { get; private set; }
 
 		public void Dispose()
 		{
@@ -93,7 +93,6 @@ namespace SlimeGround.Menu.Windows.Customization
 	        return new UnitCustomizationSettings
 	        (
 	            slot,
-	            colorSample,
 	            unitMaterial,
 	            selectedUnitMaterial,
 	            hatData,

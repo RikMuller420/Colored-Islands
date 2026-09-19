@@ -6,6 +6,10 @@ namespace SlimeGround.Gameplay.Boosts
 {
 	public class BoostSoundPlayer
 	{
+		private readonly GameplaySoundPlayer _gameplaySoundPlayer;
+		private readonly MenuWindow _outOfBoostWindow;
+		private readonly IEnumerable<Boost> _boosts;
+
 		public BoostSoundPlayer(GameplaySoundPlayer gameplaySoundPlayer, MenuWindow outOfBoostWindow,
 	                            IEnumerable<Boost> boosts)
 	    {
@@ -20,10 +24,6 @@ namespace SlimeGround.Gameplay.Boosts
 
 	        _outOfBoostWindow.MenuOpened += OutOfBoostWindowOpened;
 	    }
-
-		private GameplaySoundPlayer _gameplaySoundPlayer { get; }
-		private MenuWindow _outOfBoostWindow { get; }
-		private IEnumerable<Boost> _boosts { get; }
 
 		public void Dispose()
 		{

@@ -7,13 +7,13 @@ namespace SlimeGround.Gameplay.Training
 {
 	public class TrainigSequenceIce : TrainigSequence
 	{
-	    [SerializeField] private CanvasGroup _iceHint;
+		private const float AppearTime = 0.7f;
+		private const float DisappearTime = 1.5f;
+		private const float CameraTrackDuration = 4f;
 
-	    private float _appearTime = 0.7f;
-	    private float _disappearTime = 1.5f;
-		private float _cameraTrackDuration = 4f;
+		[SerializeField] private CanvasGroup _iceHint;
+
 		private bool _isEventsSubscribed = false;
-
 		private Coroutine _rotateCoroutine;
 		private WaitForEndOfFrame _waitForEndOfFrame;
 
@@ -34,7 +34,7 @@ namespace SlimeGround.Gameplay.Training
 		public override void StartTraining()
 	    {
 			_waitForEndOfFrame = new WaitForEndOfFrame();
-			_iceHint.DOFade(1f, _appearTime);
+			_iceHint.DOFade(1f, AppearTime);
 			_rotateCoroutine = StartCoroutine(RotateTextPanel());
 
 			if (_isEventsSubscribed == false)
@@ -46,7 +46,7 @@ namespace SlimeGround.Gameplay.Training
 
 	    private void OnUnitsMoved(UnitsMoveInfo _)
 	    {
-	        _iceHint.DOFade(0f, _disappearTime);
+	        _iceHint.DOFade(0f, DisappearTime);
 	    }
 
 		private IEnumerator RotateTextPanel()
@@ -63,7 +63,7 @@ namespace SlimeGround.Gameplay.Training
 
 				time += Time.deltaTime;
 
-				if (time > _cameraTrackDuration)
+				if (time > CameraTrackDuration)
 				{
 					break;
 				}

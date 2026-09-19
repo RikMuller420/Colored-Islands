@@ -7,8 +7,8 @@ namespace SlimeGround.Menu.Windows.GameShop.Upgrades
 {
 	public class UpgradesProvider : IUpgradesData
 	{
-	    private PlayerDataProvider _playerData;
-	    private UpgradeSettings _upgradeSettings;
+	    private readonly PlayerDataProvider _playerData;
+	    private readonly UpgradeSettings _upgradeSettings;
 
 	    public UpgradesProvider(PlayerDataProvider playerData, UpgradeSettings upgradeSettings)
 	    {

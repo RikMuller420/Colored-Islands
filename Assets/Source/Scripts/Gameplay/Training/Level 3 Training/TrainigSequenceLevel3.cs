@@ -12,18 +12,19 @@ namespace SlimeGround.Gameplay.Training
 {
 	public class TrainigSequenceLevel3 : TrainigSequence
 	{
-	    [SerializeField] private MenuWindow _customizationHint;
+		private const float WaitTime = 0.7f;
+		private const int MovesBeforeTraining = 2;
+
+		[SerializeField] private MenuWindow _customizationHint;
 	    [SerializeField] private Button _openCustomizationButton;
 
 	    [SerializeField] private Island _islandForBoost;
 	    [SerializeField] private RectTransform _worldSpacePointer;
 	    [SerializeField] private Image _worldSpacePointerImage;
 
-	    private float _waitTime = 0.7f;
-	    private WaitForSeconds _wait;
+		private WaitForSeconds _wait;
 	    private BoostButton _finishIslandBoostButton;
 	    private bool _isTrainingDone = false;
-	    private int _movesBeforeTraining = 2;
 	    private int _performedMoves = 0;
 		private bool _isEventsSubscribed = false;
 		private bool _isTrainingStarted = false;
@@ -31,7 +32,7 @@ namespace SlimeGround.Gameplay.Training
 
 	    private void Awake()
 	    {
-	        _wait = new WaitForSeconds(_waitTime);
+	        _wait = new WaitForSeconds(WaitTime);
 	    }
 
 	    private void OnDestroy()
@@ -95,7 +96,7 @@ namespace SlimeGround.Gameplay.Training
 	        {
 	            _performedMoves++;
 
-	            if (_performedMoves == _movesBeforeTraining)
+	            if (_performedMoves == MovesBeforeTraining)
 	            {
 	                StartCoroutine(StartFirstTrainingMove());
 	                _isTrainingStarted = true;

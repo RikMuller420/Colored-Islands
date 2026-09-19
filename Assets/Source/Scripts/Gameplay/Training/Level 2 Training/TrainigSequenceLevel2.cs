@@ -7,7 +7,8 @@ namespace SlimeGround.Gameplay.Training
 {
 	public class TrainigSequenceLevel2 : TrainigSequence
 	{
-	    private float _startDelay = 1f;
+	    private const float StartDelay = 1f;
+
 	    private WaitForSeconds _startWait;
 	    private BoostButton _boostButton;
 		private bool _isEventsSubscribed = false;
@@ -16,7 +17,7 @@ namespace SlimeGround.Gameplay.Training
 
 	    private void Awake()
 	    {
-	        _startWait = new WaitForSeconds(_startDelay);
+	        _startWait = new WaitForSeconds(StartDelay);
 	    }
 
 	    private void OnDestroy()

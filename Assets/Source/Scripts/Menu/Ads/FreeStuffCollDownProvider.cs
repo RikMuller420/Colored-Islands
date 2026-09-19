@@ -7,25 +7,26 @@ namespace SlimeGround.Menu.Ads
 {
 	public class FreeStuffCollDownProvider : MonoBehaviour
 	{
-	    [SerializeField] private LeanToken _timerToken;
+		private const int CoolDownSeconds = 150;
+		private const int SecondsInMinute = 60;
+
+		[SerializeField] private LeanToken _timerToken;
 
 	    private int _restSeconds = 0;
-	    private int _awaitSeconds = 150;
-	    private int _secondsInMinute = 60;
 	    private WaitForSeconds _awaitSecond;
 	    private Coroutine _timerCoroutine;
 
 	    public event Action CoolDownStarted;
 	    public event Action CoolDownFinished;
 
-	    public bool IsAddAviable => _restSeconds <= 0;
-
 	    private void Start()
 	    {
 	        _awaitSecond = new WaitForSeconds(1);
 	    }
 
-	    public bool TryUseAdd()
+		public bool IsAddAviable => _restSeconds <= 0;
+
+		public bool TryUseAdd()
 	    {
 	        if (_restSeconds > 0)
 	        {
@@ -39,7 +40,7 @@ namespace SlimeGround.Menu.Ads
 
 	    private void StartCoolDown()
 	    {
-	        _restSeconds = _awaitSeconds;
+	        _restSeconds = CoolDownSeconds;
 	        UpdateTimerToken(_restSeconds);
 
 	        CoolDownStarted?.Invoke();
@@ -67,8 +68,8 @@ namespace SlimeGround.Menu.Ads
 
 	    private void UpdateTimerToken(int seconds)
 	    {
-	        int timerMinutes = seconds / _secondsInMinute;
-	        int timerSeconds = seconds % _secondsInMinute;
+	        int timerMinutes = seconds / SecondsInMinute;
+	        int timerSeconds = seconds % SecondsInMinute;
 	        string timerText = $"{timerMinutes}:{timerSeconds.ToString("D2")}";
 
 	        _timerToken.SetValue(timerText);

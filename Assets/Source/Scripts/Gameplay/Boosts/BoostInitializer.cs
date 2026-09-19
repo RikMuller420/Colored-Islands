@@ -18,7 +18,6 @@ namespace SlimeGround.Gameplay.Boosts
 	    [SerializeField] private BuferIslands _buferIslands;
 	    [SerializeField] private LevelChangeEventTracker _levelChangeEventTracker;
 	    [SerializeField] private LevelProgressTracker _levelProgressTracker;
-
 	    [SerializeField] private BoostViewInitializer _boostViewInitializer;
 
 		private IslandFinishBoost _islandFinishBoost;

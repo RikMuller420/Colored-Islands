@@ -78,7 +78,7 @@ namespace SlimeGround.Editor.LevelComponentsCreator
             MeshRenderer meshRenderer = initializer.GetComponent<MeshRenderer>();
             IslandRenderer islandRenderer = new IslandRenderer(meshRenderer, paintMaterials);
             ColorSample colorSample = GetDefaultColorSample(slot);
-            islandRenderer.SetPaint(colorSample, initializer.Points);
+            islandRenderer.SetColorSample(colorSample, initializer.Points);
 
             Undo.RegisterCreatedObjectUndo(meshRenderer, "Change material");
         }

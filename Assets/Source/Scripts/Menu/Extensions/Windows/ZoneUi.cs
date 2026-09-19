@@ -5,13 +5,13 @@ namespace SlimeGround.Menu.Extensions.Windows
 {
 	public class ZoneUi : MonoBehaviour
 	{
-	    [SerializeField] private bool _isOpened = false;
+		private const float MinAlpha = 0f;
+		private const float MaxAlpha = 1f;
+
+		[SerializeField] private bool _isOpened = false;
 	    [SerializeField] private CanvasGroup _canvasGroup;
 	    [SerializeField] private float _openFadeDuration = 0.2f;
 	    [SerializeField] private float _closeFadeDuration = 0.2f;
-
-	    private float _maxAlpha = 1f;
-	    private float _minAlpha = 0f;
 
 	    public bool IsOpened => _isOpened;
 
@@ -24,13 +24,13 @@ namespace SlimeGround.Menu.Extensions.Windows
 
 	        if (_isOpened)
 	        {
-	            _canvasGroup.alpha = _maxAlpha;
+	            _canvasGroup.alpha = MaxAlpha;
 	            _canvasGroup.blocksRaycasts = true;
 	            ActivateInteractivity();
 	        }
 	        else
 	        {
-	            _canvasGroup.alpha = _minAlpha;
+	            _canvasGroup.alpha = MinAlpha;
 	            DeactivateInteractivity();
 	        }
 	    }
@@ -45,7 +45,7 @@ namespace SlimeGround.Menu.Extensions.Windows
 	        _isOpened = true;
 	        _canvasGroup.DOKill();
 	        _canvasGroup
-	            .DOFade(_maxAlpha, _openFadeDuration)
+	            .DOFade(MaxAlpha, _openFadeDuration)
 	            .SetDelay(delay)
 	            .SetEase(Ease.OutQuad)
 	            .SetUpdate(true)
@@ -62,7 +62,7 @@ namespace SlimeGround.Menu.Extensions.Windows
 	        _isOpened = true;
 	        _canvasGroup.DOKill();
 	        _canvasGroup
-	            .DOFade(_maxAlpha, _openFadeDuration)
+	            .DOFade(MaxAlpha, _openFadeDuration)
 	            .SetEase(Ease.OutQuad)
 	            .SetUpdate(true)
 	            .OnComplete(ActivateInteractivity);
@@ -79,7 +79,7 @@ namespace SlimeGround.Menu.Extensions.Windows
 	        DeactivateInteractivity();
 	        _canvasGroup.DOKill();
 	        _canvasGroup
-	            .DOFade(_minAlpha, _closeFadeDuration)
+	            .DOFade(MinAlpha, _closeFadeDuration)
 	            .SetEase(Ease.InQuad)
 	            .SetUpdate(true);
 	    }
@@ -93,7 +93,7 @@ namespace SlimeGround.Menu.Extensions.Windows
 
 	        _isOpened = false;
 	        _canvasGroup.DOKill();
-	        _canvasGroup.alpha = _minAlpha;
+	        _canvasGroup.alpha = MinAlpha;
 	        DeactivateInteractivity();
 	    }
 

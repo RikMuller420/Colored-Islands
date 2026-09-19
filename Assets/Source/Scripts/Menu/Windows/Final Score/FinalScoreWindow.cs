@@ -13,8 +13,11 @@ namespace SlimeGround.Menu.Windows.FinalScore
 {
 	public class FinalScoreWindow : MenuWindow
 	{
-	    [SerializeField] private LevelRewardSettings _levelRewardSettings;
+		private const float OpenWindowDelay = 1f;
+		private const float LastAnimationTimeReduction = 2f;
+		private const float StarAnimationTime = 0.75f;
 
+		[SerializeField] private LevelRewardSettings _levelRewardSettings;
 	    [SerializeField] private NextLevelButton _nextLevelButton;
 	    [SerializeField] private StarsAnimator _starsAnimator;
 	    [SerializeField] private ScoreAnimator _scoreAnimator;
@@ -29,9 +32,6 @@ namespace SlimeGround.Menu.Windows.FinalScore
 
 	    private IPlayerData _playerData;
 
-	    private float _openWindowDelay = 1f;
-	    private float _lastAnimationTimeReduction = 2f;
-	    private float _starAnimationTime = 0.75f;
 	    private WaitForSeconds _openWindowAwait;
 	    private WaitForSeconds _starAnimationInterval;
 	    private Coroutine _openWindowCorutine;
@@ -55,8 +55,8 @@ namespace SlimeGround.Menu.Windows.FinalScore
 	    public void Initialize(IPlayerData playerData)
 	    {
 	        _playerData = playerData;
-	        _openWindowAwait = new WaitForSeconds(_openWindowDelay);
-	        _starAnimationInterval = new WaitForSeconds(_starAnimationTime);
+	        _openWindowAwait = new WaitForSeconds(OpenWindowDelay);
+	        _starAnimationInterval = new WaitForSeconds(StarAnimationTime);
 
 	        enabled = true;
 	    }
@@ -119,7 +119,7 @@ namespace SlimeGround.Menu.Windows.FinalScore
 	        yield return new WaitForSeconds(animationDuration);
 
 	        _objectivesAnimator.ShowGoldAnimation(_progressTracker.ReachedGold, out animationDuration);
-	        animationDuration /= _lastAnimationTimeReduction;
+	        animationDuration /= LastAnimationTimeReduction;
 
 	        TryOpenRewardWindow(levelData);
 	        _resultButtons.Activate();

@@ -10,6 +10,15 @@ namespace SlimeGround.Menu.Windows.InAppPurchase
 {
 	public class InAppsProvider
 	{
+		private readonly IEnumerable<InAppSettingsData> _inAppPurchases;
+		private readonly WalletProvider _walletProvider;
+		private readonly BoostAmountProvider _boostProvider;
+		private readonly RemoveAdsProvider _removeAdsProvider;
+		private readonly InAppConfirmedWindow _inAppConfirmedWindow;
+		private readonly InAppPurchaseProvider _inAppPurchaseProvider;
+		private readonly InAppByAddViewProvider _inAppByAddViewProvider;
+		private readonly PlayerDataProvider _playerData;
+
 		public InAppsProvider(IEnumerable<InAppSettingsData> inAppPurchases, WalletProvider walletProvider,
 	                          BoostAmountProvider boostProvider, RemoveAdsProvider removeAdsProvider,
 	                          InAppConfirmedWindow inAppConfirmedWindow, InAppPurchaseProvider inAppPurchaseProvider,
@@ -27,15 +36,6 @@ namespace SlimeGround.Menu.Windows.InAppPurchase
 	        _inAppPurchaseProvider.SuccessPurchased += OnPurchaseSuccess;
 	        _inAppByAddViewProvider.InAppProgressFinished += OnPurchaseSuccess;
 	    }
-
-		private IEnumerable<InAppSettingsData> _inAppPurchases { get; }
-		private WalletProvider _walletProvider { get; }
-		private BoostAmountProvider _boostProvider { get; }
-		private RemoveAdsProvider _removeAdsProvider { get; }
-		private InAppConfirmedWindow _inAppConfirmedWindow { get; }
-		private InAppPurchaseProvider _inAppPurchaseProvider { get; }
-		private InAppByAddViewProvider _inAppByAddViewProvider { get; }
-		private PlayerDataProvider _playerData { get; }
 
 		public void Dispose()
 		{

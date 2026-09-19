@@ -9,7 +9,6 @@ namespace SlimeGround.Menu.Windows.Roulette
 	public class RouletteWindowInitializer : MonoBehaviour
 	{
 	    [SerializeField] private UnitsFaceSettings _faceSettings;
-
 	    [SerializeField] private PlayerDataProvider _playerData;
 	    [SerializeField] private RouletteWheel _rouletteWhell;
 	    [SerializeField] private RouletteRewardWindow _rouletteRewardWindow;

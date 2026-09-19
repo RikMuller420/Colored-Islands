@@ -6,14 +6,16 @@ namespace SlimeGround.Gameplay.Units
 {
 	public class UnitLookAtRotator
 	{
-		private Vector2 _lookAtDurationInterval = new Vector2(0.2f, 0.35f);
-	    private Vector2 _lookBackDurationInterval = new Vector2(0.4f, 0.7f);
-	    private Vector2 _awaitInterval = new Vector2(0.1f, 0.2f);
-	    private Vector2 _lookAtAngleFirstInterval = new Vector2(10f, 20f);
-	    private Vector2 _lookAtAngleSecondInterval = new Vector2(5f, 10f);
-	    private Quaternion _initialLocalRotation;
+		private readonly Vector2 _lookAtDurationInterval = new Vector2(0.2f, 0.35f);
+	    private readonly Vector2 _lookBackDurationInterval = new Vector2(0.4f, 0.7f);
+	    private readonly Vector2 _awaitInterval = new Vector2(0.1f, 0.2f);
+	    private readonly Vector2 _lookAtAngleFirstInterval = new Vector2(10f, 20f);
+	    private readonly Vector2 _lookAtAngleSecondInterval = new Vector2(5f, 10f);
 
-	    private Sequence _lookAtSequenceStart;
+		private readonly Transform _body;
+	    private readonly Quaternion _initialLocalRotation;
+
+		private Sequence _lookAtSequenceStart;
 	    private Sequence _lookAtSequenceEnd;
 
 		public UnitLookAtRotator(Transform body)
@@ -21,8 +23,6 @@ namespace SlimeGround.Gameplay.Units
 	        _body = body;
 	        _initialLocalRotation = _body.localRotation;
 	    }
-
-		private Transform _body { get; }
 
 		private float RandomLookAtTime => Random.Range(_lookAtDurationInterval.x, _lookAtDurationInterval.y);
 		private float RandomAwaitTime => Random.Range(_awaitInterval.x, _awaitInterval.y);

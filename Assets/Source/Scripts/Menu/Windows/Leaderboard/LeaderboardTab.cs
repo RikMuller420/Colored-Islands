@@ -8,12 +8,13 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 {
 	public class LeaderboardTab : TabContent
 	{
-	    [SerializeField] private LeaderboardType _type;
+		private const float RefreshCooldownSeconds = 20f;
+
+		[SerializeField] private LeaderboardType _type;
 	    [SerializeField] private LeaderboardView _view;
 
 	    private ILeaderboardReader _leaderboardReader;
 	    private string _leaderboarKey;
-	    private float _refreshCooldownSeconds = 20f;
 	    private DateTime _lastRefreshTime = DateTime.MinValue;
 
 	    public void Initialize(ILeaderboardReader leaderboardReader, LeaderboardSettings leaderboardSettings)
@@ -33,7 +34,7 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	    {
 	        base.Activate();
 
-	        if ((DateTime.Now - _lastRefreshTime).Seconds > _refreshCooldownSeconds)
+	        if ((DateTime.Now - _lastRefreshTime).Seconds > RefreshCooldownSeconds)
 	        {
 	            _leaderboardReader.GetLeaderboard(_leaderboarKey);
 	            _lastRefreshTime = DateTime.Now;

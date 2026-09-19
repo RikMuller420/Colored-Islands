@@ -6,32 +6,32 @@ using UnityEngine;
 
 namespace SlimeGround.Gameplay.AngryBar
 {
-	public class AngryTracker
+	public class AngerTracker
 	{
-		private float _angryValue = 0f;
+	    private const float AngerLimit = 1000f;
+	    private const float AngerByIslandFinish = 6f;
+	    private const float AngerByUnitMove = 10f;
+	    private const float AngerSpeed = 0.3f;
 
-	    private float _angryLimit = 1000f;
-	    private float _angryByIslandFinish = 6f;
-	    private float _angryByUnitMove = 10f;
-	    private float _upgradeMultiplier = 1f;
-	    private float _angrySpeed = 0.3f;
+		private readonly ILevelData _currentLevelData;
+		private readonly AngerTrackerBalancer _balancer;
+		private readonly IUpgradesData _upgradesData;
 
-	    public AngryTracker(ILevelData currentLevelData, LevelProgressTracker progressTracker,
+		private float _upgradeMultiplier = 1f;
+		private float _angerValue = 0f;
+
+		public AngerTracker(ILevelData currentLevelData, LevelProgressTracker progressTracker,
 	                        IUpgradesData upgradesData, LevelChangeEventTracker levelChangeEventTracker)
 	    {
 	        _currentLevelData = currentLevelData;
 	        _upgradesData = upgradesData;
-	        _balancer = new AngryTrackerBalancer(progressTracker, levelChangeEventTracker);
+	        _balancer = new AngerTrackerBalancer(progressTracker, levelChangeEventTracker);
 	        UpdateUpgradeMultiplier(UpgradeType.SlowDownAngryBar);
 
 	        _upgradesData.Upgraded += UpdateUpgradeMultiplier;
 	    }
 
-		private ILevelData _currentLevelData { get; }
-		private AngryTrackerBalancer _balancer { get; }
-		private IUpgradesData _upgradesData { get; }
-
-		public float AngryValue => _angryValue / _angryLimit;
+		public float AngryValue => _angerValue / AngerLimit;
 
 		public void Dispose()
 		{
@@ -47,7 +47,7 @@ namespace SlimeGround.Gameplay.AngryBar
 	            instabilityStep += CalculateIslandInstability(island);
 	        }
 
-	        instabilityStep *= _currentLevelData.AngryBarSpeed * _balancer.Value * _upgradeMultiplier * _angrySpeed;
+	        instabilityStep *= _currentLevelData.AngryBarSpeed * _balancer.Value * _upgradeMultiplier * AngerSpeed;
 	        AddAngry(instabilityStep * Time.deltaTime);
 	    }
 
@@ -60,26 +60,26 @@ namespace SlimeGround.Gameplay.AngryBar
 
 	        if (unitsMoveInfo.UnitsSlot != endIsland.RequredUnitSlot)
 	        {
-	            float angry = _angryByUnitMove * unitsMoveInfo.Units.Count * _angrySpeed;
+	            float angry = AngerByUnitMove * unitsMoveInfo.Units.Count * AngerSpeed;
 	            AddAngry(angry);
 	        }
 	    }
 
 	    public void AddIslandFinishedTick(Island island)
 	    {
-	        float angry = island.Points.Count * _angryByIslandFinish;
+	        float angry = island.Points.Count * AngerByIslandFinish;
 	        AddAngry(-angry);
 	    }
 
 	    public void ResetAngryValue()
 	    {
-	        _angryValue = 0f;
+	        _angerValue = 0f;
 	    }
 
 	    private void AddAngry(float value)
 	    {
-	        _angryValue += value;
-	        _angryValue = Mathf.Clamp(_angryValue, 0, _angryLimit);
+	        _angerValue += value;
+	        _angerValue = Mathf.Clamp(_angerValue, 0, AngerLimit);
 	    }
 
 	    private float CalculateIslandInstability(Island island)

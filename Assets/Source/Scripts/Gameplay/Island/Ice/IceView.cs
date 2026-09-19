@@ -7,16 +7,15 @@ namespace SlimeGround.Gameplay.Islands
 {
 	public class IceView : MonoBehaviour
 	{
-	    [SerializeField] private MeshRenderer _iceMeshRenderer;
+		private const float FadeDuration = 1f;
+		private const float CameraTrackDuration = 4f;
+
+		[SerializeField] private MeshRenderer _iceMeshRenderer;
 		[SerializeField] private CanvasGroup _movesCountGroup;
 	    [SerializeField] private TextMeshProUGUI _movesToDeactivateText;
 		[SerializeField] private GameObject _breackParticle;
 
 		private Material _iceMaterial;
-
-		private float _fadeDuration = 1f;
-		private float _cameraTrackDuration = 4f;
-
 		private Coroutine _rotateCoroutine;
 		private WaitForEndOfFrame _waitForEndOfFrame;
 
@@ -40,7 +39,7 @@ namespace SlimeGround.Gameplay.Islands
 			_rotateCoroutine = StartCoroutine(RotateTextPanel(cameraTransform));
 
 			DOTween.Sequence()
-				   .Append(_movesCountGroup.DOFade(1f, _fadeDuration).SetEase(Ease.OutQuad));
+				   .Append(_movesCountGroup.DOFade(1f, FadeDuration).SetEase(Ease.OutQuad));
 	    }
 
 	    public void Deactivate()
@@ -48,8 +47,8 @@ namespace SlimeGround.Gameplay.Islands
 			_breackParticle.SetActive(true);
 
 			DOTween.Sequence()
-	                .Append(_iceMaterial.DOFade(0f, _fadeDuration).SetEase(Ease.OutQuad))
-	                .Join(_movesCountGroup.DOFade(0f, _fadeDuration).SetEase(Ease.OutQuad))
+	                .Append(_iceMaterial.DOFade(0f, FadeDuration).SetEase(Ease.OutQuad))
+	                .Join(_movesCountGroup.DOFade(0f, FadeDuration).SetEase(Ease.OutQuad))
 	                .OnComplete(() =>
 	                {
 	                    _iceMeshRenderer.enabled = false;
@@ -80,7 +79,7 @@ namespace SlimeGround.Gameplay.Islands
 
 				time += Time.deltaTime;
 
-				if (time > _cameraTrackDuration)
+				if (time > CameraTrackDuration)
 				{
 					break;
 				}

@@ -6,11 +6,12 @@ namespace SlimeGround.Gameplay.AngryBar
 {
 	public class SmoothBarChanger : MonoBehaviour
 	{
-	    [SerializeField] private Image _filler;
+		private const float SlowDownDuration = 2f;
+		private const float ChangeDuration = 0.3f;
+
+		[SerializeField] private Image _filler;
 	    [SerializeField] private Animator _animator;
 
-	    private float _slowDownDuration = 2f;
-	    private float changeDuration = 0.3f;
 	    private float _startValue;
 	    private float _time;
 	    private Coroutine _changeBarCoroutine;
@@ -54,10 +55,10 @@ namespace SlimeGround.Gameplay.AngryBar
 	        _time = 0f;
 	        _startValue = _filler.fillAmount;
 
-	        while (_time < changeDuration)
+	        while (_time < ChangeDuration)
 	        {
 	            _time += Time.deltaTime;
-	            _filler.fillAmount = Mathf.Lerp(_startValue, targetValue, _time / changeDuration);
+	            _filler.fillAmount = Mathf.Lerp(_startValue, targetValue, _time / ChangeDuration);
 
 	            yield return _wait;
 	        }
@@ -68,10 +69,10 @@ namespace SlimeGround.Gameplay.AngryBar
 	        float startSpeed = _animator.speed;
 	        float elapsedTime = 0f;
 
-	        while (elapsedTime < _slowDownDuration)
+	        while (elapsedTime < SlowDownDuration)
 	        {
 	            elapsedTime += Time.deltaTime;
-	            float time = elapsedTime / _slowDownDuration;
+	            float time = elapsedTime / SlowDownDuration;
 	            _animator.speed = Mathf.Lerp(startSpeed, 0f, time);
 
 	            yield return _wait;

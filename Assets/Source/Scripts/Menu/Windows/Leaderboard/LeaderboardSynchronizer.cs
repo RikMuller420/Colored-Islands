@@ -9,11 +9,11 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 {
 	public class LeaderboardSynchronizer : MonoBehaviour
 	{
-	    [SerializeField] private LeaderboardSettings _leaderboardSettings;
+		private const float SynchronizeInterval = 15;
 
-	    private float _synchronizeInterval = 15;
+		[SerializeField] private LeaderboardSettings _leaderboardSettings;
+
 	    private WaitForSeconds _wait;
-
 	    private LeaderboardProvider _leaderboardProvider;
 	    private PlayerScoreCalculator _scoreCalculator;
 
@@ -21,7 +21,7 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 
 	    private void Start()
 	    {
-	        _wait = new WaitForSeconds(_synchronizeInterval);
+	        _wait = new WaitForSeconds(SynchronizeInterval);
 	        StartCoroutine(Synchronizing());
 	    }
 

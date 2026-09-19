@@ -11,15 +11,15 @@ namespace SlimeGround.Menu.Windows.Customization
 {
 	public class UnitSelectButton : MonoBehaviour
 	{
-	    [SerializeField] private UnitSlotType _slot;
+		private readonly Color _selectedStyleColor = Color.white;
+		private readonly Color _nonSelectedStyleColor = new Color(0.62f, 0.62f, 0.62f, 1f);
+
+		[SerializeField] private UnitSlotType _slot;
 	    [SerializeField] private Button _button;
 	    [SerializeField] private Image _background;
 	    [SerializeField] private TextMeshProUGUI _text;
 	    [SerializeField] private GameObject _frame;
 	    [SerializeField] private ColorSampleMaterials _paintMaterials;
-
-	    private Color _selectedStyleColor = Color.white;
-	    private Color _nonSelectedStyleColor = new Color(0.62f, 0.62f, 0.62f, 1f);
 
 	    public event Action<UnitSelectButton> ButtonClicked;
 
