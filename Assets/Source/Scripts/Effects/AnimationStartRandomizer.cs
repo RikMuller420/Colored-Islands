@@ -16,7 +16,6 @@ namespace SlimeGround.Effects
 				_animator.Play(_animationName, _layerIndex, randomNormalizedTime);
 				_animator.Update(0f);
 			}
-
 		}
 	}
 }

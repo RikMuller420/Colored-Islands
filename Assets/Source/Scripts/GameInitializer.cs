@@ -27,7 +27,7 @@ namespace SlimeGround
 {
 	public class GameInitializer : MonoBehaviour
 	{
-	    [Header("Settings")]
+		[Header("Settings")]
 	    [SerializeField] private LevelSettings _levelSettings;
 	    [SerializeField] private UpgradeSettings _upgradeSettings;
 		[SerializeField] private RouletteSettings _rouletteSettings;

@@ -16,9 +16,9 @@ namespace SlimeGround.Data.Saves
 		public event Action<UnitSlotType> CustomizationPreferenceChanged;
 		public event Action<int> FaceUnlocked;
 
-		public bool IsCustomizationPreferencesTrackedInMetrics => _playerData.IsCustomizationPreferencesTrackedInMetrics;
-		public IReadOnlyCollection<FaceAvailabilitie> FaceAvailabilities => _playerData.FaceAvailabilities;
-		public CustomizationPreferences GetCustomizationPreference(UnitSlotType unitSlot) => _playerData.CustomizationPreferences[unitSlot];
+		public bool IsCustomizationPreferencesTrackedInMetrics => _playerData.IsCustomizationPreferencesTrackedInMetrics;	
+		public IReadOnlyCollection<FaceAvailabilitie> FaceAvailabilities => _playerData.FaceAvailabilities;	
+		public CustomizationPreferences GetCustomizationPreference(UnitSlotType unitSlot) => _playerData.CustomizationPreferences[unitSlot];		
 		public void MarkHatUsed(int hatId) => _playerData.IsHatsUsed[hatId] = true;
 
 		public bool IsHatUsed(int hatId)
