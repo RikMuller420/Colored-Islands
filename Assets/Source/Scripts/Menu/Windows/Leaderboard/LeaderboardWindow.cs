@@ -12,11 +12,8 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	public class LeaderboardWindow : MenuWindow
 	{
 	    [SerializeField] private LeaderboardSettings _leaderboardSettings;
-
 	    [SerializeField] private TabSwitcher _tabSwitcher;
-	    [SerializeField] private GameObject _loginHintBacground;
 	    [SerializeField] private GameObject _loginHintContent;
-
 	    [SerializeField] private List<LeaderboardTab> _leaderboardTabs;
 
 	    private IAuthorizationData _authorizationData;
@@ -59,7 +56,11 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	    {
 	        bool isAuthorized = _authorizationData.IsAuthorized;
 
-	        _loginHintBacground.SetActive(!isAuthorized);
+			foreach (LeaderboardTab tab in _leaderboardTabs)
+			{
+				tab.SetActiveLastPlayerRanks(isAuthorized);
+			}
+
 	        _loginHintContent.SetActive(!isAuthorized);
 
 	        if (isAuthorized && IsOpened)

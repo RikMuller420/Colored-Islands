@@ -44,6 +44,11 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 
 	    private void OnPlayerScoreChanged(Leaderboard leaderboard)
 	    {
+			if (leaderboard.IsCurrentPlayerListed == false)
+			{
+				return;
+			}
+
 	        LeaderboardType leaderboardType = _leaderboardSettings.LeaderboardType(leaderboard.Key);
 
 	        if (_playerRanks.ContainsKey(leaderboardType))

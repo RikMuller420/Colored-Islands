@@ -1,4 +1,5 @@
 using System;
+using SlimeGround.Integration.Authorization;
 using SlimeGround.Menu.Windows.Leaderboard;
 using YG;
 using YG.Utils.LB;
@@ -9,13 +10,17 @@ namespace SlimeGround.Integration.Leaderboards
 	{
 	    private const int QuantityTop = 3;
 	    private const int QuantityAround = 6;
-	    private const string PhotoSizeKey = "small";
+		private const int QuantityTopNotAutorized = 6;
+		private const int QuantityAroundNotAutorized = 0;
+		private const string PhotoSizeKey = "small";
 
+		private readonly IAuthorizationData _authorization;
 	    private readonly LeaderboardConverter _leaderboardConverter;
 
-	    public LeaderboardProvider()
+		public LeaderboardProvider(IAuthorizationData authorizationData)
 	    {
-	        _leaderboardConverter = new LeaderboardConverter();
+			_authorization = authorizationData;
+			_leaderboardConverter = new LeaderboardConverter();
 	        YG2.onGetLeaderboard += OnGetLeaderboard;
 	    }
 
@@ -33,7 +38,10 @@ namespace SlimeGround.Integration.Leaderboards
 
 	    public void GetLeaderboard(string tableKey)
 	    {
-	        YG2.GetLeaderboard(tableKey, QuantityTop, QuantityAround, PhotoSizeKey);
+			int quantityTop = _authorization.IsAuthorized ? QuantityTop : QuantityTopNotAutorized;
+			int quantityAround = _authorization.IsAuthorized ? QuantityAround : QuantityAroundNotAutorized;
+
+			YG2.GetLeaderboard(tableKey, quantityTop, quantityAround, PhotoSizeKey);
 	    }
 
 	    public void GetPlayerScore(string tableKey)
@@ -43,7 +51,7 @@ namespace SlimeGround.Integration.Leaderboards
 
 	    private void OnGetLeaderboard(LBData yandexLeaderboard)
 	    {
-	        Leaderboard leaderboard = _leaderboardConverter.ConvertFrom(yandexLeaderboard);
+			Leaderboard leaderboard = _leaderboardConverter.ConvertFrom(yandexLeaderboard);
 	        LeaderboardReceived?.Invoke(leaderboard);
 	    }
 	}

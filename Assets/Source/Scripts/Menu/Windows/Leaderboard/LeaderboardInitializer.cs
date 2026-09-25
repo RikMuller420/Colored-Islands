@@ -13,7 +13,7 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 
 	    public void Initialize(LeaderboardProvider leaderboardProvider, IAuthorizationData authorizationData)
 	    {
-	        _leaderboardSynchronizer.Initialize(leaderboardProvider, _playerData);
+	        _leaderboardSynchronizer.Initialize(leaderboardProvider, _playerData, authorizationData);
 	        _leaderboardWindow.Initialize(leaderboardProvider, authorizationData);
 	    }
 

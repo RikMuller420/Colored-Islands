@@ -105,7 +105,7 @@ namespace SlimeGround
 			_walletProvider = new WalletProvider(_playerData);
 			_rewardedAdProvider = new RewardedAdProvider();
 			_authorizationProvider = new AuthorizationProvider();
-			_leaderboardProvider = new LeaderboardProvider();
+			_leaderboardProvider = new LeaderboardProvider(_authorizationProvider);
 
 	        var levelDataHolder = new LevelDataHolder(_levelSettings.MainMenuSettings);
 	        var unitMover = new UnitMover(_unitsLookAtPoint);

@@ -7,15 +7,16 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	{
 	    public Leaderboard ConvertFrom(LBData yandexLeaderboard)
 	    {
-	        int currentPlayerRank = yandexLeaderboard.currentPlayer.rank;
-	        int currentPlayerScore = yandexLeaderboard.currentPlayer.score;
+			bool isCurrentPlayerListed = yandexLeaderboard.currentPlayer != null;
+			int currentPlayerRank = isCurrentPlayerListed ? yandexLeaderboard.currentPlayer.rank : 0;
+			int currentPlayerScore = isCurrentPlayerListed ? yandexLeaderboard.currentPlayer.score : 0;
+			IReadOnlyCollection<LeaderboardPlayerData> players = FormPlayerCollection(yandexLeaderboard.players);
 
-	        IReadOnlyCollection<LeaderboardPlayerData> players = FormPlayerCollection(yandexLeaderboard.players);
-
-	        return new Leaderboard(yandexLeaderboard.technoName, currentPlayerRank, currentPlayerScore, players);
+	        return new Leaderboard(yandexLeaderboard.technoName, isCurrentPlayerListed,
+								   currentPlayerRank, currentPlayerScore, players);
 	    }
 
-	    private IReadOnlyCollection<LeaderboardPlayerData> FormPlayerCollection(LBPlayerData[] yndexPlayers)
+		private IReadOnlyCollection<LeaderboardPlayerData> FormPlayerCollection(LBPlayerData[] yndexPlayers)
 	    {
 	        List<LeaderboardPlayerData> players = new List<LeaderboardPlayerData>();
 

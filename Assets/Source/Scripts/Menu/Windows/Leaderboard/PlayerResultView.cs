@@ -20,7 +20,7 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	    [SerializeField] private GameObject _currentPlayerHighlight;
 	    [SerializeField] private ImageLoader imageLoader;
 
-	    public void SetPlayeData(LeaderboardPlayerData player, bool isCurrentPlayer)
+	    public void SetPlayerData(LeaderboardPlayerData player, bool isCurrentPlayer)
 	    {
 	        _playerRank.text = $"{RankPrefix}{player.Rank}";
 	        _playerName.text = player.Name;

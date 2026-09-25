@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using SlimeGround.Data.Saves;
 using SlimeGround.Data.ScriptableObjects.Leaderboard;
+using SlimeGround.Integration.Authorization;
 using SlimeGround.Integration.Leaderboards;
 using UnityEngine;
 
@@ -9,30 +10,33 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 {
 	public class LeaderboardSynchronizer : MonoBehaviour
 	{
-		private const float SynchronizeInterval = 15;
+		private const float SynchronizeInterval = 10;
 
 		[SerializeField] private LeaderboardSettings _leaderboardSettings;
 
-	    private WaitForSeconds _wait;
-	    private LeaderboardProvider _leaderboardProvider;
-	    private PlayerScoreCalculator _scoreCalculator;
+		private WaitForSeconds _wait;
+		private LeaderboardProvider _leaderboardProvider;
+		private IAuthorizationData _authorization;
+		private PlayerScoreCalculator _scoreCalculator;
 
-	    public event Action<Leaderboard> PlayerScoreChanged;
+		public event Action<Leaderboard> PlayerScoreChanged;
 
-	    private void Start()
-	    {
-	        _wait = new WaitForSeconds(SynchronizeInterval);
-	        StartCoroutine(Synchronizing());
-	    }
+		private void Start()
+		{
+			_wait = new WaitForSeconds(SynchronizeInterval);
+			StartCoroutine(Synchronizing());
+		}
 
-	    public void Initialize(LeaderboardProvider leaderboardProvider, IPlayerData playerData)
-	    {
-	        _leaderboardProvider = leaderboardProvider;
-	        _scoreCalculator = new PlayerScoreCalculator(playerData);
+		public void Initialize(LeaderboardProvider leaderboardProvider, IPlayerData playerData,
+							   IAuthorizationData authorizationData)
+		{
+			_leaderboardProvider = leaderboardProvider;
+			_scoreCalculator = new PlayerScoreCalculator(playerData);
+			_authorization = authorizationData;
 
-	        _leaderboardProvider.LeaderboardReceived += SynchronizeLeaderboard;
-	        enabled = true;
-	    }
+			_leaderboardProvider.LeaderboardReceived += SynchronizeLeaderboard;
+			enabled = true;
+		}
 
 		public void Dispose()
 		{
@@ -40,28 +44,36 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 		}
 
 		private IEnumerator Synchronizing()
-	    {
-	        while (enabled)
-	        {
-	            foreach (LeaderboardData leaderboardData in _leaderboardSettings.Leaderboards)
-	            {
-	                _leaderboardProvider.GetPlayerScore(leaderboardData.Key);
+		{
+			while (enabled)
+			{
+				foreach (LeaderboardData leaderboardData in _leaderboardSettings.Leaderboards)
+				{
+					if (_authorization.IsAuthorized)
+					{
+						_leaderboardProvider.GetPlayerScore(leaderboardData.Key);
+					}
 
-	                yield return _wait;
-	            }
-	        }
-	    }
+					yield return _wait;
+				}
+			}
+		}
 
-	    private void SynchronizeLeaderboard(Leaderboard leaderboardData)
-	    {
-	        LeaderboardType type = _leaderboardSettings.LeaderboardType(leaderboardData.Key);
-	        int score = _scoreCalculator.GetScore(type);
+		private void SynchronizeLeaderboard(Leaderboard leaderboardData)
+		{
+			if (leaderboardData.IsCurrentPlayerListed == false)
+			{
+				return;
+			}
 
-	        if (score != leaderboardData.CurrentPlayerScore)
-	        {
-	            _leaderboardProvider.SaveScore(leaderboardData.Key, score);
-	            PlayerScoreChanged?.Invoke(leaderboardData);
-	        }
-	    }
+			LeaderboardType type = _leaderboardSettings.LeaderboardType(leaderboardData.Key);
+			int score = _scoreCalculator.GetScore(type);
+
+			if (score != leaderboardData.CurrentPlayerScore)
+			{
+				_leaderboardProvider.SaveScore(leaderboardData.Key, score);
+				PlayerScoreChanged?.Invoke(leaderboardData);
+			}
+		}
 	}
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using SlimeGround.Data.ScriptableObjects.Leaderboard;
 using SlimeGround.Integration.Leaderboards;
 using SlimeGround.Menu.Extensions.TabSystem;
@@ -12,6 +13,7 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 
 		[SerializeField] private LeaderboardType _type;
 	    [SerializeField] private LeaderboardView _view;
+		[SerializeField] private List<GameObject> _lastPlayerRankLines;
 
 	    private ILeaderboardReader _leaderboardReader;
 	    private string _leaderboarKey;
@@ -24,6 +26,14 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 
 	        _leaderboardReader.LeaderboardReceived += OnLeaderboardReceived;
 	    }
+
+		public void SetActiveLastPlayerRanks(bool isActive)
+		{
+			foreach (GameObject line in _lastPlayerRankLines)
+			{
+				line.SetActive(isActive);
+			}
+		}
 
 		public void Dispose()
 		{

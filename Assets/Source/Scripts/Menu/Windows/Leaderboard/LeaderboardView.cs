@@ -21,21 +21,23 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	    public void UpdateLeaderboard(Leaderboard leaderboardData)
 	    {
 	        IReadOnlyList<LeaderboardPlayerData> topPlayers = GetTopPlayers(leaderboardData);
-	        UpdatePlayerViews(_topPlayerViews, topPlayers, leaderboardData.CurrentPlayerRank);
+	        UpdatePlayerViews(_topPlayerViews, topPlayers, leaderboardData);
 
 	        IReadOnlyList<LeaderboardPlayerData> aroundPlayers = GetAroundPlayers(leaderboardData);
-	        UpdatePlayerViews(_aroundPlayerViews, aroundPlayers, leaderboardData.CurrentPlayerRank);
+	        UpdatePlayerViews(_aroundPlayerViews, aroundPlayers, leaderboardData);
 	    }
 
 	    private void UpdatePlayerViews(List<PlayerResultView> playerViews, IReadOnlyList<LeaderboardPlayerData> players,
-	                                   int currentPlayerRank)
+									   Leaderboard leaderboardData)
 	    {
 	        for (int i = 0; i < playerViews.Count; i++)
 	        {
 	            if (players.Count > i)
 	            {
-	                bool isCurrentPlayer = players[i].Rank == currentPlayerRank;
-	                playerViews[i].SetPlayeData(players[i], isCurrentPlayer);
+	                bool isCurrentPlayer = leaderboardData.IsCurrentPlayerListed &&
+										   players[i].Rank == leaderboardData.CurrentPlayerRank;
+
+	                playerViews[i].SetPlayerData(players[i], isCurrentPlayer);
 	            }
 	            else
 	            {
@@ -53,6 +55,14 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 
 	    private IReadOnlyList<LeaderboardPlayerData> GetAroundPlayers(Leaderboard leaderboardData)
 	    {
+			if (leaderboardData.IsCurrentPlayerListed == false)
+			{
+				return leaderboardData.Players
+						.Where(player => player.Rank > _topPlayerViews.Count)
+						.OrderBy(player => player.Rank)
+						.ToList();
+			}
+
 	        if (leaderboardData.CurrentPlayerRank <= _topPlayerViews.Count)
 	        {
 	            return leaderboardData.Players
@@ -60,23 +70,22 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	                        .OrderBy(player => player.Rank)
 	                        .ToList();
 	        }
-	        else if (leaderboardData.CurrentPlayerRank <= _allResultsCount)
+	        
+			if (leaderboardData.CurrentPlayerRank <= _allResultsCount)
 	        {
 	            return leaderboardData.Players
 	                        .Where(player => player.Rank > _topResulCount && player.Rank <= _allResultsCount)
 	                        .OrderBy(player => player.Rank)
 	                        .ToList();
 	        }
-	        else
-	        {
-	            int maxAroundRank = leaderboardData.CurrentPlayerRank - 2;
-	            int minAroundRank = leaderboardData.CurrentPlayerRank + 1;
 
-	            return leaderboardData.Players
-	                        .Where(player => player.Rank > maxAroundRank && player.Rank <= minAroundRank)
-	                        .OrderBy(player => player.Rank)
-	                        .ToList();
-	        }
-	    }
+			int maxAroundRank = leaderboardData.CurrentPlayerRank - 2;
+			int minAroundRank = leaderboardData.CurrentPlayerRank + 1;
+
+			return leaderboardData.Players
+						.Where(player => player.Rank > maxAroundRank && player.Rank <= minAroundRank)
+						.OrderBy(player => player.Rank)
+						.ToList();
+		}
 	}
 }
