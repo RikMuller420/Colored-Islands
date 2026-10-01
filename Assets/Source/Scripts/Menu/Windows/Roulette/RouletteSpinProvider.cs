@@ -26,20 +26,6 @@ namespace SlimeGround.Menu.Windows.Roulette
 			_playerData.Resources.SpinCountChanged -= OnSpinAmountInSavedProgressChanged;
 		}
 
-		public void SpendSpin()
-		{
-			int spinAmount = SpinAmount;
-
-			if (spinAmount == 0)
-			{
-				throw new InvalidOperationException("not enough Spins");
-			}
-
-			spinAmount--;
-			_playerData.Resources.SetSpinCount(spinAmount);
-			_playerData.Save();
-		}
-
 		public void AddSpin()
 		{
 			int spinAmount = SpinAmount;
