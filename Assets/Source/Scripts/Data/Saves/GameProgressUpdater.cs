@@ -52,12 +52,12 @@ namespace SlimeGround.Data.Saves
 	        _playerData.Progress.UpdateLevelProgress(updatedProgress);
 
 	        int totalScore = _playerScoreCalculator.GetScore(LeaderboardType.TotalGameScore);
-	        _leaderboardProvider.SaveScore(_leaderboardSettings.LeaderboardKey(LeaderboardType.TotalGameScore), totalScore);
+	        _leaderboardProvider.SaveScore(_leaderboardSettings.GetLeaderboardKey(LeaderboardType.TotalGameScore), totalScore);
 
 	        if (isNewTopScore)
 	        {
 	            int topResultScore = _playerScoreCalculator.GetScore(LeaderboardType.BestGameScore);
-	            _leaderboardProvider.SaveScore(_leaderboardSettings.LeaderboardKey(LeaderboardType.BestGameScore), topResultScore);
+	            _leaderboardProvider.SaveScore(_leaderboardSettings.GetLeaderboardKey(LeaderboardType.BestGameScore), topResultScore);
 	        }
 
 			if (_playerData.Customization.IsCustomizationPreferencesTrackedInMetrics == false)

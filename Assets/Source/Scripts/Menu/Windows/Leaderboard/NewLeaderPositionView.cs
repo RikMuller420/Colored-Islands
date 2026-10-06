@@ -49,7 +49,7 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 				return;
 			}
 
-	        LeaderboardType leaderboardType = _leaderboardSettings.LeaderboardType(leaderboard.Key);
+	        LeaderboardType leaderboardType = _leaderboardSettings.GetLeaderboardType(leaderboard.Key);
 
 	        if (_playerRanks.ContainsKey(leaderboardType))
 	        {

@@ -61,17 +61,20 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 
 		private void SynchronizeLeaderboard(Leaderboard leaderboardData)
 		{
-			if (leaderboardData.IsCurrentPlayerListed == false)
+			if (_authorization.IsAuthorized == false)
 			{
 				return;
 			}
 
-			LeaderboardType type = _leaderboardSettings.LeaderboardType(leaderboardData.Key);
-			int score = _scoreCalculator.GetScore(type);
+			int leaderboardScore = leaderboardData.IsCurrentPlayerListed ?
+										leaderboardData.CurrentPlayerScore : 0;
 
-			if (score != leaderboardData.CurrentPlayerScore)
+			LeaderboardType type = _leaderboardSettings.GetLeaderboardType(leaderboardData.Key);
+			int currentScore = _scoreCalculator.GetScore(type);
+
+			if (currentScore != leaderboardScore)
 			{
-				_leaderboardProvider.SaveScore(leaderboardData.Key, score);
+				_leaderboardProvider.SaveScore(leaderboardData.Key, currentScore);
 				PlayerScoreChanged?.Invoke(leaderboardData);
 			}
 		}

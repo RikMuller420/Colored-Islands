@@ -13,12 +13,12 @@ namespace SlimeGround.Data.ScriptableObjects.Leaderboard
 
 	    public IReadOnlyCollection<LeaderboardData> Leaderboards => new ReadOnlyCollection<LeaderboardData>(_leaderboards);
 
-	    public string LeaderboardKey(LeaderboardType type)
+	    public string GetLeaderboardKey(LeaderboardType type)
 	    {
 	        return _leaderboards.FirstOrDefault(board => board.Type == type).Key;
 	    }
 
-	    public LeaderboardType LeaderboardType(string key)
+	    public LeaderboardType GetLeaderboardType(string key)
 	    {
 	        return _leaderboards.FirstOrDefault(board => board.Key == key).Type;
 	    }

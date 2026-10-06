@@ -22,7 +22,7 @@ namespace SlimeGround.Menu.Windows.Leaderboard
 	    public void Initialize(ILeaderboardReader leaderboardReader, LeaderboardSettings leaderboardSettings)
 	    {
 	        _leaderboardReader = leaderboardReader;
-	        _leaderboarKey = leaderboardSettings.LeaderboardKey(_type);
+	        _leaderboarKey = leaderboardSettings.GetLeaderboardKey(_type);
 
 	        _leaderboardReader.LeaderboardReceived += OnLeaderboardReceived;
 	    }
