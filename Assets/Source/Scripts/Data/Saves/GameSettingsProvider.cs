@@ -20,7 +20,8 @@ namespace SlimeGround.Data.Saves
 		public Language Language => _playerData.Language;
 		public bool IsShadowActiveOnMobile => _playerData.IsShadowActiveOnMobile;
 		public bool IsShadowActiveOnDesktop => _playerData.IsShadowActiveOnDesktop;
-		public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _playerData.IsSoundOnStatus[audioGroup];
+
+		public bool IsSoundOn(AudioGroup audioGroup) => _playerData.IsSoundOnStatus[audioGroup];
 
 		public void SetLanguage(Language language)
 		{

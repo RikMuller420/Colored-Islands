@@ -14,6 +14,7 @@
 		public const string InGamePurchase = "InGamePurchase";
 		public const string LevelStarted = "LevelStarted";
 		public const string LevelFinished = "LevelFinished";
+		public const string SoundPreferences = "SoundPreferences";
 		public const string BoostSpended = "BoostSpended";
 		public const string OpenLeaderboard = "OpenLeaderboard";
 		public const string OpenCustomization = "OpenCustomization";

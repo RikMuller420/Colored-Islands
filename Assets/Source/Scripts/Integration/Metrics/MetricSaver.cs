@@ -75,7 +75,12 @@ namespace SlimeGround.Integration.Metrics
 			YG2.MetricaSend(MetricKeys.LevelFinished, MetricKeys.Level, s_instance._levelData.LevelId.ToString());
 		}
 
-	    public static void TrackRouleteSpinned()
+		public static void TrackSondPreferences(bool isSoundOn)
+		{
+			YG2.MetricaSend(MetricKeys.SoundPreferences, isSoundOn.ToString(), MetricKeys.Blank);
+		}
+
+		public static void TrackRouleteSpinned()
 	    {
 			YG2.MetricaSend(MetricKeys.RouletteSpinned);
 		}

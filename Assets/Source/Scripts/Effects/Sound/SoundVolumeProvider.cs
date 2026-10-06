@@ -31,7 +31,7 @@ namespace SlimeGround.Effects.Sound
 
 		public event Action<AudioGroup> SoundEnabledChanged;
 
-		public bool GetIsSoundOnStatus(AudioGroup audioGroup) => _playerData.Settings.GetIsSoundOnStatus(audioGroup);
+		public bool IsSoundOn(AudioGroup audioGroup) => _playerData.Settings.IsSoundOn(audioGroup);
 
 		public void Dispose()
 		{
@@ -48,8 +48,8 @@ namespace SlimeGround.Effects.Sound
 
 	    private void UpdateAudioGroupVolume(AudioGroup audioGroup)
 	    {
-	        bool isVolumeOn = GetIsSoundOnStatus(audioGroup);
-	        float volume = GetDbFromNormalizedValue(isVolumeOn ? MaxVolume : 0);
+	        bool isSoundOn = IsSoundOn(audioGroup);
+	        float volume = GetDbFromNormalizedValue(isSoundOn ? MaxVolume : 0);
 	        AudioMixerGroup mixer = _mixers.Mixers.FirstOrDefault(mixer => mixer.AudioGroup == audioGroup).Mixer;
 	        mixer.audioMixer.SetFloat(audioGroup.ToString(), volume);
 	    }

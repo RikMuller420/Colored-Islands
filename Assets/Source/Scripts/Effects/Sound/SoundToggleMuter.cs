@@ -33,7 +33,7 @@ namespace SlimeGround.Effects.Sound
 	    {
 	        if (_audioGroup == audioGroup)
 	        {
-	            bool isOn = _soundVolumeProvider.GetIsSoundOnStatus(_audioGroup);
+	            bool isOn = _soundVolumeProvider.IsSoundOn(_audioGroup);
 	            _toggle.SetToggle(isOn);
 	        }
 	    }

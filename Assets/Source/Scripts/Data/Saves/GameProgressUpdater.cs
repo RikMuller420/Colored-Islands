@@ -1,5 +1,6 @@
 using System.Linq;
 using SlimeGround.Data.ScriptableObjects.Leaderboard;
+using SlimeGround.Effects.Sound;
 using SlimeGround.Gameplay.Levels;
 using SlimeGround.Integration.Leaderboards;
 using SlimeGround.Integration.Metrics;
@@ -65,6 +66,11 @@ namespace SlimeGround.Data.Saves
 				_playerData.Customization.ResetTrackedPreferencesInMetrics();
 				MetricSaver.TrackCustomizationPreferencesChanged();
 			}
+
+			bool isSoundOn = _playerData.Settings.IsSoundOn(AudioGroup.MusicVolume) ||
+							 _playerData.Settings.IsSoundOn(AudioGroup.EffectsVolume);
+
+			MetricSaver.TrackSondPreferences(isSoundOn);
 
 			_playerData.Save();
 			MetricSaver.TrackLevelFinish();
